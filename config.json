@@ -1,0 +1,23 @@
+{
+  "dominio": "https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba",
+  "nomeHub": "Inteligência Imobiliária. Construindo Confiança.",
+  "regiao": {
+    "cidadePrincipal": "Itu",
+    "uf": "SP",
+    "cidadesAtendidas": [
+      "Itu",
+      "Indaiatuba",
+      "Salto",
+      "Sorocaba",
+      "Cabreúva"
+    ]
+  },
+  "corretor": {
+    "nome": "Marcio Santos",
+    "creci": "276471-F",
+    "telefone": "+5511967602254",
+    "whatsapp": "551132806090",
+    "email": "Corretor_Marcio@proton.me",
+    "instagram": "https://www.instagram.com/corretor_marcio_itu"
+  }
+}
