@@ -18,7 +18,7 @@ const THEMES = {
     accent: "#B08D57",       // latão
     accentSecondary: "#4A5D50", // verde-oliva escuro
     border: "#3A3826",
-    radius: "0px",
+    radius: "3px",
     displayWeight: 300,
     displayLetterSpacing: "0.01em",
     eyebrowLetterSpacing: "0.22em",
@@ -38,7 +38,7 @@ const THEMES = {
     accent: "#2F5D7C",       // azul petróleo
     accentSecondary: "#D98B3B", // laranja quente (CTA)
     border: "#DCE3E1",
-    radius: "6px",
+    radius: "8px",
     displayWeight: 500,
     displayLetterSpacing: "0em",
     eyebrowLetterSpacing: "0.16em",

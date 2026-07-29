@@ -3,7 +3,7 @@ const path = require("path");
 const { THEMES } = require("./themes");
 const { renderPropertyPage } = require("./template");
 const { renderMainHub, renderBairroHub } = require("./hub");
-const { slugify } = require("./utils");
+const { slugify, parsePreco } = require("./utils");
 
 const ROOT = path.join(__dirname, "..");
 const IMOVEIS_DIR = path.join(ROOT, "imoveis");
@@ -88,6 +88,7 @@ function build() {
   const today = new Date().toISOString().slice(0, 10);
 
   const bairrosMap = new Map(); // slug -> { nome, imoveis: [] }
+  const todosImoveis = [];
   const sitemapUrls = [`${SITE}/`];
 
   for (const imovel of imoveis) {
@@ -109,24 +110,36 @@ function build() {
     fs.writeFileSync(path.join(outDir, "llms.txt"), propertyLlmsTxt(imovel, theme, propUrl, fotosBaseUrl));
     sitemapUrls.push(propUrl);
 
+    const hero = (imovel.fotos || []).find((f) => f.hero) || (imovel.fotos || [])[0];
+    const thumb = hero ? `${fotosBaseUrl}/${hero.arquivo}` : undefined;
+    const resumo = {
+      slug: imovel.slug, titulo: imovel.titulo, cidade: imovel.cidade, bairro: imovel.bairro, uf: imovel.uf,
+      preco: imovel.preco, precoNumerico: parsePreco(imovel.preco), padrao: imovel.padrao,
+      padraoLabel: theme.label, url: propUrl, thumb,
+    };
+    todosImoveis.push(resumo);
+
     if (!bairrosMap.has(bairroSlug)) bairrosMap.set(bairroSlug, { nome: imovel.bairro, imoveis: [] });
-    bairrosMap.get(bairroSlug).imoveis.push({ ...imovel, padraoLabel: theme.label });
+    bairrosMap.get(bairroSlug).imoveis.push(resumo);
   }
 
   // Páginas de bairro (o "linktree" próprio)
   const hubTheme = THEMES["medio-padrao"];
-  const bairrosResumo = [];
   for (const [slug, { nome, imoveis: lista } ] of bairrosMap) {
     const outDir = path.join(DOCS_DIR, slug);
     fs.mkdirSync(outDir, { recursive: true });
     const html = renderBairroHub(nome, lista, hubTheme, `${SITE}/`, config);
     fs.writeFileSync(path.join(outDir, "index.html"), html);
     sitemapUrls.push(`${SITE}/${slug}/`);
-    bairrosResumo.push({ nome, slug, count: lista.length });
   }
 
-  // Hub principal
-  fs.writeFileSync(path.join(DOCS_DIR, "index.html"), renderMainHub(bairrosResumo, hubTheme, `${SITE}/`, config));
+  // Hub principal — busca por cidade, bairro e faixa de preço
+  fs.writeFileSync(path.join(DOCS_DIR, "index.html"), renderMainHub(todosImoveis, hubTheme, `${SITE}/`, config));
+
+  // Admin publicado dentro do próprio site (não fica linkado na navegação pública,
+  // mas assim dá pra acessar de qualquer aparelho — inclusive o celular)
+  const adminSrc = path.join(ROOT, "admin");
+  if (fs.existsSync(adminSrc)) copyDir(adminSrc, path.join(DOCS_DIR, "admin"));
 
   // llms.txt do site — índice para agentes de IA (convenção emergente, tipo robots.txt para LLMs)
   const siteLlms = `# ${config.nomeHub}

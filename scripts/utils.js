@@ -12,4 +12,9 @@ function esc(str) {
     .replace(/"/g, "&quot;");
 }
 
-module.exports = { slugify, esc };
+function parsePreco(str) {
+  const n = Number(String(str || "").replace(/[^\d]/g, ""));
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+}
+
+module.exports = { slugify, esc, parsePreco };

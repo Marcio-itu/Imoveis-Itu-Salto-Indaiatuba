@@ -53,7 +53,9 @@ function css(t) {
   .ficha .lbl{font-size:12px;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.08em}
 
   .galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .galeria figure{margin:0;overflow:hidden;border-radius:var(--radius);background:var(--surface)}
+  .galeria figure{margin:0;overflow:hidden;border-radius:var(--radius);background:var(--surface);
+    box-shadow:0 2px 10px rgba(0,0,0,.08);transition:box-shadow .25s ease}
+  .galeria a:hover figure{box-shadow:0 6px 20px rgba(0,0,0,.14)}
   .galeria img{aspect-ratio:4/3;object-fit:cover;transition:transform .35s ease}
   .galeria a:hover img{transform:scale(1.04)}
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
