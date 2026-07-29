@@ -10,7 +10,10 @@ sitemap.xml, robots.txt liberando crawlers de IA e um `llms.txt` por imóvel.
 
 **Opção A — pelo admin (recomendado, poucos cliques):**
 
-1. Abra `admin/index.html` no Chrome (2 cliques: baixe o arquivo, dê duplo clique)
+1. Abra o admin direto pelo navegador (funciona no celular também):
+   `<seu-domínio>/admin/` — ex.: `https://marcio-itu.github.io/Marcio-itu-Imoveis-Itu-Salto-Indaiatuba/admin/`
+   (o build já publica o admin dentro do próprio site; não tem link visível na
+   navegação pública, mas a URL funciona — vale salvar como atalho na tela inicial)
 2. Marque o padrão, preencha ou fale os dados, suba as fotos e classifique
    cada uma (dropdown de ambiente + marque a "hero")
 3. Copie o "prompt pronto" e cole numa conversa com o Claude para polir a
@@ -46,6 +49,15 @@ docs/
   imoveis/{slug}/llms.txt  → resumo em texto simples para IAs
   imoveis/{slug}/fotos/
 ```
+
+## Busca no hub principal
+
+A página inicial (`/`) já vem com busca por **cidade** (só aparecem cidades
+que realmente têm imóvel cadastrado), **bairro** (a lista de bairros muda
+sozinha conforme a cidade escolhida) e **faixa de preço** (mínimo/máximo,
+livre — sem faixas fixas). Tudo roda no navegador, sem recarregar a página.
+As páginas de bairro individuais continuam existindo à parte (bom para SEO
+e para compartilhar um link de "imóveis em Salto", por exemplo).
 
 ## Dados de contato
 
