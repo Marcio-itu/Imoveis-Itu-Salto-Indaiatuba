@@ -10,14 +10,14 @@ const FONTS = {
 const THEMES = {
   "alto-padrao": {
     label: "Alto padrão",
-    bg: "#16150F",
-    surface: "#201F17",
-    surfaceAlt: "#2B2A1F",
-    ink: "#F3EFE4",
-    inkMuted: "#B9B4A2",
+    bg: "#0E1614",
+    surface: "#16211E",
+    surfaceAlt: "#1F2E29",
+    ink: "#EEF4F2",
+    inkMuted: "#A9BAB5",
     accent: "#4E9E97",       // verde-água
-    accentSecondary: "#4A5D50", // verde-oliva escuro
-    border: "#3A3826",
+    accentSecondary: "#3F6B5E", // verde profundo
+    border: "#2A3A35",
     radius: "10px",
     displayWeight: 300,
     displayLetterSpacing: "0.01em",
