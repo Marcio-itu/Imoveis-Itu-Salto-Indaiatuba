@@ -60,7 +60,27 @@ function css(t) {
   .galeria a:hover img{transform:scale(1.04)}
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
 
+  p.resumo{font-size:19px;font-weight:600;color:var(--ink);max-width:62ch;line-height:1.4}
+
+  .faq-list{display:grid;gap:10px;max-width:72ch}
+  .faq-item{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:2px 18px}
+  .faq-item summary{font-family:${t.fonts.body};font-size:16px;font-weight:600;padding:14px 0;cursor:pointer;
+    list-style:none;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .faq-item summary::-webkit-details-marker{display:none}
+  .faq-item summary::after{content:"+";color:var(--accent);font-weight:400;font-size:20px;flex:none}
+  .faq-item[open] summary::after{content:"–"}
+  .faq-item p{font-size:15px;color:var(--ink-muted);line-height:1.5;padding-bottom:16px;margin-top:-4px}
+
   .contato{background:var(--surface-alt)}
+  .parecidos-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+  a.parecido-card{display:block;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+    overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .2s,box-shadow .2s;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+  a.parecido-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.12)}
+  a.parecido-card img{width:100%;aspect-ratio:4/3;object-fit:cover}
+  a.parecido-card .pbody{padding:12px 14px}
+  a.parecido-card .ptit{font-family:${t.fonts.display};font-size:15px;line-height:1.3}
+  a.parecido-card .pmeta{font-size:12px;color:var(--ink-muted);margin-top:3px}
+  a.parecido-card .ppreco{font-family:${t.fonts.display};font-size:14px;margin-top:6px}
   .cta{display:inline-block;background:var(--accent);color:#fff;padding:16px 30px;border-radius:var(--radius);
     text-decoration:none;font-weight:600;font-size:15px}
   .cta:hover{opacity:.92}
@@ -74,6 +94,29 @@ function css(t) {
     align-items:center;gap:14px;box-shadow:0 -6px 18px rgba(0,0,0,.08)}
   .sticky-cta .preco-mini{font-family:${t.fonts.display};font-size:17px}
   .sticky-cta .cta{padding:11px 20px;font-size:14px}
+
+  .sim-tab{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:25;
+    background:var(--accent);color:#fff;text-decoration:none;
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:18px 9px;border-radius:12px 0 0 12px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    box-shadow:0 4px 16px rgba(0,0,0,.2);
+    transition:transform .2s ease,padding .2s ease;
+    animation:sim-tab-pulse 5s ease-in-out 3;}
+  .sim-tab:hover{transform:translateY(-50%) scale(1.08);padding-right:13px}
+  .sim-tab .sim-tab-t{font-family:${t.fonts.body};font-size:15px;font-weight:700;letter-spacing:.05em}
+  .sim-tab .sim-tab-s{font-family:${t.fonts.body};font-size:11px;font-weight:500;opacity:.85;letter-spacing:.03em}
+  @keyframes sim-tab-pulse{
+    0%,92%,100%{transform:translateY(-50%) scale(1)}
+    4%{transform:translateY(-50%) scale(1.08)}
+    8%{transform:translateY(-50%) scale(1)}
+  }
+  @media (prefers-reduced-motion: reduce){ .sim-tab{animation:none} }
+  @media (max-width:640px){
+    .sim-tab{padding:13px 7px}
+    .sim-tab .sim-tab-t{font-size:13px}
+    .sim-tab .sim-tab-s{font-size:10px}
+  }
   `;
 }
 
@@ -103,9 +146,20 @@ function jsonLd(imovel, canonicalUrl, imagesUrls) {
       price: precoNumerico,
       priceCurrency: "BRL",
       availability: "https://schema.org/InStock",
+      businessFunction:
+        imovel.tipoOperacao === "locacao" ? "http://purl.org/goodrelations/v1#LeaseOut"
+        : imovel.tipoOperacao === "permuta" ? "http://purl.org/goodrelations/v1#Exchange"
+        : "http://purl.org/goodrelations/v1#Sell",
     },
     ...(imovel.corretor
-      ? { seller: { "@type": "RealEstateAgent", name: imovel.corretor.nome, telephone: imovel.corretor.telefone || imovel.corretor.whatsapp, email: imovel.corretor.email } }
+      ? { seller: {
+          "@type": "RealEstateAgent",
+          name: imovel.corretor.nome,
+          telephone: imovel.corretor.telefone || imovel.corretor.whatsapp,
+          email: imovel.corretor.email,
+          ...(imovel.corretor.creci ? { identifier: { "@type": "PropertyValue", propertyID: "CRECI-SP", value: imovel.corretor.creci } } : {}),
+          ...(imovel.corretor.instagram ? { sameAs: [imovel.corretor.instagram] } : {}),
+        } }
       : {}),
     ...(imovel.condominio
       ? { additionalProperty: { "@type": "PropertyValue", name: "Condomínio", value: imovel.condominio } }
@@ -114,8 +168,62 @@ function jsonLd(imovel, canonicalUrl, imagesUrls) {
   return JSON.stringify(data);
 }
 
+function buildFaqs(imovel) {
+  if (Array.isArray(imovel.perguntas) && imovel.perguntas.length) {
+    return imovel.perguntas.filter((p) => p.pergunta && p.resposta);
+  }
+  const auto = [];
+  if (imovel.condominio) {
+    auto.push({ pergunta: "Em qual condomínio fica o imóvel?", resposta: `Fica no condomínio ${imovel.condominio}, bairro ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}.` });
+  } else {
+    auto.push({ pergunta: "Em qual bairro fica o imóvel?", resposta: `Fica no bairro ${imovel.bairro}, em ${imovel.cidade}/${imovel.uf}.` });
+  }
+  if (imovel.tipoOperacao === "locacao") {
+    auto.push({ pergunta: "O imóvel é para venda ou locação?", resposta: "Este imóvel está disponível para locação." });
+  } else if (imovel.tipoOperacao === "permuta") {
+    auto.push({ pergunta: "O imóvel aceita permuta?", resposta: "Sim, este imóvel está aberto a propostas de permuta." });
+  } else {
+    auto.push({ pergunta: "O imóvel é para venda ou locação?", resposta: "Este imóvel está disponível para venda." });
+  }
+  if (imovel.financiamento) {
+    auto.push({ pergunta: "Aceita financiamento?", resposta: imovel.financiamento });
+  }
+  if (imovel.vagas) {
+    auto.push({ pergunta: "Quantas vagas de garagem tem?", resposta: `${imovel.vagas} vaga${imovel.vagas > 1 ? "s" : ""} de garagem.` });
+  }
+  if (imovel.areaUtil) {
+    auto.push({ pergunta: "Qual a área do imóvel?", resposta: `${imovel.areaUtil} m² de área útil${imovel.areaTerreno ? ` e ${imovel.areaTerreno} m² de terreno` : ""}.` });
+  }
+  return auto;
+}
+
+function faqLd(faqs) {
+  if (!faqs.length) return null;
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((f) => ({
+      "@type": "Question",
+      name: f.pergunta,
+      acceptedAnswer: { "@type": "Answer", text: f.resposta },
+    })),
+  });
+}
+
+function breadcrumbLd(siteRoot, hubUrl, bairro, canonicalUrl, titulo) {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Início", item: `${siteRoot}/` },
+      { "@type": "ListItem", position: 2, name: bairro, item: hubUrl },
+      { "@type": "ListItem", position: 3, name: titulo, item: canonicalUrl },
+    ],
+  });
+}
+
 function renderPropertyPage(imovel, theme, opts) {
-  const { canonicalUrl, hubUrl, fotosBaseUrl } = opts;
+  const { canonicalUrl, hubUrl, fotosBaseUrl, siteRoot, parecidos = [], analyticsToken, simuladorUrl } = opts;
   const fotos = imovel.fotos || [];
   const hero = fotos.find((f) => f.hero) || fotos[0] || {};
   const imagesUrls = fotos.map((f) => `${fotosBaseUrl}/${f.arquivo}`);
@@ -129,6 +237,10 @@ function renderPropertyPage(imovel, theme, opts) {
     imovel.areaTerreno && { num: `${imovel.areaTerreno} m²`, lbl: "Área terreno" },
   ].filter(Boolean);
 
+  const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
+  const operacaoLabel = OPERACAO_LABEL[imovel.tipoOperacao] || "Venda";
+  const precoSufixo = imovel.tipoOperacao === "locacao" ? "/mês" : "";
+
   const whatsMsg = encodeURIComponent(
     `Olá! Tenho interesse no imóvel "${imovel.titulo}" (ref. ${imovel.referencia || imovel.slug}).`
   );
@@ -140,6 +252,9 @@ function renderPropertyPage(imovel, theme, opts) {
     ? `${imovel.titulo} — Condomínio ${imovel.condominio}, ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}`
     : `${imovel.titulo} — ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}`;
 
+  const inativo = imovel.ativo === false;
+  const faqs = buildFaqs(imovel);
+
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -148,7 +263,9 @@ function renderPropertyPage(imovel, theme, opts) {
 <title>${esc(tituloSeo)} | ${esc(theme.label)}</title>
 <meta name="description" content="${esc(imovel.descricaoCurta)}">
 <link rel="canonical" href="${esc(canonicalUrl)}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="${inativo ? "noindex, nofollow" : "index, follow, max-image-preview:large"}">
+<link rel="icon" type="image/png" sizes="32x32" href="${esc(siteRoot)}/favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="${esc(siteRoot)}/favicon-cliente-180.png">
 <meta name="geo.region" content="BR-${esc(imovel.uf)}">
 <meta name="geo.placename" content="${esc(imovel.cidade)}">
 ${imovel.geo ? `<meta name="geo.position" content="${imovel.geo.lat};${imovel.geo.lng}">\n<meta name="ICBM" content="${imovel.geo.lat}, ${imovel.geo.lng}">` : ""}
@@ -163,9 +280,17 @@ ${hero.arquivo ? `<meta property="og:image" content="${esc(fotosBaseUrl)}/${esc(
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">${jsonLd(imovel, canonicalUrl, imagesUrls)}</script>
+${faqs.length ? `<script type="application/ld+json">${faqLd(faqs)}</script>` : ""}
+<script type="application/ld+json">${breadcrumbLd(siteRoot, hubUrl, imovel.bairro, canonicalUrl, imovel.titulo)}</script>
 <style>${css(theme)}</style>
+${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${analyticsToken}"}'></script>` : ""}
 </head>
 <body>
+${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
+  <span class="sim-tab-t">SIMULE</span>
+  <span class="sim-tab-s">financiamento</span>
+</a>` : ""}
+${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padding:12px 20px;font-size:14px">Este imóvel não está mais disponível para novos contatos.</div>` : ""}
 <header class="topbar">
   <div class="wrap">
     <a class="back" href="${esc(hubUrl)}">← ${esc(imovel.bairro)}</a>
@@ -176,14 +301,14 @@ ${hero.arquivo ? `<meta property="og:image" content="${esc(fotosBaseUrl)}/${esc(
 <section class="hero" style="border:0;padding:0">
   ${hero.arquivo ? `<img src="${fotosBaseUrl}/${esc(hero.arquivo)}" alt="${esc(hero.alt || imovel.titulo)}">` : ""}
   <div class="wrap hero-content">
-    <div class="plaqueta"><b>${esc(theme.label)}</b> · ${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
+    <div class="plaqueta"><b>${esc(theme.label)}</b> · ${esc(operacaoLabel)} · ${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
     <h1>${esc(imovel.titulo)}</h1>
     <div class="hero-meta">
       <span>${imovel.condominio ? `Condomínio ${esc(imovel.condominio)}, ` : ""}${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</span>
     </div>
     ${
       theme.showPriceInHero
-        ? `<div class="preco">${esc(imovel.preco)}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">${esc(imovel.financiamento)}</span>` : ""}</div>`
+        ? `<div class="preco">${esc(imovel.preco)}${precoSufixo}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">${esc(imovel.financiamento)}</span>` : ""}</div>`
         : ""
     }
   </div>
@@ -196,6 +321,7 @@ ${(() => {
     <div class="wrap">
       <span class="eyebrow">Sobre o imóvel</span>
       <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Um lugar para viver")}</h2>
+      <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
     </div>
   </section>`;
@@ -208,7 +334,7 @@ ${(() => {
       ${imovel.condominio ? `<p class="lead" style="margin-top:-8px;margin-bottom:18px;font-size:15px">Condomínio ${esc(imovel.condominio)}</p>` : ""}
       ${
         !theme.showPriceInHero
-          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(imovel.preco)}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· ${esc(imovel.financiamento)}</span>` : ""}</p>`
+          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(imovel.preco)}${precoSufixo}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· ${esc(imovel.financiamento)}</span>` : ""}</p>`
           : ""
       }
       <div class="ficha">
@@ -247,6 +373,41 @@ ${(() => {
   </section>`
     : "";
 
+  blocks.parecidos = parecidos.length
+    ? `<section id="parecidos">
+    <div class="wrap">
+      <span class="eyebrow">Você também pode gostar</span>
+      <h2 style="margin-top:10px">Imóveis parecidos</h2>
+      <div class="parecidos-grid">
+        ${parecidos
+          .map(
+            (p) => `<a class="parecido-card" href="${esc(p.url)}">
+          ${p.thumb ? `<img src="${esc(p.thumb)}" loading="lazy" alt="${esc(p.titulo)}">` : ""}
+          <div class="pbody">
+            <div class="ptit">${esc(p.titulo)}</div>
+            <div class="pmeta">${esc(p.bairro)}, ${esc(p.cidade)} - ${esc(p.uf)}</div>
+            <div class="ppreco">${esc(p.preco)}${esc(p.precoSufixo || "")}</div>
+          </div>
+        </a>`
+          )
+          .join("")}
+      </div>
+    </div>
+  </section>`
+    : "";
+
+  blocks.faq = faqs.length
+    ? `<section id="faq">
+    <div class="wrap">
+      <span class="eyebrow">Perguntas frequentes</span>
+      <h2 style="margin-top:10px">Tire suas dúvidas</h2>
+      <div class="faq-list">
+        ${faqs.map((f) => `<details class="faq-item"><summary>${esc(f.pergunta)}</summary><p>${esc(f.resposta)}</p></details>`).join("")}
+      </div>
+    </div>
+  </section>`
+    : "";
+
   blocks.contato = `<section id="contato" class="contato" style="border-bottom:0">
     <div class="wrap">
       <span class="eyebrow">Contato</span>
@@ -254,20 +415,20 @@ ${(() => {
       <a class="cta" href="${esc(whatsUrl)}" target="_blank" rel="noopener">Falar no WhatsApp</a>
       <div class="corretor">
         ${imovel.corretor?.nome ? `${esc(imovel.corretor.nome)} · ` : ""}${imovel.corretor?.creci ? `CRECI ${esc(imovel.corretor.creci)}` : ""}
-        <br>${esc(imovel.endereco || `${imovel.bairro}, ${imovel.cidade} - ${imovel.uf}`)}
+        <br>${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}
         <br>${imovel.corretor?.email ? `<a href="mailto:${esc(imovel.corretor.email)}">${esc(imovel.corretor.email)}</a>` : ""}${imovel.corretor?.instagram ? ` · <a href="${esc(imovel.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a>` : ""}
       </div>
     </div>
   </section>`;
 
-  const order = theme.sectionOrder || ["sobre", "ficha", "destaques", "galeria", "contato"];
+  const order = theme.sectionOrder || ["sobre", "ficha", "destaques", "galeria", "parecidos", "contato"];
   return `<main>${order.map((k) => blocks[k] || "").join("\n")}</main>`;
 })()}
 
 ${
   theme.stickyCta
     ? `<div class="sticky-cta">
-  <span class="preco-mini">${esc(imovel.preco)}</span>
+  <span class="preco-mini">${esc(imovel.preco)}${precoSufixo}</span>
   <a class="cta" href="${esc(whatsUrl)}" target="_blank" rel="noopener">Falar no WhatsApp</a>
 </div>`
     : ""
@@ -291,4 +452,4 @@ function formatDateBR(iso) {
   return `${d}/${m}/${y}`;
 }
 
-module.exports = { renderPropertyPage, jsonLd };
+module.exports = { renderPropertyPage, jsonLd, buildFaqs, breadcrumbLd };

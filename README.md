@@ -6,6 +6,17 @@ do imóvel (alto / médio / popular) — cores, tamanho do hero e ordem das
 seções mudam automaticamente. Já sai pronto para SEO/AIO: JSON-LD,
 sitemap.xml, robots.txt liberando crawlers de IA e um `llms.txt` por imóvel.
 
+## Antes de tudo (só uma vez)
+
+```
+npm install
+```
+
+Isso instala o `sharp` (biblioteca de imagem usada pra converter as fotos em
+WebP comprimido durante o build). O GitHub Actions já faz isso sozinho —
+esse passo só é necessário se você for rodar `node scripts/build.js` na
+sua própria máquina.
+
 ## Como adicionar um imóvel
 
 **Opção A — pelo admin (recomendado, poucos cliques):**
@@ -83,6 +94,40 @@ Anthropic (custo baixo, um lote só por imóvel).
 3. Configure o DNS do seu domínio apontando para o GitHub Pages
    (registro `A` para os IPs do GitHub Pages, ou `CNAME` se for subdomínio)
 4. O build já gera o arquivo `CNAME` sozinho a partir do `config.json`
+
+## Fotos otimizadas (WebP)
+
+Toda foto é convertida automaticamente pra WebP comprimido durante o build
+(qualidade 82%, largura máxima 2000px) — isso reduz o tamanho de cada foto
+em ~30-40% sem perda visível, o que ajuda diretamente a velocidade de
+carregamento (fator de ranking no Google). O nome do arquivo (o padrão SEO
+que você já configura no admin) continua igual, só a extensão vira `.webp`.
+
+## Imóveis parecidos
+
+Cada página de imóvel mostra até 3 imóveis parecidos no fim (antes do
+contato) — prioriza o mesmo bairro, depois a mesma cidade. Só aparecem
+imóveis ativos. É automático, não precisa configurar nada.
+
+## Analytics (opcional, sem cookies)
+
+Para acompanhar visitas sem comprometer a privacidade dos visitantes (e
+sem precisar de banner de cookie), o site já vem preparado para o
+Cloudflare Web Analytics — gratuito, não usa cookies, funciona em
+qualquer site (não precisa migrar domínio pra Cloudflare).
+
+1. Crie uma conta gratuita em [dash.cloudflare.com](https://dash.cloudflare.com) → Web Analytics
+2. Adicione seu site e copie o token gerado
+3. Cole em `config.json` → `analytics.cloudflareToken`
+4. Rode o build de novo — o script aparece em todas as páginas sozinho
+
+Deixe o campo vazio pra não carregar nada (padrão atual).
+
+## Sitemap com imagens
+
+O `sitemap.xml` já inclui a extensão de imagem do Google
+(`<image:image>`) — ajuda o Google a indexar suas fotos separadamente no
+Google Imagens, não só a página. Automático, sem configuração.
 
 ## Automação (`.github/workflows/build-docs.yml`)
 

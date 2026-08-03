@@ -6,11 +6,13 @@
 <meta name="description" content="Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba, Cabreúva, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/">
 <meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" sizes="32x32" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-180.png">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="Itu">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"identifier":{"@type":"PropertyValue","propertyID":"CRECI-SP","value":"276471-F"},"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -67,6 +69,7 @@
     border-radius:14px;border:1px dashed #DCE3E1}
   footer{margin-top:56px;font-size:13px;color:#5B6A67}
   </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -75,6 +78,7 @@
   <p class="sub">São Sebastião</p>
 
   <div class="filtros">
+    <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
     <div class="chips" id="chipsCidade"></div>
     <div class="filtros-linha">
       <div class="campo">
@@ -101,17 +105,31 @@
 </div>
 
 <script>
-const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.jpg"}];
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tipoOperacao":"venda"}];
 const PADRAO_COR = {"alto-padrao":"#B08D57","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
 let cidadeAtiva = "";
+let operacaoAtiva = "";
+const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
 
 function cidadesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.cidade))].sort((a,b)=>a.localeCompare(b,'pt-BR')); }
 function bairrosDisponiveis(cidade){
   return [...new Set(IMOVEIS.filter(i => !cidade || i.cidade===cidade).map(i=>i.bairro))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
+function operacoesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.tipoOperacao))]; }
 
+function renderChipsOperacao(){
+  const box = document.getElementById("chipsOperacao");
+  const ops = operacoesDisponiveis();
+  if (ops.length <= 1){ box.innerHTML = ""; return; } // não mostra filtro se só tem um tipo de operação
+  box.innerHTML = '<span class="chip' + (operacaoAtiva===""?" on":"") + '" data-o="">Todos os tipos</span>' +
+    ops.map(o => '<span class="chip' + (operacaoAtiva===o?" on":"") + '" data-o="' + o + '">' + (OPERACAO_LABEL[o]||o) + '</span>').join("");
+  box.querySelectorAll(".chip").forEach(el => el.onclick = () => {
+    operacaoAtiva = el.dataset.o;
+    renderChipsOperacao(); aplicarFiltros();
+  });
+}
 function renderChips(){
   const box = document.getElementById("chipsCidade");
   const cidades = cidadesDisponiveis();
@@ -136,6 +154,7 @@ function aplicarFiltros(){
   const max = Number(document.getElementById("fMax").value) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
+    (!operacaoAtiva || i.tipoOperacao === operacaoAtiva) &&
     (!bairro || i.bairro === bairro) &&
     i.precoNumerico >= min && i.precoNumerico <= max
   );
@@ -150,8 +169,8 @@ function aplicarFiltros(){
       <div class="body">
         <span class="tag" style="background:${PADRAO_COR[i.padrao]||'#999'}">${i.padraoLabel}</span>
         <div class="tit">${i.titulo}</div>
-        <div class="meta">${i.bairro}, ${i.cidade} - ${i.uf}</div>
-        <div class="preco">${i.preco}</div>
+        <div class="meta">${OPERACAO_LABEL[i.tipoOperacao]||'Venda'} · ${i.bairro}, ${i.cidade} - ${i.uf}</div>
+        <div class="preco">${i.preco}${i.precoSufixo}</div>
       </div>
     </a>`).join("");
 }
@@ -160,12 +179,12 @@ document.getElementById("fBairro").onchange = aplicarFiltros;
 document.getElementById("fMin").oninput = aplicarFiltros;
 document.getElementById("fMax").oninput = aplicarFiltros;
 document.getElementById("fLimpar").onclick = () => {
-  cidadeAtiva = ""; document.getElementById("fBairro").value = "";
+  cidadeAtiva = ""; operacaoAtiva = ""; document.getElementById("fBairro").value = "";
   document.getElementById("fMin").value = ""; document.getElementById("fMax").value = "";
-  renderChips(); renderBairros(); aplicarFiltros();
+  renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 };
 
-renderChips(); renderBairros(); aplicarFiltros();
+renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 </script>
 </body>
 </html>

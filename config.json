@@ -19,5 +19,9 @@
     "whatsapp": "551132806090",
     "email": "Corretor_Marcio@proton.me",
     "instagram": "https://www.instagram.com/corretor_marcio_itu"
-  }
+  },
+  "analytics": {
+    "cloudflareToken": ""
+  },
+  "simuladorFinanciamento": "https://marcio-itu.github.io/simulador-financiamento-imoveis-itu/"
 }

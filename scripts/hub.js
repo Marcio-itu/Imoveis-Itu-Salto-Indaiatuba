@@ -81,6 +81,7 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
     telephone: config?.corretor?.telefone,
     email: config?.corretor?.email,
     ...(config?.corretor?.instagram ? { sameAs: [config.corretor.instagram] } : {}),
+    ...(config?.corretor?.creci ? { identifier: { "@type": "PropertyValue", propertyID: "CRECI-SP", value: config.corretor.creci } } : {}),
     areaServed: cidadesConfig.map((c) => ({ "@type": "City", name: c, containedInPlace: { "@type": "State", name: config?.regiao?.uf === "SP" ? "São Paulo" : config?.regiao?.uf } })),
     address: { "@type": "PostalAddress", addressLocality: config?.regiao?.cidadePrincipal, addressRegion: config?.regiao?.uf, addressCountry: "BR" },
   };
@@ -88,8 +89,9 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
   const dadosJs = JSON.stringify(
     imoveis.map((i) => ({
       titulo: i.titulo, cidade: i.cidade, bairro: i.bairro, uf: i.uf,
-      preco: i.preco, precoNumerico: i.precoNumerico || 0,
+      preco: i.preco, precoNumerico: i.precoNumerico || 0, precoSufixo: i.precoSufixo || "",
       padrao: i.padrao, padraoLabel: i.padraoLabel, url: i.url, thumb: i.thumb,
+      tipoOperacao: i.tipoOperacao || "venda",
     }))
   );
 
@@ -101,12 +103,15 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
 <meta name="description" content="Imóveis à venda em ${esc(cidadesConfig.join(", "))}, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="${esc(siteUrl)}">
 <meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="${siteUrl}favicon-cliente-180.png">
 <meta name="geo.region" content="BR-${esc(config?.regiao?.uf || "SP")}">
 <meta name="geo.placename" content="${esc(config?.regiao?.cidadePrincipal || "")}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">${JSON.stringify(orgLd)}</script>
 <style>${hubCss(theme)}</style>
+${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>
 <body>
 <div class="wrap">
@@ -115,6 +120,7 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
   <p class="sub">${esc(cidadesComImovel.join(", ") || cidadesConfig.join(", "))}</p>
 
   <div class="filtros">
+    <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
     <div class="chips" id="chipsCidade"></div>
     <div class="filtros-linha">
       <div class="campo">
@@ -146,12 +152,26 @@ const PADRAO_COR = ${JSON.stringify(PADRAO_COR)};
 ${formatarPrecoJs()}
 
 let cidadeAtiva = "";
+let operacaoAtiva = "";
+const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
 
 function cidadesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.cidade))].sort((a,b)=>a.localeCompare(b,'pt-BR')); }
 function bairrosDisponiveis(cidade){
   return [...new Set(IMOVEIS.filter(i => !cidade || i.cidade===cidade).map(i=>i.bairro))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
+function operacoesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.tipoOperacao))]; }
 
+function renderChipsOperacao(){
+  const box = document.getElementById("chipsOperacao");
+  const ops = operacoesDisponiveis();
+  if (ops.length <= 1){ box.innerHTML = ""; return; } // não mostra filtro se só tem um tipo de operação
+  box.innerHTML = '<span class="chip' + (operacaoAtiva===""?" on":"") + '" data-o="">Todos os tipos</span>' +
+    ops.map(o => '<span class="chip' + (operacaoAtiva===o?" on":"") + '" data-o="' + o + '">' + (OPERACAO_LABEL[o]||o) + '</span>').join("");
+  box.querySelectorAll(".chip").forEach(el => el.onclick = () => {
+    operacaoAtiva = el.dataset.o;
+    renderChipsOperacao(); aplicarFiltros();
+  });
+}
 function renderChips(){
   const box = document.getElementById("chipsCidade");
   const cidades = cidadesDisponiveis();
@@ -176,6 +196,7 @@ function aplicarFiltros(){
   const max = Number(document.getElementById("fMax").value) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
+    (!operacaoAtiva || i.tipoOperacao === operacaoAtiva) &&
     (!bairro || i.bairro === bairro) &&
     i.precoNumerico >= min && i.precoNumerico <= max
   );
@@ -190,8 +211,8 @@ function aplicarFiltros(){
       <div class="body">
         <span class="tag" style="background:\${PADRAO_COR[i.padrao]||'#999'}">\${i.padraoLabel}</span>
         <div class="tit">\${i.titulo}</div>
-        <div class="meta">\${i.bairro}, \${i.cidade} - \${i.uf}</div>
-        <div class="preco">\${i.preco}</div>
+        <div class="meta">\${OPERACAO_LABEL[i.tipoOperacao]||'Venda'} · \${i.bairro}, \${i.cidade} - \${i.uf}</div>
+        <div class="preco">\${i.preco}\${i.precoSufixo}</div>
       </div>
     </a>\`).join("");
 }
@@ -200,12 +221,12 @@ document.getElementById("fBairro").onchange = aplicarFiltros;
 document.getElementById("fMin").oninput = aplicarFiltros;
 document.getElementById("fMax").oninput = aplicarFiltros;
 document.getElementById("fLimpar").onclick = () => {
-  cidadeAtiva = ""; document.getElementById("fBairro").value = "";
+  cidadeAtiva = ""; operacaoAtiva = ""; document.getElementById("fBairro").value = "";
   document.getElementById("fMin").value = ""; document.getElementById("fMax").value = "";
-  renderChips(); renderBairros(); aplicarFiltros();
+  renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 };
 
-renderChips(); renderBairros(); aplicarFiltros();
+renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 </script>
 </body>
 </html>`;
@@ -220,9 +241,12 @@ function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
 <title>Imóveis em ${esc(bairroNome)} — ${esc(nomeHub)}</title>
 <meta name="description" content="Imóveis à venda em ${esc(bairroNome)}.">
 <meta name="robots" content="index, follow">
+<link rel="icon" type="image/png" sizes="32x32" href="${hubUrl}favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="${hubUrl}favicon-cliente-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>${hubCss(theme)}</style>
+${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>
 <body>
 <div class="wrap">
@@ -237,7 +261,7 @@ function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
         <div class="body">
           <span class="tag" style="background:${PADRAO_COR[im.padrao] || "#999"}">${esc(im.padraoLabel)}</span>
           <div class="tit">${esc(im.titulo)}</div>
-          <div class="meta">${esc(im.preco)}</div>
+          <div class="meta">${esc(im.preco)}${esc(im.precoSufixo || "")}</div>
         </div>
       </a>`
       )
