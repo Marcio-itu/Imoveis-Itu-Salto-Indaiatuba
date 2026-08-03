@@ -188,6 +188,8 @@
     </div>
     <label>Token</label>
     <input type="password" id="ghToken" placeholder="github_pat_...">
+    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
+    <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
     <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar direto no GitHub</button>
     <div id="ghStatus" class="hint" style="margin-top:8px"></div>
   </fieldset>
@@ -542,7 +544,7 @@ document.getElementById("classificarBtn").onclick = async () => {
       parts.push({ inlineData: { mimeType: f.file.type || "image/jpeg", data: await fileToBase64Raw(f.file) } });
     }
 
-    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
+    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
       method: "POST",
       headers: { "content-type": "application/json", "x-goog-api-key": key },
       body: JSON.stringify({
@@ -660,6 +662,53 @@ async function ghPutFile(repo, path, branch, token, base64Content, message){
     throw new Error(`Falha ao publicar ${path} (${res.status}): ${body.slice(0,200)}`);
   }
 }
+
+document.getElementById("testarConexaoBtn").onclick = async () => {
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const token = document.getElementById("ghToken").value.trim();
+  const out = document.getElementById("ghTestStatus");
+
+  if (!repo || !token){ out.textContent = "❌ Preencha usuário/repositório e o token antes de testar."; return; }
+
+  out.textContent = "Testando...";
+  try {
+    const resRepo = await fetch(`https://api.github.com/repos/${repo}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+
+    if (resRepo.status === 401){
+      out.textContent = "❌ Token inválido ou expirado (401). Gere um novo token fine-grained em github.com/settings/personal-access-tokens.";
+      return;
+    }
+    if (resRepo.status === 404){
+      out.textContent = "❌ Repositório não encontrado com este token (404). Causa mais comum com token fine-grained: no passo de criação do token, em \"Repository access\", o repositório precisa estar marcado explicitamente (\"Only select repositories\" → escolher este) — ter a permissão certa não basta se o repositório não foi selecionado ali. Confira também se digitou \"usuario/repositorio\" corretamente.";
+      return;
+    }
+    if (!resRepo.ok){
+      out.textContent = `❌ GitHub retornou erro ${resRepo.status} ao acessar o repositório.`;
+      return;
+    }
+
+    const repoJson = await resRepo.json();
+    const podeEscrever = repoJson.permissions?.push === true;
+
+    const resBranch = await fetch(`https://api.github.com/repos/${repo}/branches/${encodeURIComponent(branch)}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+    const branchOk = resBranch.ok;
+
+    if (podeEscrever && branchOk){
+      out.textContent = `✅ Conexão ok! Repositório acessível, permissão de escrita confirmada, branch "${branch}" existe. Pode publicar.`;
+    } else if (!podeEscrever){
+      out.textContent = `⚠️ Repositório acessível, mas o token não tem permissão de escrita confirmada. Confira se o token fine-grained tem "Contents: Read and write" (não só "Read-only") para este repositório.`;
+    } else {
+      out.textContent = `⚠️ Repositório e token ok, mas a branch "${branch}" não foi encontrada. Confira o nome da branch (o padrão do GitHub costuma ser "main").`;
+    }
+  } catch (err) {
+    out.textContent = "❌ Não consegui conectar ao GitHub agora (" + err.message + "). Confira sua internet ou tente novamente.";
+  }
+};
 
 document.getElementById("publicarBtn").onclick = async () => {
   const repo = document.getElementById("ghRepo").value.trim();

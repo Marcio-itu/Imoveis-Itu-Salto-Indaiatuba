@@ -81,9 +81,18 @@ function css(t) {
   a.parecido-card .ptit{font-family:${t.fonts.display};font-size:15px;line-height:1.3}
   a.parecido-card .pmeta{font-size:12px;color:var(--ink-muted);margin-top:3px}
   a.parecido-card .ppreco{font-family:${t.fonts.display};font-size:14px;margin-top:6px}
-  .cta{display:inline-block;background:var(--accent);color:#fff;padding:16px 30px;border-radius:var(--radius);
-    text-decoration:none;font-weight:600;font-size:15px}
-  .cta:hover{opacity:.92}
+  .cta{display:inline-block;background:#25D366;color:#fff;padding:16px 30px;border-radius:var(--radius);
+    text-decoration:none;font-weight:600;font-size:15px;animation:cta-shake 5s ease-in-out infinite}
+  .cta:hover{background:#1EBE5B;opacity:.92;animation-play-state:paused}
+  @keyframes cta-shake{
+    0%,94%,100%{transform:rotate(0)}
+    95%{transform:rotate(-4deg)}
+    96%{transform:rotate(4deg)}
+    97%{transform:rotate(-3deg)}
+    98%{transform:rotate(3deg)}
+    99%{transform:rotate(0)}
+  }
+  @media (prefers-reduced-motion: reduce){ .cta{animation:none} }
   .corretor{margin-top:26px;font-size:14px;color:var(--ink-muted)}
 
   footer{padding:36px 0;font-size:13px;color:var(--ink-muted)}
@@ -97,13 +106,14 @@ function css(t) {
 
   .sim-tab{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:25;
     background:var(--accent);color:#fff;text-decoration:none;
-    writing-mode:vertical-rl;text-orientation:mixed;
     padding:18px 9px;border-radius:12px 0 0 12px;
-    display:flex;flex-direction:column;align-items:center;gap:8px;
+    display:flex;flex-direction:column;align-items:center;
     box-shadow:0 4px 16px rgba(0,0,0,.2);
     transition:transform .2s ease,padding .2s ease;
     animation:sim-tab-pulse 5s ease-in-out 3;}
   .sim-tab:hover{transform:translateY(-50%) scale(1.08);padding-right:13px}
+  .sim-tab .sim-tab-label{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
+    display:flex;flex-direction:column;align-items:center;gap:2px}
   .sim-tab .sim-tab-t{font-family:${t.fonts.body};font-size:15px;font-weight:700;letter-spacing:.05em}
   .sim-tab .sim-tab-s{font-family:${t.fonts.body};font-size:11px;font-weight:500;opacity:.85;letter-spacing:.03em}
   @keyframes sim-tab-pulse{
@@ -287,8 +297,10 @@ ${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/bea
 </head>
 <body>
 ${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
-  <span class="sim-tab-t">SIMULE</span>
-  <span class="sim-tab-s">financiamento</span>
+  <span class="sim-tab-label">
+    <span class="sim-tab-t">SIMULE</span>
+    <span class="sim-tab-s">financiamento</span>
+  </span>
 </a>` : ""}
 ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padding:12px 20px;font-size:14px">Este imóvel não está mais disponível para novos contatos.</div>` : ""}
 <header class="topbar">
@@ -436,7 +448,7 @@ ${
 
 <footer>
   <div class="wrap">
-    Inteligência Imobiliária. Construindo Confiança. · ${imovel.corretor?.creci ? `CRECI-SP ${esc(imovel.corretor.creci)}` : ""}
+    Inteligência Imobiliária, Construindo Confiança · ${imovel.corretor?.creci ? `CRECI-SP ${esc(imovel.corretor.creci)}` : ""}
     ${imovel.corretor?.instagram ? `· <a href="${esc(imovel.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a>` : ""}
     · Nascimento: ${esc(formatDateBR(imovel.publicadoEm))}
     · <a href="${esc(hubUrl)}">Ver outros imóveis em ${esc(imovel.bairro)}</a>

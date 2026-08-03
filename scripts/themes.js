@@ -15,10 +15,10 @@ const THEMES = {
     surfaceAlt: "#2B2A1F",
     ink: "#F3EFE4",
     inkMuted: "#B9B4A2",
-    accent: "#B08D57",       // latão
+    accent: "#4E9E97",       // verde-água
     accentSecondary: "#4A5D50", // verde-oliva escuro
     border: "#3A3826",
-    radius: "3px",
+    radius: "10px",
     displayWeight: 300,
     displayLetterSpacing: "0.01em",
     eyebrowLetterSpacing: "0.22em",
@@ -26,7 +26,7 @@ const THEMES = {
     heroVh: 92,
     showPriceInHero: false,
     stickyCta: false,
-    sectionOrder: ["sobre", "ficha", "destaques", "galeria", "parecidos", "faq", "contato"],
+    sectionOrder: ["sobre", "ficha", "destaques", "galeria", "parecidos", "contato", "faq"],
   },
   "medio-padrao": {
     label: "Médio padrão",
@@ -38,7 +38,7 @@ const THEMES = {
     accent: "#2F5D7C",       // azul petróleo
     accentSecondary: "#D98B3B", // laranja quente (CTA)
     border: "#DCE3E1",
-    radius: "8px",
+    radius: "14px",
     displayWeight: 500,
     displayLetterSpacing: "0em",
     eyebrowLetterSpacing: "0.16em",
@@ -46,7 +46,7 @@ const THEMES = {
     heroVh: 62,
     showPriceInHero: true,
     stickyCta: false,
-    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "parecidos", "faq", "contato"],
+    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "parecidos", "contato", "faq"],
   },
   "padrao-popular": {
     label: "Padrão popular",
@@ -58,7 +58,7 @@ const THEMES = {
     accent: "#E0562B",       // laranja vibrante
     accentSecondary: "#1F8A5F", // verde fresco
     border: "#F3D9B1",
-    radius: "16px",
+    radius: "22px",
     displayWeight: 700,
     displayLetterSpacing: "0em",
     eyebrowLetterSpacing: "0.12em",
@@ -66,7 +66,7 @@ const THEMES = {
     heroVh: 40,
     showPriceInHero: true,
     stickyCta: true,
-    sectionOrder: ["ficha", "destaques", "sobre", "galeria", "parecidos", "faq", "contato"],
+    sectionOrder: ["ficha", "destaques", "sobre", "galeria", "parecidos", "contato", "faq"],
   },
 };
 
