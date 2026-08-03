@@ -4,8 +4,7 @@
 
 ## Imóveis
 
-- [Casa em Praia Preta](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/) — R$ 2.450.000, Praia Preta/São Sebastião-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/llms.txt
-- [Uau, que casa linda! ](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/uau-que-casa-linda/) — 700000, Parque Residencial Presidente Médici/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/uau-que-casa-linda/llms.txt
+
 
 ## Uso permitido
 
