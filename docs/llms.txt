@@ -6,6 +6,7 @@
 
 - [Casa em Praia Preta](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/) — R$ 2.450.000, Praia Preta/São Sebastião-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/llms.txt
 - [Linda casa com piscina e area gourmet](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/) — R$ 700.000, Parque Residencial Presidente Médici/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/llms.txt
+- [Localização privilegiada no Rancho Grande! ](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/) — R$ 7.900, Jardim do Estádio/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/llms.txt
 
 ## Uso permitido
 
