@@ -10,6 +10,14 @@ on:
       - "package.json"
   workflow_dispatch: {}
 
+# Publicar um imóvel sobe várias fotos em sequência — cada arquivo dispara uma execução própria
+# deste workflow. Sem isso, várias execuções corriam em paralelo e brigavam pra dar "git push"
+# ao mesmo tempo, causando os erros "fetch first" / "rejected" e publicações incompletas.
+# Isso faz as execuções ficarem em fila, uma de cada vez, em vez de correr juntas.
+concurrency:
+  group: build-docs-${{ github.ref }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
 
@@ -34,5 +42,17 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add docs
-          git diff --cached --quiet || git commit -m "build: atualiza páginas geradas [automático]"
-          git push
+          git diff --cached --quiet && exit 0
+          git commit -m "build: atualiza páginas geradas [automático]"
+          # Mesmo em fila, o repositório pode ter avançado entre o checkout e agora
+          # (ex.: o próprio admin publicando outro arquivo). Tenta reconciliar e reenviar
+          # algumas vezes antes de desistir, em vez de falhar na primeira rejeição.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            echo "Push rejeitado, tentando novamente ($i/5)..."
+            sleep $((i * 4))
+          done
+          echo "Não consegui publicar /docs após várias tentativas."
+          exit 1
