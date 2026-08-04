@@ -16,10 +16,35 @@ function hubCss(t) {
       radial-gradient(circle at 50% 100%, rgba(31,138,95,.06) 0%, transparent 50%);
     background-attachment:fixed;
     color:${t.ink};font-family:${t.fonts.body};line-height:1.55;min-height:100vh}
-  .wrap{max-width:1080px;margin:0 auto;padding:56px 24px 80px}
-  h1{font-family:${t.fonts.display};font-weight:500;font-size:clamp(28px,5vw,40px);margin-bottom:8px}
-  p.sub{color:${t.inkMuted};margin-bottom:32px}
+  .wrap{max-width:1080px;margin:0 auto;padding:64px 24px 88px}
+  .site-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+  .brand-lockup{display:flex;flex-direction:column;gap:1px}
+  .brand-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
+  .brand-tagline{font-family:${t.fonts.display};font-style:italic;font-size:15px;color:${t.inkMuted}}
+  .credential{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:${t.inkMuted};
+    border:1px solid ${t.border};border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.65);
+    white-space:nowrap}
+  .credential b{color:${t.ink};font-weight:600;letter-spacing:0}
+  h1{font-family:${t.fonts.display};font-weight:500;font-size:clamp(32px,5.2vw,46px);line-height:1.08;
+    letter-spacing:-.01em;margin-bottom:14px;max-width:18ch}
+  p.sub{color:${t.inkMuted};font-size:16px;margin-bottom:36px;max-width:60ch;display:flex;
+    align-items:center;flex-wrap:wrap;gap:6px}
+  .divider{height:1px;background:linear-gradient(90deg, ${t.border}, transparent);margin-bottom:36px}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
+  .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${t.inkMuted};
+    font-weight:600;margin-bottom:8px;display:block}
+
+  .geo-ping{position:relative;display:inline-flex;align-items:center}
+  .geo-ping .dot{position:relative;width:6px;height:6px;border-radius:50%;background:${t.accent}}
+  .geo-ping .dot::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid ${t.accent};
+    opacity:.55;animation:geoping 2.6s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes geoping{0%{transform:scale(.5);opacity:.6}70%,100%{transform:scale(2.4);opacity:0}}
+  @media (prefers-reduced-motion: reduce){.geo-ping .dot::before{animation:none;opacity:0}}
+
+  .segmented{display:inline-flex;background:${t.surface};border:1px solid ${t.border};border-radius:999px;
+    padding:4px;gap:2px}
+  .segmented .chip{border:none;background:transparent;padding:8px 16px}
+  .segmented .chip.on{background:${t.accent};border-color:${t.accent};color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
   a{color:inherit}
 
   .filtros{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid ${t.border};
@@ -125,12 +150,22 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 </head>
 <body>
 <div class="wrap">
-  <span class="eyebrow">${esc(nomeHub)}</span>
-  <h1>Imóveis por cidade</h1>
-  <p class="sub">${esc(cidadesComImovel.join(", ") || cidadesConfig.join(", "))}</p>
+  <div class="site-header">
+    <div class="brand-lockup">
+      <span class="brand-eyebrow">${esc((nomeHub.split(",")[0] || nomeHub).trim())}</span>
+      ${nomeHub.includes(",") ? `<span class="brand-tagline">${esc(nomeHub.split(",").slice(1).join(",").trim())}</span>` : ""}
+    </div>
+    ${creci ? `<span class="credential"><b>${esc(config?.corretor?.nome || "")}</b> · ${esc(creci)}</span>` : ""}
+  </div>
+
+  <h1>Cinco cidades. Um endereço de confiança.</h1>
+  <p class="sub"><span class="geo-ping"><span class="dot"></span></span> ${esc(cidadesComImovel.join(" · ") || cidadesConfig.join(" · "))} — busque por cidade, bairro e faixa de preço.</p>
+  <div class="divider"></div>
 
   <div class="filtros">
-    <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
+    <span class="grupo-label">Operação</span>
+    <div class="segmented" id="chipsOperacao" style="margin-bottom:16px"></div>
+    <span class="grupo-label">Cidade</span>
     <div class="chips" id="chipsCidade"></div>
     <div class="filtros-linha">
       <div class="campo">

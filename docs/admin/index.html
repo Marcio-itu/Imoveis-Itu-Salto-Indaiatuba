@@ -58,6 +58,9 @@
 </head>
 <body>
 <div class="wrap">
+  <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+    <button type="button" id="atualizarPaginaBtn" style="border:1px solid var(--border);background:#fff;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink-muted)">🔄 Atualizar página</button>
+  </div>
   <h1>Montar página de imóvel</h1>
   <p class="sub">Siga a ordem — cada passo alimenta o próximo. No fim você baixa ou publica direto.</p>
 
@@ -147,7 +150,7 @@
     <input type="text" id="titulo" placeholder="Casa em Praia Preta">
     <div class="row">
       <div><label>Tipo de imóvel</label>
-        <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option></select>
+        <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option><option>salão comercial</option></select>
       </div>
       <div><label>Referência (preenchida pelo código acima)</label><input type="text" id="referencia" placeholder="LVP01013"></div>
     </div>
@@ -230,10 +233,13 @@
     </div>
     <label>Token</label>
     <input type="password" id="ghToken" placeholder="github_pat_...">
-    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
+    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="lembrarGhToken" style="width:auto"> Lembrar usuário/repositório, branch e token neste navegador
+    </label>    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
     <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
     <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar direto no GitHub</button>
     <div id="ghStatus" class="hint" style="margin-top:8px"></div>
+    <div id="posPublicarBox" style="display:none;margin-top:14px;gap:10px;flex-wrap:wrap"></div>
   </fieldset>
 
   <fieldset>
@@ -315,6 +321,28 @@ let operacoesAtuais = new Set(["venda"]);
 let fotos = []; // {file, ambiente, hero}
 let modoEdicao = null; // { pasta, fotosExistentes, publicadoEm } — preenchido ao clicar "Editar" num imóvel já publicado
 
+document.getElementById("atualizarPaginaBtn").onclick = () => location.reload();
+
+function resetFormulario(){
+  ["titulo","tipo","cidade","uf","bairro","condominio","referencia","preco","financiamento",
+   "quartos","suites","banheiros","vagas","areaUtil","areaTerreno","diferenciais","resumo",
+   "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
+  ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+  document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
+  fotos = [];
+  modoEdicao = null;
+  document.getElementById("edicaoBanner").style.display = "none";
+  document.getElementById("fotosExistentesBox").style.display = "none";
+  padraoAtual = "medio-padrao";
+  renderTiers();
+  operacoesAtuais = new Set(["venda"]);
+  renderOps();
+  renderFotos();
+  document.getElementById("posPublicarBox").style.display = "none";
+  document.getElementById("posPublicarBox").innerHTML = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 // --- lembrar chave da API Gemini neste navegador (opcional, opt-in) ---
 (function(){
   const keyEl = document.getElementById("geminiKey");
@@ -326,6 +354,33 @@ let modoEdicao = null; // { pasta, fotosExistentes, publicadoEm } — preenchido
     else localStorage.removeItem("geminiKey");
   };
   keyEl.addEventListener("input", persistir);
+  lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- lembrar usuário/repositório, branch e token do GitHub neste navegador (opcional, opt-in) ---
+(function(){
+  const repoEl = document.getElementById("ghRepo");
+  const branchEl = document.getElementById("ghBranch");
+  const tokenEl = document.getElementById("ghToken");
+  const lembrarEl = document.getElementById("lembrarGhToken");
+  const salvo = localStorage.getItem("ghCreds");
+  if (salvo){
+    try {
+      const { repo, branch, token } = JSON.parse(salvo);
+      if (repo) repoEl.value = repo;
+      if (branch) branchEl.value = branch;
+      if (token) tokenEl.value = token;
+      lembrarEl.checked = true;
+    } catch {}
+  }
+  const persistir = () => {
+    if (lembrarEl.checked) {
+      localStorage.setItem("ghCreds", JSON.stringify({ repo: repoEl.value.trim(), branch: branchEl.value.trim(), token: tokenEl.value.trim() }));
+    } else {
+      localStorage.removeItem("ghCreds");
+    }
+  };
+  [repoEl, branchEl, tokenEl].forEach(el => el.addEventListener("input", persistir));
   lembrarEl.addEventListener("change", persistir);
 })();
 
@@ -573,6 +628,7 @@ function renderFotos(){
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
           <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
         </label>
+        <button type="button" data-i="${i}" class="removerFotoBtn" style="border:none;background:none;color:#c23f18;cursor:pointer;font-size:13px">✕ remover</button>
         <div class="filename">${nomeArquivo(f)}</div>
       </div>`;
     fotoList.appendChild(div);
@@ -585,6 +641,13 @@ function renderFotos(){
   });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
     fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".removerFotoBtn").forEach(b => b.onclick = (e) => {
+    const i = +e.target.dataset.i;
+    const eraHero = fotos[i].hero;
+    fotos.splice(i, 1);
+    if (eraHero && fotos.length) fotos[0].hero = true; // garante que sempre sobra 1 hero
     renderFotos();
   });
 }
@@ -1008,14 +1071,41 @@ document.getElementById("testarConexaoBtn").onclick = async () => {
 };
 
 document.getElementById("publicarBtn").onclick = async () => {
+  const btn = document.getElementById("publicarBtn");
+  if (btn.disabled) return; // já publicando — ignora cliques repetidos (causa real dos SHAs conflitando e fotos duplicadas)
+  btn.disabled = true;
+  btn.textContent = "⏳ Publicando...";
+
   const repo = document.getElementById("ghRepo").value.trim();
   const branch = document.getElementById("ghBranch").value.trim() || "main";
   const token = document.getElementById("ghToken").value.trim();
   const status = document.getElementById("ghStatus");
 
   const temFotoValida = fotos.length || (modoEdicao && modoEdicao.fotosExistentes.some(f => f.manter));
-  if (!temFotoValida){ alert("Suba pelo menos uma foto (ou mantenha alguma existente) antes de publicar."); return; }
-  if (!repo || !token){ status.textContent = "Preencha usuario/repositorio e o token antes de publicar."; return; }
+  if (!temFotoValida){
+    alert("Suba pelo menos uma foto (ou mantenha alguma existente) antes de publicar.");
+    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    return;
+  }
+  if (!repo || !token){
+    status.textContent = "Preencha usuario/repositorio e o token antes de publicar.";
+    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    return;
+  }
+
+  const faltando = [];
+  if (!document.getElementById("titulo").value.trim()) faltando.push("Título");
+  if (!document.getElementById("tipo").value.trim()) faltando.push("Tipo do imóvel");
+  if (!document.getElementById("cidade").value.trim()) faltando.push("Cidade");
+  if (!document.getElementById("uf").value.trim()) faltando.push("UF");
+  if (!document.getElementById("bairro").value.trim()) faltando.push("Bairro");
+  if (!document.getElementById("preco").value.trim()) faltando.push("Preço");
+  if (!operacoesAtuais.size) faltando.push("Tipo de operação (venda/locação/permuta)");
+  if (faltando.length){
+    status.textContent = "⚠️ Falta preencher: " + faltando.join(", ") + ".";
+    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    return;
+  }
 
   const pularCodigoNovo = modoEdicao && document.getElementById("referencia").value.trim();
   if (pularCodigoNovo){
@@ -1027,8 +1117,6 @@ document.getElementById("publicarBtn").onclick = async () => {
 
   const dados = montarDados();
   const base = `imoveis/${dados.slug}`;
-  const btn = document.getElementById("publicarBtn");
-  btn.disabled = true;
 
   try {
     status.textContent = "Publicando dados.json...";
@@ -1046,10 +1134,21 @@ document.getElementById("publicarBtn").onclick = async () => {
     }
 
     status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página em alguns minutos.";
+    const pos = document.getElementById("posPublicarBox");
+    pos.style.display = "flex";
+    pos.innerHTML = `
+      <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
+      <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
+    document.getElementById("novaPublicacaoBtn").onclick = resetFormulario;
+    document.getElementById("sairBtn").onclick = () => {
+      localStorage.removeItem("admOk");
+      location.reload();
+    };
   } catch (err) {
     status.textContent = "❌ " + err.message;
   } finally {
     btn.disabled = false;
+    btn.textContent = "☁️ Publicar direto no GitHub";
   }
 };
 

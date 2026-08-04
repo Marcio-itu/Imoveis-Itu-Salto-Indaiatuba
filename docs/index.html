@@ -25,9 +25,14 @@
       radial-gradient(circle at 50% 100%, rgba(31,138,95,.06) 0%, transparent 50%);
     background-attachment:fixed;
     color:#1E2A28;font-family:'Inter', -apple-system, Helvetica, Arial, sans-serif;line-height:1.55;min-height:100vh}
-  .wrap{max-width:1080px;margin:0 auto;padding:56px 24px 80px}
-  h1{font-family:'Fraunces', Georgia, serif;font-weight:500;font-size:clamp(28px,5vw,40px);margin-bottom:8px}
-  p.sub{color:#5B6A67;margin-bottom:32px}
+  .wrap{max-width:1080px;margin:0 auto;padding:64px 24px 88px}
+  .site-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+  .credential{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5B6A67;
+    border:1px solid #DCE3E1;border-radius:999px;padding:6px 14px;background:rgba(255,255,255,.6)}
+  h1{font-family:'Fraunces', Georgia, serif;font-weight:500;font-size:clamp(32px,5.2vw,46px);line-height:1.08;
+    letter-spacing:-.01em;margin-bottom:14px;max-width:16ch}
+  p.sub{color:#5B6A67;font-size:16px;margin-bottom:36px;max-width:56ch}
+  .divider{height:1px;background:linear-gradient(90deg, #DCE3E1, transparent);margin-bottom:36px}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
   a{color:inherit}
 
@@ -85,7 +90,7 @@
 <div class="wrap">
   <span class="eyebrow">Inteligência Imobiliária, Construindo Confiança</span>
   <h1>Imóveis por cidade</h1>
-  <p class="sub">São Sebastião, Itu</p>
+  <p class="sub">São Sebastião</p>
 
   <div class="filtros">
     <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
@@ -135,7 +140,7 @@
 </div>
 
 <script>
-const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]},{"titulo":"Linda casa com piscina e area gourmet","cidade":"Itu","bairro":"Parque Residencial Presidente Médici","uf":"SP","preco":"R$ 700.000","precoNumerico":700000,"precoSufixo":"","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/fotos/churrasqueira-itu-medio-padrao-casa-sp-20260804.webp","tiposOperacao":["venda"]},{"titulo":"Localização privilegiada no Rancho Grande! ","cidade":"Itu","bairro":"Jardim do Estádio","uf":"SP","preco":"R$ 7.900","precoNumerico":7900,"precoSufixo":"/mês","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/fotos/fachada-itu-medio-padrao-sobrado-sp-20260804.jpeg","tiposOperacao":["locacao"]}];
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]}];
 const PADRAO_COR = {"alto-padrao":"#4E9E97","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
