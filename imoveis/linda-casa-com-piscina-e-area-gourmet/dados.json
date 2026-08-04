@@ -1,0 +1,90 @@
+{
+  "slug": "linda-casa-com-piscina-e-area-gourmet",
+  "titulo": "Linda casa com piscina e área gourmet",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Parque Residencial Presidente Médici",
+  "condominio": "",
+  "referencia": "OVO01013",
+  "preco": "R$ 700.000",
+  "financiamento": "",
+  "quartos": 2,
+  "suites": 1,
+  "banheiros": 5,
+  "vagas": 2,
+  "areaUtil": 175,
+  "areaTerreno": 310,
+  "descricaoCurta": "A residência de médio padrão está construída em um terreno de 310 m² e conta com 2 quartos, sendo 1 suíte master, ar-condicionado e 5 banheiros no total.",
+  "descricaoLonga": [
+    "A residência de médio padrão está construída em um terreno de 310 m² e conta com 2 quartos, sendo 1 suíte master, ar-condicionado e 5 banheiros no total.",
+    "O imóvel possui sala de estar, sala de jantar, cozinha, lavanderia e sistema sustentável com placa fotovoltaica instalado.",
+    "A área externa é equipada com espaço gourmet, churrasqueira, piscina, vestiário e vagas de garagem para 2 veículos."
+  ],
+  "resumo": "Casa à venda por R$ 700.000 no Parque Residencial Presidente Médici, em Itu/SP, com 175 m² de área útil, piscina e placas fotovoltaicas.",
+  "diferenciais": [
+    "Area Gourmet",
+    "piscina",
+    "vestiario e lavanderia"
+  ],
+  "acessorios": [
+    "Placa fotovoltaica",
+    "Ar-condicionado"
+  ],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-04",
+  "fotos": [
+    {
+      "arquivo": "banheiro-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Banheiro do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false,
+      "quantidade": 5
+    },
+    {
+      "arquivo": "suite-master-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Suíte master do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Cozinha do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "sala-jantar-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Sala de jantar do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Piscina do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": true
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false,
+      "quantidade": 2
+    },
+    {
+      "arquivo": "churrasqueira-itu-medio-padrao-casa-sp-area-gourmet-20260804.jpeg",
+      "alt": "Churrasqueira do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    }
+  ]
+}
