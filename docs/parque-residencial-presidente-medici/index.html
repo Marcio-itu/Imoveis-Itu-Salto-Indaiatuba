@@ -20,10 +20,35 @@
       radial-gradient(circle at 50% 100%, rgba(31,138,95,.06) 0%, transparent 50%);
     background-attachment:fixed;
     color:#1E2A28;font-family:'Inter', -apple-system, Helvetica, Arial, sans-serif;line-height:1.55;min-height:100vh}
-  .wrap{max-width:1080px;margin:0 auto;padding:56px 24px 80px}
-  h1{font-family:'Fraunces', Georgia, serif;font-weight:500;font-size:clamp(28px,5vw,40px);margin-bottom:8px}
-  p.sub{color:#5B6A67;margin-bottom:32px}
+  .wrap{max-width:1080px;margin:0 auto;padding:64px 24px 88px}
+  .site-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+  .brand-lockup{display:flex;flex-direction:column;gap:1px}
+  .brand-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
+  .brand-tagline{font-family:'Fraunces', Georgia, serif;font-style:italic;font-size:15px;color:#5B6A67}
+  .credential{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5B6A67;
+    border:1px solid #DCE3E1;border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.65);
+    white-space:nowrap}
+  .credential b{color:#1E2A28;font-weight:600;letter-spacing:0}
+  h1{font-family:'Fraunces', Georgia, serif;font-weight:500;font-size:clamp(32px,5.2vw,46px);line-height:1.08;
+    letter-spacing:-.01em;margin-bottom:14px;max-width:18ch}
+  p.sub{color:#5B6A67;font-size:16px;margin-bottom:36px;max-width:60ch;display:flex;
+    align-items:center;flex-wrap:wrap;gap:6px}
+  .divider{height:1px;background:linear-gradient(90deg, #DCE3E1, transparent);margin-bottom:36px}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
+  .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6A67;
+    font-weight:600;margin-bottom:8px;display:block}
+
+  .geo-ping{position:relative;display:inline-flex;align-items:center}
+  .geo-ping .dot{position:relative;width:6px;height:6px;border-radius:50%;background:#2F5D7C}
+  .geo-ping .dot::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid #2F5D7C;
+    opacity:.55;animation:geoping 2.6s cubic-bezier(0,0,.2,1) infinite}
+  @keyframes geoping{0%{transform:scale(.5);opacity:.6}70%,100%{transform:scale(2.4);opacity:0}}
+  @media (prefers-reduced-motion: reduce){.geo-ping .dot::before{animation:none;opacity:0}}
+
+  .segmented{display:inline-flex;background:#F4F6F5;border:1px solid #DCE3E1;border-radius:999px;
+    padding:4px;gap:2px}
+  .segmented .chip{border:none;background:transparent;padding:8px 16px}
+  .segmented .chip.on{background:#2F5D7C;border-color:#2F5D7C;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
   a{color:inherit}
 
   .filtros{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid #DCE3E1;
