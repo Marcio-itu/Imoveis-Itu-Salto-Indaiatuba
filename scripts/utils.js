@@ -17,4 +17,14 @@ function parsePreco(str) {
   return Number.isFinite(n) && n > 0 ? n : undefined;
 }
 
-module.exports = { slugify, esc, parsePreco };
+// Garante "R$ 450.000" no site mesmo se dados.json tiver o preço sem formatação nenhuma.
+function formatPreco(str) {
+  const raw = String(str || "").trim();
+  if (!raw) return raw;
+  if (/R\$/.test(raw)) return raw; // já formatado (admin já aplica isso ao digitar)
+  const digitos = raw.replace(/\D/g, "");
+  if (!digitos) return raw;
+  return "R$ " + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+module.exports = { slugify, esc, parsePreco, formatPreco };

@@ -1,6 +1,6 @@
-const { esc } = require("./utils");
+const { esc, formatPreco } = require("./utils");
 
-const PADRAO_COR = { "alto-padrao": "#B08D57", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B" };
+const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B" };
 
 // Hub usa paleta neutra própria (não é nenhum dos 3 temas de imóvel) —
 // é a vitrine, não deve competir visualmente com nenhum padrão específico.
@@ -48,6 +48,15 @@ function hubCss(t) {
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:${t.fonts.display};font-size:17px;line-height:1.25}
   a.card .meta{font-size:13px;color:${t.inkMuted};margin-top:4px}
+
+  .site-footer{margin-top:64px;padding-top:40px;border-top:1px solid ${t.border}}
+  .footer-brand{font-family:${t.fonts.display};font-size:21px;letter-spacing:.01em;margin-bottom:30px;color:${t.ink}}
+  .footer-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-bottom:32px}
+  .footer-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:${t.accent};font-weight:600;margin-bottom:12px}
+  .footer-cols > div > div:not(.footer-label){font-size:14px;color:${t.inkMuted};line-height:1.9}
+  .footer-cols a{color:${t.inkMuted};text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
+  .footer-cols a:hover{color:${t.ink};border-bottom-color:${t.accent}}
+  .footer-bottom{font-size:12px;color:${t.inkMuted};padding-top:24px;border-top:1px solid ${t.border}}
   a.card .preco{font-family:${t.fonts.display};font-size:15px;margin-top:8px}
 
   a.item{display:block;background:#fff;border:1px solid ${t.border};border-radius:${t.radius};
@@ -91,7 +100,7 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
       titulo: i.titulo, cidade: i.cidade, bairro: i.bairro, uf: i.uf,
       preco: i.preco, precoNumerico: i.precoNumerico || 0, precoSufixo: i.precoSufixo || "",
       padrao: i.padrao, padraoLabel: i.padraoLabel, url: i.url, thumb: i.thumb,
-      tipoOperacao: i.tipoOperacao || "venda",
+      tiposOperacao: i.tiposOperacao || [i.tipoOperacao || "venda"],
     }))
   );
 
@@ -99,6 +108,7 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="eUZ48MN17FouYrBJW85ZV8NUXa_rDKulC38cC22xWK0" />
 <title>Imóveis por cidade — ${esc(nomeHub)}</title>
 <meta name="description" content="Imóveis à venda em ${esc(cidadesConfig.join(", "))}, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="${esc(siteUrl)}">
@@ -143,7 +153,27 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
   <div class="grid" id="grid"></div>
   <div class="vazio" id="vazio" style="display:none">Nenhum imóvel encontrado com esses filtros.</div>
 
-  <footer>${esc(creci)}</footer>
+  <footer class="site-footer">
+    <div class="footer-brand">${esc(nomeHub)}</div>
+    <div class="footer-cols">
+      <div>
+        <div class="footer-label">Corretor</div>
+        <div>${esc(config?.corretor?.nome || "")}</div>
+        <div>${esc(creci)}</div>
+      </div>
+      <div>
+        <div class="footer-label">Contato</div>
+        ${config?.corretor?.email ? `<div><a href="mailto:${esc(config.corretor.email)}">${esc(config.corretor.email)}</a></div>` : ""}
+        ${config?.corretor?.whatsapp ? `<div><a href="https://wa.me/${config.corretor.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp</a></div>` : ""}
+        ${config?.corretor?.instagram ? `<div><a href="${esc(config.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a></div>` : ""}
+      </div>
+      <div>
+        <div class="footer-label">Atendemos</div>
+        <div>${esc(cidadesConfig.join(" · "))}</div>
+      </div>
+    </div>
+    <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(nomeHub)}. Todos os direitos reservados.</div>
+  </footer>
 </div>
 
 <script>
@@ -153,13 +183,13 @@ ${formatarPrecoJs()}
 
 let cidadeAtiva = "";
 let operacaoAtiva = "";
-const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
+const OPERACAO_LABEL = { venda: "Comprar", locacao: "Alugar", permuta: "Permutar" };
 
 function cidadesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.cidade))].sort((a,b)=>a.localeCompare(b,'pt-BR')); }
 function bairrosDisponiveis(cidade){
   return [...new Set(IMOVEIS.filter(i => !cidade || i.cidade===cidade).map(i=>i.bairro))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
-function operacoesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.tipoOperacao))]; }
+function operacoesDisponiveis(){ return [...new Set(IMOVEIS.flatMap(i=>i.tiposOperacao||["venda"]))]; }
 
 function renderChipsOperacao(){
   const box = document.getElementById("chipsOperacao");
@@ -196,7 +226,7 @@ function aplicarFiltros(){
   const max = Number(document.getElementById("fMax").value) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
-    (!operacaoAtiva || i.tipoOperacao === operacaoAtiva) &&
+    (!operacaoAtiva || (i.tiposOperacao||["venda"]).includes(operacaoAtiva)) &&
     (!bairro || i.bairro === bairro) &&
     i.precoNumerico >= min && i.precoNumerico <= max
   );
@@ -211,7 +241,8 @@ function aplicarFiltros(){
       <div class="body">
         <span class="tag" style="background:\${PADRAO_COR[i.padrao]||'#999'}">\${i.padraoLabel}</span>
         <div class="tit">\${i.titulo}</div>
-        <div class="meta">\${OPERACAO_LABEL[i.tipoOperacao]||'Venda'} · \${i.bairro}, \${i.cidade} - \${i.uf}</div>
+        <div class="meta">\${["venda","locacao"].filter(o=>(i.tiposOperacao||["venda"]).includes(o)).map(o=>OPERACAO_LABEL[o]).join(" / ")} · \${i.bairro}, \${i.cidade} - \${i.uf}</div>
+        \${(i.tiposOperacao||[]).includes("permuta") ? '<div class="meta" style="opacity:.75">Estuda-se permuta</div>' : ''}
         <div class="preco">\${i.preco}\${i.precoSufixo}</div>
       </div>
     </a>\`).join("");
@@ -261,7 +292,7 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
         <div class="body">
           <span class="tag" style="background:${PADRAO_COR[im.padrao] || "#999"}">${esc(im.padraoLabel)}</span>
           <div class="tit">${esc(im.titulo)}</div>
-          <div class="meta">${esc(im.preco)}${esc(im.precoSufixo || "")}</div>
+          <div class="meta">${esc(formatPreco(im.preco))}${esc(im.precoSufixo || "")}</div>
         </div>
       </a>`
       )

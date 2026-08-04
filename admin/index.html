@@ -25,6 +25,9 @@
   textarea{min-height:90px;resize:vertical}
   .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .checkbox-grid label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin:0;cursor:pointer}
+  .checkbox-grid input{width:auto}
   .tier-options{display:flex;gap:10px;margin-top:6px}
   .tier{flex:1;border:2px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;font-size:13px}
   .tier.selected{border-color:var(--sw);background:color-mix(in srgb, var(--sw) 12%, white)}
@@ -58,8 +61,17 @@
   <h1>Montar página de imóvel</h1>
   <p class="sub">Siga a ordem — cada passo alimenta o próximo. No fim você baixa ou publica direto.</p>
 
+  <div id="edicaoBanner" style="display:none;background:#FFF3CD;border:1px solid #E0C36B;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:14px">
+    ✏️ Editando <b id="edicaoTitulo"></b>. Publicar vai atualizar este imóvel (mesmo endereço/slug) em vez de criar um novo.
+    <button type="button" id="cancelarEdicaoBtn" style="margin-left:10px;background:none;border:none;text-decoration:underline;cursor:pointer;font-size:13px">cancelar edição</button>
+  </div>
+
   <fieldset>
     <legend><span class="passo">1</span><b>Fotos</b></legend>
+    <div id="fotosExistentesBox" style="display:none;margin-bottom:16px">
+      <p class="hint">Fotos já publicadas — desmarque "manter" pra remover uma do anúncio (o arquivo continua no repositório, só sai da lista). Pra trocar uma foto errada: desmarque a antiga e suba a nova abaixo.</p>
+      <div id="fotosExistentesList" style="margin-top:10px"></div>
+    </div>
     <input type="file" id="fotoInput" accept="image/*" multiple>
     <div id="fotoList" style="margin-top:14px"></div>
     <p class="hint">Marque qual é a foto "hero" (capa) e o ambiente de cada uma. O nome final do arquivo se completa sozinho conforme você preenche os passos abaixo — não precisa voltar aqui depois.</p>
@@ -96,6 +108,9 @@
     <p class="hint">Usa o Gemini (Google) — tem camada gratuita sem cartão de crédito. A IA olha todas as fotos de uma vez, sugere o ambiente de cada uma e escolhe a hero; você confere e ajusta os dropdowns do passo 1 depois. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar as imagens enviadas para treinar os modelos deles (não é o caso no plano pago).</p>
     <label>Chave da API Gemini (Google AI Studio)</label>
     <input type="password" id="geminiKey" placeholder="AIza...">
+    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="lembrarGeminiKey" style="width:auto"> Lembrar esta chave neste navegador
+    </label>
     <button class="btn secondary" id="classificarBtn" type="button" style="margin-top:12px">🤖 Classificar fotos com IA</button>
     <div id="iaStatus" class="hint" style="margin-top:8px"></div>
   </fieldset>
@@ -107,8 +122,8 @@
 
   <fieldset>
     <legend><span class="passo">6</span><b>Código do imóvel</b></legend>
-    <p class="hint">Formato: <b>[V/L/P]</b> venda/locação/permuta + <b>código da cidade</b> + <b>número sequencial</b> (ex.: <code>V01-0013</code>). Preencha "Publicar no GitHub" (mais abaixo) antes de gerar, pra buscar o próximo número certo automaticamente — sem isso, você ajusta o número manualmente.</p>
-    <label>Tipo de operação</label>
+    <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, nessa ordem, "O" quando não se aplica) + <b>código da cidade</b> + <b>3 dígitos sequenciais</b> (ex.: <code>LVP01013</code> = locação+venda+permuta). O código é gerado automaticamente no momento de publicar — não precisa clicar aqui antes, mas pode usar o botão pra conferir/preview.</p>
+    <label>Tipo(s) de operação (marque quantos se aplicarem)</label>
     <div class="op-options" id="opOptions"></div>
     <div class="row" style="margin-top:12px">
       <div><label>Cidade → código</label>
@@ -134,7 +149,7 @@
       <div><label>Tipo de imóvel</label>
         <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option></select>
       </div>
-      <div><label>Referência (preenchida pelo código acima)</label><input type="text" id="referencia" placeholder="V01-0013"></div>
+      <div><label>Referência (preenchida pelo código acima)</label><input type="text" id="referencia" placeholder="LVP01013"></div>
     </div>
     <label>Condomínio (opcional, mas ajuda muito na busca no interior de SP)</label>
     <input type="text" id="condominio" placeholder="Ex.: Salto Grande, Alphaville Itu">
@@ -146,16 +161,32 @@
 
   <fieldset>
     <legend>Características</legend>
+    <p class="hint">Quartos, suítes, banheiros e vagas podem ser calculados a partir da quantidade que você marcar nas fotos do passo 1 — preencha a quantidade em <b>só uma foto de cada ambiente</b> (ex.: uma das fotos de quarto recebe "4", as outras ficam em branco) — ou preencha os campos direto aqui.</p>
     <div class="row3">
       <div><label>Quartos</label><input type="number" id="quartos" min="0"></div>
       <div><label>Suítes</label><input type="number" id="suites" min="0"></div>
-      <div><label>Banheiros</label><input type="number" id="banheiros" min="0"></div>
+      <div><label>Banheiros (totais)</label><input type="number" id="banheiros" min="0"></div>
     </div>
     <div class="row3">
       <div><label>Vagas</label><input type="number" id="vagas" min="0"></div>
       <div><label>Área útil (m²)</label><input type="number" id="areaUtil" min="0"></div>
       <div><label>Área terreno (m²)</label><input type="number" id="areaTerreno" min="0"></div>
     </div>
+    <button class="btn secondary" id="calcularFichaBtn" type="button" style="margin-top:12px">🧮 Calcular quartos/suítes/banheiros/vagas a partir das fotos</button>
+    <div id="calcularFichaStatus" class="hint" style="margin-top:8px"></div>
+
+    <label style="margin-top:18px">Características específicas (exceções — até 4, ex.: canil, poço artesiano, poço caipira)</label>
+    <div class="row" style="grid-template-columns:1fr 1fr">
+      <input type="text" id="caracteristicaExtra1" placeholder="Ex.: Canil">
+      <input type="text" id="caracteristicaExtra2" placeholder="Ex.: Poço artesiano">
+    </div>
+    <div class="row" style="grid-template-columns:1fr 1fr;margin-top:12px">
+      <input type="text" id="caracteristicaExtra3" placeholder="Ex.: Poço caipira">
+      <input type="text" id="caracteristicaExtra4" placeholder="Ex.: (opcional)">
+    </div>
+
+    <label style="margin-top:18px">Acessórios do imóvel</label>
+    <div class="checkbox-grid" id="acessoriosBox"></div>
   </fieldset>
 
   <fieldset>
@@ -171,12 +202,23 @@
   </fieldset>
 
   <fieldset>
-    <legend>Prompt pronto para a IA polir o texto</legend>
-    <p class="hint">Cole isto numa conversa com o Claude para transformar em 2 parágrafos de descrição prontos — cole a resposta de volta no campo abaixo.</p>
-    <div id="promptBox"></div>
-    <button class="btn secondary" id="copyPrompt" type="button" style="margin-top:10px">Copiar prompt</button>
-    <label style="margin-top:16px">Descrição final (cole aqui a resposta da IA, um parágrafo por linha)</label>
-    <textarea id="descricaoFinal" placeholder="Cole aqui os parágrafos já prontos..."></textarea>
+    <legend>Copy comercial</legend>
+    <p class="hint">Com IA, usando tudo que você já preencheu (fotos classificadas, características, acessórios, preço, localização, diferenciais) — sempre priorizando SEO e leitura por IA (resposta direta primeiro, parágrafos curtos). Precisa da mesma chave do Gemini do passo 4.</p>
+    <button class="btn secondary" id="gerarCopyBtn" type="button">🪄 Gerar copy com IA</button>
+    <div id="copyStatus" class="hint" style="margin-top:8px"></div>
+
+    <label style="margin-top:18px">Resumo (1 frase direta — aparece em destaque no topo da página e no FAQ)</label>
+    <input type="text" id="resumo" placeholder="Ex.: Casa de alto padrão em Praia Preta, a poucos passos do mar.">
+
+    <label style="margin-top:16px">Descrição final (parágrafos curtos, um por linha)</label>
+    <textarea id="descricaoFinal" placeholder="Gerado pela IA, ou cole aqui manualmente..."></textarea>
+
+    <details style="margin-top:16px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">Alternativa manual: gerar o prompt e colar numa conversa à parte</summary>
+      <p class="hint" style="margin-top:10px">Cole isto numa conversa com o Claude para transformar em parágrafos prontos — cole a resposta de volta no campo acima.</p>
+      <div id="promptBox"></div>
+      <button class="btn secondary" id="copyPrompt" type="button" style="margin-top:10px">Copiar prompt</button>
+    </details>
   </fieldset>
 
   <fieldset>
@@ -222,36 +264,70 @@
 // já bloqueia buscadores de indexar /admin/, (2) publicar de verdade exige o SEU
 // token do GitHub e a SUA chave da Gemini, que ninguém mais tem.
 // Troque a frase abaixo se quiser.
-const SENHA_ADMIN = "itu2026";
+const SENHA_ADMIN = "Harmonia100%";
 (function(){
+  if (localStorage.getItem("admOk") === SENHA_ADMIN) return; // já desbloqueado antes neste navegador
   const tentativa = prompt("Senha do admin:");
   if (tentativa !== SENHA_ADMIN){
     document.documentElement.innerHTML = '<div style="font-family:sans-serif;padding:60px;text-align:center;color:#666">Acesso restrito.</div>';
     throw new Error("acesso negado");
   }
+  localStorage.setItem("admOk", SENHA_ADMIN);
+})();
+
+// --- máscara de milhar no campo de preço (ex.: digita 450000, mostra R$ 450.000) ---
+(function(){
+  const precoEl = document.getElementById("preco");
+  precoEl.addEventListener("input", () => {
+    const digitos = precoEl.value.replace(/\D/g, "");
+    precoEl.value = digitos ? "R$ " + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "";
+  });
 })();
 
 const THEMES = {
-  "alto-padrao": { label: "Alto padrão", accent: "#B08D57" },
+  "alto-padrao": { label: "Alto padrão", accent: "#4E9E97" },
   "medio-padrao": { label: "Médio padrão", accent: "#2F5D7C" },
   "padrao-popular": { label: "Padrão popular", accent: "#E0562B" },
 };
-const OPERACOES = { venda: { label: "Venda", letra: "V" }, locacao: { label: "Locação", letra: "L" }, permuta: { label: "Permuta", letra: "P" } };
+const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, permuta: { label: "Permuta" } };
 const AMBIENTES = ["fachada","fachada-noturna","sala-estar","sala-jantar","cozinha","lavabo",
-  "suite-master","quarto","banheiro","area-lazer","piscina","churrasqueira","quintal",
+  "suite-master","quarto","quarto-hospedes","quarto-empregada","banheiro","area-lazer","piscina","churrasqueira","quintal",
   "varanda","sacada","vista-mar","garagem","planta-baixa","entorno-bairro","vista-aerea"];
 const AMBIENTE_LABEL = {
   "fachada":"Fachada","fachada-noturna":"Fachada noturna","sala-estar":"Sala de estar",
   "sala-jantar":"Sala de jantar","cozinha":"Cozinha","lavabo":"Lavabo","suite-master":"Suíte master",
-  "quarto":"Quarto","banheiro":"Banheiro","area-lazer":"Área de lazer","piscina":"Piscina",
+  "quarto":"Quarto","quarto-hospedes":"Quarto de hóspedes","quarto-empregada":"Quarto de empregada",
+  "banheiro":"Banheiro","area-lazer":"Área de lazer","piscina":"Piscina",
   "churrasqueira":"Churrasqueira","quintal":"Quintal","varanda":"Varanda","sacada":"Sacada",
   "vista-mar":"Vista mar","garagem":"Garagem","planta-baixa":"Planta baixa",
   "entorno-bairro":"Entorno do bairro","vista-aerea":"Vista aérea"
 };
 
+// Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
+const ACESSORIOS = [
+  "Placa fotovoltaica", "Aquecedor a gás", "Aquecedor elétrico", "Paisagismo",
+  "Ar-condicionado", "Gerador de energia", "Cisterna / reuso de água", "Automação residencial",
+  "Portão eletrônico", "Sistema de câmeras / alarme", "Piso aquecido", "Elevador privativo",
+];
+
 let padraoAtual = "medio-padrao";
-let operacaoAtual = "venda";
+let operacoesAtuais = new Set(["venda"]);
 let fotos = []; // {file, ambiente, hero}
+let modoEdicao = null; // { pasta, fotosExistentes, publicadoEm } — preenchido ao clicar "Editar" num imóvel já publicado
+
+// --- lembrar chave da API Gemini neste navegador (opcional, opt-in) ---
+(function(){
+  const keyEl = document.getElementById("geminiKey");
+  const lembrarEl = document.getElementById("lembrarGeminiKey");
+  const salva = localStorage.getItem("geminiKey");
+  if (salva){ keyEl.value = salva; lembrarEl.checked = true; }
+  const persistir = () => {
+    if (lembrarEl.checked && keyEl.value.trim()) localStorage.setItem("geminiKey", keyEl.value.trim());
+    else localStorage.removeItem("geminiKey");
+  };
+  keyEl.addEventListener("input", persistir);
+  lembrarEl.addEventListener("change", persistir);
+})();
 
 function slugify(s){
   return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
@@ -301,6 +377,18 @@ Gerado em: ${new Date().toLocaleString("pt-BR")}
   a.click();
 };
 
+// --- acessórios (checkboxes) ---
+const acessoriosBox = document.getElementById("acessoriosBox");
+ACESSORIOS.forEach((nome) => {
+  const label = document.createElement("label");
+  const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  label.innerHTML = `<input type="checkbox" id="${id}" value="${nome}"> ${nome}`;
+  acessoriosBox.appendChild(label);
+});
+function getAcessoriosMarcados(){
+  return [...acessoriosBox.querySelectorAll("input:checked")].map(i => i.value);
+}
+
 // --- padrão tiles ---
 const tierBox = document.getElementById("tierOptions");
 Object.entries(THEMES).forEach(([key,t])=>{
@@ -316,24 +404,43 @@ function renderTiers(){
   [...tierBox.children].forEach(el => el.classList.toggle("selected", el.dataset.key===padraoAtual));
 }
 
-// --- operação (venda/locação/permuta) ---
+// --- operação (venda/locação/permuta) — múltipla escolha ---
 const opBox = document.getElementById("opOptions");
 Object.entries(OPERACOES).forEach(([key,o])=>{
   const div = document.createElement("div");
-  div.className = "op" + (key===operacaoAtual ? " selected" : "");
+  div.className = "op" + (operacoesAtuais.has(key) ? " selected" : "");
   div.textContent = o.label;
-  div.onclick = () => { operacaoAtual = key; renderOps(); };
+  div.onclick = () => {
+    if (operacoesAtuais.has(key)){
+      if (operacoesAtuais.size === 1){ alert("Pelo menos uma operação precisa ficar marcada."); return; }
+      operacoesAtuais.delete(key);
+    } else {
+      operacoesAtuais.add(key);
+    }
+    renderOps();
+  };
   div.dataset.key = key;
   opBox.appendChild(div);
 });
 function renderOps(){
-  [...opBox.children].forEach(el => el.classList.toggle("selected", el.dataset.key===operacaoAtual));
+  [...opBox.children].forEach(el => el.classList.toggle("selected", operacoesAtuais.has(el.dataset.key)));
 }
 
-// --- código do imóvel: V/L/P + cidade + sequencial (reaproveita números liberados por exclusões) ---
-document.getElementById("gerarCodigoBtn").onclick = async () => {
+// Monta as 3 letras do código a partir das operações marcadas, na ordem fixa P-L-V
+// (posição 1 = permuta, 2 = locação, 3 = venda; "O" quando a operação não se aplica).
+// Ordem fixa das posições: Locação, Venda, Permuta (confirmada com o Marcio a partir de exemplos concretos —
+// não é ordem alfabética estrita, mas L sempre 1ª posição, V sempre 2ª, P sempre 3ª, quando presentes).
+function letrasOperacao(){
+  return (operacoesAtuais.has("locacao") ? "L" : "O")
+       + (operacoesAtuais.has("venda") ? "V" : "O")
+       + (operacoesAtuais.has("permuta") ? "P" : "O");
+}
+
+// --- código do imóvel: [L/V/P ou O] x3 + cidade + sequencial de 3 dígitos, sem separador (ex.: LVP01013) ---
+// Reutilizável: chamado pelo botão manual E automaticamente no momento de publicar (item 8 pedido pelo Marcio).
+async function gerarCodigoAutomatico(silencioso){
   const status = document.getElementById("codStatus");
-  const letra = OPERACOES[operacaoAtual].letra;
+  const letra = letrasOperacao();
   const cidadeCod = document.getElementById("cidadeCod").value;
   const repo = document.getElementById("ghRepo").value.trim();
   const token = document.getElementById("ghToken").value.trim();
@@ -343,25 +450,27 @@ document.getElementById("gerarCodigoBtn").onclick = async () => {
   let seq = inicio;
 
   if (repo && token){
-    status.textContent = "Consultando números já usados no repositório...";
+    if (!silencioso) status.textContent = "Consultando números já usados no repositório...";
     try {
       const usados = await buscarNumerosUsados(repo, branch, token);
       while (usados.has(seq)) seq++;
-      status.textContent = usados.size
+      if (!silencioso) status.textContent = usados.size
         ? `${usados.size} número(s) já em uso. Próximo disponível a partir de ${inicio}: ${seq}.`
         : "Nenhum imóvel encontrado ainda no repositório — começando do número informado.";
     } catch (err) {
-      status.textContent = "Não consegui consultar o GitHub agora (" + err.message + ") — usando o número informado.";
+      if (!silencioso) status.textContent = "Não consegui consultar o GitHub agora (" + err.message + ") — usando o número informado.";
     }
-  } else {
+  } else if (!silencioso) {
     status.textContent = "GitHub não configurado — usando o número informado (confira se não repete).";
   }
 
-  const codigo = `${letra}${cidadeCod}-${String(seq).padStart(4,"0")}`;
+  const codigo = `${letra}${cidadeCod}${String(seq).padStart(3,"0")}`;
   document.getElementById("referencia").value = codigo;
   document.getElementById("codSeqManual").value = seq;
-  status.textContent += ` Código gerado: ${codigo}`;
-};
+  if (!silencioso) status.textContent += ` Código gerado: ${codigo}`;
+  return codigo;
+}
+document.getElementById("gerarCodigoBtn").onclick = () => gerarCodigoAutomatico(false);
 
 // Retorna o conjunto de todos os números sequenciais já em uso (varre imoveis/ no GitHub).
 // Uma pasta apagada não aparece mais aqui — é assim que o número volta a ficar disponível.
@@ -382,7 +491,7 @@ async function buscarNumerosUsados(repo, branch, token){
       const json = await r2.json();
       const conteudo = decodeURIComponent(escape(atob(json.content.replace(/\n/g,""))));
       const dados = JSON.parse(conteudo);
-      const m = String(dados.referencia || "").match(/(\d{4})$/);
+      const m = String(dados.referencia || "").match(/(\d{3})$/);
       if (m) usados.add(Number(m[1]));
     } catch (e) { /* ignora pasta com erro e segue */ }
   }
@@ -424,7 +533,7 @@ micBtn.onclick = () => {
 const fotoInput = document.getElementById("fotoInput");
 const fotoList = document.getElementById("fotoList");
 fotoInput.addEventListener("change", () => {
-  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0 }));
+  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0, quantidade: "" }));
   renderFotos();
 });
 
@@ -460,6 +569,7 @@ function renderFotos(){
       <img src="${url}">
       <div class="meta">
         <select data-i="${i}" class="ambienteSel">${opts}</select>
+        <input type="number" data-i="${i}" class="qtdInput" min="1" placeholder="qtd." value="${f.quantidade||""}" style="width:64px">
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
           <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
         </label>
@@ -470,11 +580,110 @@ function renderFotos(){
   fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
     fotos[+e.target.dataset.i].ambiente = e.target.value; renderFotos();
   });
+  fotoList.querySelectorAll(".qtdInput").forEach(inp => inp.onchange = (e) => {
+    fotos[+e.target.dataset.i].quantidade = e.target.value ? Number(e.target.value) : "";
+  });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
     fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
     renderFotos();
   });
 }
+
+// --- editar imóvel já publicado ---
+function carregarParaEdicao(pasta, dados){
+  modoEdicao = { pasta, publicadoEm: dados.publicadoEm, fotosExistentes: (dados.fotos || []).map(f => ({ ...f, manter: true })) };
+  document.getElementById("edicaoBanner").style.display = "block";
+  document.getElementById("edicaoTitulo").textContent = dados.titulo || pasta;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = (val ?? "") === "" ? "" : val; };
+  set("titulo", dados.titulo); set("tipo", dados.tipo);
+  set("cidade", dados.cidade); set("uf", dados.uf); set("bairro", dados.bairro);
+  set("condominio", dados.condominio); set("referencia", dados.referencia);
+  set("preco", dados.preco); set("financiamento", dados.financiamento);
+  set("quartos", dados.quartos); set("suites", dados.suites);
+  set("banheiros", dados.banheiros); set("vagas", dados.vagas);
+  set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
+  set("diferenciais", (dados.diferenciais || []).join(", "));
+  set("resumo", dados.resumo);
+  set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
+
+  padraoAtual = dados.padrao || "medio-padrao";
+  renderTiers();
+
+  const opsCarregadas = (Array.isArray(dados.tiposOperacao) && dados.tiposOperacao.length) ? dados.tiposOperacao : [dados.tipoOperacao || "venda"];
+  operacoesAtuais = new Set(opsCarregadas);
+  renderOps();
+
+  ACESSORIOS.forEach((nome) => {
+    const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const el = document.getElementById(id);
+    if (el) el.checked = (dados.acessorios || []).includes(nome);
+  });
+  const extras = dados.caracteristicasExtras || [];
+  set("caracteristicaExtra1", extras[0]); set("caracteristicaExtra2", extras[1]);
+  set("caracteristicaExtra3", extras[2]); set("caracteristicaExtra4", extras[3]);
+
+  fotos = []; // fotos novas ficam vazias — as existentes aparecem à parte, abaixo
+  renderFotos();
+  renderFotosExistentes();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderFotosExistentes(){
+  const box = document.getElementById("fotosExistentesBox");
+  const list = document.getElementById("fotosExistentesList");
+  if (!modoEdicao || !modoEdicao.fotosExistentes.length){ box.style.display = "none"; return; }
+  box.style.display = "block";
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  list.innerHTML = modoEdicao.fotosExistentes.map((f, i) => {
+    const url = repo ? `https://raw.githubusercontent.com/${repo}/${branch}/imoveis/${modoEdicao.pasta}/fotos/${f.arquivo}` : "";
+    return `<div class="foto-item">
+      ${url ? `<img src="${url}" style="width:70px;height:70px;object-fit:cover;border-radius:6px">` : ""}
+      <div class="meta">
+        <div style="font-size:13px">${f.arquivo}${f.hero ? " · <b>hero</b>" : ""}</div>
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px">
+          <input type="checkbox" data-i="${i}" class="manterChk" ${f.manter ? "checked" : ""}> manter
+        </label>
+      </div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll(".manterChk").forEach(chk => chk.onchange = (e) => {
+    modoEdicao.fotosExistentes[+e.target.dataset.i].manter = e.target.checked;
+  });
+}
+
+document.getElementById("cancelarEdicaoBtn").onclick = () => {
+  modoEdicao = null;
+  document.getElementById("edicaoBanner").style.display = "none";
+  document.getElementById("fotosExistentesBox").style.display = "none";
+};
+
+
+// "banheiros" aqui já é o TOTAL (banheiro + lavabo + suítes), como o Marcio pediu pro site mostrar "Banheiros (Totais)".
+function calcularFichaDeFotos(){
+  // Pega o MAIOR valor preenchido entre as fotos do ambiente (não soma) — você só precisa
+  // preencher a quantidade em UMA das fotos daquele ambiente, as demais ficam em branco.
+  const maior = (ambiente) => fotos.filter(f=>f.ambiente===ambiente).reduce((m,f)=>Math.max(m, Number(f.quantidade)||0), 0);
+  const quartos = maior("quarto");
+  const suites = maior("suite-master");
+  const banheiros = maior("banheiro") + maior("lavabo") + suites;
+  const vagas = maior("garagem");
+  return { quartos, suites, banheiros, vagas };
+}
+document.getElementById("calcularFichaBtn").onclick = () => {
+  const { quartos, suites, banheiros, vagas } = calcularFichaDeFotos();
+  const status = document.getElementById("calcularFichaStatus");
+  if (!quartos && !suites && !banheiros && !vagas){
+    status.textContent = "Nenhuma quantidade preenchida nas fotos ainda — marque a quantidade ao lado do ambiente de cada foto (passo 1) antes de calcular.";
+    return;
+  }
+  if (quartos) document.getElementById("quartos").value = quartos;
+  if (suites) document.getElementById("suites").value = suites;
+  if (banheiros) document.getElementById("banheiros").value = banheiros;
+  if (vagas) document.getElementById("vagas").value = vagas;
+  status.textContent = `✅ Calculado: ${quartos} quarto(s), ${suites} suíte(s), ${banheiros} banheiro(s) totais, ${vagas} vaga(s). Confira e ajuste se precisar.`;
+};
 
 // --- prompt para IA ---
 function updatePrompt(){
@@ -483,7 +692,7 @@ function updatePrompt(){
   box.textContent =
 `Escreva 2 parágrafos de descrição de imóvel em português, tom profissional e caloroso, sem exagero. Não invente características que não estão listadas.
 
-Tipo: ${get("tipo")}, ${THEMES[padraoAtual].label}, ${OPERACOES[operacaoAtual].label}
+Tipo: ${get("tipo")}, ${THEMES[padraoAtual].label}, ${[...operacoesAtuais].map(k=>OPERACOES[k].label).join("+")}
 Localização: ${get("bairro")}, ${get("cidade")} - ${get("uf")}
 Características: ${get("quartos")} quartos, ${get("suites")} suítes, ${get("banheiros")} banheiros, ${get("vagas")} vagas, ${get("areaUtil")} m² útil
 Diferenciais: ${get("diferenciais")}
@@ -502,12 +711,28 @@ document.getElementById("copyPrompt").onclick = () => {
 };
 
 // --- classificar fotos com IA (Gemini — camada gratuita, chamada direta do navegador) ---
-function fileToBase64Raw(file){
+// Redimensiona/comprime a foto antes de enviar. Fotos de celular em resolução total (várias, de
+// uma vez) costumam estourar o limite de tamanho da requisição e derrubar a conexão ("Load failed")
+// antes mesmo de chegar resposta do Google — reduzir pra ~1280px resolve a grande maioria dos casos.
+function fileToBase64Raw(file, maxDim = 1280, qualidade = 0.82){
   return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(",")[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim){
+        const escala = maxDim / Math.max(width, height);
+        width = Math.round(width * escala);
+        height = Math.round(height * escala);
+      }
+      const canvas = document.createElement("canvas");
+      canvas.width = width; canvas.height = height;
+      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg", qualidade).split(",")[1]);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Não consegui ler a imagem " + file.name)); };
+    img.src = url;
   });
 }
 
@@ -541,7 +766,7 @@ document.getElementById("classificarBtn").onclick = async () => {
     for (let i = 0; i < fotos.length; i++){
       const f = fotos[i];
       parts.push({ text: `Foto ${i}:` });
-      parts.push({ inlineData: { mimeType: f.file.type || "image/jpeg", data: await fileToBase64Raw(f.file) } });
+      parts.push({ inlineData: { mimeType: "image/jpeg", data: await fileToBase64Raw(f.file) } });
     }
 
     const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
@@ -578,18 +803,87 @@ document.getElementById("classificarBtn").onclick = async () => {
   }
 };
 
+document.getElementById("gerarCopyBtn").onclick = async () => {
+  const key = document.getElementById("geminiKey").value.trim();
+  const status = document.getElementById("copyStatus");
+  const btn = document.getElementById("gerarCopyBtn");
+  if (!key){ status.textContent = "Cole sua chave da API Gemini (passo 4) antes de gerar."; return; }
+
+  const get = id => document.getElementById(id).value;
+  const ambientesResumo = fotos.filter(f=>f.quantidade).map(f => `${AMBIENTE_LABEL[f.ambiente]}: ${f.quantidade}`);
+  const ambientesUnicos = [...new Set(fotos.map(f=>AMBIENTE_LABEL[f.ambiente]))];
+  const acessorios = getAcessoriosMarcados();
+  const extras = ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean);
+  const operacoesTexto = [...operacoesAtuais].map(k=>OPERACOES[k].label).join(", ");
+
+  const dadosTexto = `Título: ${get("titulo")}
+Tipo: ${get("tipo")}, padrão ${THEMES[padraoAtual].label}
+Operação: ${operacoesTexto}
+Localização: bairro ${get("bairro")}, ${get("cidade")}/${get("uf")}${get("condominio") ? `, condomínio ${get("condominio")}` : ""}
+Preço: ${get("preco")}${get("financiamento") ? ` (${get("financiamento")})` : ""}
+Quartos: ${get("quartos")||"-"} | Suítes: ${get("suites")||"-"} | Banheiros totais: ${get("banheiros")||"-"} | Vagas: ${get("vagas")||"-"}
+Área útil: ${get("areaUtil")||"-"} m² | Área terreno: ${get("areaTerreno")||"-"} m²
+Ambientes com quantidade informada: ${ambientesResumo.join(", ") || "nenhuma"}
+Todos os ambientes fotografados: ${ambientesUnicos.join(", ") || "nenhum"}
+Diferenciais: ${get("diferenciais") || "nenhum"}
+Acessórios: ${acessorios.join(", ") || "nenhum"}
+Características específicas (exceções): ${extras.join(", ") || "nenhuma"}
+Notas soltas do corretor: ${get("transcricao") || "nenhuma"}`;
+
+  const prompt = `Você é redator de copy imobiliário para Itu/SP e região, seguindo princípios de SEO e "IA-first" (Generative Engine Optimization): a informação mais importante sempre na primeira frase, parágrafos curtos (2-3 linhas), linguagem direta, sem clichês vazios ("imperdível", "não perca essa oportunidade"), sem inventar nenhuma característica que não esteja nos dados abaixo.
+Regra de destaque entre as operações: se o imóvel for pra venda E locação ao mesmo tempo, dê destaque à venda no texto (mencione primeiro). Se houver permuta entre as operações, NUNCA dê destaque a ela — apenas mencione uma vez, de forma discreta, com a frase exata "Estuda-se permuta." (sem detalhar mais que isso).
+
+Dados do imóvel:
+${dadosTexto}
+
+Responda SOMENTE em JSON, sem markdown, neste formato exato:
+{"resumo": "1 frase direta resumindo o imóvel (o dado mais relevante primeiro)", "paragrafos": ["parágrafo 1 (começa pela informação mais relevante)", "parágrafo 2", "parágrafo 3 opcional"]}`;
+
+  btn.disabled = true;
+  status.textContent = "Gerando copy...";
+  try {
+    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-goog-api-key": key },
+      body: JSON.stringify({
+        contents: [{ role: "user", parts: [{ text: prompt }] }],
+        generationConfig: { responseMimeType: "application/json" }
+      })
+    });
+    if (!res.ok){
+      const body = await res.text();
+      throw new Error(`API retornou ${res.status}: ${body.slice(0,200)}`);
+    }
+    const data = await res.json();
+    const textOut = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("\n");
+    const cleaned = textOut.replace(/```json|```/g, "").trim();
+    const obj = JSON.parse(cleaned);
+    if (obj.resumo) document.getElementById("resumo").value = obj.resumo;
+    if (Array.isArray(obj.paragrafos)) document.getElementById("descricaoFinal").value = obj.paragrafos.join("\n");
+    status.textContent = "✅ Copy gerada — confira e ajuste o texto antes de publicar.";
+  } catch (err) {
+    status.textContent = "❌ " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+};
+
 // --- monta o objeto dados.json a partir do formulário (usado pelo zip e pelo publicar) ---
 function montarDados(){
   const get = id => document.getElementById(id).value;
-  const slug = slugify(get("titulo")) || "imovel-" + Date.now();
+  const slug = modoEdicao ? modoEdicao.pasta : (slugify(get("titulo")) || "imovel-" + Date.now());
   const descFinal = get("descricaoFinal").trim();
   const descricaoLonga = descFinal ? descFinal.split("\n").filter(Boolean) : (get("transcricao") ? [get("transcricao")] : []);
+  const fotosExistentesMantidas = modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter) : [];
+  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero, quantidade: f.quantidade || undefined }));
+  let fotosFinal = [...fotosExistentesMantidas.map(({manter, ...f}) => f), ...fotosNovas];
+  if (fotosFinal.length && !fotosFinal.some(f => f.hero)) fotosFinal[0].hero = true; // garante 1 hero mesmo se a antiga foi removida
   return {
     slug,
     titulo: get("titulo"),
     tipo: get("tipo"),
     padrao: padraoAtual,
-    tipoOperacao: operacaoAtual,
+    tiposOperacao: [...operacoesAtuais],
     cidade: get("cidade"),
     uf: get("uf"),
     bairro: get("bairro"),
@@ -605,9 +899,12 @@ function montarDados(){
     areaTerreno: Number(get("areaTerreno"))||undefined,
     descricaoCurta: descricaoLonga[0] ? descricaoLonga[0].slice(0,160) : `${get("titulo")} em ${get("bairro")}, ${get("cidade")}/${get("uf")}`,
     descricaoLonga,
+    resumo: get("resumo").trim() || undefined,
     diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
-    publicadoEm: new Date().toISOString().slice(0,10),
-    fotos: fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero }))
+    acessorios: getAcessoriosMarcados(),
+    caracteristicasExtras: ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean),
+    publicadoEm: modoEdicao ? modoEdicao.publicadoEm : new Date().toISOString().slice(0,10),
+    fotos: fotosFinal
   };
 }
 
@@ -716,8 +1013,17 @@ document.getElementById("publicarBtn").onclick = async () => {
   const token = document.getElementById("ghToken").value.trim();
   const status = document.getElementById("ghStatus");
 
-  if (!fotos.length){ alert("Suba pelo menos uma foto antes de publicar."); return; }
+  const temFotoValida = fotos.length || (modoEdicao && modoEdicao.fotosExistentes.some(f => f.manter));
+  if (!temFotoValida){ alert("Suba pelo menos uma foto (ou mantenha alguma existente) antes de publicar."); return; }
   if (!repo || !token){ status.textContent = "Preencha usuario/repositorio e o token antes de publicar."; return; }
+
+  const pularCodigoNovo = modoEdicao && document.getElementById("referencia").value.trim();
+  if (pularCodigoNovo){
+    status.textContent = "Editando: mantendo o código existente...";
+  } else {
+    status.textContent = "Gerando código do imóvel...";
+    await gerarCodigoAutomatico(true);
+  }
 
   const dados = montarDados();
   const base = `imoveis/${dados.slug}`;
@@ -806,12 +1112,20 @@ function renderListaImoveis(lista){
         <div style="font-weight:600">${item.dados.titulo || item.pasta} <span style="color:${corIdade};font-size:11px">(${meses} meses)</span></div>
         <div class="hint">Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}</div>
         <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ Editar</button>
           <button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>
           <button class="btn secondary apagarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px;border-color:#c23f18;color:#c23f18">Apagar definitivamente</button>
         </div>
       </div>
     </div>`;
   }).join("");
+
+  container.querySelectorAll(".editarBtn").forEach(btn => {
+    btn.onclick = () => {
+      const item = filtrada.find(i => i.pasta === btn.dataset.pasta);
+      if (item) carregarParaEdicao(item.pasta, item.dados);
+    };
+  });
 
   container.querySelectorAll(".toggleAtivoBtn").forEach(btn => btn.onclick = () => toggleAtivo(btn.dataset.pasta));
   container.querySelectorAll(".apagarBtn").forEach(btn => {

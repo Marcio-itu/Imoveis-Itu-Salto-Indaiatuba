@@ -1,4 +1,4 @@
-const { esc } = require("./utils");
+const { esc, formatPreco } = require("./utils");
 
 function css(t) {
   return `
@@ -93,6 +93,9 @@ function css(t) {
     99%{transform:rotate(0)}
   }
   @media (prefers-reduced-motion: reduce){ .cta{animation:none} }
+  .cta-share{display:inline-block;margin-left:12px;color:var(--ink-muted);text-decoration:none;
+    font-size:14px;border-bottom:1px solid var(--border);padding-bottom:2px}
+  .cta-share:hover{color:var(--ink);border-color:var(--ink-muted)}
   .corretor{margin-top:26px;font-size:14px;color:var(--ink-muted)}
 
   footer{padding:36px 0;font-size:13px;color:var(--ink-muted)}
@@ -130,6 +133,18 @@ function css(t) {
   `;
 }
 
+const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
+const BUSINESS_FUNCTION = {
+  locacao: "http://purl.org/goodrelations/v1#LeaseOut",
+  permuta: "http://purl.org/goodrelations/v1#Exchange",
+  venda: "http://purl.org/goodrelations/v1#Sell",
+};
+// Compatível com imóveis antigos que ainda tenham só "tipoOperacao" (string) em vez de "tiposOperacao" (array).
+function operacoesDe(imovel) {
+  if (Array.isArray(imovel.tiposOperacao) && imovel.tiposOperacao.length) return imovel.tiposOperacao;
+  return [imovel.tipoOperacao || "venda"];
+}
+
 function jsonLd(imovel, canonicalUrl, imagesUrls) {
   const precoNumerico = Number(String(imovel.preco).replace(/[^\d]/g, "")) || undefined;
   const data = {
@@ -151,16 +166,13 @@ function jsonLd(imovel, canonicalUrl, imagesUrls) {
     numberOfRooms: imovel.quartos,
     numberOfBathroomsTotal: imovel.banheiros,
     ...(imovel.areaUtil ? { floorSize: { "@type": "QuantitativeValue", value: imovel.areaUtil, unitCode: "MTK" } } : {}),
-    offers: {
+    offers: operacoesDe(imovel).map((o) => ({
       "@type": "Offer",
       price: precoNumerico,
       priceCurrency: "BRL",
       availability: "https://schema.org/InStock",
-      businessFunction:
-        imovel.tipoOperacao === "locacao" ? "http://purl.org/goodrelations/v1#LeaseOut"
-        : imovel.tipoOperacao === "permuta" ? "http://purl.org/goodrelations/v1#Exchange"
-        : "http://purl.org/goodrelations/v1#Sell",
-    },
+      businessFunction: BUSINESS_FUNCTION[o] || BUSINESS_FUNCTION.venda,
+    })),
     ...(imovel.corretor
       ? { seller: {
           "@type": "RealEstateAgent",
@@ -188,12 +200,15 @@ function buildFaqs(imovel) {
   } else {
     auto.push({ pergunta: "Em qual bairro fica o imóvel?", resposta: `Fica no bairro ${imovel.bairro}, em ${imovel.cidade}/${imovel.uf}.` });
   }
-  if (imovel.tipoOperacao === "locacao") {
-    auto.push({ pergunta: "O imóvel é para venda ou locação?", resposta: "Este imóvel está disponível para locação." });
-  } else if (imovel.tipoOperacao === "permuta") {
-    auto.push({ pergunta: "O imóvel aceita permuta?", resposta: "Sim, este imóvel está aberto a propostas de permuta." });
-  } else {
-    auto.push({ pergunta: "O imóvel é para venda ou locação?", resposta: "Este imóvel está disponível para venda." });
+  const ops = operacoesDe(imovel);
+  const opsPrincipais = ["venda", "locacao"].filter((o) => ops.includes(o));
+  const temPermuta = ops.includes("permuta");
+  if (opsPrincipais.length) {
+    let resposta = `Este imóvel está disponível para ${opsPrincipais.map((o) => OPERACAO_LABEL[o].toLowerCase()).join(" e ")}.`;
+    if (temPermuta) resposta += " Estuda-se permuta.";
+    auto.push({ pergunta: "O imóvel é para venda, locação ou permuta?", resposta });
+  } else if (temPermuta) {
+    auto.push({ pergunta: "O imóvel aceita permuta?", resposta: "Estuda-se permuta." });
   }
   if (imovel.financiamento) {
     auto.push({ pergunta: "Aceita financiamento?", resposta: imovel.financiamento });
@@ -241,15 +256,17 @@ function renderPropertyPage(imovel, theme, opts) {
   const specs = [
     imovel.quartos && { num: imovel.quartos, lbl: "Quartos" },
     imovel.suites && { num: imovel.suites, lbl: "Suítes" },
-    imovel.banheiros && { num: imovel.banheiros, lbl: "Banheiros" },
+    imovel.banheiros && { num: imovel.banheiros, lbl: "Banheiros (Totais)" },
     imovel.vagas && { num: imovel.vagas, lbl: "Vagas" },
     imovel.areaUtil && { num: `${imovel.areaUtil} m²`, lbl: "Área útil" },
     imovel.areaTerreno && { num: `${imovel.areaTerreno} m²`, lbl: "Área terreno" },
   ].filter(Boolean);
 
-  const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
-  const operacaoLabel = OPERACAO_LABEL[imovel.tipoOperacao] || "Venda";
-  const precoSufixo = imovel.tipoOperacao === "locacao" ? "/mês" : "";
+  const opsAtivas = operacoesDe(imovel);
+  const temPermuta = opsAtivas.includes("permuta");
+  const operacaoLabel = ["venda", "locacao"].filter((o) => opsAtivas.includes(o)).map((o) => OPERACAO_LABEL[o]).join(" / ") || (temPermuta ? "" : "Venda");
+  // Venda tem destaque sobre locação: se ambas existirem, o preço não leva sufixo "/mês".
+  const precoSufixo = (opsAtivas.includes("locacao") && !opsAtivas.includes("venda")) ? "/mês" : "";
 
   const whatsMsg = encodeURIComponent(
     `Olá! Tenho interesse no imóvel "${imovel.titulo}" (ref. ${imovel.referencia || imovel.slug}).`
@@ -257,6 +274,10 @@ function renderPropertyPage(imovel, theme, opts) {
   const whatsUrl = imovel.corretor?.whatsapp
     ? `https://wa.me/${imovel.corretor.whatsapp.replace(/\D/g, "")}?text=${whatsMsg}`
     : "#";
+  const shareMsg = encodeURIComponent(
+    `Olha esse imóvel: "${imovel.titulo}" — ${formatPreco(imovel.preco)}${precoSufixo}. ${canonicalUrl}`
+  );
+  const shareUrl = `https://wa.me/?text=${shareMsg}`;
 
   const tituloSeo = imovel.condominio
     ? `${imovel.titulo} — Condomínio ${imovel.condominio}, ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}`
@@ -313,14 +334,15 @@ ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padd
 <section class="hero" style="border:0;padding:0">
   ${hero.arquivo ? `<img src="${fotosBaseUrl}/${esc(hero.arquivo)}" alt="${esc(hero.alt || imovel.titulo)}">` : ""}
   <div class="wrap hero-content">
-    <div class="plaqueta"><b>${esc(theme.label)}</b> · ${esc(operacaoLabel)} · ${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
+    <div class="plaqueta"><b>${esc(theme.label)}</b>${operacaoLabel ? ` · ${esc(operacaoLabel)}` : ""} · ${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
+    ${temPermuta ? `<div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Estuda-se permuta</div>` : ""}
     <h1>${esc(imovel.titulo)}</h1>
     <div class="hero-meta">
       <span>${imovel.condominio ? `Condomínio ${esc(imovel.condominio)}, ` : ""}${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</span>
     </div>
     ${
       theme.showPriceInHero
-        ? `<div class="preco">${esc(imovel.preco)}${precoSufixo}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">${esc(imovel.financiamento)}</span>` : ""}</div>`
+        ? `<div class="preco">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">${esc(imovel.financiamento)}</span>` : ""}</div>`
         : ""
     }
   </div>
@@ -346,7 +368,7 @@ ${(() => {
       ${imovel.condominio ? `<p class="lead" style="margin-top:-8px;margin-bottom:18px;font-size:15px">Condomínio ${esc(imovel.condominio)}</p>` : ""}
       ${
         !theme.showPriceInHero
-          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(imovel.preco)}${precoSufixo}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· ${esc(imovel.financiamento)}</span>` : ""}</p>`
+          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· ${esc(imovel.financiamento)}</span>` : ""}</p>`
           : ""
       }
       <div class="ficha">
@@ -398,7 +420,7 @@ ${(() => {
           <div class="pbody">
             <div class="ptit">${esc(p.titulo)}</div>
             <div class="pmeta">${esc(p.bairro)}, ${esc(p.cidade)} - ${esc(p.uf)}</div>
-            <div class="ppreco">${esc(p.preco)}${esc(p.precoSufixo || "")}</div>
+            <div class="ppreco">${esc(formatPreco(p.preco))}${esc(p.precoSufixo || "")}</div>
           </div>
         </a>`
           )
@@ -425,6 +447,7 @@ ${(() => {
       <span class="eyebrow">Contato</span>
       <h2 style="margin-top:10px">Vamos conversar sobre este imóvel?</h2>
       <a class="cta" href="${esc(whatsUrl)}" target="_blank" rel="noopener">Falar no WhatsApp</a>
+      <a class="cta-share" href="${esc(shareUrl)}" target="_blank" rel="noopener">↗ Enviar este imóvel pra alguém</a>
       <div class="corretor">
         ${imovel.corretor?.nome ? `${esc(imovel.corretor.nome)} · ` : ""}${imovel.corretor?.creci ? `CRECI ${esc(imovel.corretor.creci)}` : ""}
         <br>${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}
@@ -440,7 +463,7 @@ ${(() => {
 ${
   theme.stickyCta
     ? `<div class="sticky-cta">
-  <span class="preco-mini">${esc(imovel.preco)}${precoSufixo}</span>
+  <span class="preco-mini">${esc(formatPreco(imovel.preco))}${precoSufixo}</span>
   <a class="cta" href="${esc(whatsUrl)}" target="_blank" rel="noopener">Falar no WhatsApp</a>
 </div>`
     : ""

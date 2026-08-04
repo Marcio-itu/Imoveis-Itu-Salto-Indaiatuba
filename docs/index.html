@@ -2,6 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-site-verification" content="eUZ48MN17FouYrBJW85ZV8NUXa_rDKulC38cC22xWK0" />
 <title>Imóveis por cidade — Inteligência Imobiliária, Construindo Confiança</title>
 <meta name="description" content="Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba, Cabreúva, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/">
@@ -56,6 +57,15 @@
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:'Fraunces', Georgia, serif;font-size:17px;line-height:1.25}
   a.card .meta{font-size:13px;color:#5B6A67;margin-top:4px}
+
+  .site-footer{margin-top:64px;padding-top:40px;border-top:1px solid #DCE3E1}
+  .footer-brand{font-family:'Fraunces', Georgia, serif;font-size:21px;letter-spacing:.01em;margin-bottom:30px;color:#1E2A28}
+  .footer-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px;margin-bottom:32px}
+  .footer-label{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#2F5D7C;font-weight:600;margin-bottom:12px}
+  .footer-cols > div > div:not(.footer-label){font-size:14px;color:#5B6A67;line-height:1.9}
+  .footer-cols a{color:#5B6A67;text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
+  .footer-cols a:hover{color:#1E2A28;border-bottom-color:#2F5D7C}
+  .footer-bottom{font-size:12px;color:#5B6A67;padding-top:24px;border-top:1px solid #DCE3E1}
   a.card .preco{font-family:'Fraunces', Georgia, serif;font-size:15px;margin-top:8px}
 
   a.item{display:block;background:#fff;border:1px solid #DCE3E1;border-radius:14px;
@@ -75,7 +85,7 @@
 <div class="wrap">
   <span class="eyebrow">Inteligência Imobiliária, Construindo Confiança</span>
   <h1>Imóveis por cidade</h1>
-  <p class="sub">Itu, Indaiatuba, Salto, Sorocaba, Cabreúva</p>
+  <p class="sub">São Sebastião</p>
 
   <div class="filtros">
     <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
@@ -101,23 +111,43 @@
   <div class="grid" id="grid"></div>
   <div class="vazio" id="vazio" style="display:none">Nenhum imóvel encontrado com esses filtros.</div>
 
-  <footer>CRECI-SP 276471-F</footer>
+  <footer class="site-footer">
+    <div class="footer-brand">Inteligência Imobiliária, Construindo Confiança</div>
+    <div class="footer-cols">
+      <div>
+        <div class="footer-label">Corretor</div>
+        <div>Marcio Santos</div>
+        <div>CRECI-SP 276471-F</div>
+      </div>
+      <div>
+        <div class="footer-label">Contato</div>
+        <div><a href="mailto:Corretor_Marcio@proton.me">Corretor_Marcio@proton.me</a></div>
+        <div><a href="https://wa.me/551132806090" target="_blank" rel="noopener">WhatsApp</a></div>
+        <div><a href="https://www.instagram.com/corretor_marcio_itu" target="_blank" rel="noopener">Instagram</a></div>
+      </div>
+      <div>
+        <div class="footer-label">Atendemos</div>
+        <div>Itu · Indaiatuba · Salto · Sorocaba · Cabreúva</div>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 Inteligência Imobiliária, Construindo Confiança. Todos os direitos reservados.</div>
+  </footer>
 </div>
 
 <script>
-const IMOVEIS = [];
-const PADRAO_COR = {"alto-padrao":"#B08D57","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B"};
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]}];
+const PADRAO_COR = {"alto-padrao":"#4E9E97","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
 let cidadeAtiva = "";
 let operacaoAtiva = "";
-const OPERACAO_LABEL = { venda: "Venda", locacao: "Locação", permuta: "Permuta" };
+const OPERACAO_LABEL = { venda: "Comprar", locacao: "Alugar", permuta: "Permutar" };
 
 function cidadesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.cidade))].sort((a,b)=>a.localeCompare(b,'pt-BR')); }
 function bairrosDisponiveis(cidade){
   return [...new Set(IMOVEIS.filter(i => !cidade || i.cidade===cidade).map(i=>i.bairro))].sort((a,b)=>a.localeCompare(b,'pt-BR'));
 }
-function operacoesDisponiveis(){ return [...new Set(IMOVEIS.map(i=>i.tipoOperacao))]; }
+function operacoesDisponiveis(){ return [...new Set(IMOVEIS.flatMap(i=>i.tiposOperacao||["venda"]))]; }
 
 function renderChipsOperacao(){
   const box = document.getElementById("chipsOperacao");
@@ -154,7 +184,7 @@ function aplicarFiltros(){
   const max = Number(document.getElementById("fMax").value) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
-    (!operacaoAtiva || i.tipoOperacao === operacaoAtiva) &&
+    (!operacaoAtiva || (i.tiposOperacao||["venda"]).includes(operacaoAtiva)) &&
     (!bairro || i.bairro === bairro) &&
     i.precoNumerico >= min && i.precoNumerico <= max
   );
@@ -169,7 +199,8 @@ function aplicarFiltros(){
       <div class="body">
         <span class="tag" style="background:${PADRAO_COR[i.padrao]||'#999'}">${i.padraoLabel}</span>
         <div class="tit">${i.titulo}</div>
-        <div class="meta">${OPERACAO_LABEL[i.tipoOperacao]||'Venda'} · ${i.bairro}, ${i.cidade} - ${i.uf}</div>
+        <div class="meta">${["venda","locacao"].filter(o=>(i.tiposOperacao||["venda"]).includes(o)).map(o=>OPERACAO_LABEL[o]).join(" / ")} · ${i.bairro}, ${i.cidade} - ${i.uf}</div>
+        ${(i.tiposOperacao||[]).includes("permuta") ? '<div class="meta" style="opacity:.75">Estuda-se permuta</div>' : ''}
         <div class="preco">${i.preco}${i.precoSufixo}</div>
       </div>
     </a>`).join("");

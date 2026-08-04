@@ -4,7 +4,7 @@ const sharp = require("sharp");
 const { THEMES } = require("./themes");
 const { renderPropertyPage, buildFaqs } = require("./template");
 const { renderMainHub, renderBairroHub } = require("./hub");
-const { slugify, parsePreco, esc } = require("./utils");
+const { slugify, parsePreco, esc, formatPreco } = require("./utils");
 
 const ROOT = path.join(__dirname, "..");
 const IMOVEIS_DIR = path.join(ROOT, "imoveis");
@@ -146,12 +146,14 @@ async function build() {
     const ativo = imovel.ativo !== false;
     const hero = (imovel.fotos || []).find((f) => f.hero) || (imovel.fotos || [])[0];
     const thumb = hero ? `${fotosBaseUrl}/${hero.arquivo}` : undefined;
+    const tiposOperacao = (Array.isArray(imovel.tiposOperacao) && imovel.tiposOperacao.length)
+      ? imovel.tiposOperacao : [imovel.tipoOperacao || "venda"];
     const resumo = {
       slug: imovel.slug, titulo: imovel.titulo, cidade: imovel.cidade, bairro: imovel.bairro, uf: imovel.uf,
-      preco: imovel.preco, precoNumerico: parsePreco(imovel.preco), padrao: imovel.padrao,
+      preco: formatPreco(imovel.preco), precoNumerico: parsePreco(imovel.preco), padrao: imovel.padrao,
       padraoLabel: theme.label, url: propUrl, thumb,
-      tipoOperacao: imovel.tipoOperacao || "venda",
-      precoSufixo: imovel.tipoOperacao === "locacao" ? "/mês" : "",
+      tiposOperacao,
+      precoSufixo: tiposOperacao.includes("locacao") ? "/mês" : "",
     };
 
     if (ativo) {
