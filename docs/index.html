@@ -26,34 +26,14 @@
     background-attachment:fixed;
     color:#1E2A28;font-family:'Inter', -apple-system, Helvetica, Arial, sans-serif;line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:64px 24px 88px}
-  .site-header{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:14px;margin-bottom:34px}
-  .brand-lockup{display:flex;flex-direction:column;gap:1px}
-  .brand-eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
-  .brand-tagline{font-family:'Fraunces', Georgia, serif;font-style:italic;font-size:15px;color:#5B6A67}
-  .credential{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#5B6A67;
-    border:1px solid #DCE3E1;border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.65);
-    white-space:nowrap}
-  .credential b{color:#1E2A28;font-weight:600;letter-spacing:0}
+  .site-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:22px}
+  .credential{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#5B6A67;
+    border:1px solid #DCE3E1;border-radius:999px;padding:6px 14px;background:rgba(255,255,255,.6)}
   h1{font-family:'Fraunces', Georgia, serif;font-weight:500;font-size:clamp(32px,5.2vw,46px);line-height:1.08;
-    letter-spacing:-.01em;margin-bottom:14px;max-width:18ch}
-  p.sub{color:#5B6A67;font-size:16px;margin-bottom:36px;max-width:60ch;display:flex;
-    align-items:center;flex-wrap:wrap;gap:6px}
+    letter-spacing:-.01em;margin-bottom:14px;max-width:16ch}
+  p.sub{color:#5B6A67;font-size:16px;margin-bottom:36px;max-width:56ch}
   .divider{height:1px;background:linear-gradient(90deg, #DCE3E1, transparent);margin-bottom:36px}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
-  .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6A67;
-    font-weight:600;margin-bottom:8px;display:block}
-
-  .geo-ping{position:relative;display:inline-flex;align-items:center}
-  .geo-ping .dot{position:relative;width:6px;height:6px;border-radius:50%;background:#2F5D7C}
-  .geo-ping .dot::before{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid #2F5D7C;
-    opacity:.55;animation:geoping 2.6s cubic-bezier(0,0,.2,1) infinite}
-  @keyframes geoping{0%{transform:scale(.5);opacity:.6}70%,100%{transform:scale(2.4);opacity:0}}
-  @media (prefers-reduced-motion: reduce){.geo-ping .dot::before{animation:none;opacity:0}}
-
-  .segmented{display:inline-flex;background:#F4F6F5;border:1px solid #DCE3E1;border-radius:999px;
-    padding:4px;gap:2px}
-  .segmented .chip{border:none;background:transparent;padding:8px 16px}
-  .segmented .chip.on{background:#2F5D7C;border-color:#2F5D7C;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.12)}
   a{color:inherit}
 
   .filtros{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid #DCE3E1;
@@ -108,22 +88,12 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="site-header">
-    <div class="brand-lockup">
-      <span class="brand-eyebrow">Inteligência Imobiliária</span>
-      <span class="brand-tagline">Construindo Confiança</span>
-    </div>
-    <span class="credential"><b>Marcio Santos</b> · CRECI-SP 276471-F</span>
-  </div>
-
-  <h1>Cinco cidades. Um endereço de confiança.</h1>
-  <p class="sub"><span class="geo-ping"><span class="dot"></span></span> São Sebastião · Itu — busque por cidade, bairro e faixa de preço.</p>
-  <div class="divider"></div>
+  <span class="eyebrow">Inteligência Imobiliária, Construindo Confiança</span>
+  <h1>Imóveis por cidade</h1>
+  <p class="sub">São Sebastião</p>
 
   <div class="filtros">
-    <span class="grupo-label">Operação</span>
-    <div class="segmented" id="chipsOperacao" style="margin-bottom:16px"></div>
-    <span class="grupo-label">Cidade</span>
+    <div class="chips" id="chipsOperacao" style="margin-bottom:10px"></div>
     <div class="chips" id="chipsCidade"></div>
     <div class="filtros-linha">
       <div class="campo">
@@ -170,7 +140,7 @@
 </div>
 
 <script>
-const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]},{"titulo":"Linda casa com piscina e area gourmet","cidade":"Itu","bairro":"Parque Residencial Presidente Médici","uf":"SP","preco":"R$ 700.000","precoNumerico":700000,"precoSufixo":"","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/fotos/churrasqueira-itu-medio-padrao-casa-sp-20260804.webp","tiposOperacao":["venda"]},{"titulo":"Localização privilegiada no Rancho Grande! ","cidade":"Itu","bairro":"Jardim do Estádio","uf":"SP","preco":"R$ 7.900","precoNumerico":7900,"precoSufixo":"/mês","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/localizacao-privilegiada-no-rancho-grande/fotos/fachada-itu-medio-padrao-sobrado-sp-20260804.jpeg","tiposOperacao":["locacao"]}];
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]}];
 const PADRAO_COR = {"alto-padrao":"#4E9E97","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
