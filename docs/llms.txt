@@ -5,7 +5,6 @@
 ## Imóveis
 
 - [Linda Casa com Piscina, Bar e Área Gourmet](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/llms.txt
-- [Linda Casa com Piscina e Área Gourmet](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-e-area-gourmet/llms.txt
 
 ## Uso permitido
 
