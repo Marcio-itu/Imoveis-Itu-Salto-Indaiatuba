@@ -44,6 +44,9 @@ function css(t) {
   section{padding:72px 0;border-bottom:1px solid var(--border)}
   .tags{display:flex;flex-wrap:wrap;gap:10px}
   .tag{border:1px solid var(--border);background:var(--surface);padding:9px 16px;border-radius:var(--radius);font-size:14px}
+  .bullets{list-style:none;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 24px}
+  .bullets li{position:relative;padding-left:20px;font-size:15px;color:var(--ink)}
+  .bullets li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
   .tag b{color:var(--accent)}
 
   .ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);
@@ -332,9 +335,9 @@ ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padd
 </header>
 
 <section class="hero" style="border:0;padding:0">
-  ${hero.arquivo ? `<img src="${fotosBaseUrl}/${esc(hero.arquivo)}" alt="${esc(hero.alt || imovel.titulo)}">` : ""}
+  ${hero.arquivo ? `<img src="${fotosBaseUrl}/${esc(hero.arquivo)}" alt="${esc(hero.alt || imovel.titulo)}" onerror="this.style.display='none'">` : ""}
   <div class="wrap hero-content">
-    <div class="plaqueta"><b>${esc(theme.label)}</b>${operacaoLabel ? ` · ${esc(operacaoLabel)}` : ""} · ${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
+    <div class="plaqueta">${imovel.padrao === "alto-padrao" ? `<b>${esc(theme.label)}</b> · ` : ""}${operacaoLabel ? `${esc(operacaoLabel)} · ` : ""}${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
     ${temPermuta ? `<div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Estuda-se permuta</div>` : ""}
     <h1>${esc(imovel.titulo)}</h1>
     <div class="hero-meta">
@@ -374,6 +377,7 @@ ${(() => {
       <div class="ficha">
         ${specs.map((s) => `<div><span class="num">${esc(s.num)}</span><span class="lbl">${esc(s.lbl)}</span></div>`).join("")}
       </div>
+      ${(imovel.dadosTecnicos || []).length ? `<ul class="bullets">${imovel.dadosTecnicos.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
     </div>
   </section>`
     : "";
@@ -398,7 +402,7 @@ ${(() => {
           .map(
             (f) =>
               `<a href="${fotosBaseUrl}/${esc(f.arquivo)}" target="_blank" rel="noopener">
-            <figure><img src="${fotosBaseUrl}/${esc(f.arquivo)}" alt="${esc(f.alt || imovel.titulo)}" loading="lazy"></figure>
+            <figure><img src="${fotosBaseUrl}/${esc(f.arquivo)}" alt="${esc(f.alt || imovel.titulo)}" loading="lazy" onerror="this.style.display='none'"></figure>
           </a>`
           )
           .join("")}
@@ -416,7 +420,7 @@ ${(() => {
         ${parecidos
           .map(
             (p) => `<a class="parecido-card" href="${esc(p.url)}">
-          ${p.thumb ? `<img src="${esc(p.thumb)}" loading="lazy" alt="${esc(p.titulo)}">` : ""}
+          ${p.thumb ? `<img src="${esc(p.thumb)}" loading="lazy" alt="${esc(p.titulo)}" onerror="this.style.display='none'">` : ""}
           <div class="pbody">
             <div class="ptit">${esc(p.titulo)}</div>
             <div class="pmeta">${esc(p.bairro)}, ${esc(p.cidade)} - ${esc(p.uf)}</div>

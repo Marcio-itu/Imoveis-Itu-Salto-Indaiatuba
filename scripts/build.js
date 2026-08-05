@@ -206,7 +206,9 @@ async function build() {
   // Favicons: cliente (foto do corretor) na raiz do site, admin (símbolo) só na pasta /admin
   const assetsSrc = path.join(ROOT, "assets");
   if (fs.existsSync(assetsSrc)) {
-    for (const nome of ["favicon-cliente-512.png", "favicon-cliente-180.png", "favicon-cliente-32.png"]) {
+    for (const nome of ["favicon-cliente-512.png", "favicon-cliente-180.png", "favicon-cliente-32.png",
+      "imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp",
+      "imoveis-itu-salto-indaiatuba-2027-03.webp"]) {
       const p = path.join(assetsSrc, nome);
       if (fs.existsSync(p)) fs.copyFileSync(p, path.join(DOCS_DIR, nome));
     }

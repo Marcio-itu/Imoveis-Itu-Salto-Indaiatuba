@@ -68,6 +68,26 @@ const THEMES = {
     stickyCta: true,
     sectionOrder: ["ficha", "destaques", "sobre", "galeria", "parecidos", "contato", "faq"],
   },
+  "padrao-neutro": {
+    label: "Padrão neutro",
+    bg: "#F6F4EF",
+    surface: "#EDE9E0",
+    surfaceAlt: "#E3DDCF",
+    ink: "#2B2A25",
+    inkMuted: "#6E6A5E",
+    accent: "#8A7F63",       // pedra / terra
+    accentSecondary: "#4E6E5D", // verde-oliva
+    border: "#DCD5C4",
+    radius: "8px",
+    displayWeight: 500,
+    displayLetterSpacing: "0em",
+    eyebrowLetterSpacing: "0.14em",
+    fonts: FONTS,
+    heroVh: 46,
+    showPriceInHero: true,
+    stickyCta: false,
+    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "parecidos", "contato", "faq"],
+  },
 };
 
 module.exports = { THEMES };

@@ -107,24 +107,12 @@
   </fieldset>
 
   <fieldset>
-    <legend><span class="passo">4</span><b>Classificar fotos com IA (opcional, grátis)</b></legend>
-    <p class="hint">Usa o Gemini (Google) — tem camada gratuita sem cartão de crédito. A IA olha todas as fotos de uma vez, sugere o ambiente de cada uma e escolhe a hero; você confere e ajusta os dropdowns do passo 1 depois. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar as imagens enviadas para treinar os modelos deles (não é o caso no plano pago).</p>
-    <label>Chave da API Gemini (Google AI Studio)</label>
-    <input type="password" id="geminiKey" placeholder="AIza...">
-    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
-      <input type="checkbox" id="lembrarGeminiKey" style="width:auto"> Lembrar esta chave neste navegador
-    </label>
-    <button class="btn secondary" id="classificarBtn" type="button" style="margin-top:12px">🤖 Classificar fotos com IA</button>
-    <div id="iaStatus" class="hint" style="margin-top:8px"></div>
+    <legend><span class="passo">4</span><b>Nomes das fotos (SEO)</b></legend>
+    <p class="hint">Automático — não precisa clicar em nada. Assim que você preenche CEP (passo 2) e Padrão (passo 3), o nome de cada foto no passo 1 já atualiza sozinho, incluindo cidade, padrão e o horário da publicação — pra nunca colidir com uma publicação anterior do mesmo imóvel (ex.: <code>fachada-itu-alto-padrao-casa-sp-20260728143502.jpg</code>). Role de volta ao passo 1 pra conferir.</p>
   </fieldset>
 
   <fieldset>
-    <legend><span class="passo">5</span><b>Nomes das fotos (SEO)</b></legend>
-    <p class="hint">Automático — não precisa clicar em nada. Assim que você preenche CEP (passo 2) e Padrão (passo 3), o nome de cada foto no passo 1 já atualiza sozinho, incluindo cidade e padrão (ex.: <code>fachada-itu-alto-padrao-casa-sp-20260728.jpg</code>). Role de volta ao passo 1 pra conferir.</p>
-  </fieldset>
-
-  <fieldset>
-    <legend><span class="passo">6</span><b>Código do imóvel</b></legend>
+    <legend><span class="passo">5</span><b>Código do imóvel</b></legend>
     <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, nessa ordem, "O" quando não se aplica) + <b>código da cidade</b> + <b>3 dígitos sequenciais</b> (ex.: <code>LVP01013</code> = locação+venda+permuta). O código é gerado automaticamente no momento de publicar — não precisa clicar aqui antes, mas pode usar o botão pra conferir/preview.</p>
     <label>Tipo(s) de operação (marque quantos se aplicarem)</label>
     <div class="op-options" id="opOptions"></div>
@@ -178,6 +166,11 @@
     <button class="btn secondary" id="calcularFichaBtn" type="button" style="margin-top:12px">🧮 Calcular quartos/suítes/banheiros/vagas a partir das fotos</button>
     <div id="calcularFichaStatus" class="hint" style="margin-top:8px"></div>
 
+    <label style="margin-top:18px">Dados técnicos em bullets (opcional — um item por linha, texto livre)</label>
+    <p class="hint">Aparece como lista de bullets na ficha técnica da página, embaixo dos números. É um resumo que <b>repete</b> o que já está na página — não substitui os campos acima nem os Diferenciais abaixo.</p>
+    <textarea id="dadosTecnicosBullets" placeholder="2 quartos&#10;Cozinha&#10;Suíte master&#10;Piscina&#10;Área Gourmet"></textarea>
+
+
     <label style="margin-top:18px">Características específicas (exceções — até 4, ex.: canil, poço artesiano, poço caipira)</label>
     <div class="row" style="grid-template-columns:1fr 1fr">
       <input type="text" id="caracteristicaExtra1" placeholder="Ex.: Canil">
@@ -206,8 +199,13 @@
 
   <fieldset>
     <legend>Copy comercial</legend>
-    <p class="hint">Com IA, usando tudo que você já preencheu (fotos classificadas, características, acessórios, preço, localização, diferenciais) — sempre priorizando SEO e leitura por IA (resposta direta primeiro, parágrafos curtos). Precisa da mesma chave do Gemini do passo 4.</p>
-    <button class="btn secondary" id="gerarCopyBtn" type="button">🪄 Gerar copy com IA</button>
+    <p class="hint">Preencha título, características e diferenciais acima primeiro — a IA usa exatamente o que você escreveu ali pra montar o texto (não inventa nada além disso). Usa o Gemini (Google), que tem camada gratuita sem cartão de crédito. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar o texto enviado para treinar os modelos deles (não é o caso no plano pago).</p>
+    <label>Chave da API Gemini (Google AI Studio)</label>
+    <input type="password" id="geminiKey" placeholder="AIza...">
+    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="lembrarGeminiKey" style="width:auto"> Lembrar esta chave neste navegador
+    </label>
+    <button class="btn secondary" id="gerarCopyBtn" type="button" style="margin-top:12px">🪄 Gerar copy com IA</button>
     <div id="copyStatus" class="hint" style="margin-top:8px"></div>
 
     <label style="margin-top:18px">Resumo (1 frase direta — aparece em destaque no topo da página e no FAQ)</label>
@@ -226,7 +224,7 @@
 
   <fieldset>
     <legend>Publicar direto no GitHub (opcional)</legend>
-    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o passo 6 busque o próximo número de código sozinho.</p>
+    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o passo 5 busque o próximo número de código sozinho.</p>
     <div class="row">
       <div><label>usuario/repositorio</label><input type="text" id="ghRepo" placeholder="marcio-itu/imoveis-itu-salto-indaiatuba"></div>
       <div><label>Branch</label><input type="text" id="ghBranch" value="main"></div>
@@ -294,19 +292,30 @@ const THEMES = {
   "alto-padrao": { label: "Alto padrão", accent: "#4E9E97" },
   "medio-padrao": { label: "Médio padrão", accent: "#2F5D7C" },
   "padrao-popular": { label: "Padrão popular", accent: "#E0562B" },
+  "padrao-neutro": { label: "Padrão neutro", accent: "#8A7F63" },
 };
 const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, permuta: { label: "Permuta" } };
-const AMBIENTES = ["fachada","fachada-noturna","sala-estar","sala-jantar","cozinha","lavabo",
-  "suite-master","quarto","quarto-hospedes","quarto-empregada","banheiro","area-lazer","piscina","churrasqueira","quintal",
-  "varanda","sacada","vista-mar","garagem","planta-baixa","entorno-bairro","vista-aerea"];
+// Ordem alfabética (pelo rótulo, como aparece no dropdown) — mais fácil de achar o ambiente certo
+// numa lista longa. Ao adicionar um novo ambiente, mantenha a lista alfabetizada.
+const AMBIENTES = ["area-lazer","banheiro","comercial-card-1","comercial-card-2","churrasqueira","cozinha",
+  "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina","planta-baixa",
+  "quarto","quarto-empregada","quarto-hospedes","quintal","sacada","sala-estar","sala-jantar",
+  "salao-comercial-interna-1","salao-comercial-interna-2","salao-comercial-interna-3","salao-comercial-interna-4",
+  "suite-master","terreno-vista-frente","terreno-vista-fundos","terreno-vista-perspectiva",
+  "terreno-vista-perspectiva-lateral","varanda","vista-aerea","vista-ampla-local","vista-mar"];
 const AMBIENTE_LABEL = {
-  "fachada":"Fachada","fachada-noturna":"Fachada noturna","sala-estar":"Sala de estar",
-  "sala-jantar":"Sala de jantar","cozinha":"Cozinha","lavabo":"Lavabo","suite-master":"Suíte master",
-  "quarto":"Quarto","quarto-hospedes":"Quarto de hóspedes","quarto-empregada":"Quarto de empregada",
-  "banheiro":"Banheiro","area-lazer":"Área de lazer","piscina":"Piscina",
-  "churrasqueira":"Churrasqueira","quintal":"Quintal","varanda":"Varanda","sacada":"Sacada",
-  "vista-mar":"Vista mar","garagem":"Garagem","planta-baixa":"Planta baixa",
-  "entorno-bairro":"Entorno do bairro","vista-aerea":"Vista aérea"
+  "area-lazer":"Área de lazer","banheiro":"Banheiro","comercial-card-1":"Card Comercial 1",
+  "comercial-card-2":"Card Comercial 2","churrasqueira":"Churrasqueira","cozinha":"Cozinha",
+  "entorno-bairro":"Entorno do bairro","fachada":"Fachada","fachada-noturna":"Fachada noturna",
+  "foto-comercial":"Foto comercial","garagem":"Garagem","lavabo":"Lavabo","piscina":"Piscina",
+  "planta-baixa":"Planta baixa","quarto":"Quarto","quarto-empregada":"Quarto de empregada",
+  "quarto-hospedes":"Quarto de hóspedes","quintal":"Quintal","sacada":"Sacada","sala-estar":"Sala de estar",
+  "sala-jantar":"Sala de jantar","salao-comercial-interna-1":"Salão comercial vista interna 1",
+  "salao-comercial-interna-2":"Salão comercial vista interna 2","salao-comercial-interna-3":"Salão comercial vista interna 3",
+  "salao-comercial-interna-4":"Salão comercial vista interna 4","suite-master":"Suíte master",
+  "terreno-vista-frente":"Terreno vista frente","terreno-vista-fundos":"Terreno vista fundos",
+  "terreno-vista-perspectiva":"Terreno vista perspectiva","terreno-vista-perspectiva-lateral":"Terreno vista perspectiva lateral",
+  "varanda":"Varanda","vista-aerea":"Vista aérea","vista-ampla-local":"Vista ampla do local","vista-mar":"Vista mar"
 };
 
 // Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
@@ -599,7 +608,9 @@ function nomeArquivo(f){
   const uf = (document.getElementById("uf").value || "sp").toLowerCase();
   const diffRaw = (document.getElementById("diferenciais").value || "").split(",")[0]?.trim();
   const diff = diffRaw ? "-" + slugify(diffRaw) : "";
-  const data = new Date().toISOString().slice(0,10).replace(/-/g,"");
+  // Inclui hora/minuto/segundo (não só a data) pra garantir nome único mesmo ao apagar e
+  // republicar o mesmo imóvel, com a mesma foto, no mesmo dia — evita colisão de nome de arquivo.
+  const data = new Date().toISOString().replace(/[-:TZ]|\.\d+/g,"").slice(0,14);
   const ext = (f.file.name.split(".").pop() || "jpg").toLowerCase();
   return `${f.ambiente}-${cidade}-${padraoAtual}-${tipo}-${uf}${diff}-${data}`.replace(/-+/g,"-") + "." + ext;
 }
@@ -667,6 +678,7 @@ function carregarParaEdicao(pasta, dados){
   set("banheiros", dados.banheiros); set("vagas", dados.vagas);
   set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
   set("diferenciais", (dados.diferenciais || []).join(", "));
+  set("dadosTecnicosBullets", (dados.dadosTecnicos || []).join("\n"));
   set("resumo", dados.resumo);
   set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
 
@@ -773,104 +785,11 @@ document.getElementById("copyPrompt").onclick = () => {
   const old = btn.textContent; btn.textContent = "Copiado!"; setTimeout(()=>btn.textContent=old, 1500);
 };
 
-// --- classificar fotos com IA (Gemini — camada gratuita, chamada direta do navegador) ---
-// Redimensiona/comprime a foto antes de enviar. Fotos de celular em resolução total (várias, de
-// uma vez) costumam estourar o limite de tamanho da requisição e derrubar a conexão ("Load failed")
-// antes mesmo de chegar resposta do Google — reduzir pra ~1280px resolve a grande maioria dos casos.
-function fileToBase64Raw(file, maxDim = 1280, qualidade = 0.82){
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      let { width, height } = img;
-      if (width > maxDim || height > maxDim){
-        const escala = maxDim / Math.max(width, height);
-        width = Math.round(width * escala);
-        height = Math.round(height * escala);
-      }
-      const canvas = document.createElement("canvas");
-      canvas.width = width; canvas.height = height;
-      canvas.getContext("2d").drawImage(img, 0, 0, width, height);
-      URL.revokeObjectURL(url);
-      resolve(canvas.toDataURL("image/jpeg", qualidade).split(",")[1]);
-    };
-    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Não consegui ler a imagem " + file.name)); };
-    img.src = url;
-  });
-}
-
-function extractJson(text){
-  const cleaned = text.replace(/```json|```/g, "").trim();
-  const start = cleaned.indexOf("[");
-  const end = cleaned.lastIndexOf("]");
-  if (start === -1 || end === -1) throw new Error("Resposta da IA não trouxe um JSON reconhecível");
-  return JSON.parse(cleaned.slice(start, end + 1));
-}
-
-document.getElementById("classificarBtn").onclick = async () => {
-  const key = document.getElementById("geminiKey").value.trim();
-  const status = document.getElementById("iaStatus");
-  const btn = document.getElementById("classificarBtn");
-
-  if (!fotos.length){ alert("Suba as fotos antes de classificar."); return; }
-  if (!key){ status.textContent = "Cole sua chave da API Gemini antes de classificar."; return; }
-
-  btn.disabled = true;
-  status.textContent = `Analisando ${fotos.length} foto(s)...`;
-
-  try {
-    const parts = [{
-      text: `Você recebe ${fotos.length} fotos de um imóvel, na ordem em que aparecem abaixo (Foto 0, Foto 1, ...). ` +
-        `Para cada uma, identifique o ambiente usando SOMENTE uma destas opções: ${AMBIENTES.join(", ")}. ` +
-        `Aponte também qual foto é a melhor "hero" (a que melhor representa o imóvel — iluminação, enquadramento, apelo visual): apenas uma pode ser hero=true. ` +
-        `Não invente características que não estão visíveis. Responda SOMENTE com um array JSON, sem markdown, no formato: ` +
-        `[{"indice":0,"ambiente":"fachada","hero":true}, {"indice":1,"ambiente":"sala-estar","hero":false}]`
-    }];
-    for (let i = 0; i < fotos.length; i++){
-      const f = fotos[i];
-      parts.push({ text: `Foto ${i}:` });
-      parts.push({ inlineData: { mimeType: "image/jpeg", data: await fileToBase64Raw(f.file) } });
-    }
-
-    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-goog-api-key": key },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts }],
-        generationConfig: { responseMimeType: "application/json" }
-      })
-    });
-
-    if (!res.ok){
-      const body = await res.text();
-      throw new Error(`API retornou ${res.status}: ${body.slice(0,200)}`);
-    }
-    const data = await res.json();
-    const textOut = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("\n");
-    const classificacoes = extractJson(textOut);
-
-    classificacoes.forEach(c => {
-      if (fotos[c.indice] && AMBIENTES.includes(c.ambiente)){
-        fotos[c.indice].ambiente = c.ambiente;
-      }
-    });
-    const heroIdx = classificacoes.find(c => c.hero)?.indice;
-    if (heroIdx !== undefined) fotos.forEach((f, idx) => f.hero = (idx === heroIdx));
-
-    renderFotos();
-    status.textContent = "✅ Classificado — confira os dropdowns do passo 1 antes de gerar/publicar.";
-  } catch (err) {
-    status.textContent = "❌ " + err.message;
-  } finally {
-    btn.disabled = false;
-  }
-};
-
 document.getElementById("gerarCopyBtn").onclick = async () => {
   const key = document.getElementById("geminiKey").value.trim();
   const status = document.getElementById("copyStatus");
   const btn = document.getElementById("gerarCopyBtn");
-  if (!key){ status.textContent = "Cole sua chave da API Gemini (passo 4) antes de gerar."; return; }
+  if (!key){ status.textContent = "Cole sua chave da API Gemini acima antes de gerar."; return; }
 
   const get = id => document.getElementById(id).value;
   const ambientesResumo = fotos.filter(f=>f.quantidade).map(f => `${AMBIENTE_LABEL[f.ambiente]}: ${f.quantidade}`);
@@ -964,6 +883,7 @@ function montarDados(){
     descricaoLonga,
     resumo: get("resumo").trim() || undefined,
     diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
+    dadosTecnicos: get("dadosTecnicosBullets").split("\n").map(s=>s.trim()).filter(Boolean),
     acessorios: getAcessoriosMarcados(),
     caracteristicasExtras: ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean),
     publicadoEm: modoEdicao ? modoEdicao.publicadoEm : new Date().toISOString().slice(0,10),
@@ -1020,6 +940,93 @@ async function ghPutFile(repo, path, branch, token, base64Content, message){
   if (!res.ok){
     const body = await res.text();
     throw new Error(`Falha ao publicar ${path} (${res.status}): ${body.slice(0,200)}`);
+  }
+}
+
+// --- commit atômico (Git Data API): publica/apaga vários arquivos em UM push só ---
+// Antes: cada foto (e o dados.json) virava um commit separado — se um deles falhasse no meio
+// do caminho, o imóvel ficava com o dados.json publicado apontando pra uma foto que nunca
+// chegou a subir (a hero quebrada), ou apagado pela metade com fotos órfãs. Cada commit também
+// disparava sua própria execução do GitHub Actions. Agora: todas as fotos viram blobs primeiro
+// (sem tocar no histórico do repositório); só ao final um único commit é criado com tudo junto —
+// ou publica/apaga tudo de uma vez, ou (se algo falhar antes desse passo) o repositório nem chega
+// a mudar. Um push só, uma execução do Actions só.
+async function ghGetBranchTip(repo, branch, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (!res.ok) throw new Error(`Não consegui ler a branch "${branch}" (${res.status})`);
+  const json = await res.json();
+  return json.object.sha;
+}
+async function ghGetCommitTreeSha(repo, commitSha, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/commits/${commitSha}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (!res.ok) throw new Error(`Não consegui ler o commit base (${res.status})`);
+  return (await res.json()).tree.sha;
+}
+async function ghCreateBlob(repo, token, base64Content){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ content: base64Content, encoding: "base64" })
+  });
+  if (!res.ok){
+    const body = await res.text();
+    throw new Error(`Falha ao preparar arquivo (${res.status}): ${body.slice(0,200)}`);
+  }
+  return (await res.json()).sha;
+}
+/**
+ * Publica ou apaga vários arquivos em um único commit atômico.
+ * changes: [{ path, contentBase64 }] pra criar/atualizar, ou [{ path, remove:true }] pra apagar.
+ * onProgress(mensagem) opcional, pra atualizar o status na tela durante o envio dos blobs.
+ */
+async function ghCommitMultiplo(repo, branch, token, changes, message, onProgress){
+  const branchTip = await ghGetBranchTip(repo, branch, token);
+  const baseTreeSha = await ghGetCommitTreeSha(repo, branchTip, token);
+
+  const treeEntries = [];
+  for (let i = 0; i < changes.length; i++){
+    const c = changes[i];
+    if (c.remove){
+      treeEntries.push({ path: c.path, mode: "100644", type: "blob", sha: null });
+    } else {
+      if (onProgress) onProgress(`Enviando ${i+1}/${changes.length}: ${c.path.split("/").pop()}`);
+      const blobSha = await ghCreateBlob(repo, token, c.contentBase64);
+      treeEntries.push({ path: c.path, mode: "100644", type: "blob", sha: blobSha });
+    }
+  }
+
+  if (onProgress) onProgress("Montando o commit...");
+  const treeRes = await fetch(`https://api.github.com/repos/${repo}/git/trees`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries })
+  });
+  if (!treeRes.ok) throw new Error(`Falha ao montar as mudanças (${treeRes.status}): ${(await treeRes.text()).slice(0,200)}`);
+  const newTreeSha = (await treeRes.json()).sha;
+
+  const commitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ message, tree: newTreeSha, parents: [branchTip] })
+  });
+  if (!commitRes.ok) throw new Error(`Falha ao criar o commit (${commitRes.status}): ${(await commitRes.text()).slice(0,200)}`);
+  const newCommitSha = (await commitRes.json()).sha;
+
+  if (onProgress) onProgress("Publicando (git push)...");
+  const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ sha: newCommitSha })
+  });
+  if (!refRes.ok){
+    // Alguém publicou algo entre nossa leitura da branch e agora — o próprio HTML já trava o
+    // botão contra duplo clique, então isso só deve acontecer em uso simultâneo real (raro).
+    const body = await refRes.text();
+    throw new Error(`A branch mudou durante a publicação, tente novamente (${refRes.status}): ${body.slice(0,200)}`);
   }
 }
 
@@ -1119,19 +1126,19 @@ document.getElementById("publicarBtn").onclick = async () => {
   const base = `imoveis/${dados.slug}`;
 
   try {
-    status.textContent = "Publicando dados.json...";
-    await ghPutFile(repo, `${base}/dados.json`, branch, token,
-      utf8ToBase64(JSON.stringify(dados, null, 2)),
-      `feat: adiciona/atualiza ${dados.slug} (via admin)`);
-
-    for (let i = 0; i < fotos.length; i++){
-      const f = fotos[i];
+    status.textContent = "Preparando arquivos...";
+    const changes = [
+      { path: `${base}/dados.json`, contentBase64: utf8ToBase64(JSON.stringify(dados, null, 2)) },
+    ];
+    for (const f of fotos){
       const nome = nomeArquivo(f);
-      status.textContent = `Publicando foto ${i+1}/${fotos.length}: ${nome}`;
       const b64 = await fileToBase64(f.file);
-      await ghPutFile(repo, `${base}/fotos/${nome}`, branch, token, b64,
-        `feat: foto ${nome} de ${dados.slug} (via admin)`);
+      changes.push({ path: `${base}/fotos/${nome}`, contentBase64: b64 });
     }
+
+    await ghCommitMultiplo(repo, branch, token, changes,
+      `feat: adiciona/atualiza ${dados.slug} (via admin)`,
+      (msg) => { status.textContent = msg; });
 
     status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página em alguns minutos.";
     const pos = document.getElementById("posPublicarBox");
@@ -1228,17 +1235,14 @@ function renderListaImoveis(lista){
 
   container.querySelectorAll(".toggleAtivoBtn").forEach(btn => btn.onclick = () => toggleAtivo(btn.dataset.pasta));
   container.querySelectorAll(".apagarBtn").forEach(btn => {
-    let armado = false;
-    let timer = null;
+    // Confirmação explícita em vez de "clique duas vezes em 4s" — um duplo toque sem querer
+    // (comum em celular) não apagava mais nada por engano.
     btn.onclick = () => {
-      if (!armado){
-        armado = true;
-        btn.textContent = "Clique de novo pra confirmar";
-        timer = setTimeout(() => { armado = false; btn.textContent = "Apagar definitivamente"; }, 4000);
-        return;
+      const item = filtrada.find(i => i.pasta === btn.dataset.pasta);
+      const nome = item?.dados.titulo || btn.dataset.pasta;
+      if (confirm(`Apagar definitivamente "${nome}"? Isso remove o imóvel e todas as fotos dele do repositório. Não tem como desfazer.`)){
+        apagarImovel(btn.dataset.pasta);
       }
-      clearTimeout(timer);
-      apagarImovel(btn.dataset.pasta);
     };
   });
 }
@@ -1262,39 +1266,30 @@ async function toggleAtivo(pastaNome){
   }
 }
 
-async function ghDeleteFile(repo, path, branch, token, sha, message){
-  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
-    body: JSON.stringify({ message, sha, branch })
-  });
-  if (!res.ok){
-    const body = await res.text();
-    throw new Error(`Falha ao apagar ${path} (${res.status}): ${body.slice(0,200)}`);
-  }
-}
-
 async function apagarImovel(pastaNome){
   const repo = document.getElementById("ghRepo").value.trim();
   const token = document.getElementById("ghToken").value.trim();
   const branch = document.getElementById("ghBranch").value.trim() || "main";
   try {
+    const changes = [];
     const r1 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pastaNome}/dados.json?ref=${encodeURIComponent(branch)}`, {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
     });
-    if (r1.ok){
-      const j1 = await r1.json();
-      await ghDeleteFile(repo, `imoveis/${pastaNome}/dados.json`, branch, token, j1.sha, `chore: apaga ${pastaNome} (via admin)`);
-    }
+    if (r1.ok) changes.push({ path: `imoveis/${pastaNome}/dados.json`, remove: true });
+
     const r2 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pastaNome}/fotos?ref=${encodeURIComponent(branch)}`, {
       headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
     });
     if (r2.ok){
       const fotosRepo = await r2.json();
-      for (const f of fotosRepo){
-        await ghDeleteFile(repo, `imoveis/${pastaNome}/fotos/${f.name}`, branch, token, f.sha, `chore: apaga foto de ${pastaNome} (via admin)`);
-      }
+      for (const f of fotosRepo) changes.push({ path: `imoveis/${pastaNome}/fotos/${f.name}`, remove: true });
     }
+
+    if (!changes.length){ alert("Não encontrei arquivos desse imóvel pra apagar — pode já ter sido removido."); return; }
+
+    // Apaga tudo (dados.json + todas as fotos) num commit só — nunca fica pela metade.
+    await ghCommitMultiplo(repo, branch, token, changes, `chore: apaga ${pastaNome} (via admin)`);
+
     ultimaLista = ultimaLista.filter(i => i.pasta !== pastaNome);
     renderListaImoveis(ultimaLista);
   } catch (err) {
