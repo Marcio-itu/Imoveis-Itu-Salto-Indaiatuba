@@ -4,6 +4,7 @@
 
 ## Imóveis
 
+- [Imóvel com Excelente Visibilidade na Avenida do Rancho Grande - Itu/SP](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/imovel-com-excelente-visibilidade-na-avenida-do-rancho-grande-itu-sp/) — R$ 7.900, Jardim do Estádio/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/imovel-com-excelente-visibilidade-na-avenida-do-rancho-grande-itu-sp/llms.txt
 - [Linda Casa com Piscina, Bar e Área Gourmet](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/llms.txt
 
 ## Uso permitido
