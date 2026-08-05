@@ -1,6 +1,7 @@
 const { esc, formatPreco } = require("./utils");
 
 const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B", "padrao-neutro": "#8A7F63" };
+const FOTOS_DESTAQUE = ["imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp", "imoveis-itu-salto-indaiatuba-2027-03.webp"];
 
 // Hub usa paleta neutra própria (não é nenhum dos 3 temas de imóvel) —
 // é a vitrine, não deve competir visualmente com nenhum padrão específico.
@@ -19,30 +20,16 @@ function hubCss(t) {
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .wrap-top{padding-top:40px;padding-bottom:22px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
-  .site-header{display:flex;justify-content:flex-end;align-items:flex-end;flex-wrap:wrap;gap:14px}
-  .credential{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:${t.inkMuted};
-    border:1px solid ${t.border};border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.65);
-    white-space:nowrap}
-  .credential b{color:${t.ink};font-weight:600;letter-spacing:0}
-  .regiao-linha{color:${t.inkMuted};font-size:13px;margin-top:10px}
+  .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:14px}
+  .brand-logo{height:34px;width:auto;display:block}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
   .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${t.inkMuted};
     font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px}
   .grupo-label svg{width:12px;height:12px;flex:none}
 
-  @keyframes bpfade{0%,4%{opacity:0}10%,29%{opacity:1}35%,100%{opacity:0}}
-
-  .hero-photo-mobile{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;background:${t.surface}}
-  .hero-photo-mobile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
-    animation:bpfade 12s ease-in-out infinite}
-  .hero-photo-mobile img:nth-child(1){animation-delay:0s}
-  .hero-photo-mobile img:nth-child(2){animation-delay:4s}
-  .hero-photo-mobile img:nth-child(3){animation-delay:8s}
+  .hero-photo-mobile{position:relative;width:100%;aspect-ratio:2/1;overflow:hidden;background:${t.surface}}
+  .hero-photo-mobile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   @media (min-width:900px){.hero-photo-mobile{display:none}}
-  @media (prefers-reduced-motion: reduce){
-    .hero-photo-mobile img{animation:none;opacity:0}
-    .hero-photo-mobile img:first-child{opacity:1}
-  }
 
   .filtros-headline{font-family:${t.fonts.display};font-weight:500;font-size:clamp(24px,4vw,29px);
     line-height:1.18;letter-spacing:-.01em;margin-bottom:20px;max-width:22ch}
@@ -61,16 +48,7 @@ function hubCss(t) {
     .search-shell{grid-template-columns:1.05fr .95fr;align-items:stretch}
     .banner-photos{display:block;position:relative;border-radius:18px;overflow:hidden;min-height:420px;
       box-shadow:0 10px 30px rgba(0,0,0,.10)}
-    .banner-photos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
-      animation:bpfade 12s ease-in-out infinite}
-    .banner-photos img:nth-child(1){animation-delay:0s}
-    .banner-photos img:nth-child(2){animation-delay:4s}
-    .banner-photos img:nth-child(3){animation-delay:8s}
-    @media (prefers-reduced-motion: reduce){
-
-      .banner-photos img{animation:none;opacity:0}
-      .banner-photos img:first-child{opacity:1}
-    }
+    .banner-photos img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
   }
 
   .filtros{background:rgba(255,255,255,.75);backdrop-filter:blur(10px);border:1px solid ${t.border};
@@ -181,15 +159,12 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 <body>
 <div class="wrap wrap-top">
   <div class="site-header">
-    ${creci ? `<span class="credential"><b>${esc(config?.corretor?.nome || "")}</b> · ${esc(creci)}</span>` : ""}
+    <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
   </div>
-  <p class="regiao-linha">${esc(cidadesComImovel.join(" · ") || cidadesConfig.join(" · "))} — e região</p>
 </div>
 
 <div class="hero-photo-mobile" aria-hidden="true">
-  <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-01.webp" alt="" loading="lazy" onerror="this.style.display='none'">
-  <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-02.webp" alt="" loading="lazy" onerror="this.style.display='none'">
-  <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-03.webp" alt="" loading="lazy" onerror="this.style.display='none'">
+  <img id="fotoDestaqueMobile" alt="" onerror="this.style.display='none'">
 </div>
 
 <div class="wrap wrap-main">
@@ -217,11 +192,40 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
       <a class="cta-buscar" href="#grid">Ver imóveis</a>
     </div>
     <div class="banner-photos" aria-hidden="true">
-      <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-01.webp" alt="" loading="lazy" onerror="this.style.display='none'">
-      <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-02.webp" alt="" loading="lazy" onerror="this.style.display='none'">
-      <img src="${siteUrl}imoveis-itu-salto-indaiatuba-2027-03.webp" alt="" loading="lazy" onerror="this.style.display='none'">
+      <img id="fotoDestaqueDesktop" alt="" onerror="this.style.display='none'">
     </div>
   </div>
+
+  <script>
+  (function(){
+    // Uma foto por sessão de navegação (não fica trocando sozinha). Ao voltar pra home depois
+    // de ver um imóvel (nova carga de página), sorteia outra — evitando repetir a última mostrada.
+    // As outras 2 ficam pré-carregando em segundo plano, então quando trocar já está no cache.
+    var fotos = ${JSON.stringify(FOTOS_DESTAQUE.map(f => siteUrl + f))};
+    var chaveUltima = "hub_ultima_foto_destaque";
+    var ultima = -1;
+    try { ultima = parseInt(sessionStorage.getItem(chaveUltima), 10); } catch(e){}
+    var candidatos = fotos.map(function(_, i){ return i; }).filter(function(i){ return i !== ultima; });
+    var idx = candidatos.length ? candidatos[Math.floor(Math.random() * candidatos.length)] : 0;
+    try { sessionStorage.setItem(chaveUltima, String(idx)); } catch(e){}
+
+    var escolhida = fotos[idx];
+    var m = document.getElementById("fotoDestaqueMobile");
+    var d = document.getElementById("fotoDestaqueDesktop");
+    if (m) m.src = escolhida;
+    if (d) d.src = escolhida;
+
+    // Pré-carrega as outras fotos em segundo plano (baixa prioridade, depois que a página assentar)
+    // pra próxima troca não exigir carregamento na frente do cliente.
+    setTimeout(function(){
+      fotos.forEach(function(url, i){
+        if (i === idx) return;
+        var img = new Image();
+        img.src = url;
+      });
+    }, 1500);
+  })();
+  </script>
 
   <p class="contagem" id="contagem"></p>
   <div class="grid" id="grid"></div>

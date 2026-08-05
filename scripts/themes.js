@@ -10,16 +10,16 @@ const FONTS = {
 const THEMES = {
   "alto-padrao": {
     label: "Alto padrão",
-    bg: "#0E1614",
-    surface: "#16211E",
-    surfaceAlt: "#1F2E29",
-    ink: "#EEF4F2",
-    inkMuted: "#A9BAB5",
+    bg: "#EAF5F1",           // verde-água claro (era quase preto)
+    surface: "#FFFFFF",
+    surfaceAlt: "#DCEEE7",
+    ink: "#17241F",
+    inkMuted: "#5E756E",
     accent: "#4E9E97",       // verde-água
-    accentSecondary: "#3F6B5E", // verde profundo
-    border: "#2A3A35",
+    accentSecondary: "#2F5D7C", // azul petróleo — usado nos contornos finos
+    border: "#BFDCD3",
     radius: "10px",
-    displayWeight: 300,
+    displayWeight: 400,
     displayLetterSpacing: "0.01em",
     eyebrowLetterSpacing: "0.22em",
     fonts: FONTS,

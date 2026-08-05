@@ -107,12 +107,7 @@
   </fieldset>
 
   <fieldset>
-    <legend><span class="passo">4</span><b>Nomes das fotos (SEO)</b></legend>
-    <p class="hint">Automático — não precisa clicar em nada. Assim que você preenche CEP (passo 2) e Padrão (passo 3), o nome de cada foto no passo 1 já atualiza sozinho, incluindo cidade, padrão e o horário da publicação — pra nunca colidir com uma publicação anterior do mesmo imóvel (ex.: <code>fachada-itu-alto-padrao-casa-sp-20260728143502.jpg</code>). Role de volta ao passo 1 pra conferir.</p>
-  </fieldset>
-
-  <fieldset>
-    <legend><span class="passo">5</span><b>Código do imóvel</b></legend>
+    <legend><span class="passo">4</span><b>Código do imóvel</b></legend>
     <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, nessa ordem, "O" quando não se aplica) + <b>código da cidade</b> + <b>3 dígitos sequenciais</b> (ex.: <code>LVP01013</code> = locação+venda+permuta). O código é gerado automaticamente no momento de publicar — não precisa clicar aqui antes, mas pode usar o botão pra conferir/preview.</p>
     <label>Tipo(s) de operação (marque quantos se aplicarem)</label>
     <div class="op-options" id="opOptions"></div>
@@ -224,7 +219,7 @@
 
   <fieldset>
     <legend>Publicar direto no GitHub (opcional)</legend>
-    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o passo 5 busque o próximo número de código sozinho.</p>
+    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o passo 4 busque o próximo número de código sozinho.</p>
     <div class="row">
       <div><label>usuario/repositorio</label><input type="text" id="ghRepo" placeholder="marcio-itu/imoveis-itu-salto-indaiatuba"></div>
       <div><label>Branch</label><input type="text" id="ghBranch" value="main"></div>

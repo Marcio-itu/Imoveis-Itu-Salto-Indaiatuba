@@ -64,6 +64,7 @@ function css(t) {
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
 
   p.resumo{font-size:19px;font-weight:600;color:var(--ink);max-width:62ch;line-height:1.4}
+  p.disclaimer{font-size:12px;font-style:italic;color:var(--ink-muted);max-width:62ch;line-height:1.5;margin-top:22px}
 
   .faq-list{display:grid;gap:10px;max-width:72ch}
   .faq-item{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:2px 18px}
@@ -111,17 +112,22 @@ function css(t) {
   .sticky-cta .cta{padding:11px 20px;font-size:14px}
 
   .sim-tab{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:25;
-    background:var(--accent);color:#fff;text-decoration:none;
-    padding:18px 9px;border-radius:12px 0 0 12px;
-    display:flex;flex-direction:column;align-items:center;
-    box-shadow:0 4px 16px rgba(0,0,0,.2);
+    background:linear-gradient(180deg,#0046C0,#003A9E);color:#fff;text-decoration:none;
+    padding:20px 10px 16px;border-radius:14px 0 0 14px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;
+    box-shadow:0 4px 18px rgba(0,30,90,.35);border:1px solid rgba(255,255,255,.12);border-right:none;
     transition:transform .2s ease,padding .2s ease;
     animation:sim-tab-pulse 5s ease-in-out 3;}
-  .sim-tab:hover{transform:translateY(-50%) scale(1.08);padding-right:13px}
+  .sim-tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
+    background:linear-gradient(90deg,#F7931E,#FFB74D);border-radius:0 0 0 14px}
+  .sim-tab-icon{width:26px;height:26px;border-radius:50%;background:#F7931E;color:#0046C0;
+    display:flex;align-items:center;justify-content:center;font-family:${t.fonts.body};
+    font-weight:800;font-size:13px;flex:none}
+  .sim-tab:hover{transform:translateY(-50%) scale(1.08);padding-right:14px}
   .sim-tab .sim-tab-label{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
     display:flex;flex-direction:column;align-items:center;gap:2px}
-  .sim-tab .sim-tab-t{font-family:${t.fonts.body};font-size:15px;font-weight:700;letter-spacing:.05em}
-  .sim-tab .sim-tab-s{font-family:${t.fonts.body};font-size:11px;font-weight:500;opacity:.85;letter-spacing:.03em}
+  .sim-tab .sim-tab-t{font-family:${t.fonts.body};font-size:15px;font-weight:800;letter-spacing:.08em}
+  .sim-tab .sim-tab-s{font-family:${t.fonts.body};font-size:11px;font-weight:600;opacity:.9;letter-spacing:.04em}
   @keyframes sim-tab-pulse{
     0%,92%,100%{transform:translateY(-50%) scale(1)}
     4%{transform:translateY(-50%) scale(1.08)}
@@ -129,9 +135,10 @@ function css(t) {
   }
   @media (prefers-reduced-motion: reduce){ .sim-tab{animation:none} }
   @media (max-width:640px){
-    .sim-tab{padding:13px 7px}
+    .sim-tab{padding:15px 7px 13px}
     .sim-tab .sim-tab-t{font-size:13px}
     .sim-tab .sim-tab-s{font-size:10px}
+    .sim-tab-icon{width:22px;height:22px;font-size:11px}
   }
   `;
 }
@@ -321,6 +328,7 @@ ${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/bea
 </head>
 <body>
 ${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
+  <span class="sim-tab-icon">%</span>
   <span class="sim-tab-label">
     <span class="sim-tab-t">SIMULE</span>
     <span class="sim-tab-s">financiamento</span>
@@ -360,6 +368,7 @@ ${(() => {
       <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Um lugar para viver")}</h2>
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
+      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e foram fornecidas pelo proprietário em ${esc(formatDateBR(imovel.publicadoEm))}. Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.${(imovel.parceria?.instagrams || []).length ? ` Imóvel em parceria com ${imovel.parceria.instagrams.map((h) => `"@${esc(h.replace(/^@/, ""))}"`).join(", ")}.` : ""}</p>
     </div>
   </section>`;
 
@@ -392,11 +401,15 @@ ${(() => {
   </section>`
     : "";
 
+  const tituloGaleria = imovel.padrao === "alto-padrao" ? "Deleite-se com as fotos"
+    : imovel.padrao === "medio-padrao" ? "Fotos pra você curtir"
+    : "Fotos";
+
   blocks.galeria = fotos.length
     ? `<section id="galeria">
     <div class="wrap">
       <span class="eyebrow">Galeria</span>
-      <h2 style="margin-top:10px">Fotos</h2>
+      <h2 style="margin-top:10px">${esc(tituloGaleria)}</h2>
       <div class="galeria">
         ${fotos
           .map(
@@ -477,7 +490,7 @@ ${
   <div class="wrap">
     Inteligência Imobiliária, Construindo Confiança · ${imovel.corretor?.creci ? `CRECI-SP ${esc(imovel.corretor.creci)}` : ""}
     ${imovel.corretor?.instagram ? `· <a href="${esc(imovel.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a>` : ""}
-    · Nascimento: ${esc(formatDateBR(imovel.publicadoEm))}
+    · Imóvel publicado em: ${esc(formatDateBR(imovel.publicadoEm))}
     · <a href="${esc(hubUrl)}">Ver outros imóveis em ${esc(imovel.bairro)}</a>
   </div>
 </footer>
