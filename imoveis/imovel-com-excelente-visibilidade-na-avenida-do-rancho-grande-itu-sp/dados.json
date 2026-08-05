@@ -1,0 +1,94 @@
+{
+  "slug": "imovel-com-excelente-visibilidade-na-avenida-do-rancho-grande-itu-sp",
+  "titulo": "Imóvel com Excelente Visibilidade na Avenida do Rancho Grande - Itu/SP",
+  "tipo": "casa",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "locacao"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim do Estádio",
+  "condominio": "",
+  "referencia": "LOO01013",
+  "preco": "R$ 7.900",
+  "financiamento": "",
+  "banheiros": 2,
+  "descricaoCurta": "Este imóvel padrão para locação está localizado no bairro Jardim do Estádio, em Itu, e destaca-se pela excelente visibilidade na Avenida do Rancho Grande pelo v",
+  "descricaoLonga": [
+    "Este imóvel padrão para locação está localizado no bairro Jardim do Estádio, em Itu, e destaca-se pela excelente visibilidade na Avenida do Rancho Grande pelo valor mensal de R$ 7.900.",
+    "A estrutura é composta por dois pisos amplos que integram salões comerciais com vista interna e dois banheiros.",
+    "O imóvel conta também com duas vagas de garagem disponíveis para uso."
+  ],
+  "resumo": "Imóvel para locação com excelente visibilidade na Avenida do Rancho Grande, em Itu/SP, por R$ 7.900 mensais.",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [
+    "2 vagas de garagem",
+    "excelente visibilidade ",
+    "2 pisos amplos"
+  ],
+  "publicadoEm": "2026-08-05",
+  "fotos": [
+    {
+      "arquivo": "planta-baixa-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Planta baixa do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "banheiro-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Banheiro do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 2
+    },
+    {
+      "arquivo": "banheiro-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Banheiro do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "salao-comercial-interna-1-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Salão comercial vista interna 1 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "salao-comercial-interna-2-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Salão comercial vista interna 2 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "salao-comercial-interna-3-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Salão comercial vista interna 3 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "salao-comercial-interna-4-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Salão comercial vista interna 4 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "fachada-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Fachada do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": true
+    },
+    {
+      "arquivo": "comercial-card-1-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Card Comercial 1 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "vista-ampla-local-itu-padrao-neutro-casa-sp-20260805220959.jpeg",
+      "alt": "Vista ampla do local do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "comercial-card-2-itu-padrao-neutro-casa-sp-20260805220959.webp",
+      "alt": "Card Comercial 2 do(a) casa padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    }
+  ]
+}
