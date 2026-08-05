@@ -5,6 +5,7 @@
 ## Imóveis
 
 - [Casa em Praia Preta](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/) — R$ 2.450.000, Praia Preta/São Sebastião-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-praia-preta/llms.txt
+- [Linda casa com piscina, bar e área gourmet](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-piscina-bar-e-area-gourmet/llms.txt
 
 ## Uso permitido
 
