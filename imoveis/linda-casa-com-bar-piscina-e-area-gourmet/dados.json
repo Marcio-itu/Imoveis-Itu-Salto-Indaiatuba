@@ -10,7 +10,7 @@
   "uf": "SP",
   "bairro": "Jardim Aeroporto I",
   "condominio": "",
-  "referencia": "OVO01013",
+  "referencia": "OVO01015",
   "preco": "R$ 700.000",
   "financiamento": "Sim",
   "quartos": 2,
@@ -19,9 +19,13 @@
   "vagas": 2,
   "areaUtil": 175,
   "areaTerreno": 250,
-  "descricaoCurta": "Linda Casa com Bar, Piscina e Área Gourmet. em Jardim Aeroporto I, Itu/SP",
-  "descricaoLonga": [],
-  "resumo": "Que tal conhecer este imóvel?",
+  "descricaoCurta": "O imóvel dispõe de dois quartos, sendo uma suíte master, salas de estar e de jantar, cozinha e cinco banheiros no total, distribuídos em um terreno de 250 m² co",
+  "descricaoLonga": [
+    "O imóvel dispõe de dois quartos, sendo uma suíte master, salas de estar e de jantar, cozinha e cinco banheiros no total, distribuídos em um terreno de 250 m² com duas vagas de garagem.",
+    "A área externa é equipada com piscina, bar e espaço gourmet para o lazer da sua família.",
+    "A residência conta com diferenciais instalados como placas fotovoltaicas, aquecedor elétrico e ar-condicionado, ideal para quem busca morar com conforto e eficiência energética."
+  ],
+  "resumo": "Casa de médio padrão à venda por R$ 700.000 no bairro Jardim Aeroporto I, em Itu/SP, com 175 m² de área útil e piscina.",
   "diferenciais": [
     "Hummm",
     "que delícia essa piscina!"
@@ -41,55 +45,55 @@
   "publicadoEm": "2026-08-06",
   "fotos": [
     {
-      "arquivo": "piscina-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": true,
       "quantidade": 1
     },
     {
-      "arquivo": "quarto-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "piscina-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "sala-jantar-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "sala-jantar-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Sala de jantar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "quarto-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "cozinha-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Cozinha do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Sala de estar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "suite-master-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "suite-master-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Suíte master do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-hummm-20260806010933.jpeg",
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-hummm-20260806011043.jpeg",
       "alt": "Sala de estar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
       "hero": false,
       "quantidade": 1
