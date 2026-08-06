@@ -1,0 +1,100 @@
+{
+  "slug": "linda-casa-com-area-gourmet-bar-e-piscina",
+  "titulo": "Linda Casa com Área Gourmet, Bar e Piscina!",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim Aeroporto I",
+  "condominio": "",
+  "referencia": "OVO01013",
+  "preco": "R$ 700.000",
+  "financiamento": "Sim",
+  "quartos": 2,
+  "suites": 1,
+  "banheiros": 5,
+  "vagas": 2,
+  "areaUtil": 175,
+  "areaTerreno": 250,
+  "descricaoCurta": "O imóvel de médio padrão conta com 250 m² de terreno, distribuindo sua área construída em sala de estar, sala de jantar, cozinha, dois quartos, sendo uma suíte ",
+  "descricaoLonga": [
+    "O imóvel de médio padrão conta com 250 m² de terreno, distribuindo sua área construída em sala de estar, sala de jantar, cozinha, dois quartos, sendo uma suíte master, e cinco banheiros no total.",
+    "A estrutura é equipada com ar-condicionado, aquecedor elétrico e placas fotovoltaicas para geração de energia solar, garantindo maior economia no dia a dia.",
+    "Para o lazer e conveniência, a área externa possui piscina privativa e a garagem acomoda confortavelmente dois veículos."
+  ],
+  "resumo": "Casa à venda por R$ 700.000 no bairro Jardim Aeroporto I, em Itu/SP, com 175 m² de área útil, piscina e placas fotovoltaicas.",
+  "tituloSecao": "Aceita financiamento. Agende sua Visita!",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "parceria": {
+    "instagrams": [
+      "@marcionunesmarins"
+    ]
+  },
+  "acessorios": [
+    "Placa fotovoltaica",
+    "Aquecedor elétrico",
+    "Ar-condicionado"
+  ],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-06",
+  "fotos": [
+    {
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": true,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-jantar-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Sala de jantar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Cozinha do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "banheiro-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Banheiro do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "suite-master-itu-medio-padrao-casa-sp-20260806013412.jpeg",
+      "alt": "Suíte master do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    }
+  ]
+}
