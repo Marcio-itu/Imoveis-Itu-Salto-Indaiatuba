@@ -4,6 +4,7 @@
 
 ## Imóveis
 
+- [Casa dos Sonhos em Salto/SP](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-dos-sonhos-em-salto-sp/) — R$ 1.350.000, Residencial Central Parque/Salto-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-dos-sonhos-em-salto-sp/llms.txt
 - [Linda Casa com Área Gourmet, Bar e Piscina!](https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-area-gourmet-bar-e-piscina/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-area-gourmet-bar-e-piscina/llms.txt
 
 ## Uso permitido
