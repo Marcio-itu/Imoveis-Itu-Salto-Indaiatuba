@@ -1,0 +1,91 @@
+{
+  "slug": "excelente-localizacao",
+  "titulo": "Excelente Localização ",
+  "tipo": "terreno",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "locacao"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim do Estádio",
+  "condominio": "",
+  "referencia": "LOO01016",
+  "preco": "R$ 7.900",
+  "financiamento": "Locação",
+  "banheiros": 2,
+  "vagas": 4,
+  "areaUtil": 250,
+  "descricaoCurta": "Terreno de 250 m² de área útil com estrutura em dois pisos está disponível para locação por R$ 7.900 mensais no bairro Jardim do Estádio, em Itu/SP.",
+  "descricaoLonga": [
+    "Terreno de 250 m² de área útil com estrutura em dois pisos está disponível para locação por R$ 7.900 mensais no bairro Jardim do Estádio, em Itu/SP.",
+    "A estrutura edificada no local possui piso térreo, piso superior, sala de estar e dois banheiros, com a planta baixa disponível para orientar as adequações do seu negócio.",
+    "O imóvel se destaca pela excelente localização na região, contando com fachada pronta e uma vista ampla para estabelecer sua operação comercialização."
+  ],
+  "resumo": "Terreno de 250 m² com estrutura em dois pisos para locação no Jardim do Estádio, em Itu/SP, por R$ 7.900 mensais.",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [
+    "2 pisos ",
+    "Veja a Planta"
+  ],
+  "publicadoEm": "2026-08-06",
+  "fotos": [
+    {
+      "arquivo": "banheiro-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Banheiro do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "banheiro-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Banheiro do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "piso-superior-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Piso superior do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "planta-baixa-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Planta baixa do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "vista-ampla-local-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Vista ampla do local do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "piso-terreo-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Piso térreo do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "sala-estar-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Sala de estar do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "fachada-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Fachada do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "comercial-card-1-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Card Comercial 1 do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "vista-ampla-local-itu-padrao-neutro-terreno-sp-20260806022106.jpeg",
+      "alt": "Vista ampla do local do(a) terreno padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": true,
+      "quantidade": 1
+    }
+  ]
+}
