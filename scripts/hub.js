@@ -21,7 +21,7 @@ function hubCss(t) {
   .wrap-top{padding-top:40px;padding-bottom:22px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
   .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:14px}
-  .brand-logo{height:34px;width:auto;display:block}
+  .brand-logo{height:68px;width:auto;display:block}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
   .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${t.inkMuted};
     font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px}

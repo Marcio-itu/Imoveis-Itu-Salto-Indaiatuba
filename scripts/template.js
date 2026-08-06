@@ -365,7 +365,7 @@ ${(() => {
   blocks.sobre = `<section id="sobre">
     <div class="wrap">
       <span class="eyebrow">Sobre o imóvel</span>
-      <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Um lugar para viver")}</h2>
+      <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
       <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e foram fornecidas pelo proprietário em ${esc(formatDateBR(imovel.publicadoEm))}. Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.${(imovel.parceria?.instagrams || []).length ? ` Imóvel em parceria com ${imovel.parceria.instagrams.map((h) => `"@${esc(h.replace(/^@/, ""))}"`).join(", ")}.` : ""}</p>

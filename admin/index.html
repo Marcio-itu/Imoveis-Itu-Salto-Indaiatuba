@@ -28,6 +28,18 @@
   .checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
   .checkbox-grid label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin:0;cursor:pointer}
   .checkbox-grid input{width:auto}
+  .tag-input{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--border);
+    border-radius:8px;padding:8px 10px;background:#fff}
+  .tag-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .tag-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft,#EEF3F2);
+    border:1px solid var(--border);border-radius:999px;padding:4px 6px 4px 12px;font-size:13px}
+  .tag-chip button{border:none;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--ink-muted);
+    padding:2px 6px}
+  .tag-input input{border:none;outline:none;flex:1;min-width:140px;font-size:14px;font-family:inherit}
+  .tag-sugestoes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .tag-sugestoes button{border:1px dashed var(--border);background:none;border-radius:999px;padding:5px 12px;
+    font-size:12px;color:var(--ink-muted);cursor:pointer}
+  .tag-sugestoes button:hover{border-color:var(--accent);color:var(--accent)}
   .tier-options{display:flex;gap:10px;margin-top:6px}
   .tier{flex:1;border:2px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;font-size:13px}
   .tier.selected{border-color:var(--sw);background:color-mix(in srgb, var(--sw) 12%, white)}
@@ -107,37 +119,34 @@
   </fieldset>
 
   <fieldset>
-    <legend><span class="passo">4</span><b>Código do imóvel</b></legend>
-    <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, nessa ordem, "O" quando não se aplica) + <b>código da cidade</b> + <b>3 dígitos sequenciais</b> (ex.: <code>LVP01013</code> = locação+venda+permuta). O código é gerado automaticamente no momento de publicar — não precisa clicar aqui antes, mas pode usar o botão pra conferir/preview.</p>
-    <label>Tipo(s) de operação (marque quantos se aplicarem)</label>
-    <div class="op-options" id="opOptions"></div>
-    <div class="row" style="margin-top:12px">
-      <div><label>Cidade → código</label>
-        <select id="cidadeCod">
-          <option value="01">01 — Itu</option>
-          <option value="02">02 — Salto</option>
-          <option value="03">03 — Indaiatuba</option>
-          <option value="04">04 — Sorocaba</option>
-          <option value="05">05 — Cabreúva</option>
-        </select>
-      </div>
-      <div><label>Próximo número (se não usar GitHub agora)</label><input type="number" id="codSeqManual" value="13" min="0"></div>
-    </div>
-    <button class="btn secondary" id="gerarCodigoBtn" type="button" style="margin-top:12px">🔢 Gerar código</button>
-    <div id="codStatus" class="hint" style="margin-top:8px"></div>
-  </fieldset>
-
-  <fieldset>
     <legend>Dados básicos</legend>
-    <label>Título</label>
+    <label>Tipo(s) de operação <span style="font-weight:400;color:var(--ink-muted)">(marque quantos se aplicarem)</span></label>
+    <div class="op-options" id="opOptions"></div>
+    <label style="margin-top:14px">Título do imóvel <span style="font-weight:400;color:var(--ink-muted)">(nome curto — aparece no topo da página, na aba do navegador e nos cards de busca)</span></label>
     <input type="text" id="titulo" placeholder="Casa em Praia Preta">
     <div class="row">
       <div><label>Tipo de imóvel</label>
         <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option><option>salão comercial</option></select>
       </div>
-      <div><label>Referência (preenchida pelo código acima)</label><input type="text" id="referencia" placeholder="LVP01013"></div>
+      <div><label>Referência <span style="font-weight:400;color:var(--ink-muted)">(gerada sozinha ao publicar)</span></label><input type="text" id="referencia" placeholder="LVP01013"></div>
     </div>
-    <label>Condomínio (opcional, mas ajuda muito na busca no interior de SP)</label>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">⚙️ Configuração do código (avançado — raramente precisa mexer)</summary>
+      <div class="row" style="margin-top:10px">
+        <div><label>Cidade → código</label>
+          <select id="cidadeCod">
+            <option value="01">01 — Itu</option>
+            <option value="02">02 — Salto</option>
+            <option value="03">03 — Indaiatuba</option>
+            <option value="04">04 — Sorocaba</option>
+            <option value="05">05 — Cabreúva</option>
+          </select>
+        </div>
+        <div><label>Próximo número (se não usar GitHub agora)</label><input type="number" id="codSeqManual" value="13" min="0"></div>
+      </div>
+      <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, "O" quando não se aplica) + cidade + 3 dígitos. Gerado sozinho ao publicar — não precisa clicar em nada.</p>
+    </details>
+    <label style="margin-top:14px">Condomínio (opcional, mas ajuda muito na busca no interior de SP)</label>
     <input type="text" id="condominio" placeholder="Ex.: Salto Grande, Alphaville Itu">
     <div class="row">
       <div><label>Preço</label><input type="text" id="preco" placeholder="R$ 450.000"></div>
@@ -181,6 +190,22 @@
   </fieldset>
 
   <fieldset>
+    <legend>Parceria</legend>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer">
+      <input type="checkbox" id="emParceria" style="width:auto"> Imóvel em parceria
+    </label>
+    <div id="parceriaCampos" style="display:none;margin-top:14px">
+      <label>Instagram do(s) corretor(es) parceiro(s)</label>
+      <div class="tag-input" id="parceriaTagInput">
+        <span class="tag-chips" id="parceriaChips"></span>
+        <input type="text" id="parceriaTexto" placeholder="Digite o @ e aperte vírgula, ponto e vírgula ou Enter" autocomplete="off">
+      </div>
+      <div class="tag-sugestoes" id="parceriaSugestoes"></div>
+      <p class="hint">Aparece no texto do imóvel como: Imóvel em parceria com "@corretorparceiro". Cada @ novo fica salvo neste navegador pra sugerir automaticamente da próxima vez.</p>
+    </div>
+  </fieldset>
+
+  <fieldset>
     <legend>Fale ou digite (descrição livre)</legend>
     <div class="voice-row">
       <button class="btn mic" id="micBtn" type="button">🎙️ Gravar</button>
@@ -194,17 +219,31 @@
 
   <fieldset>
     <legend>Copy comercial</legend>
-    <p class="hint">Preencha título, características e diferenciais acima primeiro — a IA usa exatamente o que você escreveu ali pra montar o texto (não inventa nada além disso). Usa o Gemini (Google), que tem camada gratuita sem cartão de crédito. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar o texto enviado para treinar os modelos deles (não é o caso no plano pago).</p>
+    <p class="hint">Preencha título, características e diferenciais acima primeiro — a IA usa exatamente o que você escreveu ali pra montar o texto (não inventa nada além disso). Usa o Gemini (Google) como principal, com repetição automática em caso de falha passageira. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar o texto enviado para treinar os modelos deles (não é o caso no plano pago).</p>
     <label>Chave da API Gemini (Google AI Studio)</label>
     <input type="password" id="geminiKey" placeholder="AIza...">
     <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
       <input type="checkbox" id="lembrarGeminiKey" style="width:auto"> Lembrar esta chave neste navegador
     </label>
+
+    <details style="margin-top:16px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">🔁 Backup gratuito (opcional) — usado automaticamente só se o Gemini falhar</summary>
+      <p class="hint" style="margin-top:8px">OpenRouter tem modelos gratuitos sem cartão de crédito. Crie uma conta grátis em openrouter.ai/keys e cole a chave abaixo. Se você não preencher isso, o sistema só usa o Gemini (com repetição automática em falha passageira).</p>
+      <label>Chave da API OpenRouter (backup)</label>
+      <input type="password" id="openrouterKey" placeholder="sk-or-...">
+      <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+        <input type="checkbox" id="lembrarOpenrouterKey" style="width:auto"> Lembrar esta chave neste navegador
+      </label>
+    </details>
+
     <button class="btn secondary" id="gerarCopyBtn" type="button" style="margin-top:12px">🪄 Gerar copy com IA</button>
     <div id="copyStatus" class="hint" style="margin-top:8px"></div>
 
-    <label style="margin-top:18px">Resumo (1 frase direta — aparece em destaque no topo da página e no FAQ)</label>
+    <label style="margin-top:18px">Frase de efeito <span style="font-weight:400;color:var(--ink-muted)">(diferente do título — é 1 frase de venda logo abaixo dele, reaparece no FAQ)</span></label>
     <input type="text" id="resumo" placeholder="Ex.: Casa de alto padrão em Praia Preta, a poucos passos do mar.">
+
+    <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
+    <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
 
     <label style="margin-top:16px">Descrição final (parágrafos curtos, um por linha)</label>
     <textarea id="descricaoFinal" placeholder="Gerado pela IA, ou cole aqui manualmente..."></textarea>
@@ -219,7 +258,7 @@
 
   <fieldset>
     <legend>Publicar direto no GitHub (opcional)</legend>
-    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o passo 4 busque o próximo número de código sozinho.</p>
+    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o código do imóvel (em Dados básicos) busque o próximo número sozinho.</p>
     <div class="row">
       <div><label>usuario/repositorio</label><input type="text" id="ghRepo" placeholder="marcio-itu/imoveis-itu-salto-indaiatuba"></div>
       <div><label>Branch</label><input type="text" id="ghBranch" value="main"></div>
@@ -293,7 +332,8 @@ const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, 
 // Ordem alfabética (pelo rótulo, como aparece no dropdown) — mais fácil de achar o ambiente certo
 // numa lista longa. Ao adicionar um novo ambiente, mantenha a lista alfabetizada.
 const AMBIENTES = ["area-lazer","banheiro","comercial-card-1","comercial-card-2","churrasqueira","cozinha",
-  "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina","planta-baixa",
+  "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina",
+  "piso-superior","piso-terreo","planta-baixa",
   "quarto","quarto-empregada","quarto-hospedes","quintal","sacada","sala-estar","sala-jantar",
   "salao-comercial-interna-1","salao-comercial-interna-2","salao-comercial-interna-3","salao-comercial-interna-4",
   "suite-master","terreno-vista-frente","terreno-vista-fundos","terreno-vista-perspectiva",
@@ -303,6 +343,7 @@ const AMBIENTE_LABEL = {
   "comercial-card-2":"Card Comercial 2","churrasqueira":"Churrasqueira","cozinha":"Cozinha",
   "entorno-bairro":"Entorno do bairro","fachada":"Fachada","fachada-noturna":"Fachada noturna",
   "foto-comercial":"Foto comercial","garagem":"Garagem","lavabo":"Lavabo","piscina":"Piscina",
+  "piso-superior":"Piso superior","piso-terreo":"Piso térreo",
   "planta-baixa":"Planta baixa","quarto":"Quarto","quarto-empregada":"Quarto de empregada",
   "quarto-hospedes":"Quarto de hóspedes","quintal":"Quintal","sacada":"Sacada","sala-estar":"Sala de estar",
   "sala-jantar":"Sala de jantar","salao-comercial-interna-1":"Salão comercial vista interna 1",
@@ -329,10 +370,14 @@ document.getElementById("atualizarPaginaBtn").onclick = () => location.reload();
 
 function resetFormulario(){
   ["titulo","tipo","cidade","uf","bairro","condominio","referencia","preco","financiamento",
-   "quartos","suites","banheiros","vagas","areaUtil","areaTerreno","diferenciais","resumo",
+   "quartos","suites","banheiros","vagas","areaUtil","areaTerreno","diferenciais","dadosTecnicosBullets","resumo","tituloSecao",
    "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
   ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
   document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
+  parceriaHandles = [];
+  document.getElementById("emParceria").checked = false;
+  document.getElementById("parceriaCampos").style.display = "none";
+  renderParceriaChips(); renderParceriaSugestoes();
   fotos = [];
   modoEdicao = null;
   document.getElementById("edicaoBanner").style.display = "none";
@@ -356,6 +401,20 @@ function resetFormulario(){
   const persistir = () => {
     if (lembrarEl.checked && keyEl.value.trim()) localStorage.setItem("geminiKey", keyEl.value.trim());
     else localStorage.removeItem("geminiKey");
+  };
+  keyEl.addEventListener("input", persistir);
+  lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- lembrar chave da API OpenRouter (backup) neste navegador (opcional, opt-in) ---
+(function(){
+  const keyEl = document.getElementById("openrouterKey");
+  const lembrarEl = document.getElementById("lembrarOpenrouterKey");
+  const salva = localStorage.getItem("openrouterKey");
+  if (salva){ keyEl.value = salva; lembrarEl.checked = true; }
+  const persistir = () => {
+    if (lembrarEl.checked && keyEl.value.trim()) localStorage.setItem("openrouterKey", keyEl.value.trim());
+    else localStorage.removeItem("openrouterKey");
   };
   keyEl.addEventListener("input", persistir);
   lembrarEl.addEventListener("change", persistir);
@@ -386,6 +445,67 @@ function resetFormulario(){
   };
   [repoEl, branchEl, tokenEl].forEach(el => el.addEventListener("input", persistir));
   lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- checkbox "imóvel em parceria" + campo de tags de Instagram, com autocomplete salvo no navegador ---
+let parceriaHandles = [];
+function normalizarHandle(s){
+  s = s.trim().replace(/^@+/, "");
+  return s ? "@" + s : "";
+}
+function getParceirosSalvos(){
+  try { return JSON.parse(localStorage.getItem("parceirosSalvos") || "[]"); } catch { return []; }
+}
+function salvarParceiroNoHistorico(handle){
+  const lista = getParceirosSalvos();
+  if (!lista.includes(handle)){
+    lista.push(handle);
+    localStorage.setItem("parceirosSalvos", JSON.stringify(lista));
+  }
+}
+function renderParceriaChips(){
+  const box = document.getElementById("parceriaChips");
+  box.innerHTML = parceriaHandles.map((h, i) =>
+    `<span class="tag-chip">${h}<button type="button" data-i="${i}" aria-label="Remover">✕</button></span>`
+  ).join("");
+  box.querySelectorAll("button").forEach(btn => {
+    btn.onclick = () => { parceriaHandles.splice(Number(btn.dataset.i), 1); renderParceriaChips(); renderParceriaSugestoes(); };
+  });
+}
+function renderParceriaSugestoes(){
+  const box = document.getElementById("parceriaSugestoes");
+  const disponiveis = getParceirosSalvos().filter(h => !parceriaHandles.includes(h));
+  box.innerHTML = disponiveis.map(h => `<button type="button" data-h="${h}">+ ${h}</button>`).join("");
+  box.querySelectorAll("button").forEach(btn => {
+    btn.onclick = () => {
+      parceriaHandles.push(btn.dataset.h);
+      renderParceriaChips(); renderParceriaSugestoes();
+    };
+  });
+}
+function commitParceriaTexto(){
+  const input = document.getElementById("parceriaTexto");
+  const partes = input.value.split(/[,;]/).map(normalizarHandle).filter(Boolean);
+  partes.forEach(h => {
+    if (!parceriaHandles.includes(h)) parceriaHandles.push(h);
+    salvarParceiroNoHistorico(h);
+  });
+  input.value = "";
+  renderParceriaChips(); renderParceriaSugestoes();
+}
+(function(){
+  const checkbox = document.getElementById("emParceria");
+  const campos = document.getElementById("parceriaCampos");
+  const input = document.getElementById("parceriaTexto");
+  checkbox.addEventListener("change", () => { campos.style.display = checkbox.checked ? "block" : "none"; });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === "," || e.key === ";"){
+      e.preventDefault();
+      commitParceriaTexto();
+    }
+  });
+  input.addEventListener("blur", () => { if (input.value.trim()) commitParceriaTexto(); });
+  renderParceriaSugestoes();
 })();
 
 function slugify(s){
@@ -498,7 +618,6 @@ function letrasOperacao(){
 // --- código do imóvel: [L/V/P ou O] x3 + cidade + sequencial de 3 dígitos, sem separador (ex.: LVP01013) ---
 // Reutilizável: chamado pelo botão manual E automaticamente no momento de publicar (item 8 pedido pelo Marcio).
 async function gerarCodigoAutomatico(silencioso){
-  const status = document.getElementById("codStatus");
   const letra = letrasOperacao();
   const cidadeCod = document.getElementById("cidadeCod").value;
   const repo = document.getElementById("ghRepo").value.trim();
@@ -509,27 +628,19 @@ async function gerarCodigoAutomatico(silencioso){
   let seq = inicio;
 
   if (repo && token){
-    if (!silencioso) status.textContent = "Consultando números já usados no repositório...";
     try {
       const usados = await buscarNumerosUsados(repo, branch, token);
       while (usados.has(seq)) seq++;
-      if (!silencioso) status.textContent = usados.size
-        ? `${usados.size} número(s) já em uso. Próximo disponível a partir de ${inicio}: ${seq}.`
-        : "Nenhum imóvel encontrado ainda no repositório — começando do número informado.";
     } catch (err) {
-      if (!silencioso) status.textContent = "Não consegui consultar o GitHub agora (" + err.message + ") — usando o número informado.";
+      // Sem conexão com o GitHub agora — segue com o número informado (silencioso, não bloqueia o publicar).
     }
-  } else if (!silencioso) {
-    status.textContent = "GitHub não configurado — usando o número informado (confira se não repete).";
   }
 
   const codigo = `${letra}${cidadeCod}${String(seq).padStart(3,"0")}`;
   document.getElementById("referencia").value = codigo;
   document.getElementById("codSeqManual").value = seq;
-  if (!silencioso) status.textContent += ` Código gerado: ${codigo}`;
   return codigo;
 }
-document.getElementById("gerarCodigoBtn").onclick = () => gerarCodigoAutomatico(false);
 
 // Retorna o conjunto de todos os números sequenciais já em uso (varre imoveis/ no GitHub).
 // Uma pasta apagada não aparece mais aqui — é assim que o número volta a ficar disponível.
@@ -639,8 +750,14 @@ function renderFotos(){
       </div>`;
     fotoList.appendChild(div);
   });
+  const AMBIENTES_CONTAVEIS = ["quarto","suite-master","banheiro","lavabo","garagem"];
   fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
-    fotos[+e.target.dataset.i].ambiente = e.target.value; renderFotos();
+    const f = fotos[+e.target.dataset.i];
+    f.ambiente = e.target.value;
+    // Ambiente contável (quarto, suíte, banheiro, lavabo, garagem) já chega com "1" marcado —
+    // é o caso mais comum (1 foto = 1 unidade); só precisa editar quando for mais de 1.
+    if (AMBIENTES_CONTAVEIS.includes(f.ambiente) && !f.quantidade) f.quantidade = 1;
+    renderFotos();
   });
   fotoList.querySelectorAll(".qtdInput").forEach(inp => inp.onchange = (e) => {
     fotos[+e.target.dataset.i].quantidade = e.target.value ? Number(e.target.value) : "";
@@ -674,7 +791,12 @@ function carregarParaEdicao(pasta, dados){
   set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
   set("diferenciais", (dados.diferenciais || []).join(", "));
   set("dadosTecnicosBullets", (dados.dadosTecnicos || []).join("\n"));
+  parceriaHandles = (dados.parceria?.instagrams || []).slice();
+  document.getElementById("emParceria").checked = parceriaHandles.length > 0;
+  document.getElementById("parceriaCampos").style.display = parceriaHandles.length > 0 ? "block" : "none";
+  renderParceriaChips(); renderParceriaSugestoes();
   set("resumo", dados.resumo);
+  set("tituloSecao", dados.tituloSecao);
   set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
 
   padraoAtual = dados.padrao || "medio-padrao";
@@ -809,6 +931,7 @@ Notas soltas do corretor: ${get("transcricao") || "nenhuma"}`;
 
   const prompt = `Você é redator de copy imobiliário para Itu/SP e região, seguindo princípios de SEO e "IA-first" (Generative Engine Optimization): a informação mais importante sempre na primeira frase, parágrafos curtos (2-3 linhas), linguagem direta, sem clichês vazios ("imperdível", "não perca essa oportunidade"), sem inventar nenhuma característica que não esteja nos dados abaixo.
 Regra de destaque entre as operações: se o imóvel for pra venda E locação ao mesmo tempo, dê destaque à venda no texto (mencione primeiro). Se houver permuta entre as operações, NUNCA dê destaque a ela — apenas mencione uma vez, de forma discreta, com a frase exata "Estuda-se permuta." (sem detalhar mais que isso).
+Regra de vocabulário por tipo de imóvel: adapte a linguagem ao campo "Tipo" acima. NUNCA use palavras como "morar", "viver", "lar" ou "sua família" a menos que o tipo seja claramente residencial (casa, apartamento, condomínio). Para salão/ponto comercial, use vocabulário de negócio (ex.: "operar", "atender clientes", "fluxo"); para terreno, vocabulário de terreno (ex.: "construir", "localização", "topografia").
 
 Dados do imóvel:
 ${dadosTexto}
@@ -819,22 +942,15 @@ Responda SOMENTE em JSON, sem markdown, neste formato exato:
   btn.disabled = true;
   status.textContent = "Gerando copy...";
   try {
-    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-goog-api-key": key },
-      body: JSON.stringify({
-        contents: [{ role: "user", parts: [{ text: prompt }] }],
-        generationConfig: { responseMimeType: "application/json" }
-      })
-    });
-    if (!res.ok){
-      const body = await res.text();
-      throw new Error(`API retornou ${res.status}: ${body.slice(0,200)}`);
+    let obj;
+    try {
+      obj = await chamarGeminiCopy(prompt, key, (msg) => { status.textContent = msg; });
+    } catch (errGemini) {
+      const orKey = document.getElementById("openrouterKey").value.trim();
+      if (!orKey) throw errGemini;
+      status.textContent = `Gemini falhou (${errGemini.message}) — tentando o backup...`;
+      obj = await chamarOpenRouterCopy(prompt, orKey);
     }
-    const data = await res.json();
-    const textOut = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("\n");
-    const cleaned = textOut.replace(/```json|```/g, "").trim();
-    const obj = JSON.parse(cleaned);
     if (obj.resumo) document.getElementById("resumo").value = obj.resumo;
     if (Array.isArray(obj.paragrafos)) document.getElementById("descricaoFinal").value = obj.paragrafos.join("\n");
     status.textContent = "✅ Copy gerada — confira e ajuste o texto antes de publicar.";
@@ -844,6 +960,77 @@ Responda SOMENTE em JSON, sem markdown, neste formato exato:
     btn.disabled = false;
   }
 };
+
+// --- extrai o primeiro objeto JSON de um texto (tolera cercas ```json e texto solto ao redor) ---
+function extrairObjJson(texto){
+  const cleaned = texto.replace(/```json|```/g, "").trim();
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error("Resposta da IA não trouxe um JSON reconhecível");
+  return JSON.parse(cleaned.slice(start, end + 1));
+}
+
+// --- Gemini com repetição automática: 503 (sobrecarga do Google) e erros de rede são passageiros,
+// então tenta de novo antes de desistir — só um erro persistente depois disso é "culpa da API" de verdade.
+async function chamarGeminiCopy(prompt, key, onProgress){
+  const TENTATIVAS = 3;
+  let ultimoErro;
+  for (let i = 1; i <= TENTATIVAS; i++){
+    try {
+      if (i > 1 && onProgress) onProgress(`Gerando copy (tentativa ${i}/${TENTATIVAS})...`);
+      const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": key },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" }
+        })
+      });
+      if (!res.ok){
+        const body = await res.text();
+        const transitorio = res.status === 503 || res.status === 429 || res.status >= 500;
+        const err = new Error(`API retornou ${res.status}: ${body.slice(0,200)}`);
+        if (transitorio && i < TENTATIVAS){ ultimoErro = err; await new Promise(r => setTimeout(r, 1500 * i)); continue; }
+        throw err;
+      }
+      const data = await res.json();
+      const textOut = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("\n");
+      return extrairObjJson(textOut);
+    } catch (e) {
+      ultimoErro = e;
+      // erro de rede (não é resposta HTTP) também vale tentar de novo
+      if (i < TENTATIVAS && !(e instanceof SyntaxError)) { await new Promise(r => setTimeout(r, 1500 * i)); continue; }
+      throw e;
+    }
+  }
+  throw ultimoErro;
+}
+
+// --- Backup gratuito via OpenRouter (openrouter.ai). Usa o roteador "openrouter/free", que escolhe
+// sozinho entre os modelos gratuitos disponíveis no momento — evita quebrar quando um modelo
+// específico sai do ar (a lista de gratuitos muda com frequência).
+async function chamarOpenRouterCopy(prompt, key){
+  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "authorization": `Bearer ${key}`,
+      "HTTP-Referer": location.origin,
+      "X-Title": "Gerador de páginas de imóveis"
+    },
+    body: JSON.stringify({
+      model: "openrouter/free",
+      messages: [{ role: "user", content: prompt + "\n\nResponda SOMENTE com o JSON, sem markdown, sem texto antes ou depois." }]
+    })
+  });
+  if (!res.ok){
+    const body = await res.text();
+    throw new Error(`Backup (OpenRouter) também falhou — ${res.status}: ${body.slice(0,200)}`);
+  }
+  const data = await res.json();
+  const textOut = data.choices?.[0]?.message?.content || "";
+  return extrairObjJson(textOut);
+}
 
 // --- monta o objeto dados.json a partir do formulário (usado pelo zip e pelo publicar) ---
 function montarDados(){
@@ -877,8 +1064,11 @@ function montarDados(){
     descricaoCurta: descricaoLonga[0] ? descricaoLonga[0].slice(0,160) : `${get("titulo")} em ${get("bairro")}, ${get("cidade")}/${get("uf")}`,
     descricaoLonga,
     resumo: get("resumo").trim() || undefined,
+    tituloSecao: get("tituloSecao").trim() || undefined,
     diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
     dadosTecnicos: get("dadosTecnicosBullets").split("\n").map(s=>s.trim()).filter(Boolean),
+    parceria: (document.getElementById("emParceria").checked && parceriaHandles.length)
+      ? { instagrams: parceriaHandles.slice() } : undefined,
     acessorios: getAcessoriosMarcados(),
     caracteristicasExtras: ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean),
     publicadoEm: modoEdicao ? modoEdicao.publicadoEm : new Date().toISOString().slice(0,10),
