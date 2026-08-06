@@ -1,0 +1,40 @@
+{
+  "slug": "terreno-em-condominio-fechado",
+  "titulo": "Terreno em Condominio Fechado",
+  "tipo": "terreno",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Salto",
+  "uf": "SP",
+  "bairro": "Residencial Central Parque",
+  "condominio": "Residencial Central Park",
+  "referencia": "OVO01015",
+  "preco": "R$ 250.000",
+  "financiamento": "Sob Consulta",
+  "areaTerreno": 331.5,
+  "descricaoCurta": "Terreno em Condominio Fechado em Residencial Central Parque, Salto/SP",
+  "descricaoLonga": [],
+  "resumo": "Excelente localização em Salto!",
+  "tituloSecao": "Que tal investir com retorno certo?",
+  "diferenciais": [
+    "Excelente Preço!"
+  ],
+  "dadosTecnicos": [],
+  "parceria": {
+    "instagrams": [
+      "@marcionunesmarins"
+    ]
+  },
+  "acessorios": [],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-06",
+  "fotos": [
+    {
+      "arquivo": "terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260806015435.jpeg",
+      "alt": "Terreno vista frente do(a) terreno padrão neutro em Residencial Central Parque, Salto - SP",
+      "hero": true
+    }
+  ]
+}
