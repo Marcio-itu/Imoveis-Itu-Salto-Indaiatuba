@@ -5,8 +5,8 @@
 <title>Imóveis em Residencial Central Parque — Inteligência Imobiliária, Construindo Confiança</title>
 <meta name="description" content="Imóveis à venda em Residencial Central Parque.">
 <meta name="robots" content="index, follow">
-<link rel="icon" type="image/png" sizes="32x32" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -75,7 +75,8 @@
   .contagem{font-size:13px;color:#5B6A67;margin-bottom:16px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  a.card{display:block;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
+  .card-wrap{position:relative}
+  a.card{display:block;position:relative;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
     text-decoration:none;color:#1E2A28;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
   a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:#F4F6F5}
@@ -83,6 +84,11 @@
   a.card .tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:'Fraunces', Georgia, serif;font-size:17px;line-height:1.25}
+  .wa-share{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;
+    background:rgba(226,99,46,.16);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);transition:background .15s,transform .15s;z-index:2}
+  .wa-share svg{width:16px;height:16px;color:#C9531F}
+  .wa-share:hover{background:rgba(226,99,46,.32);transform:scale(1.08)}
   a.card .meta{font-size:13px;color:#5B6A67;margin-top:4px}
 
   .site-footer{margin-top:64px;padding-top:40px;border-top:1px solid #DCE3E1}
@@ -110,25 +116,23 @@
 </head>
 <body>
 <div class="wrap">
-  <span class="eyebrow"><a href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/" style="color:inherit">← Todas as cidades</a></span>
+  <span class="eyebrow"><a href="https://www.imoveis-itu-salto.com.br/" style="color:inherit">← Todas as cidades</a></span>
   <h1>Residencial Central Parque</h1>
-  <p class="sub">2 imóveis disponíveis</p>
+  <p class="sub">1 imóvel disponível</p>
   <div class="grid">
-    <a class="card" href="../imoveis/casa-dos-sonhos-em-salto-sp/">
-        <img class="thumb" src="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-dos-sonhos-em-salto-sp/fotos/fachada-salto-alto-padrao-casa-sp-forno-a-lenha-20260806014819.webp" loading="lazy" alt="Casa dos Sonhos em Salto/SP" onerror="this.style.display='none'">
-        <div class="body">
-          <span class="tag" style="background:#4E9E97">Alto padrão</span>
-          <div class="tit">Casa dos Sonhos em Salto/SP</div>
-          <div class="meta">R$ 1.350.000</div>
-        </div>
-      </a><a class="card" href="../imoveis/terreno-em-condominio-fechado/">
-        <img class="thumb" src="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/terreno-em-condominio-fechado/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260806015435.webp" loading="lazy" alt="Terreno em Condominio Fechado" onerror="this.style.display='none'">
+    <div class="card-wrap">
+        <a class="card" href="../imoveis/terreno-em-condominio-fechado/">
+        <img class="thumb" src="https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-fechado/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260806015435.webp" loading="lazy" alt="Terreno em Condominio Fechado" onerror="this.style.display='none'">
         <div class="body">
           
           <div class="tit">Terreno em Condominio Fechado</div>
           <div class="meta">R$ 250.000</div>
         </div>
       </a>
+      <a class="wa-share" href="https://wa.me/?text=Confira%20este%20im%C3%B3vel%3A%20https%3A%2F%2Fwww.imoveis-itu-salto.com.br%2Fimoveis%2Fterreno-em-condominio-fechado%2F" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+      </a>
+      </div>
   </div>
 </div>
 </body>
