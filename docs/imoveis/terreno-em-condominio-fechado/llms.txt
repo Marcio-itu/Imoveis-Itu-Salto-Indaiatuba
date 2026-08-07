@@ -4,7 +4,7 @@
 
 - Tipo: terreno, Padrão neutro
 - Condomínio: Residencial Central Park
-- Preço: R$ 250.000 (Sob Consulta)
+- Preço: R$ 250.000
 - Localização: Residencial Central Parque, Salto - SP
 - Características: 331.5 m² de terreno
 - Diferenciais: Excelente Preço!
@@ -29,9 +29,6 @@ R: Fica no condomínio Residencial Central Park, bairro Residencial Central Parq
 
 P: O imóvel é para venda, locação ou permuta?
 R: Este imóvel está disponível para venda.
-
-P: Aceita financiamento?
-R: Sim, este imóvel aceita financiamento.
 
 ## Fotos
 
