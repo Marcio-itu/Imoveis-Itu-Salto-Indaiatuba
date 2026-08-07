@@ -5,15 +5,15 @@
 <meta name="google-site-verification" content="eUZ48MN17FouYrBJW85ZV8NUXa_rDKulC38cC22xWK0" />
 <title>Imóveis por cidade — Inteligência Imobiliária, Construindo Confiança</title>
 <meta name="description" content="Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba, Cabreúva, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
-<link rel="canonical" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/">
+<link rel="canonical" href="https://www.imoveis-itu-salto.com.br/">
 <meta name="robots" content="index, follow">
-<link rel="icon" type="image/png" sizes="32x32" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-32.png">
-<link rel="apple-touch-icon" sizes="180x180" href="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/favicon-cliente-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-180.png">
 <meta name="geo.region" content="BR-SP">
 <meta name="geo.placename" content="Itu">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"identifier":{"@type":"PropertyValue","propertyID":"CRECI-SP","value":"276471-F"},"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://www.imoveis-itu-salto.com.br/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"identifier":{"@type":"PropertyValue","propertyID":"CRECI-SP","value":"276471-F"},"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -80,7 +80,8 @@
   .contagem{font-size:13px;color:#5B6A67;margin-bottom:16px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  a.card{display:block;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
+  .card-wrap{position:relative}
+  a.card{display:block;position:relative;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
     text-decoration:none;color:#1E2A28;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
   a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:#F4F6F5}
@@ -88,6 +89,11 @@
   a.card .tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:'Fraunces', Georgia, serif;font-size:17px;line-height:1.25}
+  .wa-share{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;
+    background:rgba(226,99,46,.16);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);transition:background .15s,transform .15s;z-index:2}
+  .wa-share svg{width:16px;height:16px;color:#C9531F}
+  .wa-share:hover{background:rgba(226,99,46,.32);transform:scale(1.08)}
   a.card .meta{font-size:13px;color:#5B6A67;margin-top:4px}
 
   .site-footer{margin-top:64px;padding-top:40px;border-top:1px solid #DCE3E1}
@@ -116,7 +122,13 @@
 <body>
 <div class="wrap wrap-top">
   <div class="site-header">
-    <img class="brand-logo" src="https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/logo-marcio-santos.png" alt="Marcio Santos — CRECI-SP CRECI-SP 276471-F">
+    <img class="brand-logo" src="https://www.imoveis-itu-salto.com.br/logo-marcio-santos.png" alt="Marcio Santos — CRECI-SP CRECI-SP 276471-F">
+    <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
+        <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
+      </svg>
+    </a>
   </div>
 </div>
 
@@ -138,11 +150,11 @@
         </div>
         <div class="campo">
           <label>Preço mínimo</label>
-          <input type="number" id="fMin" placeholder="0" min="0" step="10000">
+          <input type="text" inputmode="numeric" id="fMin" placeholder="R$ 0">
         </div>
         <div class="campo">
           <label>Preço máximo</label>
-          <input type="number" id="fMax" placeholder="Sem limite" min="0" step="10000">
+          <input type="text" inputmode="numeric" id="fMax" placeholder="Sem limite">
         </div>
         <button class="limpar" id="fLimpar" type="button">Limpar filtros</button>
       </div>
@@ -158,7 +170,7 @@
     // Uma foto por sessão de navegação (não fica trocando sozinha). Ao voltar pra home depois
     // de ver um imóvel (nova carga de página), sorteia outra — evitando repetir a última mostrada.
     // As outras 2 ficam pré-carregando em segundo plano, então quando trocar já está no cache.
-    var fotos = ["https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis-itu-salto-indaiatuba-2027-01.webp","https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis-itu-salto-indaiatuba-2027-02.webp","https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis-itu-salto-indaiatuba-2027-03.webp"];
+    var fotos = ["https://www.imoveis-itu-salto.com.br/imoveis-itu-salto-indaiatuba-2027-01.webp","https://www.imoveis-itu-salto.com.br/imoveis-itu-salto-indaiatuba-2027-02.webp","https://www.imoveis-itu-salto.com.br/imoveis-itu-salto-indaiatuba-2027-03.webp"];
     var chaveUltima = "hub_ultima_foto_destaque";
     var ultima = -1;
     try { ultima = parseInt(sessionStorage.getItem(chaveUltima), 10); } catch(e){}
@@ -212,7 +224,7 @@
 </div>
 
 <script>
-const IMOVEIS = [{"titulo":"Casa dos Sonhos em Salto/SP","cidade":"Salto","bairro":"Residencial Central Parque","uf":"SP","preco":"R$ 1.350.000","precoNumerico":1350000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-dos-sonhos-em-salto-sp/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/casa-dos-sonhos-em-salto-sp/fotos/fachada-salto-alto-padrao-casa-sp-forno-a-lenha-20260806014819.webp","tiposOperacao":["venda"]},{"titulo":"Excelente Localização ","cidade":"Itu","bairro":"Jardim do Estádio","uf":"SP","preco":"R$ 7.900","precoNumerico":7900,"precoSufixo":"/mês","padrao":"padrao-neutro","padraoLabel":"Padrão neutro","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/excelente-localizacao/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/excelente-localizacao/fotos/vista-ampla-local-itu-padrao-neutro-terreno-sp-20260806022106.webp","tiposOperacao":["locacao"]},{"titulo":"Linda Casa com Área Gourmet, Bar e Piscina!","cidade":"Itu","bairro":"Jardim Aeroporto I","uf":"SP","preco":"R$ 700.000","precoNumerico":700000,"precoSufixo":"","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-area-gourmet-bar-e-piscina/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/linda-casa-com-area-gourmet-bar-e-piscina/fotos/piscina-itu-medio-padrao-casa-sp-20260806013412.webp","tiposOperacao":["venda"]},{"titulo":"Terreno em Condominio Fechado","cidade":"Salto","bairro":"Residencial Central Parque","uf":"SP","preco":"R$ 250.000","precoNumerico":250000,"precoSufixo":"","padrao":"padrao-neutro","padraoLabel":"Padrão neutro","url":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/terreno-em-condominio-fechado/","thumb":"https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/imoveis/terreno-em-condominio-fechado/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260806015435.webp","tiposOperacao":["venda"]}];
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/","thumb":"https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]}];
 const PADRAO_COR = {"alto-padrao":"#4E9E97","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B","padrao-neutro":"#8A7F63"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
@@ -257,8 +269,8 @@ function renderBairros(){
 }
 function aplicarFiltros(){
   const bairro = document.getElementById("fBairro").value;
-  const min = Number(document.getElementById("fMin").value) || 0;
-  const max = Number(document.getElementById("fMax").value) || Infinity;
+  const min = Number(document.getElementById("fMin").value.replace(/\D/g, "")) || 0;
+  const max = Number(document.getElementById("fMax").value.replace(/\D/g, "")) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
     (!operacaoAtiva || (i.tiposOperacao||["venda"]).includes(operacaoAtiva)) &&
@@ -271,6 +283,7 @@ function aplicarFiltros(){
   if (!filtrados.length){ grid.innerHTML = ""; vazio.style.display = "block"; return; }
   vazio.style.display = "none";
   grid.innerHTML = filtrados.map(i => `
+    <div class="card-wrap">
     <a class="card" href="${i.url}">
       ${i.thumb ? '<img class="thumb" src="'+i.thumb+'" loading="lazy" alt="'+i.titulo+'" onerror="this.style.display=\'none\'">' : ''}
       <div class="body">
@@ -280,12 +293,22 @@ function aplicarFiltros(){
         ${(i.tiposOperacao||[]).includes("permuta") ? '<div class="meta" style="opacity:.75">Estuda-se permuta</div>' : ''}
         <div class="preco">${i.preco}${i.precoSufixo}</div>
       </div>
-    </a>`).join("");
+    </a>
+    <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent('Confira este imóvel: ' + i.url)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    </a>
+    </div>`).join("");
 }
 
 document.getElementById("fBairro").onchange = aplicarFiltros;
-document.getElementById("fMin").oninput = aplicarFiltros;
-document.getElementById("fMax").oninput = aplicarFiltros;
+function mascararPreco(id){
+  const el = document.getElementById(id);
+  const digitos = el.value.replace(/\D/g, "");
+  el.value = digitos ? "R$ " + Number(digitos).toLocaleString("pt-BR") : "";
+  aplicarFiltros();
+}
+document.getElementById("fMin").oninput = () => mascararPreco("fMin");
+document.getElementById("fMax").oninput = () => mascararPreco("fMax");
 document.getElementById("fLimpar").onclick = () => {
   cidadeAtiva = ""; operacaoAtiva = ""; document.getElementById("fBairro").value = "";
   document.getElementById("fMin").value = ""; document.getElementById("fMax").value = "";

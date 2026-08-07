@@ -97,9 +97,6 @@ function css(t) {
     99%{transform:rotate(0)}
   }
   @media (prefers-reduced-motion: reduce){ .cta{animation:none} }
-  .cta-share{display:inline-block;margin-left:12px;color:var(--ink-muted);text-decoration:none;
-    font-size:14px;border-bottom:1px solid var(--border);padding-bottom:2px}
-  .cta-share:hover{color:var(--ink);border-color:var(--ink-muted)}
   .corretor{margin-top:26px;font-size:14px;color:var(--ink-muted)}
 
   footer{padding:36px 0;font-size:13px;color:var(--ink-muted)}
@@ -111,35 +108,19 @@ function css(t) {
   .sticky-cta .preco-mini{font-family:${t.fonts.display};font-size:17px}
   .sticky-cta .cta{padding:11px 20px;font-size:14px}
 
-  .sim-tab{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:25;
-    background:linear-gradient(180deg,#0046C0,#003A9E);color:#fff;text-decoration:none;
-    padding:20px 10px 16px;border-radius:14px 0 0 14px;
-    display:flex;flex-direction:column;align-items:center;gap:8px;
+  .sim-tab{position:fixed;top:45%;right:0;transform:translate(52%,-50%);z-index:25;
+    background:linear-gradient(135deg,#0046C0,#003A9E);color:#fff;text-decoration:none;
+    padding:13px 22px 13px 18px;border-radius:999px 0 0 999px;
+    display:inline-flex;align-items:center;white-space:nowrap;
     box-shadow:0 4px 18px rgba(0,30,90,.35);border:1px solid rgba(255,255,255,.12);border-right:none;
-    transition:transform .2s ease,padding .2s ease;
-    animation:sim-tab-pulse 5s ease-in-out 3;}
-  .sim-tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;
-    background:linear-gradient(90deg,#F7931E,#FFB74D);border-radius:0 0 0 14px}
-  .sim-tab-icon{width:26px;height:26px;border-radius:50%;background:#F7931E;color:#0046C0;
-    display:flex;align-items:center;justify-content:center;font-family:${t.fonts.body};
-    font-weight:800;font-size:13px;flex:none}
-  .sim-tab:hover{transform:translateY(-50%) scale(1.08);padding-right:14px}
-  .sim-tab .sim-tab-label{writing-mode:vertical-rl;text-orientation:mixed;transform:rotate(180deg);
-    display:flex;flex-direction:column;align-items:center;gap:2px}
-  .sim-tab .sim-tab-t{font-family:${t.fonts.body};font-size:15px;font-weight:800;letter-spacing:.08em}
-  .sim-tab .sim-tab-s{font-family:${t.fonts.body};font-size:11px;font-weight:600;opacity:.9;letter-spacing:.04em}
-  @keyframes sim-tab-pulse{
-    0%,92%,100%{transform:translateY(-50%) scale(1)}
-    4%{transform:translateY(-50%) scale(1.08)}
-    8%{transform:translateY(-50%) scale(1)}
-  }
-  @media (prefers-reduced-motion: reduce){ .sim-tab{animation:none} }
-  @media (max-width:640px){
-    .sim-tab{padding:15px 7px 13px}
-    .sim-tab .sim-tab-t{font-size:13px}
-    .sim-tab .sim-tab-s{font-size:10px}
-    .sim-tab-icon{width:22px;height:22px;font-size:11px}
-  }
+    transition:transform .38s cubic-bezier(.22,.9,.3,1);
+    font-family:${t.fonts.body};font-weight:800;font-size:14px;letter-spacing:.05em;
+    cursor:pointer;}
+  .sim-tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
+    background:linear-gradient(90deg,#F7931E,#FFB74D);border-radius:0 0 0 999px}
+  .sim-tab.expandido{transform:translate(0,-50%)}
+  .sim-tab:hover{transform:translate(0,-50%)}
+  @media (max-width:640px){ .sim-tab{padding:11px 18px 11px 14px;font-size:12px} }
   `;
 }
 
@@ -221,7 +202,7 @@ function buildFaqs(imovel) {
     auto.push({ pergunta: "O imóvel aceita permuta?", resposta: "Estuda-se permuta." });
   }
   if (imovel.financiamento) {
-    auto.push({ pergunta: "Aceita financiamento?", resposta: imovel.financiamento });
+    auto.push({ pergunta: "Aceita financiamento?", resposta: "Sim, este imóvel aceita financiamento." });
   }
   if (imovel.vagas) {
     auto.push({ pergunta: "Quantas vagas de garagem tem?", resposta: `${imovel.vagas} vaga${imovel.vagas > 1 ? "s" : ""} de garagem.` });
@@ -327,13 +308,23 @@ ${faqs.length ? `<script type="application/ld+json">${faqLd(faqs)}</script>` : "
 ${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${analyticsToken}"}'></script>` : ""}
 </head>
 <body>
-${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
-  <span class="sim-tab-icon">%</span>
-  <span class="sim-tab-label">
-    <span class="sim-tab-t">SIMULE</span>
-    <span class="sim-tab-s">financiamento</span>
-  </span>
-</a>` : ""}
+${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" id="simTab" data-expandido="false" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
+  <span id="simTabTexto">SIMULE</span>
+</a>
+<script>
+(function(){
+  var tab = document.getElementById("simTab");
+  if (!tab) return;
+  tab.addEventListener("click", function(e){
+    if (tab.dataset.expandido !== "true"){
+      e.preventDefault();
+      tab.dataset.expandido = "true";
+      tab.classList.add("expandido");
+      document.getElementById("simTabTexto").textContent = "SIMULE FINANCIAMENTO";
+    }
+  });
+})();
+</script>` : ""}
 ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padding:12px 20px;font-size:14px">Este imóvel não está mais disponível para novos contatos.</div>` : ""}
 <header class="topbar">
   <div class="wrap">
@@ -353,7 +344,7 @@ ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padd
     </div>
     ${
       theme.showPriceInHero
-        ? `<div class="preco">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">${esc(imovel.financiamento)}</span>` : ""}</div>`
+        ? `<div class="preco">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` · <span style="opacity:.85;font-size:15px">Aceita financiamento</span>` : ""}</div>`
         : ""
     }
   </div>
@@ -368,7 +359,8 @@ ${(() => {
       <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
-      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e foram fornecidas pelo proprietário em ${esc(formatDateBR(imovel.publicadoEm))}. Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.${(imovel.parceria?.instagrams || []).length ? ` Imóvel em parceria com ${imovel.parceria.instagrams.map((h) => `"@${esc(h.replace(/^@/, ""))}"`).join(", ")}.` : ""}</p>
+      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e foram fornecidas diretamente pelo proprietário ou corretor parceiro. Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.${(imovel.parceria?.instagrams || []).length ? ` Imóvel em parceria com ${imovel.parceria.instagrams.map((h) => `"@${esc(h.replace(/^@/, ""))}"`).join(", ")}.` : ""}</p>
+      <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>
     </div>
   </section>`;
 
@@ -380,7 +372,7 @@ ${(() => {
       ${imovel.condominio ? `<p class="lead" style="margin-top:-8px;margin-bottom:18px;font-size:15px">Condomínio ${esc(imovel.condominio)}</p>` : ""}
       ${
         !theme.showPriceInHero
-          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· ${esc(imovel.financiamento)}</span>` : ""}</p>`
+          ? `<p class="preco" style="color:var(--ink);margin-bottom:22px">${esc(formatPreco(imovel.preco))}${precoSufixo}${imovel.financiamento ? ` <span style="opacity:.7;font-size:15px;font-family:${theme.fonts.body}">· Aceita financiamento</span>` : ""}</p>`
           : ""
       }
       <div class="ficha">
@@ -427,8 +419,8 @@ ${(() => {
   blocks.parecidos = parecidos.length
     ? `<section id="parecidos">
     <div class="wrap">
-      <span class="eyebrow">Você também pode gostar</span>
-      <h2 style="margin-top:10px">Imóveis parecidos</h2>
+      <span class="eyebrow">É uma satisfação ter você aqui</span>
+      <h2 style="margin-top:10px">Confira outros imóveis</h2>
       <div class="parecidos-grid">
         ${parecidos
           .map(
@@ -464,7 +456,6 @@ ${(() => {
       <span class="eyebrow">Contato</span>
       <h2 style="margin-top:10px">Vamos conversar sobre este imóvel?</h2>
       <a class="cta" href="${esc(whatsUrl)}" target="_blank" rel="noopener">Falar no WhatsApp</a>
-      <a class="cta-share" href="${esc(shareUrl)}" target="_blank" rel="noopener">↗ Enviar este imóvel pra alguém</a>
       <div class="corretor">
         ${imovel.corretor?.nome ? `${esc(imovel.corretor.nome)} · ` : ""}${imovel.corretor?.creci ? `CRECI ${esc(imovel.corretor.creci)}` : ""}
         <br>${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}

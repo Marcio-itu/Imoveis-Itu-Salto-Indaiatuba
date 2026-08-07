@@ -30,16 +30,21 @@
   .checkbox-grid input{width:auto}
   .tag-input{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--border);
     border-radius:8px;padding:8px 10px;background:#fff}
-  .tag-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .tag-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:84px;overflow-y:auto}
   .tag-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft,#EEF3F2);
     border:1px solid var(--border);border-radius:999px;padding:4px 6px 4px 12px;font-size:13px}
   .tag-chip button{border:none;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--ink-muted);
     padding:2px 6px}
   .tag-input input{border:none;outline:none;flex:1;min-width:140px;font-size:14px;font-family:inherit}
-  .tag-sugestoes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-  .tag-sugestoes button{border:1px dashed var(--border);background:none;border-radius:999px;padding:5px 12px;
-    font-size:12px;color:var(--ink-muted);cursor:pointer}
-  .tag-sugestoes button:hover{border-color:var(--accent);color:var(--accent)}
+  .tag-sugestoes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:110px;overflow-y:auto;
+    border-top:1px dashed var(--border);padding-top:8px}
+  .tag-sugestao{display:inline-flex;align-items:center;border:1px dashed var(--border);border-radius:999px;overflow:hidden}
+  .tag-sugestao .usar{border:none;background:none;padding:5px 4px 5px 12px;font-size:12px;color:var(--ink-muted);cursor:pointer}
+  .tag-sugestao .apagar{border:none;background:none;padding:5px 10px 5px 4px;font-size:11px;color:var(--ink-muted);
+    cursor:pointer;opacity:.6}
+  .tag-sugestao:hover{border-color:var(--accent)}
+  .tag-sugestao .usar:hover{color:var(--accent)}
+  .tag-sugestao .apagar:hover{opacity:1;color:#c23f18}
   .tier-options{display:flex;gap:10px;margin-top:6px}
   .tier{flex:1;border:2px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;font-size:13px}
   .tier.selected{border-color:var(--sw);background:color-mix(in srgb, var(--sw) 12%, white)}
@@ -59,6 +64,9 @@
   .filename{font-size:11px;color:var(--ink-muted);word-break:break-all;margin-top:4px}
   .foto-item select{width:auto;display:inline-block;margin-right:8px}
   .hint{font-size:12px;color:var(--ink-muted);margin-top:6px}
+  .rua-resultado{display:block;width:100%;text-align:left;border:1px solid var(--border);background:#fff;
+    border-radius:8px;padding:8px 12px;font-size:13px;margin-top:6px;cursor:pointer;font-family:inherit}
+  .rua-resultado:hover{border-color:var(--accent);color:var(--accent)}
   .passo{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;
     background:var(--accent);color:#fff;font-size:11px;font-weight:700;margin-right:6px}
   #promptBox{white-space:pre-wrap;font-size:13px;background:var(--bg);padding:14px;border-radius:6px;border:1px solid var(--border)}
@@ -70,8 +78,9 @@
 </head>
 <body>
 <div class="wrap">
-  <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;position:sticky;top:8px;z-index:50">
     <button type="button" id="atualizarPaginaBtn" style="border:1px solid var(--border);background:#fff;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink-muted)">🔄 Atualizar página</button>
+    <button type="button" id="sairFixoBtn" style="border:1px solid var(--border);background:#fff;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink-muted)">🚪 Sair</button>
   </div>
   <h1>Montar página de imóvel</h1>
   <p class="sub">Siga a ordem — cada passo alimenta o próximo. No fim você baixa ou publica direto.</p>
@@ -99,7 +108,18 @@
       <button class="btn secondary" id="buscarCepBtn" type="button">Buscar CEP</button>
     </div>
     <div id="cepInfo" class="hint"></div>
-    <p class="hint" style="margin-top:6px">Rua e número abaixo são <b>só para sua ficha interna</b> (documentação) — nunca entram no <code>dados.json</code>, nunca sobem pro GitHub, nunca aparecem na página pública. Só o bairro fica visível ao cliente.</p>
+
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">🔎 Não sabe o CEP? Busque pelo nome da rua</summary>
+      <p class="hint" style="margin-top:8px">Preencha Cidade/UF abaixo primeiro (ou deixe Itu/SP, já vem assim). Digite pelo menos 3 letras da rua.</p>
+      <div class="row" style="margin-top:8px">
+        <input type="text" id="ruaBusca" placeholder="Ex.: Barão do Rio Branco">
+        <button class="btn secondary" id="buscarRuaBtn" type="button">Buscar rua</button>
+      </div>
+      <div id="ruaResultados" style="margin-top:8px"></div>
+    </details>
+
+    <p class="hint" style="margin-top:10px">Rua e número abaixo são <b>só para sua ficha interna</b> (documentação) — nunca entram no <code>dados.json</code>, nunca sobem pro GitHub, nunca aparecem na página pública. Só o bairro fica visível ao cliente.</p>
     <div class="row">
       <div><label>Rua (uso interno)</label><input type="text" id="ruaInterna" placeholder="Preenchido pelo CEP, editável"></div>
       <div><label>Número (uso interno)</label><input type="text" id="numeroInterna" placeholder="123"></div>
@@ -150,7 +170,13 @@
     <input type="text" id="condominio" placeholder="Ex.: Salto Grande, Alphaville Itu">
     <div class="row">
       <div><label>Preço</label><input type="text" id="preco" placeholder="R$ 450.000"></div>
-      <div><label>Financiamento (opcional)</label><input type="text" id="financiamento" placeholder="Aceita financiamento Caixa"></div>
+      <div><label>Financiamento</label>
+        <select id="financiamento">
+          <option value="">Sob consulta (não mostra nada no site)</option>
+          <option value="sim">Aceita financiamento</option>
+          <option value="nao">Não aceita (não mostra nada no site)</option>
+        </select>
+      </div>
     </div>
   </fieldset>
 
@@ -463,6 +489,10 @@ function salvarParceiroNoHistorico(handle){
     localStorage.setItem("parceirosSalvos", JSON.stringify(lista));
   }
 }
+function apagarParceiroDoHistorico(handle){
+  const lista = getParceirosSalvos().filter(h => h !== handle);
+  localStorage.setItem("parceirosSalvos", JSON.stringify(lista));
+}
 function renderParceriaChips(){
   const box = document.getElementById("parceriaChips");
   box.innerHTML = parceriaHandles.map((h, i) =>
@@ -475,11 +505,24 @@ function renderParceriaChips(){
 function renderParceriaSugestoes(){
   const box = document.getElementById("parceriaSugestoes");
   const disponiveis = getParceirosSalvos().filter(h => !parceriaHandles.includes(h));
-  box.innerHTML = disponiveis.map(h => `<button type="button" data-h="${h}">+ ${h}</button>`).join("");
-  box.querySelectorAll("button").forEach(btn => {
+  box.innerHTML = disponiveis.map(h =>
+    `<span class="tag-sugestao">
+      <button type="button" class="usar" data-h="${h}">+ ${h}</button>
+      <button type="button" class="apagar" data-h="${h}" aria-label="Apagar ${h} do histórico" title="Apagar do histórico">✕</button>
+    </span>`
+  ).join("");
+  box.querySelectorAll("button.usar").forEach(btn => {
     btn.onclick = () => {
       parceriaHandles.push(btn.dataset.h);
       renderParceriaChips(); renderParceriaSugestoes();
+    };
+  });
+  box.querySelectorAll("button.apagar").forEach(btn => {
+    btn.onclick = () => {
+      if (confirm(`Apagar "${btn.dataset.h}" da lista de sugestões? (não afeta imóveis já publicados)`)){
+        apagarParceiroDoHistorico(btn.dataset.h);
+        renderParceriaSugestoes();
+      }
     };
   });
 }
@@ -531,6 +574,39 @@ document.getElementById("buscarCepBtn").onclick = async () => {
     renderFotos();
   } catch (err) {
     info.textContent = "Não consegui buscar o CEP agora — preencha bairro/cidade manualmente.";
+  }
+};
+
+// --- busca reversa: nome da rua -> lista de CEPs (evita ter que sair pro Google) ---
+document.getElementById("buscarRuaBtn").onclick = async () => {
+  const rua = document.getElementById("ruaBusca").value.trim();
+  const cidade = document.getElementById("cidade").value.trim() || "Itu";
+  const uf = document.getElementById("uf").value.trim() || "SP";
+  const box = document.getElementById("ruaResultados");
+  if (rua.length < 3){ box.innerHTML = `<span class="hint">Digite pelo menos 3 letras da rua.</span>`; return; }
+  box.innerHTML = `<span class="hint">Buscando...</span>`;
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${encodeURIComponent(uf)}/${encodeURIComponent(cidade)}/${encodeURIComponent(rua)}/json/`);
+    const data = await res.json();
+    if (!Array.isArray(data) || !data.length){
+      box.innerHTML = `<span class="hint">Nenhuma rua encontrada com esse nome em ${cidade}/${uf}. Confira a grafia ou tente só um pedaço do nome.</span>`;
+      return;
+    }
+    box.innerHTML = data.slice(0, 12).map(r =>
+      `<button type="button" class="rua-resultado" data-cep="${r.cep}">
+        <b>${r.cep}</b> — ${r.logradouro}${r.bairro ? `, ${r.bairro}` : ""}
+      </button>`
+    ).join("");
+    box.querySelectorAll(".rua-resultado").forEach(btn => {
+      btn.onclick = () => {
+        document.getElementById("cep").value = btn.dataset.cep;
+        document.getElementById("buscarCepBtn").click();
+        box.innerHTML = "";
+        document.getElementById("ruaBusca").value = "";
+      };
+    });
+  } catch (err) {
+    box.innerHTML = `<span class="hint">Não consegui buscar agora — tente de novo em instantes.</span>`;
   }
 };
 ["cidade","uf","tipo","diferenciais"].forEach(id => document.getElementById(id).addEventListener("input", renderFotos));
@@ -785,7 +861,7 @@ function carregarParaEdicao(pasta, dados){
   set("titulo", dados.titulo); set("tipo", dados.tipo);
   set("cidade", dados.cidade); set("uf", dados.uf); set("bairro", dados.bairro);
   set("condominio", dados.condominio); set("referencia", dados.referencia);
-  set("preco", dados.preco); set("financiamento", dados.financiamento);
+  set("preco", dados.preco); set("financiamento", dados.financiamento ? "sim" : "");
   set("quartos", dados.quartos); set("suites", dados.suites);
   set("banheiros", dados.banheiros); set("vagas", dados.vagas);
   set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
@@ -1054,7 +1130,7 @@ function montarDados(){
     condominio: get("condominio"),
     referencia: get("referencia"),
     preco: get("preco"),
-    financiamento: get("financiamento"),
+    financiamento: get("financiamento") === "sim" ? true : undefined,
     quartos: Number(get("quartos"))||undefined,
     suites: Number(get("suites"))||undefined,
     banheiros: Number(get("banheiros"))||undefined,
@@ -1214,6 +1290,13 @@ async function ghCommitMultiplo(repo, branch, token, changes, message, onProgres
     throw new Error(`A branch mudou durante a publicação, tente novamente (${refRes.status}): ${body.slice(0,200)}`);
   }
 }
+
+document.getElementById("sairFixoBtn").onclick = () => {
+  if (confirm("Sair do admin? Você vai precisar da senha de novo pra entrar.")){
+    localStorage.removeItem("admOk");
+    location.reload();
+  }
+};
 
 document.getElementById("testarConexaoBtn").onclick = async () => {
   const repo = document.getElementById("ghRepo").value.trim();

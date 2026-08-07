@@ -72,7 +72,8 @@ function hubCss(t) {
   .contagem{font-size:13px;color:${t.inkMuted};margin-bottom:16px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  a.card{display:block;background:#fff;border:1px solid ${t.border};border-radius:14px;overflow:hidden;
+  .card-wrap{position:relative}
+  a.card{display:block;position:relative;background:#fff;border:1px solid ${t.border};border-radius:14px;overflow:hidden;
     text-decoration:none;color:${t.ink};box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
   a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:${t.surface}}
@@ -80,6 +81,11 @@ function hubCss(t) {
   a.card .tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:${t.fonts.display};font-size:17px;line-height:1.25}
+  .wa-share{position:absolute;right:10px;bottom:10px;width:34px;height:34px;border-radius:50%;
+    background:rgba(226,99,46,.16);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,.12);transition:background .15s,transform .15s;z-index:2}
+  .wa-share svg{width:16px;height:16px;color:#C9531F}
+  .wa-share:hover{background:rgba(226,99,46,.32);transform:scale(1.08)}
   a.card .meta{font-size:13px;color:${t.inkMuted};margin-top:4px}
 
   .site-footer{margin-top:64px;padding-top:40px;border-top:1px solid ${t.border}}
@@ -160,6 +166,12 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 <div class="wrap wrap-top">
   <div class="site-header">
     <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
+    <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
+        <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
+      </svg>
+    </a>
   </div>
 </div>
 
@@ -181,11 +193,11 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
         </div>
         <div class="campo">
           <label>Preço mínimo</label>
-          <input type="number" id="fMin" placeholder="0" min="0" step="10000">
+          <input type="text" inputmode="numeric" id="fMin" placeholder="R$ 0">
         </div>
         <div class="campo">
           <label>Preço máximo</label>
-          <input type="number" id="fMax" placeholder="Sem limite" min="0" step="10000">
+          <input type="text" inputmode="numeric" id="fMax" placeholder="Sem limite">
         </div>
         <button class="limpar" id="fLimpar" type="button">Limpar filtros</button>
       </div>
@@ -300,8 +312,8 @@ function renderBairros(){
 }
 function aplicarFiltros(){
   const bairro = document.getElementById("fBairro").value;
-  const min = Number(document.getElementById("fMin").value) || 0;
-  const max = Number(document.getElementById("fMax").value) || Infinity;
+  const min = Number(document.getElementById("fMin").value.replace(/\\D/g, "")) || 0;
+  const max = Number(document.getElementById("fMax").value.replace(/\\D/g, "")) || Infinity;
   const filtrados = IMOVEIS.filter(i =>
     (!cidadeAtiva || i.cidade === cidadeAtiva) &&
     (!operacaoAtiva || (i.tiposOperacao||["venda"]).includes(operacaoAtiva)) &&
@@ -314,6 +326,7 @@ function aplicarFiltros(){
   if (!filtrados.length){ grid.innerHTML = ""; vazio.style.display = "block"; return; }
   vazio.style.display = "none";
   grid.innerHTML = filtrados.map(i => \`
+    <div class="card-wrap">
     <a class="card" href="\${i.url}">
       \${i.thumb ? '<img class="thumb" src="'+i.thumb+'" loading="lazy" alt="'+i.titulo+'" onerror="this.style.display=\\'none\\'">' : ''}
       <div class="body">
@@ -323,12 +336,22 @@ function aplicarFiltros(){
         \${(i.tiposOperacao||[]).includes("permuta") ? '<div class="meta" style="opacity:.75">Estuda-se permuta</div>' : ''}
         <div class="preco">\${i.preco}\${i.precoSufixo}</div>
       </div>
-    </a>\`).join("");
+    </a>
+    <a class="wa-share" href="https://wa.me/?text=\${encodeURIComponent('Confira este imóvel: ' + i.url)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    </a>
+    </div>\`).join("");
 }
 
 document.getElementById("fBairro").onchange = aplicarFiltros;
-document.getElementById("fMin").oninput = aplicarFiltros;
-document.getElementById("fMax").oninput = aplicarFiltros;
+function mascararPreco(id){
+  const el = document.getElementById(id);
+  const digitos = el.value.replace(/\\D/g, "");
+  el.value = digitos ? "R$ " + Number(digitos).toLocaleString("pt-BR") : "";
+  aplicarFiltros();
+}
+document.getElementById("fMin").oninput = () => mascararPreco("fMin");
+document.getElementById("fMax").oninput = () => mascararPreco("fMax");
 document.getElementById("fLimpar").onclick = () => {
   cidadeAtiva = ""; operacaoAtiva = ""; document.getElementById("fBairro").value = "";
   document.getElementById("fMin").value = ""; document.getElementById("fMax").value = "";
@@ -365,14 +388,19 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
   <div class="grid">
     ${imoveis
       .map(
-        (im) => `<a class="card" href="../imoveis/${esc(im.slug)}/">
+        (im) => `<div class="card-wrap">
+        <a class="card" href="../imoveis/${esc(im.slug)}/">
         ${im.thumb ? `<img class="thumb" src="${esc(im.thumb)}" loading="lazy" alt="${esc(im.titulo)}" onerror="this.style.display='none'">` : ""}
         <div class="body">
           ${im.padrao === "alto-padrao" ? `<span class="tag" style="background:${PADRAO_COR[im.padrao] || "#999"}">${esc(im.padraoLabel)}</span>` : ""}
           <div class="tit">${esc(im.titulo)}</div>
           <div class="meta">${esc(formatPreco(im.preco))}${esc(im.precoSufixo || "")}</div>
         </div>
-      </a>`
+      </a>
+      <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent(`Confira este imóvel: ${hubUrl}imoveis/${im.slug}/`)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+      </a>
+      </div>`
       )
       .join("")}
   </div>

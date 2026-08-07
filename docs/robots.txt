@@ -23,7 +23,19 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
-Sitemap: https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/sitemap.xml
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+Sitemap: https://www.imoveis-itu-salto.com.br/sitemap.xml
 
 # Resumo em texto simples para agentes de IA:
-# https://marcio-itu.github.io/Imoveis-Itu-Salto-Indaiatuba/llms.txt
+# https://www.imoveis-itu-salto.com.br/llms.txt

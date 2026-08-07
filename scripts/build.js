@@ -275,6 +275,18 @@ Allow: /
 User-agent: CCBot
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
 Sitemap: ${SITE}/sitemap.xml
 
 # Resumo em texto simples para agentes de IA:
