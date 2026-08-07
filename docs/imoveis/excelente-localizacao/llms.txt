@@ -32,6 +32,9 @@ R: Este imóvel está disponível para locação.
 P: Aceita financiamento?
 R: Sim, este imóvel aceita financiamento.
 
+P: Se fosse possível financiar este imóvel, quanto ficaria a parcela?
+R: O valor da parcela depende de vários fatores — valor de entrada, prazo, taxa de juros do banco escolhido e renda do comprador. Para ter uma referência, use nosso simulador de financiamento: os valores exibidos ali são apenas uma estimativa, sujeita à análise de crédito de cada instituição financeira.
+
 P: Quantas vagas de garagem tem?
 R: 4 vagas de garagem.
 
