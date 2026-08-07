@@ -1,5 +1,15 @@
 const { esc, formatPreco } = require("./utils");
 
+const FOTOS_FINANCIAMENTO = [
+  "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-02.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-03.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-04.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-05.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-06.webp",
+  "simulador-financiamento-imovel-itu-salto-cabreuva-07.webp",
+];
+
 function css(t) {
   return `
   :root{
@@ -58,10 +68,34 @@ function css(t) {
   .galeria{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .galeria figure{margin:0;overflow:hidden;border-radius:var(--radius);background:var(--surface);
     box-shadow:0 2px 10px rgba(0,0,0,.08);transition:box-shadow .25s ease}
-  .galeria a:hover figure{box-shadow:0 6px 20px rgba(0,0,0,.14)}
-  .galeria img{aspect-ratio:4/3;object-fit:cover;transition:transform .35s ease}
-  .galeria a:hover img{transform:scale(1.04)}
+  .foto-abrir{border:none;background:none;padding:0;margin:0;cursor:pointer;display:block;width:100%;
+    font:inherit;color:inherit;text-align:left}
+  .foto-abrir:hover figure{box-shadow:0 6px 20px rgba(0,0,0,.14)}
+  .galeria img{aspect-ratio:4/3;object-fit:cover;transition:transform .35s ease;width:100%;display:block}
+  .foto-abrir:hover img{transform:scale(1.04)}
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
+
+  .lightbox{position:fixed;inset:0;background:rgba(10,14,12,.94);z-index:200;display:none;
+    align-items:center;justify-content:center}
+  .lightbox.aberto{display:flex}
+  .lightbox-img{max-width:88vw;max-height:82vh;object-fit:contain;border-radius:6px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5)}
+  .lightbox-fechar{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.12);
+    color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:9px 18px;
+    font-size:13px;font-weight:600;cursor:pointer;font-family:${t.fonts.body}}
+  .lightbox-fechar:hover{background:rgba(255,255,255,.22)}
+  .lightbox-seta{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);
+    color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:50%;width:48px;height:48px;
+    font-size:26px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .lightbox-seta:hover{background:rgba(255,255,255,.22)}
+  .lightbox-prev{left:16px}
+  .lightbox-next{right:16px}
+  .lightbox-contador{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+    color:rgba(255,255,255,.75);font-size:13px;font-family:${t.fonts.body}}
+  @media (max-width:640px){
+    .lightbox-seta{width:40px;height:40px;font-size:22px}
+    .lightbox-fechar{top:12px;right:12px;padding:8px 14px;font-size:12px}
+  }
 
   p.resumo{font-size:19px;font-weight:600;color:var(--ink);max-width:62ch;line-height:1.4}
   p.disclaimer{font-size:12px;font-style:italic;color:var(--ink-muted);max-width:62ch;line-height:1.5;margin-top:22px}
@@ -108,19 +142,20 @@ function css(t) {
   .sticky-cta .preco-mini{font-family:${t.fonts.display};font-size:17px}
   .sticky-cta .cta{padding:11px 20px;font-size:14px}
 
-  .sim-tab{position:fixed;top:45%;right:0;transform:translate(52%,-50%);z-index:25;
-    background:linear-gradient(135deg,#0046C0,#003A9E);color:#fff;text-decoration:none;
-    padding:13px 22px 13px 18px;border-radius:999px 0 0 999px;
-    display:inline-flex;align-items:center;white-space:nowrap;
-    box-shadow:0 4px 18px rgba(0,30,90,.35);border:1px solid rgba(255,255,255,.12);border-right:none;
-    transition:transform .38s cubic-bezier(.22,.9,.3,1);
-    font-family:${t.fonts.body};font-weight:800;font-size:14px;letter-spacing:.05em;
-    cursor:pointer;}
-  .sim-tab::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;
-    background:linear-gradient(90deg,#F7931E,#FFB74D);border-radius:0 0 0 999px}
-  .sim-tab.expandido{transform:translate(0,-50%)}
-  .sim-tab:hover{transform:translate(0,-50%)}
-  @media (max-width:640px){ .sim-tab{padding:11px 18px 11px 14px;font-size:12px} }
+  .banner-financiamento{position:relative;border-radius:var(--radius);overflow:hidden;min-height:280px;
+    display:flex;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.14)}
+  .banner-financiamento img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .banner-financiamento::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(0,40,110,.88) 0%,rgba(0,40,110,.72) 45%,rgba(0,40,110,.25) 100%)}
+  .banner-financiamento-conteudo{position:relative;z-index:2;padding:36px 40px;max-width:420px;color:#fff}
+  .banner-financiamento-conteudo .eyebrow{color:#9FC1F5}
+  .banner-financiamento-conteudo h2{color:#fff;margin-top:8px}
+  .banner-financiamento-conteudo p{color:rgba(255,255,255,.85);font-size:15px;margin-top:10px}
+  .btn-caixa{display:inline-flex;align-items:center;gap:8px;margin-top:20px;background:#fff;color:#0046C0;
+    text-decoration:none;font-weight:800;font-size:14px;letter-spacing:.03em;padding:13px 24px;
+    border-radius:999px;transition:transform .15s,box-shadow .15s}
+  .btn-caixa:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.2)}
+  @media (max-width:640px){ .banner-financiamento-conteudo{padding:28px 24px} }
   `;
 }
 
@@ -204,6 +239,11 @@ function buildFaqs(imovel) {
   if (imovel.financiamento) {
     auto.push({ pergunta: "Aceita financiamento?", resposta: "Sim, este imóvel aceita financiamento." });
   }
+  auto.push({
+    pergunta: "Se fosse possível financiar este imóvel, quanto ficaria a parcela?",
+    resposta: "O valor da parcela depende de vários fatores — valor de entrada, prazo, taxa de juros do banco escolhido e renda do comprador. Para ter uma referência, use nosso simulador de financiamento: os valores exibidos ali são apenas uma estimativa, sujeita à análise de crédito de cada instituição financeira.",
+    temBotaoSimulador: true,
+  });
   if (imovel.vagas) {
     auto.push({ pergunta: "Quantas vagas de garagem tem?", resposta: `${imovel.vagas} vaga${imovel.vagas > 1 ? "s" : ""} de garagem.` });
   }
@@ -308,23 +348,6 @@ ${faqs.length ? `<script type="application/ld+json">${faqLd(faqs)}</script>` : "
 ${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${analyticsToken}"}'></script>` : ""}
 </head>
 <body>
-${simuladorUrl ? `<a href="${esc(simuladorUrl)}" target="_blank" rel="noopener" class="sim-tab" id="simTab" data-expandido="false" aria-label="Simular financiamento deste imóvel (abre em nova aba)">
-  <span id="simTabTexto">SIMULE</span>
-</a>
-<script>
-(function(){
-  var tab = document.getElementById("simTab");
-  if (!tab) return;
-  tab.addEventListener("click", function(e){
-    if (tab.dataset.expandido !== "true"){
-      e.preventDefault();
-      tab.dataset.expandido = "true";
-      tab.classList.add("expandido");
-      document.getElementById("simTabTexto").textContent = "SIMULE FINANCIAMENTO";
-    }
-  });
-})();
-</script>` : ""}
 ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padding:12px 20px;font-size:14px">Este imóvel não está mais disponível para novos contatos.</div>` : ""}
 <header class="topbar">
   <div class="wrap">
@@ -405,14 +428,92 @@ ${(() => {
       <div class="galeria">
         ${fotos
           .map(
-            (f) =>
-              `<a href="${fotosBaseUrl}/${esc(f.arquivo)}" target="_blank" rel="noopener">
+            (f, i) =>
+              `<button type="button" class="foto-abrir" data-idx="${i}" aria-label="Ampliar foto ${i + 1} de ${fotos.length}">
             <figure><img src="${fotosBaseUrl}/${esc(f.arquivo)}" alt="${esc(f.alt || imovel.titulo)}" loading="lazy" onerror="this.style.display='none'"></figure>
-          </a>`
+          </button>`
           )
           .join("")}
       </div>
     </div>
+
+    <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Foto ampliada">
+      <button type="button" class="lightbox-fechar" id="lightboxFechar" aria-label="Voltar para o imóvel">✕ Voltar</button>
+      <button type="button" class="lightbox-seta lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
+      <img class="lightbox-img" id="lightboxImg" alt="">
+      <button type="button" class="lightbox-seta lightbox-next" id="lightboxNext" aria-label="Próxima foto">›</button>
+      <div class="lightbox-contador" id="lightboxContador"></div>
+    </div>
+    <script>
+    (function(){
+      var fotosUrls = ${JSON.stringify(fotos.map((f) => `${fotosBaseUrl}/${f.arquivo}`))};
+      var lightbox = document.getElementById("lightbox");
+      var img = document.getElementById("lightboxImg");
+      var contador = document.getElementById("lightboxContador");
+      var idx = 0;
+      function mostrar(i){
+        idx = (i + fotosUrls.length) % fotosUrls.length;
+        img.src = fotosUrls[idx];
+        contador.textContent = (idx + 1) + " / " + fotosUrls.length;
+      }
+      function abrir(i){
+        mostrar(i);
+        lightbox.classList.add("aberto");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
+      function fechar(){
+        lightbox.classList.remove("aberto");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      }
+      document.querySelectorAll(".foto-abrir").forEach(function(btn){
+        btn.addEventListener("click", function(){ abrir(Number(btn.dataset.idx)); });
+      });
+      document.getElementById("lightboxFechar").addEventListener("click", fechar);
+      document.getElementById("lightboxPrev").addEventListener("click", function(){ mostrar(idx - 1); });
+      document.getElementById("lightboxNext").addEventListener("click", function(){ mostrar(idx + 1); });
+      lightbox.addEventListener("click", function(e){ if (e.target === lightbox) fechar(); });
+      document.addEventListener("keydown", function(e){
+        if (!lightbox.classList.contains("aberto")) return;
+        if (e.key === "Escape") fechar();
+        if (e.key === "ArrowLeft") mostrar(idx - 1);
+        if (e.key === "ArrowRight") mostrar(idx + 1);
+      });
+    })();
+    </script>
+  </section>`
+    : "";
+
+  blocks.financiamento = simuladorUrl
+    ? `<section id="financiamento">
+    <div class="wrap">
+      <div class="banner-financiamento">
+        <img id="fotoFinanciamento" alt="" onerror="this.style.display='none'">
+        <div class="banner-financiamento-conteudo">
+          <span class="eyebrow">Simulador de financiamento</span>
+          <h2 style="margin-top:8px">Já pensou como ficaria a parcela deste imóvel?</h2>
+          <p>Simule condições de financiamento em poucos minutos — é rápido, gratuito e sem compromisso.</p>
+          <a class="btn-caixa" href="${esc(simuladorUrl)}" target="_blank" rel="noopener">Simular financiamento</a>
+        </div>
+      </div>
+    </div>
+    <script>
+    (function(){
+      var fotos = ${JSON.stringify(FOTOS_FINANCIAMENTO.map((f) => `${siteRoot}/${f}`))};
+      var chave = "sim_ultima_foto";
+      var ultima = -1;
+      try { ultima = parseInt(sessionStorage.getItem(chave), 10); } catch(e){}
+      var candidatos = fotos.map(function(_, i){ return i; }).filter(function(i){ return i !== ultima; });
+      var idx = candidatos.length ? candidatos[Math.floor(Math.random() * candidatos.length)] : 0;
+      try { sessionStorage.setItem(chave, String(idx)); } catch(e){}
+      var img = document.getElementById("fotoFinanciamento");
+      if (img) img.src = fotos[idx];
+      setTimeout(function(){
+        fotos.forEach(function(url, i){ if (i === idx) return; var pre = new Image(); pre.src = url; });
+      }, 1500);
+    })();
+    </script>
   </section>`
     : "";
 
@@ -445,7 +546,7 @@ ${(() => {
       <span class="eyebrow">Perguntas frequentes</span>
       <h2 style="margin-top:10px">Tire suas dúvidas</h2>
       <div class="faq-list">
-        ${faqs.map((f) => `<details class="faq-item"><summary>${esc(f.pergunta)}</summary><p>${esc(f.resposta)}</p></details>`).join("")}
+        ${faqs.map((f) => `<details class="faq-item"><summary>${esc(f.pergunta)}</summary><p>${esc(f.resposta)}${f.temBotaoSimulador && simuladorUrl ? `<br><a class="btn-caixa" style="margin-top:14px;background:#0046C0;color:#fff" href="${esc(simuladorUrl)}" target="_blank" rel="noopener">Simular financiamento</a>` : ""}</p></details>`).join("")}
       </div>
     </div>
   </section>`
@@ -464,7 +565,7 @@ ${(() => {
     </div>
   </section>`;
 
-  const order = theme.sectionOrder || ["sobre", "ficha", "destaques", "galeria", "parecidos", "contato"];
+  const order = theme.sectionOrder || ["sobre", "ficha", "destaques", "galeria", "financiamento", "parecidos", "contato"];
   return `<main>${order.map((k) => blocks[k] || "").join("\n")}</main>`;
 })()}
 

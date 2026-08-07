@@ -6,10 +6,10 @@
     "uf": "SP",
     "cidadesAtendidas": [
       "Itu",
-      "Indaiatuba",
       "Salto",
-      "Sorocaba",
-      "Cabreúva"
+      "Cabreúva",
+      "Indaiatuba",
+      "Sorocaba"
     ]
   },
   "corretor": {
@@ -23,5 +23,9 @@
   "analytics": {
     "cloudflareToken": ""
   },
-  "simuladorFinanciamento": "https://marcio-itu.github.io/simulador-financiamento-imoveis-itu/"
+  "googleSiteVerification": "c6zNoW_3MEX3e6U7ebP86B1HE0fqp16gqXUEpBh3AwI",
+  "simuladorFinanciamento": "https://marcio-itu.github.io/simulador-financiamento-imoveis-itu/",
+  "outrosSites": [
+    { "label": "Casas no litoral norte", "url": "https://marcio-itu.github.io/Praia-Preta-SaoSebastiao/" }
+  ]
 }

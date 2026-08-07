@@ -18,10 +18,45 @@ function hubCss(t) {
     background-attachment:fixed;
     color:${t.ink};font-family:${t.fonts.body};line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  .wrap-top{padding-top:40px;padding-bottom:22px}
+  .header-sticky{position:sticky;top:0;z-index:80;background:rgba(250,248,244,.92);backdrop-filter:blur(8px)}
+  .wrap-top{padding-top:22px;padding-bottom:22px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
   .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:14px}
   .brand-logo{height:68px;width:auto;display:block}
+
+  /* --- menu hambúrguer + painel lateral --- */
+  .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;margin-right:4px;position:relative;
+    display:flex;flex-direction:column;justify-content:center;gap:4px;width:38px;height:38px;flex:none}
+  .menu-toggle span{display:block;height:2px;width:100%;background:${t.ink};border-radius:2px;
+    transition:opacity .2s ease,transform .2s ease}
+  .menu-toggle::before,.menu-toggle::after{content:"";position:absolute;left:9px;right:9px;top:50%;
+    height:2px;background:${t.ink};border-radius:2px;opacity:0;transform:rotate(0deg);
+    transition:opacity .2s ease,transform .25s ease}
+  .menu-toggle.aberto span{opacity:0;transform:scaleX(.4)}
+  .menu-toggle.aberto::before{opacity:1;transform:rotate(45deg)}
+  .menu-toggle.aberto::after{opacity:1;transform:rotate(-45deg)}
+  .menu-overlay{position:fixed;inset:0;background:rgba(20,25,23,.45);opacity:0;pointer-events:none;
+    transition:opacity .3s ease;z-index:90}
+  .menu-overlay.aberto{opacity:1;pointer-events:auto}
+  .menu-lateral{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:86vw;background:#FFFDF9;
+    box-shadow:8px 0 30px rgba(0,0,0,.18);z-index:95;transform:translateX(-100%);
+    transition:transform .35s cubic-bezier(.22,.9,.3,1);display:flex;flex-direction:column;
+    padding:26px 22px 22px}
+  .menu-lateral.aberto{transform:translateX(0)}
+  .menu-fechar{align-self:flex-end;border:none;background:none;cursor:pointer;font-size:20px;
+    color:${t.inkMuted};padding:6px;margin-bottom:10px}
+  .menu-topo{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:${t.inkMuted};
+    font-weight:600;margin-bottom:14px}
+  .menu-item{display:flex;align-items:center;gap:14px;padding:14px 8px;text-decoration:none;
+    color:${t.ink};border-bottom:1px solid ${t.border};font-size:15px;font-weight:500;
+    transition:color .15s,padding-left .15s}
+  .menu-item:hover{color:${t.accent};padding-left:14px}
+  .menu-item svg{width:20px;height:20px;flex:none;color:${t.accent}}
+  .menu-item .menu-item-sub{display:block;font-size:12px;font-weight:400;color:${t.inkMuted};margin-top:2px}
+  .wa-header-icon{margin-left:auto;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+    color:${t.inkMuted};transition:color .15s}
+  .wa-header-icon svg{width:20px;height:20px}
+  .wa-header-icon:hover{color:#25D366}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
   .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${t.inkMuted};
     font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px}
@@ -72,12 +107,12 @@ function hubCss(t) {
   .contagem{font-size:13px;color:${t.inkMuted};margin-bottom:16px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  .card-wrap{position:relative}
-  a.card{display:block;position:relative;background:#fff;border:1px solid ${t.border};border-radius:14px;overflow:hidden;
+  .card-wrap{position:relative;display:flex}
+  a.card{display:flex;flex-direction:column;height:100%;width:100%;position:relative;background:#fff;border:1px solid ${t.border};border-radius:14px;overflow:hidden;
     text-decoration:none;color:${t.ink};box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
-  a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:${t.surface}}
-  a.card .body{padding:14px 16px}
+  a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:${t.surface};flex:none}
+  a.card .body{padding:14px 16px;display:flex;flex-direction:column;flex:1}
   a.card .tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:${t.fonts.display};font-size:17px;line-height:1.25}
@@ -95,6 +130,14 @@ function hubCss(t) {
   .footer-cols > div > div:not(.footer-label){font-size:14px;color:${t.inkMuted};line-height:1.9}
   .footer-cols a{color:${t.inkMuted};text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
   .footer-cols a:hover{color:${t.ink};border-bottom-color:${t.accent}}
+  .compartilhar-site{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+    padding:24px 0;margin-bottom:20px;border-top:1px solid ${t.border};border-bottom:1px solid ${t.border}}
+  .compartilhar-site span{font-size:13px;color:${t.inkMuted}}
+  .btn-enviar-site{display:inline-flex;align-items:center;gap:7px;color:#C9531F;text-decoration:none;
+    font-size:13px;font-weight:600;border:1px solid rgba(201,83,31,.35);border-radius:999px;
+    padding:8px 16px;transition:background .15s,border-color .15s}
+  .btn-enviar-site svg{width:14px;height:14px}
+  .btn-enviar-site:hover{background:rgba(201,83,31,.08);border-color:#C9531F}
   .footer-bottom{font-size:12px;color:${t.inkMuted};padding-top:24px;border-top:1px solid ${t.border}}
   a.card .preco{font-family:${t.fonts.display};font-size:15px;margin-top:8px}
 
@@ -147,7 +190,7 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="eUZ48MN17FouYrBJW85ZV8NUXa_rDKulC38cC22xWK0" />
+${config?.googleSiteVerification ? `<meta name="google-site-verification" content="${esc(config.googleSiteVerification)}" />` : ""}
 <title>Imóveis por cidade — ${esc(nomeHub)}</title>
 <meta name="description" content="Imóveis à venda em ${esc(cidadesConfig.join(", "))}, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="${esc(siteUrl)}">
@@ -163,17 +206,77 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
 ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>
 <body>
-<div class="wrap wrap-top">
-  <div class="site-header">
-    <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
-    <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
-        <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
-      </svg>
-    </a>
+<div class="menu-overlay" id="menuOverlay"></div>
+<nav class="menu-lateral" id="menuLateral" aria-hidden="true">
+  <button class="menu-fechar" id="menuFechar" aria-label="Fechar menu">✕</button>
+  <span class="menu-topo">Menu</span>
+  <a class="menu-item" href="${siteUrl}sobre/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></svg>
+    <span>Sobre o corretor</span>
+  </a>
+  <a class="menu-item" href="${esc(config?.simuladorFinanciamento || "#")}" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6.5h8" stroke-linecap="round"/><circle cx="8.3" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="17.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="17.5" r=".6" fill="currentColor" stroke="none"/></svg>
+    <span>Simule financiamento</span>
+  </a>
+  ${(config?.outrosSites || []).map(s => `<a class="menu-item" href="${esc(s.url)}" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <span>${esc(s.label)}</span>
+  </a>`).join("")}
+  <a class="menu-item" href="${siteUrl}investidores/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+    <div><span>Investidores</span><span class="menu-item-sub">Em breve</span></div>
+  </a>
+</nav>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  var toggle = document.getElementById("menuToggle");
+  var overlay = document.getElementById("menuOverlay");
+  var painel = document.getElementById("menuLateral");
+  var fechar = document.getElementById("menuFechar");
+  if (!toggle || !overlay || !painel || !fechar) return;
+  function abrir(){
+    toggle.classList.add("aberto"); toggle.setAttribute("aria-expanded","true");
+    overlay.classList.add("aberto"); painel.classList.add("aberto");
+    painel.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
+  }
+  function fecharMenu(){
+    toggle.classList.remove("aberto"); toggle.setAttribute("aria-expanded","false");
+    overlay.classList.remove("aberto"); painel.classList.remove("aberto");
+    painel.setAttribute("aria-hidden","true"); document.body.style.overflow = "";
+  }
+  toggle.addEventListener("click", function(){
+    toggle.classList.contains("aberto") ? fecharMenu() : abrir();
+  });
+  overlay.addEventListener("click", fecharMenu);
+  fechar.addEventListener("click", fecharMenu);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") fecharMenu(); });
+});
+</script>
+
+<div class="header-sticky" id="headerSticky">
+  <div class="wrap wrap-top">
+    <div class="site-header">
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLateral">
+        <span></span><span></span><span></span><span></span>
+      </button>
+      <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
+      <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
+          <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </div>
+<script>
+document.getElementById("headerSticky").addEventListener("click", function(e){
+  if (e.target.closest(".menu-toggle, .brand-logo, .wa-header-icon")) return;
+  if (confirm("Gostaria de falar com Márcio por WhatsApp?")){
+    window.open("https://wa.me/+551132806090", "_blank");
+  }
+});
+</script>
 
 <div class="hero-photo-mobile" aria-hidden="true">
   <img id="fotoDestaqueMobile" alt="" onerror="this.style.display='none'">
@@ -261,6 +364,13 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
         <div class="footer-label">Atendemos</div>
         <div>${esc(cidadesConfig.join(" · "))}</div>
       </div>
+    </div>
+    <div class="compartilhar-site">
+      <span>Envie este site para alguém especial</span>
+      <a class="btn-enviar-site" href="https://wa.me/?text=${encodeURIComponent(`Dá uma olhada nesse site de imóveis: ${siteUrl}`)}" target="_blank" rel="noopener" aria-label="Enviar este site pelo WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        Enviar
+      </a>
     </div>
     <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(nomeHub)}. Todos os direitos reservados.</div>
   </footer>

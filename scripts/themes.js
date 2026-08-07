@@ -26,7 +26,7 @@ const THEMES = {
     heroVh: 92,
     showPriceInHero: false,
     stickyCta: false,
-    sectionOrder: ["sobre", "ficha", "destaques", "galeria", "parecidos", "contato", "faq"],
+    sectionOrder: ["sobre", "ficha", "destaques", "galeria", "financiamento", "parecidos", "contato", "faq"],
   },
   "medio-padrao": {
     label: "Médio padrão",
@@ -46,7 +46,7 @@ const THEMES = {
     heroVh: 62,
     showPriceInHero: true,
     stickyCta: false,
-    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "parecidos", "contato", "faq"],
+    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "financiamento", "parecidos", "contato", "faq"],
   },
   "padrao-popular": {
     label: "Padrão popular",
@@ -66,7 +66,7 @@ const THEMES = {
     heroVh: 40,
     showPriceInHero: true,
     stickyCta: true,
-    sectionOrder: ["ficha", "destaques", "sobre", "galeria", "parecidos", "contato", "faq"],
+    sectionOrder: ["ficha", "destaques", "sobre", "galeria", "financiamento", "parecidos", "contato", "faq"],
   },
   "padrao-neutro": {
     label: "Padrão neutro",
@@ -86,7 +86,7 @@ const THEMES = {
     heroVh: 46,
     showPriceInHero: true,
     stickyCta: false,
-    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "parecidos", "contato", "faq"],
+    sectionOrder: ["ficha", "sobre", "destaques", "galeria", "financiamento", "parecidos", "contato", "faq"],
   },
 };
 

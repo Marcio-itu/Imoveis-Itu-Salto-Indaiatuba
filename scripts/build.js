@@ -4,6 +4,7 @@ const sharp = require("sharp");
 const { THEMES } = require("./themes");
 const { renderPropertyPage, buildFaqs } = require("./template");
 const { renderMainHub, renderBairroHub } = require("./hub");
+const { renderSobrePage, renderInvestidoresPage } = require("./institucional");
 const { slugify, parsePreco, esc, formatPreco } = require("./utils");
 
 const ROOT = path.join(__dirname, "..");
@@ -198,6 +199,17 @@ async function build() {
   // Hub principal — busca por cidade, bairro e faixa de preço
   fs.writeFileSync(path.join(DOCS_DIR, "index.html"), renderMainHub(todosImoveis, hubTheme, `${SITE}/`, config));
 
+  // Páginas institucionais: Sobre o corretor + Investidores (teaser)
+  const sobreDir = path.join(DOCS_DIR, "sobre");
+  fs.mkdirSync(sobreDir, { recursive: true });
+  fs.writeFileSync(path.join(sobreDir, "index.html"), renderSobrePage(config, `${SITE}/`));
+  sitemapUrls.push(`${SITE}/sobre/`);
+
+  const investidoresDir = path.join(DOCS_DIR, "investidores");
+  fs.mkdirSync(investidoresDir, { recursive: true });
+  fs.writeFileSync(path.join(investidoresDir, "index.html"), renderInvestidoresPage(config, `${SITE}/`));
+  sitemapUrls.push(`${SITE}/investidores/`);
+
   // Admin publicado dentro do próprio site (não fica linkado na navegação pública,
   // mas assim dá pra acessar de qualquer aparelho — inclusive o celular)
   const adminSrc = path.join(ROOT, "admin");
@@ -208,7 +220,15 @@ async function build() {
   if (fs.existsSync(assetsSrc)) {
     for (const nome of ["favicon-cliente-512.png", "favicon-cliente-180.png", "favicon-cliente-32.png",
       "imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp",
-      "imoveis-itu-salto-indaiatuba-2027-03.webp", "logo-marcio-santos.png"]) {
+      "imoveis-itu-salto-indaiatuba-2027-03.webp", "logo-marcio-santos.png",
+      "marcio-santos-corretor.webp", "diploma-marcio-santos.pdf",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-02.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-03.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-04.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-05.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-06.webp",
+      "simulador-financiamento-imovel-itu-salto-cabreuva-07.webp"]) {
       const p = path.join(assetsSrc, nome);
       if (fs.existsSync(p)) fs.copyFileSync(p, path.join(DOCS_DIR, nome));
     }

@@ -2,9 +2,9 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="google-site-verification" content="eUZ48MN17FouYrBJW85ZV8NUXa_rDKulC38cC22xWK0" />
+<meta name="google-site-verification" content="c6zNoW_3MEX3e6U7ebP86B1HE0fqp16gqXUEpBh3AwI" />
 <title>Imóveis por cidade — Inteligência Imobiliária, Construindo Confiança</title>
-<meta name="description" content="Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba, Cabreúva, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
+<meta name="description" content="Imóveis à venda em Itu, Salto, Cabreúva, Indaiatuba, Sorocaba, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
 <link rel="canonical" href="https://www.imoveis-itu-salto.com.br/">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-32.png">
@@ -13,7 +13,7 @@
 <meta name="geo.placename" content="Itu">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://www.imoveis-itu-salto.com.br/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"identifier":{"@type":"PropertyValue","propertyID":"CRECI-SP","value":"276471-F"},"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Marcio Santos","url":"https://www.imoveis-itu-salto.com.br/","telephone":"+5511967602254","email":"Corretor_Marcio@proton.me","sameAs":["https://www.instagram.com/corretor_marcio_itu"],"identifier":{"@type":"PropertyValue","propertyID":"CRECI-SP","value":"276471-F"},"areaServed":[{"@type":"City","name":"Itu","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Salto","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Cabreúva","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Indaiatuba","containedInPlace":{"@type":"State","name":"São Paulo"}},{"@type":"City","name":"Sorocaba","containedInPlace":{"@type":"State","name":"São Paulo"}}],"address":{"@type":"PostalAddress","addressLocality":"Itu","addressRegion":"SP","addressCountry":"BR"}}</script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
@@ -26,10 +26,45 @@
     background-attachment:fixed;
     color:#1E2A28;font-family:'Inter', -apple-system, Helvetica, Arial, sans-serif;line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
-  .wrap-top{padding-top:40px;padding-bottom:22px}
+  .header-sticky{position:sticky;top:0;z-index:80;background:rgba(250,248,244,.92);backdrop-filter:blur(8px)}
+  .wrap-top{padding-top:22px;padding-bottom:22px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
   .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:14px}
   .brand-logo{height:68px;width:auto;display:block}
+
+  /* --- menu hambúrguer + painel lateral --- */
+  .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;margin-right:4px;position:relative;
+    display:flex;flex-direction:column;justify-content:center;gap:4px;width:38px;height:38px;flex:none}
+  .menu-toggle span{display:block;height:2px;width:100%;background:#1E2A28;border-radius:2px;
+    transition:opacity .2s ease,transform .2s ease}
+  .menu-toggle::before,.menu-toggle::after{content:"";position:absolute;left:9px;right:9px;top:50%;
+    height:2px;background:#1E2A28;border-radius:2px;opacity:0;transform:rotate(0deg);
+    transition:opacity .2s ease,transform .25s ease}
+  .menu-toggle.aberto span{opacity:0;transform:scaleX(.4)}
+  .menu-toggle.aberto::before{opacity:1;transform:rotate(45deg)}
+  .menu-toggle.aberto::after{opacity:1;transform:rotate(-45deg)}
+  .menu-overlay{position:fixed;inset:0;background:rgba(20,25,23,.45);opacity:0;pointer-events:none;
+    transition:opacity .3s ease;z-index:90}
+  .menu-overlay.aberto{opacity:1;pointer-events:auto}
+  .menu-lateral{position:fixed;top:0;left:0;bottom:0;width:300px;max-width:86vw;background:#FFFDF9;
+    box-shadow:8px 0 30px rgba(0,0,0,.18);z-index:95;transform:translateX(-100%);
+    transition:transform .35s cubic-bezier(.22,.9,.3,1);display:flex;flex-direction:column;
+    padding:26px 22px 22px}
+  .menu-lateral.aberto{transform:translateX(0)}
+  .menu-fechar{align-self:flex-end;border:none;background:none;cursor:pointer;font-size:20px;
+    color:#5B6A67;padding:6px;margin-bottom:10px}
+  .menu-topo{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5B6A67;
+    font-weight:600;margin-bottom:14px}
+  .menu-item{display:flex;align-items:center;gap:14px;padding:14px 8px;text-decoration:none;
+    color:#1E2A28;border-bottom:1px solid #DCE3E1;font-size:15px;font-weight:500;
+    transition:color .15s,padding-left .15s}
+  .menu-item:hover{color:#2F5D7C;padding-left:14px}
+  .menu-item svg{width:20px;height:20px;flex:none;color:#2F5D7C}
+  .menu-item .menu-item-sub{display:block;font-size:12px;font-weight:400;color:#5B6A67;margin-top:2px}
+  .wa-header-icon{margin-left:auto;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+    color:#5B6A67;transition:color .15s}
+  .wa-header-icon svg{width:20px;height:20px}
+  .wa-header-icon:hover{color:#25D366}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#2F5D7C;font-weight:600}
   .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#5B6A67;
     font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px}
@@ -80,12 +115,12 @@
   .contagem{font-size:13px;color:#5B6A67;margin-bottom:16px}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  .card-wrap{position:relative}
-  a.card{display:block;position:relative;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
+  .card-wrap{position:relative;display:flex}
+  a.card{display:flex;flex-direction:column;height:100%;width:100%;position:relative;background:#fff;border:1px solid #DCE3E1;border-radius:14px;overflow:hidden;
     text-decoration:none;color:#1E2A28;box-shadow:0 2px 10px rgba(0,0,0,.05);transition:transform .2s,box-shadow .2s}
   a.card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.10)}
-  a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:#F4F6F5}
-  a.card .body{padding:14px 16px}
+  a.card .thumb{width:100%;aspect-ratio:4/3;object-fit:cover;background:#F4F6F5;flex:none}
+  a.card .body{padding:14px 16px;display:flex;flex-direction:column;flex:1}
   a.card .tag{display:inline-block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;
     padding:4px 9px;border-radius:999px;color:#fff;margin-bottom:8px}
   a.card .tit{font-family:'Fraunces', Georgia, serif;font-size:17px;line-height:1.25}
@@ -103,6 +138,14 @@
   .footer-cols > div > div:not(.footer-label){font-size:14px;color:#5B6A67;line-height:1.9}
   .footer-cols a{color:#5B6A67;text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
   .footer-cols a:hover{color:#1E2A28;border-bottom-color:#2F5D7C}
+  .compartilhar-site{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+    padding:24px 0;margin-bottom:20px;border-top:1px solid #DCE3E1;border-bottom:1px solid #DCE3E1}
+  .compartilhar-site span{font-size:13px;color:#5B6A67}
+  .btn-enviar-site{display:inline-flex;align-items:center;gap:7px;color:#C9531F;text-decoration:none;
+    font-size:13px;font-weight:600;border:1px solid rgba(201,83,31,.35);border-radius:999px;
+    padding:8px 16px;transition:background .15s,border-color .15s}
+  .btn-enviar-site svg{width:14px;height:14px}
+  .btn-enviar-site:hover{background:rgba(201,83,31,.08);border-color:#C9531F}
   .footer-bottom{font-size:12px;color:#5B6A67;padding-top:24px;border-top:1px solid #DCE3E1}
   a.card .preco{font-family:'Fraunces', Georgia, serif;font-size:15px;margin-top:8px}
 
@@ -120,17 +163,77 @@
 
 </head>
 <body>
-<div class="wrap wrap-top">
-  <div class="site-header">
-    <img class="brand-logo" src="https://www.imoveis-itu-salto.com.br/logo-marcio-santos.png" alt="Marcio Santos — CRECI-SP CRECI-SP 276471-F">
-    <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
-        <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
-      </svg>
-    </a>
+<div class="menu-overlay" id="menuOverlay"></div>
+<nav class="menu-lateral" id="menuLateral" aria-hidden="true">
+  <button class="menu-fechar" id="menuFechar" aria-label="Fechar menu">✕</button>
+  <span class="menu-topo">Menu</span>
+  <a class="menu-item" href="https://www.imoveis-itu-salto.com.br/sobre/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></svg>
+    <span>Sobre o corretor</span>
+  </a>
+  <a class="menu-item" href="https://marcio-itu.github.io/simulador-financiamento-imoveis-itu/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6.5h8" stroke-linecap="round"/><circle cx="8.3" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="17.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="17.5" r=".6" fill="currentColor" stroke="none"/></svg>
+    <span>Simule financiamento</span>
+  </a>
+  <a class="menu-item" href="https://marcio-itu.github.io/Praia-Preta-SaoSebastiao/" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+    <span>Casas no litoral norte</span>
+  </a>
+  <a class="menu-item" href="https://www.imoveis-itu-salto.com.br/investidores/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+    <div><span>Investidores</span><span class="menu-item-sub">Em breve</span></div>
+  </a>
+</nav>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  var toggle = document.getElementById("menuToggle");
+  var overlay = document.getElementById("menuOverlay");
+  var painel = document.getElementById("menuLateral");
+  var fechar = document.getElementById("menuFechar");
+  if (!toggle || !overlay || !painel || !fechar) return;
+  function abrir(){
+    toggle.classList.add("aberto"); toggle.setAttribute("aria-expanded","true");
+    overlay.classList.add("aberto"); painel.classList.add("aberto");
+    painel.setAttribute("aria-hidden","false"); document.body.style.overflow = "hidden";
+  }
+  function fecharMenu(){
+    toggle.classList.remove("aberto"); toggle.setAttribute("aria-expanded","false");
+    overlay.classList.remove("aberto"); painel.classList.remove("aberto");
+    painel.setAttribute("aria-hidden","true"); document.body.style.overflow = "";
+  }
+  toggle.addEventListener("click", function(){
+    toggle.classList.contains("aberto") ? fecharMenu() : abrir();
+  });
+  overlay.addEventListener("click", fecharMenu);
+  fechar.addEventListener("click", fecharMenu);
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") fecharMenu(); });
+});
+</script>
+
+<div class="header-sticky" id="headerSticky">
+  <div class="wrap wrap-top">
+    <div class="site-header">
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLateral">
+        <span></span><span></span><span></span><span></span>
+      </button>
+      <img class="brand-logo" src="https://www.imoveis-itu-salto.com.br/logo-marcio-santos.png" alt="Marcio Santos — CRECI-SP CRECI-SP 276471-F">
+      <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
+          <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
+        </svg>
+      </a>
+    </div>
   </div>
 </div>
+<script>
+document.getElementById("headerSticky").addEventListener("click", function(e){
+  if (e.target.closest(".menu-toggle, .brand-logo, .wa-header-icon")) return;
+  if (confirm("Gostaria de falar com Márcio por WhatsApp?")){
+    window.open("https://wa.me/+551132806090", "_blank");
+  }
+});
+</script>
 
 <div class="hero-photo-mobile" aria-hidden="true">
   <img id="fotoDestaqueMobile" alt="" onerror="this.style.display='none'">
@@ -216,15 +319,22 @@
       </div>
       <div>
         <div class="footer-label">Atendemos</div>
-        <div>Itu · Indaiatuba · Salto · Sorocaba · Cabreúva</div>
+        <div>Itu · Salto · Cabreúva · Indaiatuba · Sorocaba</div>
       </div>
+    </div>
+    <div class="compartilhar-site">
+      <span>Envie este site para alguém especial</span>
+      <a class="btn-enviar-site" href="https://wa.me/?text=D%C3%A1%20uma%20olhada%20nesse%20site%20de%20im%C3%B3veis%3A%20https%3A%2F%2Fwww.imoveis-itu-salto.com.br%2F" target="_blank" rel="noopener" aria-label="Enviar este site pelo WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+        Enviar
+      </a>
     </div>
     <div class="footer-bottom">© 2026 Inteligência Imobiliária, Construindo Confiança. Todos os direitos reservados.</div>
   </footer>
 </div>
 
 <script>
-const IMOVEIS = [{"titulo":"Excelente Localização ","cidade":"Itu","bairro":"Jardim do Estádio","uf":"SP","preco":"R$ 7.900","precoNumerico":7900,"precoSufixo":"/mês","padrao":"padrao-neutro","padraoLabel":"Padrão neutro","url":"https://www.imoveis-itu-salto.com.br/imoveis/excelente-localizacao/","thumb":"https://www.imoveis-itu-salto.com.br/imoveis/excelente-localizacao/fotos/vista-ampla-local-itu-padrao-neutro-terreno-sp-20260806022106.webp","tiposOperacao":["locacao"]},{"titulo":"Linda Casa com Árra Gourmet, Bar e Piscina!","cidade":"Itu","bairro":"Jardim Aeroporto I","uf":"SP","preco":"R$ 700.000","precoNumerico":700000,"precoSufixo":"","padrao":"medio-padrao","padraoLabel":"Médio padrão","url":"https://www.imoveis-itu-salto.com.br/imoveis/linda-casa-com-arra-gourmet-bar-e-piscina/","thumb":"https://www.imoveis-itu-salto.com.br/imoveis/linda-casa-com-arra-gourmet-bar-e-piscina/fotos/piscina-itu-medio-padrao-casa-sp-20260807101157.webp","tiposOperacao":["venda"]},{"titulo":"Terreno em Condominio Fechado","cidade":"Salto","bairro":"Residencial Central Parque","uf":"SP","preco":"R$ 250.000","precoNumerico":250000,"precoSufixo":"","padrao":"padrao-neutro","padraoLabel":"Padrão neutro","url":"https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-fechado/","thumb":"https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-fechado/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260806015435.webp","tiposOperacao":["venda"]}];
+const IMOVEIS = [{"titulo":"Casa em Praia Preta","cidade":"São Sebastião","bairro":"Praia Preta","uf":"SP","preco":"R$ 2.450.000","precoNumerico":2450000,"precoSufixo":"","padrao":"alto-padrao","padraoLabel":"Alto padrão","url":"https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/","thumb":"https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/fotos/fachada-casa-alto-padrao-sao-sebastiao-sp-vista-mar-20260728.webp","tiposOperacao":["venda"]}];
 const PADRAO_COR = {"alto-padrao":"#4E9E97","medio-padrao":"#2F5D7C","padrao-popular":"#E0562B","padrao-neutro":"#8A7F63"};
 function formatBRL(n){ return n ? n.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}) : ''; }
 
