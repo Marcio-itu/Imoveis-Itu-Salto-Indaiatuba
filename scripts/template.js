@@ -55,8 +55,7 @@ function css(t) {
   .tags{display:flex;flex-wrap:wrap;gap:10px}
   .tag{border:1px solid var(--border);background:var(--surface);padding:9px 16px;border-radius:var(--radius);font-size:14px}
   .bullets{list-style:none;margin-top:20px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px 24px}
-  .bullets li{position:relative;padding-left:20px;font-size:15px;color:var(--ink)}
-  .bullets li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:50%;background:var(--accent)}
+  .bullets li{font-size:15px;color:var(--ink)}
   .tag b{color:var(--accent)}
 
   .ficha{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--border);
@@ -98,7 +97,7 @@ function css(t) {
   }
 
   p.resumo{font-size:19px;font-weight:600;color:var(--ink);max-width:62ch;line-height:1.4}
-  p.disclaimer{font-size:12px;font-style:italic;color:var(--ink-muted);max-width:62ch;line-height:1.5;margin-top:22px}
+  p.disclaimer{font-size:13px;font-style:italic;color:var(--ink-muted);max-width:62ch;line-height:1.5;margin-top:22px}
 
   .faq-list{display:grid;gap:10px;max-width:72ch}
   .faq-item{border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);padding:2px 18px}
@@ -382,10 +381,23 @@ ${(() => {
       <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
-      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e foram fornecidas diretamente pelo proprietário ou corretor parceiro. Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.${(imovel.parceria?.instagrams || []).length ? ` Imóvel em parceria com ${imovel.parceria.instagrams.map((h) => `"@${esc(h.replace(/^@/, ""))}"`).join(", ")}.` : ""}</p>
+      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${(imovel.parceria?.instagrams || []).length ? `: ${imovel.parceria.instagrams.map((h) => `@${esc(h.replace(/^@/, ""))}`).join(", ")}` : ""}.</p>
+      <p class="disclaimer">⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.</p>
       <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>
     </div>
   </section>`;
+
+  const bulletsAuto = [];
+  bulletsAuto.push(`${formatPreco(imovel.preco)}${precoSufixo}${imovel.financiamento ? " - aceita financiamento" : ""}`);
+  if (imovel.quartos) bulletsAuto.push(`${imovel.quartos} quartos`);
+  if (imovel.suites) bulletsAuto.push(`${imovel.suites} suítes`);
+  if (imovel.banheiros) bulletsAuto.push(`${imovel.banheiros} banheiros (totais)`);
+  if (imovel.vagas) bulletsAuto.push(`${imovel.vagas} vagas`);
+  if (imovel.areaUtil) bulletsAuto.push(`${imovel.areaUtil} m² de área útil`);
+  if (imovel.areaTerreno) bulletsAuto.push(`${imovel.areaTerreno} m² de terreno`);
+  (imovel.acessorios || []).forEach((a) => bulletsAuto.push(a));
+  (imovel.caracteristicasExtras || []).forEach((c) => bulletsAuto.push(c));
+  const bulletsFinais = [...(imovel.dadosTecnicos || []), ...bulletsAuto];
 
   blocks.ficha = specs.length
     ? `<section id="ficha">
@@ -401,7 +413,7 @@ ${(() => {
       <div class="ficha">
         ${specs.map((s) => `<div><span class="num">${esc(s.num)}</span><span class="lbl">${esc(s.lbl)}</span></div>`).join("")}
       </div>
-      ${(imovel.dadosTecnicos || []).length ? `<ul class="bullets">${imovel.dadosTecnicos.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>` : ""}
+      ${bulletsFinais.length ? `<ul class="bullets">${bulletsFinais.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
     </div>
   </section>`
     : "";

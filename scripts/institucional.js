@@ -76,9 +76,15 @@ function renderSobrePage(config, siteUrl) {
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">${JSON.stringify(personLd)}</script>
 <style>${institucionalCss()}
-  .foto-bio{width:100%;max-width:340px;border-radius:14px;overflow:hidden;margin:22px 0 4px;
+  .foto-bio{width:100%;max-width:220px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
     box-shadow:0 10px 30px rgba(0,0,0,.10)}
-  .foto-bio img{width:100%;display:block}
+  .foto-bio img{width:100%;aspect-ratio:900/1260;object-fit:cover;display:block}
+  .sobre-grid{display:flex;flex-direction:column}
+  .sobre-texto{flex:1}
+  @media (min-width:640px){
+    .sobre-grid{flex-direction:row;align-items:flex-start;gap:36px}
+    .foto-bio{margin:6px 0 0}
+  }
   .diploma-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5E756E;
     text-decoration:none;border-bottom:1px solid #DCD5C4;padding-bottom:2px;margin-top:8px}
   .diploma-link:hover{color:#2F5D7C;border-color:#2F5D7C}
@@ -96,18 +102,21 @@ function renderSobrePage(config, siteUrl) {
   <p class="sub">Corretor de imóveis em ${esc(cidadePrincipal)} e região — ${esc(cidades)}</p>
   ${creci ? `<span class="credential">${esc(creci)}</span>` : ""}
 
-  <div class="foto-bio">
-    <img src="${siteUrl}marcio-santos-corretor.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="900" height="1260">
-  </div>
-
   <section>
-    <p>${esc(nome)} é corretor de imóveis (${esc(creci)}) em ${esc(cidadePrincipal)} e região, com formação técnica em Transações Imobiliárias pela Escola SENAC Rio Grande do Sul (2023, 960 horas). Atua com atendimento próximo e consultivo, ajudando famílias e investidores a encontrar o imóvel certo em ${esc(cidades)}.</p>
-    <p>Antes de se dedicar ao mercado imobiliário, construiu mais de 20 anos de carreira em marketing e trade marketing — período em que liderou equipes e estratégias de expansão em empresas como a Starrett do Brasil e o Grupo Agronelli, gerenciando orçamentos superiores a R$ 10 milhões e lançando dezenas de linhas de produto no mercado nacional e latino-americano. Essa bagagem corporativa hoje se traduz diretamente na forma como cada imóvel é apresentado, posicionado e divulgado — com o mesmo rigor estratégico usado antes para grandes marcas.</p>
-    <p>O resultado é um atendimento que une transparência, atenção aos detalhes e uma visão de mercado pouco comum entre corretores — sempre com foco no que mais importa numa decisão como essa: encontrar o imóvel certo, sem pressa e sem letras miúdas.</p>
-    <a class="diploma-link" href="${siteUrl}diploma-marcio-santos.pdf" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg>
-      Ver diplomação
-    </a>
+    <div class="sobre-grid">
+      <div class="sobre-texto">
+        <p>${esc(nome)} é corretor de imóveis (${esc(creci)}) em ${esc(cidadePrincipal)} e região, com formação técnica em Transações Imobiliárias pela Escola SENAC Rio Grande do Sul (2023, 960 horas). Atua com atendimento próximo e consultivo, ajudando famílias e investidores a encontrar o imóvel certo em ${esc(cidades)}.</p>
+        <p>Antes de se dedicar ao mercado imobiliário, construiu mais de 20 anos de carreira em marketing e trade marketing — período em que liderou equipes e estratégias de expansão em empresas como a Starrett do Brasil e o Grupo Agronelli, gerenciando orçamentos superiores a R$ 10 milhões e lançando dezenas de linhas de produto no mercado nacional e latino-americano. Essa bagagem corporativa hoje se traduz diretamente na forma como cada imóvel é apresentado, posicionado e divulgado — com o mesmo rigor estratégico usado antes para grandes marcas.</p>
+        <p>O resultado é um atendimento que une transparência, atenção aos detalhes e uma visão de mercado pouco comum entre corretores — sempre com foco no que mais importa numa decisão como essa: encontrar o imóvel certo, sem pressa e sem letras miúdas.</p>
+        <a class="diploma-link" href="${siteUrl}diploma-marcio-santos.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg>
+          Ver diplomação
+        </a>
+      </div>
+      <div class="foto-bio">
+        <img src="${siteUrl}marcio-santos-corretor.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="900" height="1260">
+      </div>
+    </div>
   </section>
 
   <div class="divider"></div>
@@ -130,8 +139,9 @@ function renderSobrePage(config, siteUrl) {
 function renderInvestidoresPage(config, siteUrl) {
   const nome = config?.corretor?.nome || "Marcio Santos";
   const cidadePrincipal = config?.regiao?.cidadePrincipal || "Itu";
+  const whatsapp = config?.corretor?.whatsapp || "551132806090";
   const titulo = `Investidores — Oportunidades Imobiliárias em ${esc(cidadePrincipal)}/SP | ${esc(nome)}`;
-  const descricao = `Área para investidores de ${esc(nome)}, corretor de imóveis em ${esc(cidadePrincipal)}/SP: oportunidades de alta procura, seleção consultiva de imóveis para investimento. Em breve.`;
+  const descricao = `Área para investidores de ${esc(nome)}, corretor de imóveis em ${esc(cidadePrincipal)}/SP: oportunidades de alta procura e curadoria consultiva de imóveis para investimento.`;
 
   return `<!DOCTYPE html>
 <html lang="pt-BR">
@@ -166,10 +176,7 @@ function renderInvestidoresPage(config, siteUrl) {
   .login-card input::placeholder{color:#5E756E}
   .login-btn{width:100%;margin-top:22px;background:#4E9E97;color:#0E1614;border:none;border-radius:999px;
     padding:13px;font-weight:700;font-size:14px;cursor:pointer}
-  .esqueci{display:block;margin-top:14px;font-size:12px;color:#5E756E;text-decoration:none}
-  .esqueci:hover{color:#4E9E97}
-  .badge-em-breve{display:inline-block;background:rgba(78,158,151,.15);color:#4E9E97;font-size:11px;
-    letter-spacing:.08em;text-transform:uppercase;font-weight:700;border-radius:999px;padding:5px 14px;margin-top:18px}
+  .login-card .aviso{display:block;margin-top:14px;font-size:12px;color:#5E756E}
 </style>
 </head>
 <body>
@@ -181,19 +188,23 @@ function renderInvestidoresPage(config, siteUrl) {
   <span class="eyebrow">Área do investidor</span>
   <h1>Caro investidor, seja bem-vindo.</h1>
   <p class="sub">Uma seleção dedicada a quem enxerga imóveis como oportunidade — não apenas como moradia.</p>
-  <span class="badge-em-breve">Em construção</span>
 
   <section>
-    <p>Estamos preparando um espaço exclusivo para investidores: imóveis de alta procura, oportunidades fora da vitrine pública e análises de potencial de valorização em ${esc(cidadePrincipal)} e região — curadoria feita pessoalmente por ${esc(nome)}.</p>
-    <p>Cadastre-se abaixo para ser avisado assim que este espaço for liberado.</p>
+    <p>Aqui você tem acesso a uma curadoria pessoal de ${esc(nome)}: imóveis de alta procura, oportunidades fora da vitrine pública e leitura de potencial de valorização em ${esc(cidadePrincipal)} e região.</p>
+    <p>Solicite seu acesso abaixo — a análise de cada perfil é feita pessoalmente, sem intermediários.</p>
 
-    <form class="login-card" onsubmit="return false" aria-label="Cadastro de investidor (em breve)">
+    <form class="login-card" onsubmit="return false" aria-label="Solicitar acesso à área de investidores">
+      <label for="invNome">Nome</label>
+      <input type="text" id="invNome" placeholder="Seu nome completo" autocomplete="off">
       <label for="invEmail">E-mail</label>
       <input type="email" id="invEmail" placeholder="seu@email.com" autocomplete="off">
-      <label for="invSenha">Senha</label>
-      <input type="password" id="invSenha" placeholder="••••••••" autocomplete="off">
-      <button class="login-btn" type="button" onclick="alert('Essa área ainda está em preparação — em breve você poderá se cadastrar por aqui. Enquanto isso, fale direto comigo pelo WhatsApp.')">Entrar</button>
-      <a class="esqueci" href="#" onclick="event.preventDefault();alert('Essa área ainda está em preparação.')">Esqueci minha senha</a>
+      <button class="login-btn" type="button" onclick="
+        var n = document.getElementById('invNome').value.trim();
+        var e = document.getElementById('invEmail').value.trim();
+        var msg = 'Olá, Márcio. Sou ' + (n || '[nome]') + (e ? (' (' + e + ')') : '') + ' e gostaria de solicitar acesso à área de investidores.';
+        window.open('https://wa.me/${esc(whatsapp)}?text=' + encodeURIComponent(msg), '_blank');
+      ">Solicitar acesso</button>
+      <span class="aviso">Sua solicitação é respondida pessoalmente por ${esc(nome)}.</span>
     </form>
   </section>
 

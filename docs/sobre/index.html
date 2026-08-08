@@ -39,9 +39,15 @@
     margin-top:36px;display:block}
   footer{border-top:1px solid #DCD5C4;padding:26px 0;font-size:13px;color:#5E756E}
   
-  .foto-bio{width:100%;max-width:340px;border-radius:14px;overflow:hidden;margin:22px 0 4px;
+  .foto-bio{width:100%;max-width:220px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
     box-shadow:0 10px 30px rgba(0,0,0,.10)}
-  .foto-bio img{width:100%;display:block}
+  .foto-bio img{width:100%;aspect-ratio:900/1260;object-fit:cover;display:block}
+  .sobre-grid{display:flex;flex-direction:column}
+  .sobre-texto{flex:1}
+  @media (min-width:640px){
+    .sobre-grid{flex-direction:row;align-items:flex-start;gap:36px}
+    .foto-bio{margin:6px 0 0}
+  }
   .diploma-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#5E756E;
     text-decoration:none;border-bottom:1px solid #DCD5C4;padding-bottom:2px;margin-top:8px}
   .diploma-link:hover{color:#2F5D7C;border-color:#2F5D7C}
@@ -59,18 +65,21 @@
   <p class="sub">Corretor de imóveis em Itu e região — Itu, Salto, Cabreúva, Indaiatuba, Sorocaba</p>
   <span class="credential">CRECI-SP 276471-F</span>
 
-  <div class="foto-bio">
-    <img src="https://www.imoveis-itu-salto.com.br/marcio-santos-corretor.webp" alt="Marcio Santos, corretor de imóveis CRECI-SP 276471-F" width="900" height="1260">
-  </div>
-
   <section>
-    <p>Marcio Santos é corretor de imóveis (CRECI-SP 276471-F) em Itu e região, com formação técnica em Transações Imobiliárias pela Escola SENAC Rio Grande do Sul (2023, 960 horas). Atua com atendimento próximo e consultivo, ajudando famílias e investidores a encontrar o imóvel certo em Itu, Salto, Cabreúva, Indaiatuba, Sorocaba.</p>
-    <p>Antes de se dedicar ao mercado imobiliário, construiu mais de 20 anos de carreira em marketing e trade marketing — período em que liderou equipes e estratégias de expansão em empresas como a Starrett do Brasil e o Grupo Agronelli, gerenciando orçamentos superiores a R$ 10 milhões e lançando dezenas de linhas de produto no mercado nacional e latino-americano. Essa bagagem corporativa hoje se traduz diretamente na forma como cada imóvel é apresentado, posicionado e divulgado — com o mesmo rigor estratégico usado antes para grandes marcas.</p>
-    <p>O resultado é um atendimento que une transparência, atenção aos detalhes e uma visão de mercado pouco comum entre corretores — sempre com foco no que mais importa numa decisão como essa: encontrar o imóvel certo, sem pressa e sem letras miúdas.</p>
-    <a class="diploma-link" href="https://www.imoveis-itu-salto.com.br/diploma-marcio-santos.pdf" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg>
-      Ver diplomação
-    </a>
+    <div class="sobre-grid">
+      <div class="sobre-texto">
+        <p>Marcio Santos é corretor de imóveis (CRECI-SP 276471-F) em Itu e região, com formação técnica em Transações Imobiliárias pela Escola SENAC Rio Grande do Sul (2023, 960 horas). Atua com atendimento próximo e consultivo, ajudando famílias e investidores a encontrar o imóvel certo em Itu, Salto, Cabreúva, Indaiatuba, Sorocaba.</p>
+        <p>Antes de se dedicar ao mercado imobiliário, construiu mais de 20 anos de carreira em marketing e trade marketing — período em que liderou equipes e estratégias de expansão em empresas como a Starrett do Brasil e o Grupo Agronelli, gerenciando orçamentos superiores a R$ 10 milhões e lançando dezenas de linhas de produto no mercado nacional e latino-americano. Essa bagagem corporativa hoje se traduz diretamente na forma como cada imóvel é apresentado, posicionado e divulgado — com o mesmo rigor estratégico usado antes para grandes marcas.</p>
+        <p>O resultado é um atendimento que une transparência, atenção aos detalhes e uma visão de mercado pouco comum entre corretores — sempre com foco no que mais importa numa decisão como essa: encontrar o imóvel certo, sem pressa e sem letras miúdas.</p>
+        <a class="diploma-link" href="https://www.imoveis-itu-salto.com.br/diploma-marcio-santos.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg>
+          Ver diplomação
+        </a>
+      </div>
+      <div class="foto-bio">
+        <img src="https://www.imoveis-itu-salto.com.br/marcio-santos-corretor.webp" alt="Marcio Santos, corretor de imóveis CRECI-SP 276471-F" width="900" height="1260">
+      </div>
+    </div>
   </section>
 
   <div class="divider"></div>

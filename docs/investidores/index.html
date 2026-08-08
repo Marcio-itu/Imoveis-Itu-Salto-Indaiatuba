@@ -4,11 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Investidores — Oportunidades Imobiliárias em Itu/SP | Marcio Santos</title>
-<meta name="description" content="Área para investidores de Marcio Santos, corretor de imóveis em Itu/SP: oportunidades de alta procura, seleção consultiva de imóveis para investimento. Em breve.">
+<meta name="description" content="Área para investidores de Marcio Santos, corretor de imóveis em Itu/SP: oportunidades de alta procura e curadoria consultiva de imóveis para investimento.">
 <link rel="canonical" href="https://www.imoveis-itu-salto.com.br/investidores/">
 <meta name="robots" content="index, follow">
 <meta property="og:title" content="Investidores — Oportunidades Imobiliárias em Itu/SP | Marcio Santos">
-<meta property="og:description" content="Área para investidores de Marcio Santos, corretor de imóveis em Itu/SP: oportunidades de alta procura, seleção consultiva de imóveis para investimento. Em breve.">
+<meta property="og:description" content="Área para investidores de Marcio Santos, corretor de imóveis em Itu/SP: oportunidades de alta procura e curadoria consultiva de imóveis para investimento.">
 <meta property="og:url" content="https://www.imoveis-itu-salto.com.br/investidores/">
 <link rel="icon" type="image/png" sizes="32x32" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="https://www.imoveis-itu-salto.com.br/favicon-cliente-180.png">
@@ -53,10 +53,7 @@
   .login-card input::placeholder{color:#5E756E}
   .login-btn{width:100%;margin-top:22px;background:#4E9E97;color:#0E1614;border:none;border-radius:999px;
     padding:13px;font-weight:700;font-size:14px;cursor:pointer}
-  .esqueci{display:block;margin-top:14px;font-size:12px;color:#5E756E;text-decoration:none}
-  .esqueci:hover{color:#4E9E97}
-  .badge-em-breve{display:inline-block;background:rgba(78,158,151,.15);color:#4E9E97;font-size:11px;
-    letter-spacing:.08em;text-transform:uppercase;font-weight:700;border-radius:999px;padding:5px 14px;margin-top:18px}
+  .login-card .aviso{display:block;margin-top:14px;font-size:12px;color:#5E756E}
 </style>
 </head>
 <body>
@@ -68,19 +65,23 @@
   <span class="eyebrow">Área do investidor</span>
   <h1>Caro investidor, seja bem-vindo.</h1>
   <p class="sub">Uma seleção dedicada a quem enxerga imóveis como oportunidade — não apenas como moradia.</p>
-  <span class="badge-em-breve">Em construção</span>
 
   <section>
-    <p>Estamos preparando um espaço exclusivo para investidores: imóveis de alta procura, oportunidades fora da vitrine pública e análises de potencial de valorização em Itu e região — curadoria feita pessoalmente por Marcio Santos.</p>
-    <p>Cadastre-se abaixo para ser avisado assim que este espaço for liberado.</p>
+    <p>Aqui você tem acesso a uma curadoria pessoal de Marcio Santos: imóveis de alta procura, oportunidades fora da vitrine pública e leitura de potencial de valorização em Itu e região.</p>
+    <p>Solicite seu acesso abaixo — a análise de cada perfil é feita pessoalmente, sem intermediários.</p>
 
-    <form class="login-card" onsubmit="return false" aria-label="Cadastro de investidor (em breve)">
+    <form class="login-card" onsubmit="return false" aria-label="Solicitar acesso à área de investidores">
+      <label for="invNome">Nome</label>
+      <input type="text" id="invNome" placeholder="Seu nome completo" autocomplete="off">
       <label for="invEmail">E-mail</label>
       <input type="email" id="invEmail" placeholder="seu@email.com" autocomplete="off">
-      <label for="invSenha">Senha</label>
-      <input type="password" id="invSenha" placeholder="••••••••" autocomplete="off">
-      <button class="login-btn" type="button" onclick="alert('Essa área ainda está em preparação — em breve você poderá se cadastrar por aqui. Enquanto isso, fale direto comigo pelo WhatsApp.')">Entrar</button>
-      <a class="esqueci" href="#" onclick="event.preventDefault();alert('Essa área ainda está em preparação.')">Esqueci minha senha</a>
+      <button class="login-btn" type="button" onclick="
+        var n = document.getElementById('invNome').value.trim();
+        var e = document.getElementById('invEmail').value.trim();
+        var msg = 'Olá, Márcio. Sou ' + (n || '[nome]') + (e ? (' (' + e + ')') : '') + ' e gostaria de solicitar acesso à área de investidores.';
+        window.open('https://wa.me/551132806090?text=' + encodeURIComponent(msg), '_blank');
+      ">Solicitar acesso</button>
+      <span class="aviso">Sua solicitação é respondida pessoalmente por Marcio Santos.</span>
     </form>
   </section>
 

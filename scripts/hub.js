@@ -19,14 +19,14 @@ function hubCss(t) {
     color:${t.ink};font-family:${t.fonts.body};line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .header-sticky{position:sticky;top:0;z-index:80;background:rgba(250,248,244,.92);backdrop-filter:blur(8px)}
-  .wrap-top{padding-top:22px;padding-bottom:22px}
+  .wrap-top{padding-top:13px;padding-bottom:13px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
-  .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:wrap;gap:14px}
-  .brand-logo{height:68px;width:auto;display:block}
+  .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:nowrap;gap:2px}
+  .brand-logo{height:42px;width:auto;display:block}
 
   /* --- menu hambúrguer + painel lateral --- */
-  .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;margin-right:4px;position:relative;
-    display:flex;flex-direction:column;justify-content:center;gap:4px;width:38px;height:38px;flex:none}
+  .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;position:relative;
+    display:flex;flex-direction:column;justify-content:center;gap:4px;width:34px;height:34px;flex:none}
   .menu-toggle span{display:block;height:2px;width:100%;background:${t.ink};border-radius:2px;
     transition:opacity .2s ease,transform .2s ease}
   .menu-toggle::before,.menu-toggle::after{content:"";position:absolute;left:9px;right:9px;top:50%;
@@ -53,10 +53,6 @@ function hubCss(t) {
   .menu-item:hover{color:${t.accent};padding-left:14px}
   .menu-item svg{width:20px;height:20px;flex:none;color:${t.accent}}
   .menu-item .menu-item-sub{display:block;font-size:12px;font-weight:400;color:${t.inkMuted};margin-top:2px}
-  .wa-header-icon{margin-left:auto;width:32px;height:32px;display:flex;align-items:center;justify-content:center;
-    color:${t.inkMuted};transition:color .15s}
-  .wa-header-icon svg{width:20px;height:20px}
-  .wa-header-icon:hover{color:#25D366}
   .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:${t.accent};font-weight:600}
   .grupo-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:${t.inkMuted};
     font-weight:600;margin-bottom:8px;display:inline-flex;align-items:center;gap:5px}
@@ -224,7 +220,7 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
   </a>`).join("")}
   <a class="menu-item" href="${siteUrl}investidores/">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
-    <div><span>Investidores</span><span class="menu-item-sub">Em breve</span></div>
+    <span>Investidores</span>
   </a>
 </nav>
 <script>
@@ -257,21 +253,15 @@ document.addEventListener("DOMContentLoaded", function(){
   <div class="wrap wrap-top">
     <div class="site-header">
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLateral">
-        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span>
       </button>
       <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
-      <a class="wa-header-icon" href="https://wa.me/+551132806090" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 21l1.4-4.1A8.5 8.5 0 1 1 8 19.6z"/>
-          <path d="M8.3 8.7c.2-.5.4-.5.7-.5h.5c.2 0 .4 0 .6.4.2.5.7 1.6.7 1.7.1.1.1.3 0 .4-.1.2-.1.3-.3.4-.1.2-.3.3-.4.5-.1.1-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1.2-.2.6-.7.8-1 .2-.2.4-.2.6-.1l1.5.7c.2.1.4.2.4.3.1.2.1.9-.2 1.4-.3.6-1.5 1.2-2.1 1.2-.6.1-1.2.1-3.9-1.1-3.2-1.4-5.1-4.7-5.3-4.9-.1-.2-1.3-1.7-1.3-3.3 0-1.5.8-2.3 1.1-2.6z"/>
-        </svg>
-      </a>
     </div>
   </div>
 </div>
 <script>
 document.getElementById("headerSticky").addEventListener("click", function(e){
-  if (e.target.closest(".menu-toggle, .brand-logo, .wa-header-icon")) return;
+  if (e.target.closest(".menu-toggle")) return;
   if (confirm("Gostaria de falar com Márcio por WhatsApp?")){
     window.open("https://wa.me/+551132806090", "_blank");
   }
