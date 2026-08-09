@@ -24,7 +24,7 @@ function formatPreco(str) {
   if (/R\$/.test(raw)) return raw; // já formatado (admin já aplica isso ao digitar)
   const digitos = raw.replace(/\D/g, "");
   if (!digitos) return raw;
-  return "R$ " + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  return "R$\u00A0" + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
 module.exports = { slugify, esc, parsePreco, formatPreco };

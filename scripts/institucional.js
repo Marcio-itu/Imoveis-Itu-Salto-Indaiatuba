@@ -48,7 +48,7 @@ function renderSobrePage(config, siteUrl) {
     name: nome,
     jobTitle: "Corretor de Imóveis",
     url: `${siteUrl}sobre/`,
-    image: `${siteUrl}marcio-santos-corretor.webp`,
+    image: `${siteUrl}corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp`,
     telephone: config?.corretor?.telefone,
     email: config?.corretor?.email,
     ...(config?.corretor?.instagram ? { sameAs: [config.corretor.instagram] } : {}),
@@ -68,7 +68,7 @@ function renderSobrePage(config, siteUrl) {
 <meta property="og:type" content="profile">
 <meta property="og:title" content="${titulo}">
 <meta property="og:description" content="${esc(descricao)}">
-<meta property="og:image" content="${siteUrl}marcio-santos-corretor.webp">
+<meta property="og:image" content="${siteUrl}corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp">
 <meta property="og:url" content="${siteUrl}sobre/">
 <link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${siteUrl}favicon-cliente-180.png">
@@ -78,7 +78,7 @@ function renderSobrePage(config, siteUrl) {
 <style>${institucionalCss()}
   .foto-bio{width:100%;max-width:220px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
     box-shadow:0 10px 30px rgba(0,0,0,.10)}
-  .foto-bio img{width:100%;aspect-ratio:900/1260;object-fit:cover;display:block}
+  .foto-bio img{width:100%;aspect-ratio:900/852;object-fit:cover;display:block}
   .sobre-grid{display:flex;flex-direction:column}
   .sobre-texto{flex:1}
   @media (min-width:640px){
@@ -108,13 +108,13 @@ function renderSobrePage(config, siteUrl) {
         <p>${esc(nome)} é corretor de imóveis (${esc(creci)}) em ${esc(cidadePrincipal)} e região, com formação técnica em Transações Imobiliárias pela Escola SENAC Rio Grande do Sul (2023, 960 horas). Atua com atendimento próximo e consultivo, ajudando famílias e investidores a encontrar o imóvel certo em ${esc(cidades)}.</p>
         <p>Antes de se dedicar ao mercado imobiliário, construiu mais de 20 anos de carreira em marketing e trade marketing — período em que liderou equipes e estratégias de expansão em empresas como a Starrett do Brasil e o Grupo Agronelli, gerenciando orçamentos superiores a R$ 10 milhões e lançando dezenas de linhas de produto no mercado nacional e latino-americano. Essa bagagem corporativa hoje se traduz diretamente na forma como cada imóvel é apresentado, posicionado e divulgado — com o mesmo rigor estratégico usado antes para grandes marcas.</p>
         <p>O resultado é um atendimento que une transparência, atenção aos detalhes e uma visão de mercado pouco comum entre corretores — sempre com foco no que mais importa numa decisão como essa: encontrar o imóvel certo, sem pressa e sem letras miúdas.</p>
-        <a class="diploma-link" href="${siteUrl}diploma-marcio-santos.pdf" target="_blank" rel="noopener">
+        <a class="diploma-link" href="${siteUrl}diploma/">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/><path d="M14 2v5h5"/></svg>
           Ver diplomação
         </a>
       </div>
       <div class="foto-bio">
-        <img src="${siteUrl}marcio-santos-corretor.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="900" height="1260">
+        <img src="${siteUrl}corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="900" height="852">
       </div>
     </div>
   </section>
@@ -216,4 +216,40 @@ function renderInvestidoresPage(config, siteUrl) {
 </html>`;
 }
 
-module.exports = { renderSobrePage, renderInvestidoresPage };
+function renderDiplomaPage(config, siteUrl) {
+  const nome = config?.corretor?.nome || "Marcio Santos";
+  const titulo = `Diploma — Técnico em Transações Imobiliárias | ${esc(nome)}`;
+
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${titulo}</title>
+<meta name="robots" content="noindex, follow">
+<link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>${institucionalCss()}
+  .pdf-frame{width:100%;height:80vh;border:1px solid #DCD5C4;border-radius:10px;margin-top:20px;background:#fff}
+  .baixar-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;color:#5E756E;
+    text-decoration:none;border-bottom:1px solid #DCD5C4;padding-bottom:2px}
+  .baixar-link:hover{color:#2F5D7C;border-color:#2F5D7C}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topo">
+    <a class="voltar" href="${siteUrl}sobre/">← Voltar para Sobre o corretor</a>
+  </div>
+  <span class="eyebrow">Diplomação</span>
+  <h1>Técnico em Transações Imobiliárias</h1>
+  <p class="sub">${esc(nome)} — Escola SENAC Rio Grande do Sul, 2023 (960 horas)</p>
+  <iframe class="pdf-frame" src="${siteUrl}diploma-marcio-santos.pdf" title="Diploma de ${esc(nome)}"></iframe>
+  <a class="baixar-link" href="${siteUrl}diploma-marcio-santos.pdf" download>⬇ Baixar o PDF</a>
+</div>
+</body>
+</html>`;
+}
+
+module.exports = { renderSobrePage, renderInvestidoresPage, renderDiplomaPage };

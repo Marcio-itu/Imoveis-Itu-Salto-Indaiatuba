@@ -4,7 +4,7 @@ const sharp = require("sharp");
 const { THEMES } = require("./themes");
 const { renderPropertyPage, buildFaqs } = require("./template");
 const { renderMainHub, renderBairroHub } = require("./hub");
-const { renderSobrePage, renderInvestidoresPage } = require("./institucional");
+const { renderSobrePage, renderInvestidoresPage, renderDiplomaPage } = require("./institucional");
 const { slugify, parsePreco, esc, formatPreco } = require("./utils");
 
 const ROOT = path.join(__dirname, "..");
@@ -210,6 +210,11 @@ async function build() {
   fs.writeFileSync(path.join(investidoresDir, "index.html"), renderInvestidoresPage(config, `${SITE}/`));
   sitemapUrls.push(`${SITE}/investidores/`);
 
+  const diplomaDir = path.join(DOCS_DIR, "diploma");
+  fs.mkdirSync(diplomaDir, { recursive: true });
+  fs.writeFileSync(path.join(diplomaDir, "index.html"), renderDiplomaPage(config, `${SITE}/`));
+  // noindex — não entra no sitemap.xml de propósito
+
   // Admin publicado dentro do próprio site (não fica linkado na navegação pública,
   // mas assim dá pra acessar de qualquer aparelho — inclusive o celular)
   const adminSrc = path.join(ROOT, "admin");
@@ -221,7 +226,7 @@ async function build() {
     for (const nome of ["favicon-cliente-512.png", "favicon-cliente-180.png", "favicon-cliente-32.png",
       "imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp",
       "imoveis-itu-salto-indaiatuba-2027-03.webp", "logo-marcio-santos.png",
-      "marcio-santos-corretor.webp", "diploma-marcio-santos.pdf",
+      "corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp", "diploma-marcio-santos.pdf",
       "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
       "simulador-financiamento-imovel-itu-salto-cabreuva-02.webp",
       "simulador-financiamento-imovel-itu-salto-cabreuva-03.webp",

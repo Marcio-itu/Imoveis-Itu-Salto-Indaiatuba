@@ -19,10 +19,10 @@ function hubCss(t) {
     color:${t.ink};font-family:${t.fonts.body};line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .header-sticky{position:sticky;top:0;z-index:80;background:rgba(250,248,244,.92);backdrop-filter:blur(8px)}
-  .wrap-top{padding-top:13px;padding-bottom:13px}
+  .wrap-top{padding-top:6px;padding-bottom:7px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
   .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:nowrap;gap:2px}
-  .brand-logo{height:42px;width:auto;display:block}
+  .brand-logo{height:55px;width:auto;display:block}
 
   /* --- menu hambúrguer + painel lateral --- */
   .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;position:relative;
@@ -206,9 +206,9 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 <nav class="menu-lateral" id="menuLateral" aria-hidden="true">
   <button class="menu-fechar" id="menuFechar" aria-label="Fechar menu">✕</button>
   <span class="menu-topo">Menu</span>
-  <a class="menu-item" href="${siteUrl}sobre/">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></svg>
-    <span>Sobre o corretor</span>
+  <a class="menu-item" href="${siteUrl}investidores/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
+    <span>Investidores</span>
   </a>
   <a class="menu-item" href="${esc(config?.simuladorFinanciamento || "#")}" target="_blank" rel="noopener">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6.5h8" stroke-linecap="round"/><circle cx="8.3" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="10.5" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="15.7" cy="14" r=".6" fill="currentColor" stroke="none"/><circle cx="8.3" cy="17.5" r=".6" fill="currentColor" stroke="none"/><circle cx="12" cy="17.5" r=".6" fill="currentColor" stroke="none"/></svg>
@@ -218,9 +218,9 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
     <span>${esc(s.label)}</span>
   </a>`).join("")}
-  <a class="menu-item" href="${siteUrl}investidores/">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg>
-    <span>Investidores</span>
+  <a class="menu-item" href="${siteUrl}sobre/">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c0-3.6 3.1-6.2 7-6.2s7 2.6 7 6.2"/></svg>
+    <span>Sobre o corretor</span>
   </a>
 </nav>
 <script>

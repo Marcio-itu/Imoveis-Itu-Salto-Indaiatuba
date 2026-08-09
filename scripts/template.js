@@ -375,18 +375,6 @@ ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padd
 ${(() => {
   const blocks = {};
 
-  blocks.sobre = `<section id="sobre">
-    <div class="wrap">
-      <span class="eyebrow">Sobre o imóvel</span>
-      <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
-      <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
-      ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
-      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${(imovel.parceria?.instagrams || []).length ? `: ${imovel.parceria.instagrams.map((h) => `@${esc(h.replace(/^@/, ""))}`).join(", ")}` : ""}.</p>
-      <p class="disclaimer">⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.</p>
-      <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>
-    </div>
-  </section>`;
-
   const bulletsAuto = [];
   bulletsAuto.push(`${formatPreco(imovel.preco)}${precoSufixo}${imovel.financiamento ? " - aceita financiamento" : ""}`);
   if (imovel.quartos) bulletsAuto.push(`${imovel.quartos} quartos`);
@@ -398,6 +386,19 @@ ${(() => {
   (imovel.acessorios || []).forEach((a) => bulletsAuto.push(a));
   (imovel.caracteristicasExtras || []).forEach((c) => bulletsAuto.push(c));
   const bulletsFinais = [...(imovel.dadosTecnicos || []), ...bulletsAuto];
+
+  blocks.sobre = `<section id="sobre">
+    <div class="wrap">
+      <span class="eyebrow">Sobre o imóvel</span>
+      <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
+      <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
+      ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
+      ${bulletsFinais.length ? `<ul class="bullets">${bulletsFinais.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
+      <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${(imovel.parceria?.instagrams || []).length ? `: ${imovel.parceria.instagrams.map((h) => `@${esc(h.replace(/^@/, ""))}`).join(", ")}` : ""}.</p>
+      <p class="disclaimer">⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.</p>
+      <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>
+    </div>
+  </section>`;
 
   blocks.ficha = specs.length
     ? `<section id="ficha">
@@ -413,7 +414,6 @@ ${(() => {
       <div class="ficha">
         ${specs.map((s) => `<div><span class="num">${esc(s.num)}</span><span class="lbl">${esc(s.lbl)}</span></div>`).join("")}
       </div>
-      ${bulletsFinais.length ? `<ul class="bullets">${bulletsFinais.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
     </div>
   </section>`
     : "";
