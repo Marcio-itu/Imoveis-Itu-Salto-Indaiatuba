@@ -5,6 +5,9 @@
 ## Imóveis
 
 - [Casa em Praia Preta](https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/) — R$ 2.450.000, Praia Preta/São Sebastião-SP. Resumo: https://www.imoveis-itu-salto.com.br/imoveis/casa-praia-preta/llms.txt
+- [Excelente Localização ](https://www.imoveis-itu-salto.com.br/imoveis/excelente-localizacao/) — R$ 7.900, Jardim do Estádio/Itu-SP. Resumo: https://www.imoveis-itu-salto.com.br/imoveis/excelente-localizacao/llms.txt
+- [Linda Casa com Árra Gourmet, Bar e Piscina!](https://www.imoveis-itu-salto.com.br/imoveis/linda-casa-com-arra-gourmet-bar-e-piscina/) — R$ 700.000, Jardim Aeroporto I/Itu-SP. Resumo: https://www.imoveis-itu-salto.com.br/imoveis/linda-casa-com-arra-gourmet-bar-e-piscina/llms.txt
+- [Terreno em Condominio Fechado](https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-fechado/) — R$ 250.000, Residencial Central Parque/Salto-SP. Resumo: https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-fechado/llms.txt
 
 ## Uso permitido
 
