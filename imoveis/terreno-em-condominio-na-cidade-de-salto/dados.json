@@ -9,9 +9,10 @@
   "cidade": "Salto",
   "uf": "SP",
   "bairro": "Reserva Central Parque",
-  "condominio": "Condomínio Reserva Central Parque",
+  "condominio": "",
   "referencia": "OVO01013",
   "preco": "R$ 250.000",
+  "areaTerreno": 331,
   "descricaoCurta": "Este terreno no bairro Reserva Central Parque, em Salto/SP, destaca-se pelo preço excelente e está pronto para construir em um loteamento fechado com segurança ",
   "descricaoLonga": [
     "Este terreno no bairro Reserva Central Parque, em Salto/SP, destaca-se pelo preço excelente e está pronto para construir em um loteamento fechado com segurança e portaria 24 horas.",
@@ -20,7 +21,8 @@
   "resumo": "Terreno à venda por R$ 250.000 no Condomínio Reserva Central Parque, em Salto/SP, com preço excelente e infraestrutura completa.",
   "tituloSecao": "Bora conhecer? O preço está excelente!",
   "diferenciais": [
-    "Preço Excelente!"
+    "Preço Excelente!",
+    "Condomínio"
   ],
   "dadosTecnicos": [],
   "parceria": {
