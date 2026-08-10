@@ -95,4 +95,4 @@ jobs:
         env:
           IMOVEL_SLUGS: ${{ needs.build.outputs.slugs }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          INSTAGRAM_USER_ID: 17841455795855812
+          INSTAGRAM_USER_ID: "17841455795855812"
