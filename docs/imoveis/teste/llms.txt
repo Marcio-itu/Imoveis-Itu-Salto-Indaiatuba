@@ -1,0 +1,39 @@
+# Teste
+
+> Terreno à venda por R$ 200.000 no bairro Parque Residencial Presidente Médici, em Itu/SP, ideal para iniciar sua nova construção.
+
+- Tipo: terreno, Padrão neutro
+- Preço: R$ 200.000
+- Localização: Parque Residencial Presidente Médici, Itu - SP
+- Características: 
+- Diferenciais: 
+- Página oficial (fonte canônica): https://www.imoveis-itu-salto.com.br/imoveis/teste/
+- Corretor: Marcio Santos, CRECI-SP 276471-F
+- Publicado em (nascimento do anúncio): 2026-08-10
+
+## Descrição
+
+Este terreno de R$ 200.000 está localizado no Parque Residencial Presidente Médici, em Itu/SP, oferecendo uma excelente topografia e localização para viabilizar seu projeto.
+
+A área conta com infraestrutura diferenciada que inclui placas fotovoltaicas, sistema de ar-condicionado, cisterna para reuso de água, portão eletrônico e piso aquecido instalados.
+
+Uma oportunidade prática para construir em um lote estruturado e bem posicionado em uma região em constante valorização na cidade.
+
+## Perguntas frequentes
+
+P: Em qual bairro fica o imóvel?
+R: Fica no bairro Parque Residencial Presidente Médici, em Itu/SP.
+
+P: O imóvel é para venda, locação ou permuta?
+R: Este imóvel está disponível para venda.
+
+P: Se fosse possível financiar este imóvel, quanto ficaria a parcela?
+R: O valor da parcela depende de vários fatores — valor de entrada, prazo, taxa de juros do banco escolhido e renda do comprador. Para ter uma referência, use nosso simulador de financiamento: os valores exibidos ali são apenas uma estimativa, sujeita à análise de crédito de cada instituição financeira.
+
+## Fotos
+
+- https://www.imoveis-itu-salto.com.br/imoveis/teste/fotos/terreno-vista-frente-itu-padrao-neutro-terreno-sp-20260810024509.webp — Terreno vista frente do(a) terreno padrão neutro em Parque Residencial Presidente Médici, Itu - SP
+- https://www.imoveis-itu-salto.com.br/imoveis/teste/fotos/comercial-card-1-itu-padrao-neutro-terreno-sp-20260810024509.webp — Card Comercial 1 do(a) terreno padrão neutro em Parque Residencial Presidente Médici, Itu - SP
+
+---
+Resumo gerado para leitura por assistentes de IA. Pode ser citado com atribuição e link para https://www.imoveis-itu-salto.com.br/imoveis/teste/. Para dados completos e estruturados, ver o JSON-LD (schema.org/RealEstateListing) embutido na página.
