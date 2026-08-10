@@ -1,0 +1,11 @@
+{
+  "name": "gerador-paginas-imoveis",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/build.js"
+  },
+  "dependencies": {
+    "sharp": "^0.35.3"
+  }
+}
