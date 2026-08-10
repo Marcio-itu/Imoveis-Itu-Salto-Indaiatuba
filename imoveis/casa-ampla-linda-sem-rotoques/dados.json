@@ -24,7 +24,7 @@
     "A parte interna apresenta salas de estar e de jantar, quartos com armários embutidos na cor magno, dispensa e lavabo. Cozinha ampla, iluminada e muito prática. ",
     "Para o lazer da sua família, o imóvel conta com quintal com jardim, área gourmet, garagem para 2 carros e muito arejada."
   ],
-  "resumo": "Casa de médio padrão com 3 dormitórios à venda por R$ 630.000 no bairro Liberdade, em Itu/SP.",
+  "resumo": "Casa com 3 dormitórios à venda por R$ 630.000 no bairro Liberdade, em Itu/SP.",
   "tituloSecao": "Olha esse imóvel que chique!",
   "diferenciais": [
     "Jardim",
@@ -46,15 +46,9 @@
   "publicadoEm": "2026-08-10",
   "fotos": [
     {
-      "arquivo": "banheiro-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Banheiro do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": true,
-      "quantidade": 1
-    },
-    {
       "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
+      "hero": true,
       "quantidade": 1
     },
     {
