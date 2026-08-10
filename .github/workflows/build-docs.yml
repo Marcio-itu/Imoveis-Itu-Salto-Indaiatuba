@@ -8,6 +8,7 @@ on:
       - "scripts/**"
       - "config.json"
       - "package.json"
+      - "assets/**"
   workflow_dispatch: {}
 
 # Publicar um imóvel sobe várias fotos em sequência — cada arquivo dispara uma execução própria
