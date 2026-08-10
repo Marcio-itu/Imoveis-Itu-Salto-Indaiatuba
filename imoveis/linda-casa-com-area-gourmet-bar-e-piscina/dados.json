@@ -1,0 +1,101 @@
+{
+  "slug": "linda-casa-com-area-gourmet-bar-e-piscina",
+  "titulo": "Linda Casa com Área Gourmet, Bar e Piscina!",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim Aeroporto I",
+  "condominio": "",
+  "referencia": "OVO01013",
+  "preco": "R$ 700.000",
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 4,
+  "vagas": 2,
+  "areaUtil": 174.17,
+  "areaTerreno": 150,
+  "descricaoCurta": "Esta residência de 174,17 m² de área útil oferece três dormitórios, sendo uma suíte master, quatro banheiros no total e duas vagas de garagem. O imóvel está equ",
+  "descricaoLonga": [
+    "Esta residência de 174,17 m² de área útil oferece três dormitórios, sendo uma suíte master, quatro banheiros no total e duas vagas de garagem. O imóvel está equipado com placas fotovoltaicas para eficiência energética, ar-condicionado e portão eletrônico.",
+    "A área de lazer conta com piscina com hidromassagem para o descanso de sua família. O espaço interno integra salas de estar e jantar, cozinha completa e uma mesa de jantar em pedra de granito."
+  ],
+  "resumo": "Casa de 3 quartos com piscina à venda por R$ 700.000 no bairro Jardim Aeroporto I, em Itu/SP.",
+  "tituloSecao": "Curte essa descrição:",
+  "diferenciais": [
+    "Piscina com hidromassagem",
+    "maravilhosa mesa de jantar em pedra de granito"
+  ],
+  "dadosTecnicos": [],
+  "parceria": {
+    "instagrams": [
+      "@marcionunesmarins"
+    ]
+  },
+  "acessorios": [
+    "Placa fotovoltaica",
+    "Ar-condicionado",
+    "Portão eletrônico"
+  ],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-10",
+  "fotos": [
+    {
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": true,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "piscina-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Cozinha do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-jantar-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Sala de jantar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "suite-master-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Suíte master do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "banheiro-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810215931.jpeg",
+      "alt": "Banheiro do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    }
+  ]
+}
