@@ -76,9 +76,12 @@ function renderSobrePage(config, siteUrl) {
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">${JSON.stringify(personLd)}</script>
 <style>${institucionalCss()}
-  .foto-bio{width:100%;max-width:220px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
-    box-shadow:0 10px 30px rgba(0,0,0,.10)}
-  .foto-bio img{width:100%;aspect-ratio:900/852;object-fit:cover;display:block}
+  .foto-bio{width:300px;max-width:100%;height:300px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
+    position:relative;box-shadow:0 10px 30px rgba(0,0,0,.10)}
+  .foto-bio img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+  @media (max-width:340px){
+    .foto-bio{width:260px;height:260px}
+  }
   .sobre-grid{display:flex;flex-direction:column}
   .sobre-texto{flex:1}
   @media (min-width:640px){
@@ -114,7 +117,7 @@ function renderSobrePage(config, siteUrl) {
         </a>
       </div>
       <div class="foto-bio">
-        <img src="${siteUrl}corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="900" height="852">
+        <img src="${siteUrl}corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp" alt="${esc(nome)}, corretor de imóveis ${esc(creci)}" width="300" height="300">
       </div>
     </div>
   </section>
