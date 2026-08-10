@@ -27,4 +27,14 @@ function formatPreco(str) {
   return "R$\u00A0" + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
 }
 
-module.exports = { slugify, esc, parsePreco, formatPreco };
+// Carrega Google Fonts sem bloquear a renderização da página (troca o <link rel="stylesheet">
+// simples — que é render-blocking — por preload + ativação assíncrona, com fallback via
+// <noscript> pra quem tiver JS desligado). Resolve o "Render Blocking Resources Test" do
+// relatório de SEO sem trocar a fonte usada em cada página.
+function fontLinkTag(href) {
+  return `<link rel="preload" as="style" href="${href}">
+<link rel="stylesheet" href="${href}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="${href}"></noscript>`;
+}
+
+module.exports = { slugify, esc, parsePreco, formatPreco, fontLinkTag };

@@ -1,4 +1,4 @@
-const { esc } = require("./utils");
+const { esc, fontLinkTag } = require("./utils");
 
 const FONTS = {
   display: "'Fraunces', Georgia, serif",
@@ -73,7 +73,8 @@ function renderSobrePage(config, siteUrl) {
 <link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${siteUrl}favicon-cliente-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap")}
 <script type="application/ld+json">${JSON.stringify(personLd)}</script>
 <style>${institucionalCss()}
   .foto-bio{width:100%;max-width:220px;border-radius:14px;overflow:hidden;margin:28px auto 0;flex:none;
@@ -158,7 +159,8 @@ function renderInvestidoresPage(config, siteUrl) {
 <link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${siteUrl}favicon-cliente-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500&family=Inter:wght@400;500;600&display=swap")}
 <style>${institucionalCss()}
   body{background:#0E1614;color:#EEF4F2}
   .voltar{color:#A9BAB5}
@@ -229,7 +231,8 @@ function renderDiplomaPage(config, siteUrl) {
 <meta name="robots" content="noindex, follow">
 <link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap")}
 <style>${institucionalCss()}
   .pdf-frame{width:100%;height:80vh;border:1px solid #DCD5C4;border-radius:10px;margin-top:20px;background:#fff}
   .baixar-link{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:13px;color:#5E756E;

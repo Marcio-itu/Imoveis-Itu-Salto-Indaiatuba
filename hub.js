@@ -1,4 +1,4 @@
-const { esc, formatPreco } = require("./utils");
+const { esc, formatPreco, fontLinkTag } = require("./utils");
 
 const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B", "padrao-neutro": "#8A7F63" };
 const FOTOS_DESTAQUE = ["imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp", "imoveis-itu-salto-indaiatuba-2027-03.webp"];
@@ -65,7 +65,11 @@ function hubCss(t) {
   @media (min-width:900px){.hero-photo-mobile{display:none}}
 
   .filtros-headline{font-family:${t.fonts.display};font-weight:500;font-size:clamp(24px,4vw,29px);
-    line-height:1.18;letter-spacing:-.01em;margin-bottom:20px;max-width:22ch}
+    line-height:1.18;letter-spacing:-.01em;margin-bottom:10px;max-width:22ch}
+  .filtros-sub{font-size:14.5px;line-height:1.5;color:${t.inkMuted};margin-bottom:20px;max-width:42ch}
+  .busca-inteligente{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;
+    color:${t.accent};text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+  .busca-inteligente svg{width:13px;height:13px;flex:none}
 
   .tabs-op{display:flex;gap:26px;border-bottom:1px solid ${t.border};margin-bottom:18px}
   .tabs-op:empty{display:none;border:none;margin:0}
@@ -189,8 +193,18 @@ function renderMainHub(imoveis, theme, siteUrl, config) {
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 ${config?.googleSiteVerification ? `<meta name="google-site-verification" content="${esc(config.googleSiteVerification)}" />` : ""}
-<title>Imóveis por cidade — ${esc(nomeHub)}</title>
-<meta name="description" content="Imóveis à venda em ${esc(cidadesConfig.join(", "))}, incluindo casas em condomínio no interior de São Paulo. Busque por cidade, bairro e faixa de preço.">
+<title>Imóveis à Venda em Itu e Salto | Casas, Apartamentos e Terrenos</title>
+<meta name="description" content="Compre casas, apartamentos, terrenos, chácaras e condomínios à venda em ${esc(cidadesConfig.join(", "))}. Busca inteligente por cidade, bairro e faixa de preço.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Imóveis à Venda em Itu e Salto | Casas, Apartamentos e Terrenos">
+<meta property="og:description" content="Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região. Busca inteligente para você encontrar o que procura.">
+<meta property="og:url" content="${esc(siteUrl)}">
+<meta property="og:image" content="${siteUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Imóveis à Venda em Itu e Salto | Casas, Apartamentos e Terrenos">
+<meta name="twitter:description" content="Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região. Busca inteligente para você encontrar o que procura.">
+<meta name="twitter:image" content="${siteUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
 <link rel="canonical" href="${esc(siteUrl)}">
 <meta name="robots" content="index, follow">
 <link rel="icon" type="image/png" sizes="32x32" href="${siteUrl}favicon-cliente-32.png">
@@ -198,7 +212,8 @@ ${config?.googleSiteVerification ? `<meta name="google-site-verification" conten
 <meta name="geo.region" content="BR-${esc(config?.regiao?.uf || "SP")}">
 <meta name="geo.placename" content="${esc(config?.regiao?.cidadePrincipal || "")}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap")}
 <script type="application/ld+json">${JSON.stringify(orgLd)}</script>
 <style>${hubCss(theme)}</style>
 ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
@@ -274,14 +289,16 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
 </script>
 
 <div class="hero-photo-mobile" aria-hidden="true">
-  <img id="fotoDestaqueMobile" alt="" onerror="this.style.display='none'">
+  <img id="fotoDestaqueMobile" alt="Imóvel à venda em Itu e região" onerror="this.style.display='none'">
 </div>
 
 <div class="wrap wrap-main">
   <div class="search-shell">
     <div class="filtros">
-      <div class="filtros-headline">${esc((nomeHub.split(",")[0] || nomeHub).trim())}.<br>${nomeHub.includes(",") ? esc(nomeHub.split(",").slice(1).join(",").trim()) : "Encontre seu imóvel."}</div>
+      <h1 class="filtros-headline">Imóveis à venda em Itu e Salto</h1>
+      <p class="filtros-sub">Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região. Imóveis atualizados e uma busca inteligente para você encontrar o que procura.</p>
       <div class="tabs-op" id="chipsOperacao"></div>
+      <span class="busca-inteligente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Busca inteligente</span>
       <span class="grupo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cidade</span>
       <div class="chips" id="chipsCidade"></div>
       <div class="filtros-linha">
@@ -302,7 +319,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
       <a class="cta-buscar" href="#grid">Ver imóveis</a>
     </div>
     <div class="banner-photos" aria-hidden="true">
-      <img id="fotoDestaqueDesktop" alt="" onerror="this.style.display='none'">
+      <img id="fotoDestaqueDesktop" alt="Imóvel à venda em Itu e região" onerror="this.style.display='none'">
     </div>
   </div>
 
@@ -477,11 +494,17 @@ function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Imóveis em ${esc(bairroNome)} — ${esc(nomeHub)}</title>
 <meta name="description" content="Imóveis à venda em ${esc(bairroNome)}.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Imóveis em ${esc(bairroNome)} — ${esc(nomeHub)}">
+<meta property="og:description" content="Imóveis à venda em ${esc(bairroNome)}.">
+<meta property="og:url" content="${esc(hubUrl)}">
+<meta property="og:image" content="${hubUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow">
-<link rel="icon" type="image/png" sizes="32x32" href="${hubUrl}favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${hubUrl}favicon-cliente-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap")}
 <style>${hubCss(theme)}</style>
 ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>

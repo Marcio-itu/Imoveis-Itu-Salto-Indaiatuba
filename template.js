@@ -1,4 +1,4 @@
-const { esc, formatPreco } = require("./utils");
+const { esc, formatPreco, fontLinkTag } = require("./utils");
 
 const FOTOS_FINANCIAMENTO = [
   "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
@@ -339,7 +339,8 @@ ${hero.arquivo ? `<meta property="og:image" content="${esc(fotosBaseUrl)}/${esc(
 <meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap")}
 <script type="application/ld+json">${jsonLd(imovel, canonicalUrl, imagesUrls)}</script>
 ${faqs.length ? `<script type="application/ld+json">${faqLd(faqs)}</script>` : ""}
 <script type="application/ld+json">${breadcrumbLd(siteRoot, hubUrl, imovel.bairro, canonicalUrl, imovel.titulo)}</script>
