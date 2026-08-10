@@ -83,6 +83,60 @@
       "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
       "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false
+    },
+    {
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": true,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Quarto do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "garagem-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Garagem do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "garagem-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Garagem do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quintal-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Quintal do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810233003.jpeg",
+      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
+      "hero": false,
+      "quantidade": 1
     }
   ]
 }
