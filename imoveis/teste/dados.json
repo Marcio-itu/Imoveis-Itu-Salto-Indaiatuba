@@ -1,0 +1,46 @@
+{
+  "slug": "teste",
+  "titulo": "Teste",
+  "tipo": "terreno",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Parque Residencial Presidente Médici",
+  "condominio": "",
+  "referencia": "OVO01015",
+  "preco": "R$ 200.000",
+  "descricaoCurta": "Este terreno de R$ 200.000 está localizado no Parque Residencial Presidente Médici, em Itu/SP, oferecendo uma excelente topografia e localização para viabilizar",
+  "descricaoLonga": [
+    "Este terreno de R$ 200.000 está localizado no Parque Residencial Presidente Médici, em Itu/SP, oferecendo uma excelente topografia e localização para viabilizar seu projeto.",
+    "A área conta com infraestrutura diferenciada que inclui placas fotovoltaicas, sistema de ar-condicionado, cisterna para reuso de água, portão eletrônico e piso aquecido instalados.",
+    "Uma oportunidade prática para construir em um lote estruturado e bem posicionado em uma região em constante valorização na cidade."
+  ],
+  "resumo": "Terreno à venda por R$ 200.000 no bairro Parque Residencial Presidente Médici, em Itu/SP, ideal para iniciar sua nova construção.",
+  "tituloSecao": "Testw",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Placa fotovoltaica",
+    "Ar-condicionado",
+    "Cisterna / reuso de água",
+    "Portão eletrônico",
+    "Piso aquecido"
+  ],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-10",
+  "fotos": [
+    {
+      "arquivo": "terreno-vista-frente-itu-padrao-neutro-terreno-sp-20260810024509.jpeg",
+      "alt": "Terreno vista frente do(a) terreno padrão neutro em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": true
+    },
+    {
+      "arquivo": "comercial-card-1-itu-padrao-neutro-terreno-sp-20260810024509.webp",
+      "alt": "Card Comercial 1 do(a) terreno padrão neutro em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": false
+    }
+  ]
+}
