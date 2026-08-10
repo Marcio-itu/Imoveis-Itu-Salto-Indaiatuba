@@ -283,8 +283,8 @@
   </fieldset>
 
   <fieldset>
-    <legend>Publicar direto no GitHub (opcional)</legend>
-    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o código do imóvel (em Dados básicos) busque o próximo número sozinho.</p>
+    <legend>Publicar GitHub e Redes (opcional)</legend>
+    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o código do imóvel (em Dados básicos) busque o próximo número sozinho. Depois de publicar, o próprio GitHub Actions cuida de postar automaticamente no Instagram/Facebook (token já configurado nos Secrets do repositório) — não precisa colar nenhum token de rede social aqui.</p>
     <div class="row">
       <div><label>usuario/repositorio</label><input type="text" id="ghRepo" placeholder="marcio-itu/imoveis-itu-salto-indaiatuba"></div>
       <div><label>Branch</label><input type="text" id="ghBranch" value="main"></div>
@@ -295,7 +295,7 @@
       <input type="checkbox" id="lembrarGhToken" style="width:auto"> Lembrar usuário/repositório, branch e token neste navegador
     </label>    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
     <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
-    <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar direto no GitHub</button>
+    <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar GitHub e Redes</button>
     <div id="ghStatus" class="hint" style="margin-top:8px"></div>
     <div id="posPublicarBox" style="display:none;margin-top:14px;gap:10px;flex-wrap:wrap"></div>
   </fieldset>
@@ -1359,12 +1359,12 @@ document.getElementById("publicarBtn").onclick = async () => {
   const temFotoValida = fotos.length || (modoEdicao && modoEdicao.fotosExistentes.some(f => f.manter));
   if (!temFotoValida){
     alert("Suba pelo menos uma foto (ou mantenha alguma existente) antes de publicar.");
-    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
     return;
   }
   if (!repo || !token){
     status.textContent = "Preencha usuario/repositorio e o token antes de publicar.";
-    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
     return;
   }
 
@@ -1378,7 +1378,7 @@ document.getElementById("publicarBtn").onclick = async () => {
   if (!operacoesAtuais.size) faltando.push("Tipo de operação (venda/locação/permuta)");
   if (faltando.length){
     status.textContent = "⚠️ Falta preencher: " + faltando.join(", ") + ".";
-    btn.disabled = false; btn.textContent = "☁️ Publicar direto no GitHub";
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
     return;
   }
 
@@ -1408,7 +1408,7 @@ document.getElementById("publicarBtn").onclick = async () => {
       `feat: adiciona/atualiza ${dados.slug} (via admin)`,
       (msg) => { status.textContent = msg; });
 
-    status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página em alguns minutos.";
+    status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página e publicar no Instagram/Facebook em alguns minutos.";
     const pos = document.getElementById("posPublicarBox");
     pos.style.display = "flex";
     pos.innerHTML = `
@@ -1423,7 +1423,7 @@ document.getElementById("publicarBtn").onclick = async () => {
     status.textContent = "❌ " + err.message;
   } finally {
     btn.disabled = false;
-    btn.textContent = "☁️ Publicar direto no GitHub";
+    btn.textContent = "☁️ Publicar GitHub e Redes";
   }
 };
 
@@ -1445,7 +1445,7 @@ async function carregarImoveis(){
   const token = document.getElementById("ghToken").value.trim();
   const branch = document.getElementById("ghBranch").value.trim() || "main";
   const container = document.getElementById("listaImoveis");
-  if (!repo || !token){ container.innerHTML = '<p class="hint">Preencha usuario/repositorio e token no passo "Publicar direto no GitHub" acima.</p>'; return; }
+  if (!repo || !token){ container.innerHTML = '<p class="hint">Preencha usuario/repositorio e token no passo "Publicar GitHub e Redes" acima.</p>'; return; }
   container.innerHTML = '<p class="hint">Carregando...</p>';
   try {
     const res = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis?ref=${encodeURIComponent(branch)}`, {

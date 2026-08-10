@@ -144,12 +144,13 @@ rodar `node scripts/build.js` na mão (mas pode, se preferir).
   do que de falar.
 - **Classificação automática de fotos**: a IA olha as fotos, escolhe a hero
   e sugere o nome de arquivo (ver prompt em `NOMENCLATURA-FOTOS.md`).
-- **Publicação em 1 clique**: commit automático no GitHub via API.
-- **Compartilhamento em redes sociais via API**: Instagram/Facebook
-  (Meta Graph API, para contas Business) e WhatsApp são os mais viáveis.
-  Cada um exige cadastro de app e, no caso do WhatsApp Business API,
-  aprovação de templates — não é 100% automático "de fábrica", mas dá para
-  automatizar depois do cadastro inicial.
+- **Publicação em 1 clique**: commit automático no GitHub via API. ✅ pronto
+  (botão "Publicar GitHub e Redes" no admin).
+- **Compartilhamento em redes sociais via API**: ✅ pronto — Instagram (feed,
+  foto única ou carrossel) publicado automaticamente pelo GitHub Actions logo
+  depois do build, usando a Meta Graph API. Veja `SOCIAL-SETUP.md` para como
+  o token está configurado e como renovar quando expirar. WhatsApp Business
+  API continua fora do escopo (exige aprovação de templates separada).
 
 Essas quatro peças precisam de um backend com chave de API (voz→texto, IA,
 GitHub, redes sociais) — o GitHub Pages sozinho não roda isso, mas o
