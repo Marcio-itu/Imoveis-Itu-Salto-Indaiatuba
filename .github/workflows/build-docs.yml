@@ -26,7 +26,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      slugs: ${{ steps.slug.outputs.slugs }}
+      slug: ${{ steps.slug.outputs.slug }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -42,9 +42,9 @@ jobs:
       - name: Detectar imóvel alterado (pra publicar depois nas redes)
         id: slug
         run: |
-          SLUGS=$(git diff --name-only HEAD~1 HEAD -- imoveis/ 2>/dev/null | awk -F/ '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ *$//')
-          echo "Imóveis alterados: $SLUGS"
-          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
+          SLUG=$(git diff --name-only HEAD~1 HEAD -- imoveis/ 2>/dev/null | awk -F/ '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ *$//')
+          echo "Imóveis alterados: $SLUG"
+          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
 
       - name: Gerar /docs
         run: node scripts/build.js
@@ -75,7 +75,7 @@ jobs:
   # publicação social falhar por qualquer motivo, o job fica vermelho mas isolado.
   publish-instagram:
     needs: build
-    if: needs.build.outputs.slugs != ''
+    if: needs.build.outputs.slug != ''
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -93,6 +93,6 @@ jobs:
       - name: Publicar no Instagram/Facebook
         run: node scripts/publish-social.js
         env:
-          IMOVEL_SLUGS: ${{ needs.build.outputs.slugs }}
+          IMOVEL_SLUG: ${{ needs.build.outputs.slug }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
           INSTAGRAM_USER_ID: "17841455795855812"
