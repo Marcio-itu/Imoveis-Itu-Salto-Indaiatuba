@@ -1,0 +1,98 @@
+name: Gerar páginas dos imóveis
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "imoveis/**"
+      - "scripts/**"
+      - "config.json"
+      - "package.json"
+      - "assets/**"
+  workflow_dispatch: {}
+
+# Publicar um imóvel sobe várias fotos em sequência — cada arquivo dispara uma execução própria
+# deste workflow. Sem isso, várias execuções corriam em paralelo e brigavam pra dar "git push"
+# ao mesmo tempo, causando os erros "fetch first" / "rejected" e publicações incompletas.
+# Isso faz as execuções ficarem em fila, uma de cada vez, em vez de correr juntas.
+concurrency:
+  group: build-docs-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.slug.outputs.slugs }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # precisa do commit anterior pra "git diff HEAD~1" abaixo
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Detectar imóvel alterado (pra publicar depois nas redes)
+        id: slug
+        run: |
+          SLUGS=$(git diff --name-only HEAD~1 HEAD -- imoveis/ 2>/dev/null | awk -F/ '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ *$//')
+          echo "Imóveis alterados: $SLUGS"
+          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
+
+      - name: Gerar /docs
+        run: node scripts/build.js
+
+      - name: Commitar /docs se mudou
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add docs
+          git diff --cached --quiet && exit 0
+          git commit -m "build: atualiza páginas geradas [automático]"
+          # Mesmo em fila, o repositório pode ter avançado entre o checkout e agora
+          # (ex.: o próprio admin publicando outro arquivo). Tenta reconciliar e reenviar
+          # algumas vezes antes de desistir, em vez de falhar na primeira rejeição.
+          for i in 1 2 3 4 5; do
+            if git pull --rebase origin main && git push; then
+              exit 0
+            fi
+            echo "Push rejeitado, tentando novamente ($i/5)..."
+            sleep $((i * 4))
+          done
+          echo "Não consegui publicar /docs após várias tentativas."
+          exit 1
+
+  # Publica automaticamente no Instagram/Facebook o(s) imóvel(is) que mudou(ram) neste
+  # push. Só roda quando o job "build" detectou alteração dentro de imoveis/ (não dispara
+  # por mudança só em scripts/ ou config.json). Nunca derruba o deploy do site: se a
+  # publicação social falhar por qualquer motivo, o job fica vermelho mas isolado.
+  publish-instagram:
+    needs: build
+    if: needs.build.outputs.slugs != ''
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main # pega o repositório já com o commit de build (fotos .webp) feito acima
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Publicar no Instagram/Facebook
+        run: node scripts/publish-social.js
+        env:
+          IMOVEL_SLUGS: ${{ needs.build.outputs.slugs }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: 17841455795855812
