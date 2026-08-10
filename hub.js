@@ -19,10 +19,12 @@ function hubCss(t) {
     color:${t.ink};font-family:${t.fonts.body};line-height:1.55;min-height:100vh}
   .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
   .header-sticky{position:sticky;top:0;z-index:80;background:rgba(250,248,244,.92);backdrop-filter:blur(8px)}
-  .wrap-top{padding-top:1px;padding-bottom:1px}
+  .wrap-top{padding-top:6px;padding-bottom:7px}
   .wrap-main{padding-top:26px;padding-bottom:88px}
   .site-header{display:flex;justify-content:flex-start;align-items:center;flex-wrap:nowrap;gap:2px}
-  .brand-logo{height:77px;width:auto;display:block}
+  .brand-logo-wrap{display:flex;align-items:center;gap:10px}
+  .brand-icone{height:55px;width:auto;display:block}
+  .brand-nome{height:77px;width:auto;display:block}
 
   /* --- menu hambúrguer + painel lateral --- */
   .menu-toggle{border:none;background:none;cursor:pointer;padding:8px;position:relative;
@@ -255,7 +257,10 @@ document.addEventListener("DOMContentLoaded", function(){
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="menuLateral">
         <span></span><span></span><span></span>
       </button>
-      <img class="brand-logo" src="${siteUrl}logo-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — CRECI-SP ${esc(creci)}` : ""}">
+      <span class="brand-logo-wrap">
+        <img class="brand-icone" src="${siteUrl}logo-icone-marcio-santos.png" alt="">
+        <img class="brand-nome" src="${siteUrl}logo-nome-marcio-santos.png" alt="${esc(config?.corretor?.nome || "Marcio Santos")}${creci ? ` — ${esc(creci)}` : ""}">
+      </span>
     </div>
   </div>
 </div>

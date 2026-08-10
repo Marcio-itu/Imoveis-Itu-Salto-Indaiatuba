@@ -225,7 +225,7 @@ async function build() {
   if (fs.existsSync(assetsSrc)) {
     for (const nome of ["favicon-cliente-512.png", "favicon-cliente-180.png", "favicon-cliente-32.png",
       "imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp",
-      "imoveis-itu-salto-indaiatuba-2027-03.webp", "logo-marcio-santos.png",
+      "imoveis-itu-salto-indaiatuba-2027-03.webp", "logo-icone-marcio-santos.png", "logo-nome-marcio-santos.png",
       "corretor-imoveis-itu-regiao-certificado-senac-crecisp-276471-f.webp", "diploma-marcio-santos.pdf",
       "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
       "simulador-financiamento-imovel-itu-salto-cabreuva-02.webp",
