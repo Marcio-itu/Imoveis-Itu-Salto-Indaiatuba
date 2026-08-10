@@ -46,26 +46,9 @@
   "publicadoEm": "2026-08-10",
   "fotos": [
     {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": true
-    },
-    {
-      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
-      "quantidade": 1
-    },
-    {
       "arquivo": "banheiro-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Banheiro do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
-      "quantidade": 1
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
+      "hero": true,
       "quantidade": 1
     },
     {
@@ -77,12 +60,6 @@
     {
       "arquivo": "banheiro-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Banheiro do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
-      "quantidade": 1
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
@@ -93,25 +70,10 @@
       "quantidade": 1
     },
     {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
       "arquivo": "banheiro-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Banheiro do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false,
       "quantidade": 1
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
     },
     {
       "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
@@ -121,22 +83,6 @@
     {
       "arquivo": "garagem-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Garagem do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
-      "quantidade": 1
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "quarto-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Quarto do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
@@ -153,44 +99,14 @@
       "quantidade": 1
     },
     {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
       "arquivo": "banheiro-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Banheiro do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false,
       "quantidade": 1
     },
     {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
       "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false
     },
     {
@@ -207,26 +123,6 @@
     {
       "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "cozinha-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
-      "alt": "Cozinha do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false
     },
     {
