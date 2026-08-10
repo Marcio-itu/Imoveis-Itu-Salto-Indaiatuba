@@ -48,7 +48,7 @@
     {
       "arquivo": "garagem-itu-medio-padrao-casa-sp-jardim-20260810225827.jpg",
       "alt": "Garagem do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false,
+      "hero": true,
       "quantidade": 1
     },
     {
@@ -82,46 +82,6 @@
     {
       "arquivo": "vista-ampla-local-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
       "alt": "Vista ampla do local do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": true
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-jardim-20260810230941.jpg",
-      "alt": "Sala de estar do(a) casa médio padrão em Liberdade, Itu - SP",
       "hero": false
     }
   ]
