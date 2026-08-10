@@ -24,8 +24,12 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      slugs: ${{ steps.slug.outputs.slugs }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # precisa do commit anterior pra "git diff HEAD~1" abaixo
 
       - uses: actions/setup-node@v4
         with:
@@ -33,6 +37,13 @@ jobs:
 
       - name: Instalar dependências
         run: npm install
+
+      - name: Detectar imóvel alterado (pra publicar depois nas redes)
+        id: slug
+        run: |
+          SLUGS=$(git diff --name-only HEAD~1 HEAD -- imoveis/ 2>/dev/null | awk -F/ '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ *$//')
+          echo "Imóveis alterados: $SLUGS"
+          echo "slugs=$SLUGS" >> "$GITHUB_OUTPUT"
 
       - name: Gerar /docs
         run: node scripts/build.js
@@ -56,3 +67,31 @@ jobs:
           done
           echo "Não consegui publicar /docs após várias tentativas."
           exit 1
+
+  # Publica automaticamente no Instagram/Facebook o(s) imóvel(is) que mudou(ram) neste
+  # push. Só roda quando o job "build" detectou alteração dentro de imoveis/ (não dispara
+  # por mudança só em scripts/ ou config.json). Nunca derruba o deploy do site: se a
+  # publicação social falhar por qualquer motivo, o job fica vermelho mas isolado.
+  publish-instagram:
+    needs: build
+    if: needs.build.outputs.slugs != ''
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main # pega o repositório já com o commit de build (fotos .webp) feito acima
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Publicar no Instagram/Facebook
+        run: node scripts/publish-social.js
+        env:
+          IMOVEL_SLUGS: ${{ needs.build.outputs.slugs }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          INSTAGRAM_USER_ID: 17841455795855812
