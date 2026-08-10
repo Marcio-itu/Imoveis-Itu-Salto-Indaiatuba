@@ -3,11 +3,10 @@
 > Terreno à venda por R$ 250.000 no Condomínio Reserva Central Parque, em Salto/SP, com preço excelente e infraestrutura completa.
 
 - Tipo: casa, Padrão neutro
-- Condomínio: Condomínio Reserva Central Parque
 - Preço: R$ 250.000
 - Localização: Reserva Central Parque, Salto - SP
-- Características: 
-- Diferenciais: Preço Excelente!
+- Características: 331 m² de terreno
+- Diferenciais: Preço Excelente!, Condomínio
 - Página oficial (fonte canônica): https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-na-cidade-de-salto/
 - Corretor: Marcio Santos, CRECI-SP 276471-F
 - Publicado em (nascimento do anúncio): 2026-08-10
@@ -20,8 +19,8 @@ A localização estratégica do empreendimento oferece fácil acesso a rodovias 
 
 ## Perguntas frequentes
 
-P: Em qual condomínio fica o imóvel?
-R: Fica no condomínio Condomínio Reserva Central Parque, bairro Reserva Central Parque, Salto/SP.
+P: Em qual bairro fica o imóvel?
+R: Fica no bairro Reserva Central Parque, em Salto/SP.
 
 P: O imóvel é para venda, locação ou permuta?
 R: Este imóvel está disponível para venda.
