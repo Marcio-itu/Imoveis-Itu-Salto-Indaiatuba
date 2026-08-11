@@ -1,0 +1,110 @@
+{
+  "slug": "apartamento-duplex-no-rancho-grande",
+  "titulo": "Apartamento Duplex no Rancho Grande! ",
+  "tipo": "apartamento",
+  "padrao": "padrao-popular",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Rancho Grande",
+  "condominio": "Condomínio Grande Parc",
+  "referencia": "OVO01017",
+  "preco": "R$ 340.000",
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 2,
+  "vagas": 2,
+  "areaUtil": 68,
+  "areaTerreno": 96.97,
+  "descricaoCurta": "O imóvel de 68 m² de área útil possui 3 dormitórios, sendo 1 suíte, além de 2 banheiros no total e 2 vagas de garagem prontas para uso.",
+  "descricaoLonga": [
+    "O imóvel de 68 m² de área útil possui 3 dormitórios, sendo 1 suíte, além de 2 banheiros no total e 2 vagas de garagem prontas para uso.",
+    "A planta oferece salas de jantar e estar, cozinha, varanda e ambientes bem distribuídos que proporcionam uma vista ampla da cidade.",
+    "A estrutura do condomínio oferece portaria e monitoramento 24 horas, piscina, quadra poliesportiva, salão de festas e loja de conveniência."
+  ],
+  "resumo": "Apto de 3 dormitórios à venda por R$ 340.000 no Cond Grande Parc",
+  "diferenciais": [
+    "Portaria",
+    "Monitoramento 24 horas"
+  ],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [
+    "Piscina",
+    "Salão de Festas",
+    "Quadra Poliesportiva ",
+    "Loja de Conveniência "
+  ],
+  "publicadoEm": "2026-08-11",
+  "fotos": [
+    {
+      "arquivo": "area-lazer-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Área de lazer do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-jantar-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Sala de jantar do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "quarto-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Quarto do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "cozinha-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Cozinha do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "vista-ampla-local-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Vista ampla do local do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "sala-jantar-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Sala de jantar do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "banheiro-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Banheiro do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false,
+      "quantidade": 1
+    },
+    {
+      "arquivo": "comercial-card-1-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Card Comercial 1 do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "sala-estar-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Sala de estar do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "varanda-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Varanda do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "piso-superior-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Piso superior do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": false
+    },
+    {
+      "arquivo": "piscina-itu-padrao-popular-apartamento-sp-portaria-20260811191258.jpeg",
+      "alt": "Piscina do(a) apartamento padrão popular em Rancho Grande, Itu - SP",
+      "hero": true
+    }
+  ]
+}
