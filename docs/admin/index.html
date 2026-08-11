@@ -806,7 +806,15 @@ function altText(f){
   return `${AMBIENTE_LABEL[f.ambiente]} do(a) ${tipo} ${label} em ${bairro}, ${cidade} - ${uf}`.replace(/\s+/g," ").trim();
 }
 
+const AMBIENTES_CONTAVEIS = ["quarto","suite-master","banheiro","lavabo","garagem"];
+
 function renderFotos(){
+  // Normaliza TODA vez que a lista é desenhada — não só quando o dropdown muda — pra
+  // garantir que ambiente contável sem quantidade preenchida sempre chegue com "1",
+  // não importa por qual caminho o ambiente foi setado.
+  fotos.forEach(f => {
+    if (AMBIENTES_CONTAVEIS.includes(f.ambiente) && !f.quantidade) f.quantidade = 1;
+  });
   fotoList.innerHTML = "";
   fotos.forEach((f, i) => {
     const url = URL.createObjectURL(f.file);
@@ -826,7 +834,6 @@ function renderFotos(){
       </div>`;
     fotoList.appendChild(div);
   });
-  const AMBIENTES_CONTAVEIS = ["quarto","suite-master","banheiro","lavabo","garagem"];
   fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
     const f = fotos[+e.target.dataset.i];
     f.ambiente = e.target.value;
@@ -1412,6 +1419,7 @@ document.getElementById("publicarBtn").onclick = async () => {
     const pos = document.getElementById("posPublicarBox");
     pos.style.display = "flex";
     pos.innerHTML = `
+      <a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/story.png" target="_blank" rel="noopener" id="storyImgLink">📱 Imagem de story (pronta em ~2 min)</a>
       <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
       <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
     document.getElementById("novaPublicacaoBtn").onclick = resetFormulario;
