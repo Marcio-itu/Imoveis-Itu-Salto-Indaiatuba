@@ -238,7 +238,13 @@ async function build() {
       if (fs.existsSync(p)) fs.copyFileSync(p, path.join(DOCS_DIR, nome));
     }
     const faviconAdmin = path.join(assetsSrc, "favicon-admin.svg");
-    if (fs.existsSync(faviconAdmin)) fs.copyFileSync(faviconAdmin, path.join(DOCS_DIR, "admin", "favicon-admin.svg"));
+    if (fs.existsSync(faviconAdmin)) {
+      // Garante que docs/admin/ existe mesmo se a cópia da pasta admin/ (linha acima) não
+      // rodou por algum motivo — sem isso, a falta de UM arquivo aqui derrubava o build
+      // inteiro (e, com ele, a publicação de TODOS os imóveis, não só do admin).
+      fs.mkdirSync(path.join(DOCS_DIR, "admin"), { recursive: true });
+      fs.copyFileSync(faviconAdmin, path.join(DOCS_DIR, "admin", "favicon-admin.svg"));
+    }
   }
 
   // llms.txt do site — índice para agentes de IA (convenção emergente, tipo robots.txt para LLMs)
