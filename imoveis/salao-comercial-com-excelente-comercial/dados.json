@@ -39,12 +39,6 @@
   "publicadoEm": "2026-08-10",
   "fotos": [
     {
-      "arquivo": "banheiro-itu-padrao-neutro-salão comercial-sp-excelente-localizacao-20260810222822.jpeg",
-      "alt": "Banheiro do(a) salão comercial padrão neutro em Jardim do Estádio, Itu - SP",
-      "hero": false,
-      "quantidade": 2
-    },
-    {
       "arquivo": "planta-baixa-itu-padrao-neutro-salão comercial-sp-excelente-localizacao-20260810222822.jpeg",
       "alt": "Planta baixa do(a) salão comercial padrão neutro em Jardim do Estádio, Itu - SP",
       "hero": false,
@@ -89,10 +83,9 @@
       "hero": false
     },
     {
-      "arquivo": "vista-ampla-local-itu-padrao-neutro-salão comercial-sp-excelente-localizacao-20260810222822.jpeg",
-      "alt": "Vista ampla do local do(a) salão comercial padrão neutro em Jardim do Estádio, Itu - SP",
-      "hero": true,
-      "quantidade": 1
+      "arquivo": "sala-estar-itu-padrao-neutro-salão comercial-sp-excelente-localizacao-20260811030715.jpeg",
+      "alt": "Sala de estar do(a) salão comercial padrão neutro em Jardim do Estádio, Itu - SP",
+      "hero": true
     }
   ]
 }
