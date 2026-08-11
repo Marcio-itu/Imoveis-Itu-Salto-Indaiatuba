@@ -99,8 +99,8 @@ function detectarSlugs() {
 
 function montarLegenda(dados, config) {
   const linhas = [];
-  const tipo = dados.tipo ? capitalize(dados.tipo) : "Imóvel";
-  linhas.push(`🏡 ${tipo} em ${dados.bairro} - ${dados.cidade}`);
+  linhas.push(`🏡 ${dados.titulo || "Imóvel"}`);
+  linhas.push(`${dados.bairro}, ${dados.cidade} - ${dados.uf || "SP"}`);
 
   const specs = [];
   if (dados.quartos) specs.push(`🛏️ ${dados.quartos} quartos`);
@@ -111,7 +111,8 @@ function montarLegenda(dados, config) {
 
   if (dados.preco) linhas.push(`💰 ${dados.preco}`);
 
-  if (dados.descricaoCurta) linhas.push("", dados.descricaoCurta);
+  const textoReal = dados.resumo || dados.descricaoCurta;
+  if (textoReal) linhas.push("", textoReal);
 
   const whatsapp = config?.corretor?.whatsapp || "";
   const creci = config?.corretor?.creci || "";
@@ -123,10 +124,6 @@ function montarLegenda(dados, config) {
   linhas.push(hashtags.join(" "));
 
   return linhas.join("\n");
-}
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
 // --- URLs públicas das fotos ---------------------------------------------
@@ -320,8 +317,16 @@ function salvarLog(imovelDir, entrada) {
 // git local de quem está só testando/rodando na máquina).
 function commitarLogsSeNecessario() {
   if (DRY_RUN || !process.env.GITHUB_ACTIONS) return;
+  // só tenta comitar se pelo menos um social_log.json existe de fato — evita o
+  // "fatal: pathspec ... did not match any files" quando nenhuma publicação deu certo
+  // (glob sem match nenhum faz o git falhar "duro", mesmo sendo uma situação normal).
+  const algumLogExiste = fs
+    .readdirSync(path.join(ROOT, "imoveis"), { withFileTypes: true })
+    .filter((d) => d.isDirectory())
+    .some((d) => fs.existsSync(path.join(ROOT, "imoveis", d.name, "social_log.json")));
+  if (!algumLogExiste) return;
   try {
-    execSync("git add imoveis/*/social_log.json", { cwd: ROOT });
+    execSync("git add imoveis/*/social_log.json", { cwd: ROOT, stdio: "pipe" });
     const status = execSync("git status --porcelain", { cwd: ROOT, encoding: "utf8" });
     if (!status.trim()) return;
     execSync('git config user.name "github-actions"', { cwd: ROOT });
