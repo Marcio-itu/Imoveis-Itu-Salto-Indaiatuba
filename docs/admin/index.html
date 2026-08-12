@@ -182,7 +182,7 @@
 
   <fieldset>
     <legend>Características</legend>
-    <p class="hint">Quartos, suítes, banheiros e vagas podem ser calculados a partir da quantidade que você marcar nas fotos do passo 1 — preencha a quantidade em <b>só uma foto de cada ambiente</b> (ex.: uma das fotos de quarto recebe "4", as outras ficam em branco) — ou preencha os campos direto aqui.</p>
+    <p class="hint">Preencha quartos, suítes, banheiros e vagas aqui diretamente.</p>
     <div class="row3">
       <div><label>Quartos</label><input type="number" id="quartos" min="0"></div>
       <div><label>Suítes</label><input type="number" id="suites" min="0"></div>
@@ -193,8 +193,6 @@
       <div><label>Área útil (m²)</label><input type="number" id="areaUtil" min="0"></div>
       <div><label>Área terreno (m²)</label><input type="number" id="areaTerreno" min="0"></div>
     </div>
-    <button class="btn secondary" id="calcularFichaBtn" type="button" style="margin-top:12px">🧮 Calcular quartos/suítes/banheiros/vagas a partir das fotos</button>
-    <div id="calcularFichaStatus" class="hint" style="margin-top:8px"></div>
 
     <label style="margin-top:18px">Dados técnicos em bullets (opcional — um item por linha, texto livre)</label>
     <p class="hint">Aparece como lista de bullets na ficha técnica da página, embaixo dos números. É um resumo que <b>repete</b> o que já está na página — não substitui os campos acima nem os Diferenciais abaixo.</p>
@@ -357,28 +355,37 @@ const THEMES = {
 const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, permuta: { label: "Permuta" } };
 // Ordem alfabética (pelo rótulo, como aparece no dropdown) — mais fácil de achar o ambiente certo
 // numa lista longa. Ao adicionar um novo ambiente, mantenha a lista alfabetizada.
-const AMBIENTES = ["area-lazer","banheiro","comercial-card-1","comercial-card-2","churrasqueira","cozinha",
+const AMBIENTES = ["area-lazer","banheiro","card-comercial","churrasqueira","cozinha",
   "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina",
   "piso-superior","piso-terreo","planta-baixa",
   "quarto","quarto-empregada","quarto-hospedes","quintal","sacada","sala-estar","sala-jantar",
-  "salao-comercial-interna-1","salao-comercial-interna-2","salao-comercial-interna-3","salao-comercial-interna-4",
+  "salao-comercial-interna",
   "suite-master","terreno-vista-frente","terreno-vista-fundos","terreno-vista-perspectiva",
   "terreno-vista-perspectiva-lateral","varanda","vista-aerea","vista-ampla-local","vista-mar"];
 const AMBIENTE_LABEL = {
-  "area-lazer":"Área de lazer","banheiro":"Banheiro","comercial-card-1":"Card Comercial 1",
-  "comercial-card-2":"Card Comercial 2","churrasqueira":"Churrasqueira","cozinha":"Cozinha",
+  "area-lazer":"Área de lazer","banheiro":"Banheiro","card-comercial":"Card Comercial",
+  "churrasqueira":"Churrasqueira","cozinha":"Cozinha",
   "entorno-bairro":"Entorno do bairro","fachada":"Fachada","fachada-noturna":"Fachada noturna",
   "foto-comercial":"Foto comercial","garagem":"Garagem","lavabo":"Lavabo","piscina":"Piscina",
   "piso-superior":"Piso superior","piso-terreo":"Piso térreo",
   "planta-baixa":"Planta baixa","quarto":"Quarto","quarto-empregada":"Quarto de empregada",
   "quarto-hospedes":"Quarto de hóspedes","quintal":"Quintal","sacada":"Sacada","sala-estar":"Sala de estar",
-  "sala-jantar":"Sala de jantar","salao-comercial-interna-1":"Salão comercial vista interna 1",
-  "salao-comercial-interna-2":"Salão comercial vista interna 2","salao-comercial-interna-3":"Salão comercial vista interna 3",
-  "salao-comercial-interna-4":"Salão comercial vista interna 4","suite-master":"Suíte master",
+  "sala-jantar":"Sala de jantar","salao-comercial-interna":"Salão comercial (interna)",
+  "suite-master":"Suíte master",
   "terreno-vista-frente":"Terreno vista frente","terreno-vista-fundos":"Terreno vista fundos",
   "terreno-vista-perspectiva":"Terreno vista perspectiva","terreno-vista-perspectiva-lateral":"Terreno vista perspectiva lateral",
   "varanda":"Varanda","vista-aerea":"Vista aérea","vista-ampla-local":"Vista ampla do local","vista-mar":"Vista mar"
 };
+
+// Adjetivos usados só pra diferenciar nome de arquivo quando há mais de uma foto do mesmo
+// ambiente (ex.: 3 fotos de "piscina") — sem isso, os arquivos colidiam (mesmo nome,
+// mesmo segundo). Ordem fixa: a 1ª foto do grupo pega o 1º adjetivo, a 2ª o 2º, etc. —
+// nunca aleatório, pra o nome não trocar sozinho a cada vez que a lista é redesenhada.
+const ADJETIVOS_DIFERENCIACAO = [
+  "amplo","espacoso","iluminado","aconchegante","elegante","encantador","charmoso",
+  "sofisticado","acolhedor","deslumbrante","arejado","moderno","reformado","impecavel",
+  "generoso","exclusivo","premium","refinado","convidativo","privativo"
+];
 
 // Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
 const ACESSORIOS = [
@@ -779,22 +786,36 @@ micBtn.onclick = () => {
 const fotoInput = document.getElementById("fotoInput");
 const fotoList = document.getElementById("fotoList");
 fotoInput.addEventListener("change", () => {
-  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0, quantidade: "" }));
+  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0 }));
   renderFotos();
 });
 
-// Nome final: ambiente-cidade-padrao-tipo-uf[-diferencial]-data (cidade+padrão logo após o ambiente, como pedido)
+// Quando há mais de uma foto do mesmo ambiente (ex.: 3 fotos de "piscina"), sem isso os
+// nomes colidiam — mesmo ambiente, mesmo segundo. Cada foto do grupo ganha um adjetivo
+// diferente, na ordem em que aparecem na lista (nunca sorteado, pra não mudar sozinho
+// a cada vez que a tela é redesenhada).
+function adjetivoPara(f){
+  const doMesmoAmbiente = fotos.filter(x => x.ambiente === f.ambiente);
+  if (doMesmoAmbiente.length <= 1) return "";
+  const posicao = doMesmoAmbiente.indexOf(f);
+  return ADJETIVOS_DIFERENCIACAO[posicao % ADJETIVOS_DIFERENCIACAO.length];
+}
+
+// Nome final: ambiente[-adjetivo]-cidade-padrao-tipo-uf[-diferencial]-data
 function nomeArquivo(f){
+  // O horário fica travado na primeira vez que essa foto ganha um nome — sem isso, o
+  // nome mostrado na lista podia ficar diferente do nome realmente salvo, se um segundo
+  // passasse entre uma chamada e outra.
+  if (!f._ts) f._ts = new Date().toISOString().replace(/[-:TZ]|\.\d+/g,"").slice(0,14);
   const cidade = slugify(document.getElementById("cidade").value || "cidade");
   const tipo = document.getElementById("tipo").value || "imovel";
   const uf = (document.getElementById("uf").value || "sp").toLowerCase();
   const diffRaw = (document.getElementById("diferenciais").value || "").split(",")[0]?.trim();
   const diff = diffRaw ? "-" + slugify(diffRaw) : "";
-  // Inclui hora/minuto/segundo (não só a data) pra garantir nome único mesmo ao apagar e
-  // republicar o mesmo imóvel, com a mesma foto, no mesmo dia — evita colisão de nome de arquivo.
-  const data = new Date().toISOString().replace(/[-:TZ]|\.\d+/g,"").slice(0,14);
+  const adj = adjetivoPara(f);
+  const ambiente = adj ? `${f.ambiente}-${adj}` : f.ambiente;
   const ext = (f.file.name.split(".").pop() || "jpg").toLowerCase();
-  return `${f.ambiente}-${cidade}-${padraoAtual}-${tipo}-${uf}${diff}-${data}`.replace(/-+/g,"-") + "." + ext;
+  return `${ambiente}-${cidade}-${padraoAtual}-${tipo}-${uf}${diff}-${f._ts}`.replace(/-+/g,"-") + "." + ext;
 }
 
 function altText(f){
@@ -803,18 +824,12 @@ function altText(f){
   const cidade = document.getElementById("cidade").value || "";
   const uf = document.getElementById("uf").value || "";
   const label = THEMES[padraoAtual].label.toLowerCase();
-  return `${AMBIENTE_LABEL[f.ambiente]} do(a) ${tipo} ${label} em ${bairro}, ${cidade} - ${uf}`.replace(/\s+/g," ").trim();
+  const adj = adjetivoPara(f);
+  const ambienteTexto = adj ? `${AMBIENTE_LABEL[f.ambiente]} ${adj}` : AMBIENTE_LABEL[f.ambiente];
+  return `${ambienteTexto} do(a) ${tipo} ${label} em ${bairro}, ${cidade} - ${uf}`.replace(/\s+/g," ").trim();
 }
 
-const AMBIENTES_CONTAVEIS = ["quarto","suite-master","banheiro","lavabo","garagem"];
-
 function renderFotos(){
-  // Normaliza TODA vez que a lista é desenhada — não só quando o dropdown muda — pra
-  // garantir que ambiente contável sem quantidade preenchida sempre chegue com "1",
-  // não importa por qual caminho o ambiente foi setado.
-  fotos.forEach(f => {
-    if (AMBIENTES_CONTAVEIS.includes(f.ambiente) && !f.quantidade) f.quantidade = 1;
-  });
   fotoList.innerHTML = "";
   fotos.forEach((f, i) => {
     const url = URL.createObjectURL(f.file);
@@ -825,7 +840,6 @@ function renderFotos(){
       <img src="${url}">
       <div class="meta">
         <select data-i="${i}" class="ambienteSel">${opts}</select>
-        <input type="number" data-i="${i}" class="qtdInput" min="1" placeholder="qtd." value="${f.quantidade||""}" style="width:64px">
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
           <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
         </label>
@@ -837,13 +851,7 @@ function renderFotos(){
   fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
     const f = fotos[+e.target.dataset.i];
     f.ambiente = e.target.value;
-    // Ambiente contável (quarto, suíte, banheiro, lavabo, garagem) já chega com "1" marcado —
-    // é o caso mais comum (1 foto = 1 unidade); só precisa editar quando for mais de 1.
-    if (AMBIENTES_CONTAVEIS.includes(f.ambiente) && !f.quantidade) f.quantidade = 1;
     renderFotos();
-  });
-  fotoList.querySelectorAll(".qtdInput").forEach(inp => inp.onchange = (e) => {
-    fotos[+e.target.dataset.i].quantidade = e.target.value ? Number(e.target.value) : "";
   });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
     fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
@@ -936,30 +944,6 @@ document.getElementById("cancelarEdicaoBtn").onclick = () => {
 
 
 // "banheiros" aqui já é o TOTAL (banheiro + lavabo + suítes), como o Marcio pediu pro site mostrar "Banheiros (Totais)".
-function calcularFichaDeFotos(){
-  // Pega o MAIOR valor preenchido entre as fotos do ambiente (não soma) — você só precisa
-  // preencher a quantidade em UMA das fotos daquele ambiente, as demais ficam em branco.
-  const maior = (ambiente) => fotos.filter(f=>f.ambiente===ambiente).reduce((m,f)=>Math.max(m, Number(f.quantidade)||0), 0);
-  const quartos = maior("quarto");
-  const suites = maior("suite-master");
-  const banheiros = maior("banheiro") + maior("lavabo") + suites;
-  const vagas = maior("garagem");
-  return { quartos, suites, banheiros, vagas };
-}
-document.getElementById("calcularFichaBtn").onclick = () => {
-  const { quartos, suites, banheiros, vagas } = calcularFichaDeFotos();
-  const status = document.getElementById("calcularFichaStatus");
-  if (!quartos && !suites && !banheiros && !vagas){
-    status.textContent = "Nenhuma quantidade preenchida nas fotos ainda — marque a quantidade ao lado do ambiente de cada foto (passo 1) antes de calcular.";
-    return;
-  }
-  if (quartos) document.getElementById("quartos").value = quartos;
-  if (suites) document.getElementById("suites").value = suites;
-  if (banheiros) document.getElementById("banheiros").value = banheiros;
-  if (vagas) document.getElementById("vagas").value = vagas;
-  status.textContent = `✅ Calculado: ${quartos} quarto(s), ${suites} suíte(s), ${banheiros} banheiro(s) totais, ${vagas} vaga(s). Confira e ajuste se precisar.`;
-};
-
 // --- prompt para IA ---
 function updatePrompt(){
   const get = id => document.getElementById(id).value;
@@ -992,7 +976,6 @@ document.getElementById("gerarCopyBtn").onclick = async () => {
   if (!key){ status.textContent = "Cole sua chave da API Gemini acima antes de gerar."; return; }
 
   const get = id => document.getElementById(id).value;
-  const ambientesResumo = fotos.filter(f=>f.quantidade).map(f => `${AMBIENTE_LABEL[f.ambiente]}: ${f.quantidade}`);
   const ambientesUnicos = [...new Set(fotos.map(f=>AMBIENTE_LABEL[f.ambiente]))];
   const acessorios = getAcessoriosMarcados();
   const extras = ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean);
@@ -1005,7 +988,6 @@ Localização: bairro ${get("bairro")}, ${get("cidade")}/${get("uf")}${get("cond
 Preço: ${get("preco")}${get("financiamento") ? ` (${get("financiamento")})` : ""}
 Quartos: ${get("quartos")||"-"} | Suítes: ${get("suites")||"-"} | Banheiros totais: ${get("banheiros")||"-"} | Vagas: ${get("vagas")||"-"}
 Área útil: ${get("areaUtil")||"-"} m² | Área terreno: ${get("areaTerreno")||"-"} m²
-Ambientes com quantidade informada: ${ambientesResumo.join(", ") || "nenhuma"}
 Todos os ambientes fotografados: ${ambientesUnicos.join(", ") || "nenhum"}
 Diferenciais: ${get("diferenciais") || "nenhum"}
 Acessórios: ${acessorios.join(", ") || "nenhum"}
@@ -1122,7 +1104,7 @@ function montarDados(){
   const descFinal = get("descricaoFinal").trim();
   const descricaoLonga = descFinal ? descFinal.split("\n").filter(Boolean) : (get("transcricao") ? [get("transcricao")] : []);
   const fotosExistentesMantidas = modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter) : [];
-  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero, quantidade: f.quantidade || undefined }));
+  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero }));
   let fotosFinal = [...fotosExistentesMantidas.map(({manter, ...f}) => f), ...fotosNovas];
   if (fotosFinal.length && !fotosFinal.some(f => f.hero)) fotosFinal[0].hero = true; // garante 1 hero mesmo se a antiga foi removida
   return {
