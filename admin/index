@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin — Montar imóvel</title>
+<link rel="icon" type="image/svg+xml" href="./favicon-admin.svg">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root{
+    --bg:#FAF9F6; --surface:#fff; --ink:#1E2A28; --ink-muted:#5B6A67;
+    --accent:#2F5D7C; --border:#DDE3E1; --radius:8px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,Arial,sans-serif;line-height:1.5}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 120px}
+  h1{font-size:22px;margin:0 0 4px}
+  p.sub{color:var(--ink-muted);margin:0 0 28px;font-size:14px}
+  fieldset{border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:20px}
+  legend{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);font-weight:600;padding:0 6px}
+  legend b{color:var(--ink);text-transform:none;letter-spacing:0;font-size:13px}
+  label{display:block;font-size:13px;color:var(--ink-muted);margin:12px 0 4px}
+  input[type=text],input[type=number],input[type=password],select,textarea{
+    width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:6px;font-size:14px;font-family:inherit;background:#fff}
+  textarea{min-height:90px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .checkbox-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .checkbox-grid label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);margin:0;cursor:pointer}
+  .checkbox-grid input{width:auto}
+  .tag-input{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--border);
+    border-radius:8px;padding:8px 10px;background:#fff}
+  .tag-chips{display:flex;flex-wrap:wrap;gap:6px;max-height:84px;overflow-y:auto}
+  .tag-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft,#EEF3F2);
+    border:1px solid var(--border);border-radius:999px;padding:4px 6px 4px 12px;font-size:13px}
+  .tag-chip button{border:none;background:none;cursor:pointer;font-size:14px;line-height:1;color:var(--ink-muted);
+    padding:2px 6px}
+  .tag-input input{border:none;outline:none;flex:1;min-width:140px;font-size:14px;font-family:inherit}
+  .tag-sugestoes{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;max-height:110px;overflow-y:auto;
+    border-top:1px dashed var(--border);padding-top:8px}
+  .tag-sugestao{display:inline-flex;align-items:center;border:1px dashed var(--border);border-radius:999px;overflow:hidden}
+  .tag-sugestao .usar{border:none;background:none;padding:5px 4px 5px 12px;font-size:12px;color:var(--ink-muted);cursor:pointer}
+  .tag-sugestao .apagar{border:none;background:none;padding:5px 10px 5px 4px;font-size:11px;color:var(--ink-muted);
+    cursor:pointer;opacity:.6}
+  .tag-sugestao:hover{border-color:var(--accent)}
+  .tag-sugestao .usar:hover{color:var(--accent)}
+  .tag-sugestao .apagar:hover{opacity:1;color:#c23f18}
+  .tier-options{display:flex;gap:10px;margin-top:6px}
+  .tier{flex:1;border:2px solid var(--border);border-radius:var(--radius);padding:12px;text-align:center;cursor:pointer;font-size:13px}
+  .tier.selected{border-color:var(--sw);background:color-mix(in srgb, var(--sw) 12%, white)}
+  .swatch{width:100%;height:18px;border-radius:4px;margin-bottom:8px}
+  .op-options{display:flex;gap:10px;margin-top:6px}
+  .op{flex:1;border:2px solid var(--border);border-radius:var(--radius);padding:10px;text-align:center;cursor:pointer;font-size:13px}
+  .op.selected{border-color:var(--accent);background:color-mix(in srgb, var(--accent) 10%, white)}
+  button{cursor:pointer;font-family:inherit}
+  .btn{background:var(--accent);color:#fff;border:0;border-radius:6px;padding:12px 18px;font-size:14px;font-weight:600}
+  .btn.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+  .btn.mic{background:#E0562B}
+  .btn.mic.on{background:#c23f18}
+  .voice-row{display:flex;gap:10px;align-items:center;margin-top:6px}
+  .foto-item{display:flex;gap:12px;align-items:center;border:1px solid var(--border);border-radius:6px;padding:10px;margin-bottom:8px}
+  .foto-item img{width:70px;height:52px;object-fit:cover;border-radius:4px;flex-shrink:0}
+  .foto-item .meta{flex:1}
+  .filename{font-size:11px;color:var(--ink-muted);word-break:break-all;margin-top:4px}
+  .foto-item select{width:auto;display:inline-block;margin-right:8px}
+  .hint{font-size:12px;color:var(--ink-muted);margin-top:6px}
+  .rua-resultado{display:block;width:100%;text-align:left;border:1px solid var(--border);background:#fff;
+    border-radius:8px;padding:8px 12px;font-size:13px;margin-top:6px;cursor:pointer;font-family:inherit}
+  .rua-resultado:hover{border-color:var(--accent);color:var(--accent)}
+  .passo{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;
+    background:var(--accent);color:#fff;font-size:11px;font-weight:700;margin-right:6px}
+  #promptBox{white-space:pre-wrap;font-size:13px;background:var(--bg);padding:14px;border-radius:6px;border:1px solid var(--border)}
+  .sticky{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);
+    padding:14px 20px;display:flex;gap:10px;justify-content:center}
+  .ok{color:#1F8A5F;font-size:13px;margin-top:8px}
+  code{background:var(--bg);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:8px;position:sticky;top:8px;z-index:50">
+    <button type="button" id="atualizarPaginaBtn" style="border:1px solid var(--border);background:#fff;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink-muted)">🔄 Atualizar página</button>
+    <button type="button" id="sairFixoBtn" style="border:1px solid var(--border);background:#fff;border-radius:6px;padding:6px 12px;font-size:12px;cursor:pointer;color:var(--ink-muted)">🚪 Sair</button>
+  </div>
+  <h1>Montar página de imóvel</h1>
+  <p class="sub">Siga a ordem — cada passo alimenta o próximo. No fim você baixa ou publica direto.</p>
+
+  <div id="edicaoBanner" style="display:none;background:#FFF3CD;border:1px solid #E0C36B;border-radius:8px;padding:12px 16px;margin-bottom:20px;font-size:14px">
+    ✏️ Editando <b id="edicaoTitulo"></b>. Publicar vai atualizar este imóvel (mesmo endereço/slug) em vez de criar um novo.
+    <button type="button" id="cancelarEdicaoBtn" style="margin-left:10px;background:none;border:none;text-decoration:underline;cursor:pointer;font-size:13px">cancelar edição</button>
+  </div>
+
+  <fieldset>
+    <legend><span class="passo">1</span><b>Fotos</b></legend>
+    <div id="fotosExistentesBox" style="display:none;margin-bottom:16px">
+      <p class="hint">Fotos já publicadas — desmarque "manter" pra remover uma do anúncio (o arquivo continua no repositório, só sai da lista). Pra trocar uma foto errada: desmarque a antiga e suba a nova abaixo.</p>
+      <div id="fotosExistentesList" style="margin-top:10px"></div>
+    </div>
+    <input type="file" id="fotoInput" accept="image/*" multiple>
+    <div id="fotoList" style="margin-top:14px"></div>
+    <p class="hint">Marque qual é a foto "hero" (capa) e o ambiente de cada uma. O nome final do arquivo se completa sozinho conforme você preenche os passos abaixo — não precisa voltar aqui depois.</p>
+  </fieldset>
+
+  <fieldset>
+    <legend><span class="passo">2</span><b>CEP</b></legend>
+    <div class="row">
+      <input type="text" id="cep" placeholder="13300-000" maxlength="9">
+      <button class="btn secondary" id="buscarCepBtn" type="button">Buscar CEP</button>
+    </div>
+    <div id="cepInfo" class="hint"></div>
+
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">🔎 Não sabe o CEP? Busque pelo nome da rua</summary>
+      <p class="hint" style="margin-top:8px">Preencha Cidade/UF abaixo primeiro (ou deixe Itu/SP, já vem assim). Digite pelo menos 3 letras da rua.</p>
+      <div class="row" style="margin-top:8px">
+        <input type="text" id="ruaBusca" placeholder="Ex.: Barão do Rio Branco">
+        <button class="btn secondary" id="buscarRuaBtn" type="button">Buscar rua</button>
+      </div>
+      <div id="ruaResultados" style="margin-top:8px"></div>
+    </details>
+
+    <p class="hint" style="margin-top:10px">Rua e número abaixo são <b>só para sua ficha interna</b> (documentação) — nunca entram no <code>dados.json</code>, nunca sobem pro GitHub, nunca aparecem na página pública. Só o bairro fica visível ao cliente.</p>
+    <div class="row">
+      <div><label>Rua (uso interno)</label><input type="text" id="ruaInterna" placeholder="Preenchido pelo CEP, editável"></div>
+      <div><label>Número (uso interno)</label><input type="text" id="numeroInterna" placeholder="123"></div>
+    </div>
+    <button class="btn secondary" id="baixarFichaBtn" type="button" style="margin-top:8px">📄 Baixar ficha interna (endereço completo, só pra você)</button>
+    <div class="row" style="margin-top:12px">
+      <div><label>Cidade</label><input type="text" id="cidade" placeholder="Itu"></div>
+      <div><label>UF</label><input type="text" id="uf" value="SP" maxlength="2"></div>
+    </div>
+    <label>Bairro</label>
+    <input type="text" id="bairro" placeholder="Centro">
+  </fieldset>
+
+  <fieldset>
+    <legend><span class="passo">3</span><b>Padrão do imóvel</b></legend>
+    <div class="tier-options" id="tierOptions"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Dados básicos</legend>
+    <label>Tipo(s) de operação <span style="font-weight:400;color:var(--ink-muted)">(marque quantos se aplicarem)</span></label>
+    <div class="op-options" id="opOptions"></div>
+    <label style="margin-top:14px">Título do imóvel <span style="font-weight:400;color:var(--ink-muted)">(nome curto — aparece no topo da página, na aba do navegador e nos cards de busca)</span></label>
+    <input type="text" id="titulo" placeholder="Casa em Praia Preta">
+    <div class="row">
+      <div><label>Tipo de imóvel</label>
+        <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option><option>salão comercial</option></select>
+      </div>
+      <div><label>Referência <span style="font-weight:400;color:var(--ink-muted)">(gerada sozinha ao publicar)</span></label><input type="text" id="referencia" placeholder="LVP01013"></div>
+    </div>
+    <details style="margin-top:10px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">⚙️ Configuração do código (avançado — raramente precisa mexer)</summary>
+      <div class="row" style="margin-top:10px">
+        <div><label>Cidade → código</label>
+          <select id="cidadeCod">
+            <option value="01">01 — Itu</option>
+            <option value="02">02 — Salto</option>
+            <option value="03">03 — Indaiatuba</option>
+            <option value="04">04 — Sorocaba</option>
+            <option value="05">05 — Cabreúva</option>
+          </select>
+        </div>
+        <div><label>Próximo número (se não usar GitHub agora)</label><input type="number" id="codSeqManual" value="13" min="0"></div>
+      </div>
+      <p class="hint">Formato: 3 letras (<b>L</b>ocação/<b>V</b>enda/<b>P</b>ermuta, "O" quando não se aplica) + cidade + 3 dígitos. Gerado sozinho ao publicar — não precisa clicar em nada.</p>
+    </details>
+    <label style="margin-top:14px">Condomínio (opcional, mas ajuda muito na busca no interior de SP)</label>
+    <input type="text" id="condominio" placeholder="Ex.: Salto Grande, Alphaville Itu">
+    <div class="row">
+      <div><label>Preço</label><input type="text" id="preco" placeholder="R$ 450.000"></div>
+      <div><label>Financiamento</label>
+        <select id="financiamento">
+          <option value="">Sob consulta (não mostra nada no site)</option>
+          <option value="sim">Aceita financiamento</option>
+          <option value="nao">Não aceita (não mostra nada no site)</option>
+        </select>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Características</legend>
+    <p class="hint">Preencha quartos, suítes, banheiros e vagas aqui diretamente.</p>
+    <div class="row3">
+      <div><label>Quartos</label><input type="number" id="quartos" min="0"></div>
+      <div><label>Suítes</label><input type="number" id="suites" min="0"></div>
+      <div><label>Banheiros (totais)</label><input type="number" id="banheiros" min="0"></div>
+    </div>
+    <div class="row3">
+      <div><label>Vagas</label><input type="number" id="vagas" min="0"></div>
+      <div><label>Área útil (m²)</label><input type="number" id="areaUtil" min="0"></div>
+      <div><label>Área terreno (m²)</label><input type="number" id="areaTerreno" min="0"></div>
+    </div>
+
+    <label style="margin-top:18px">Dados técnicos em bullets (opcional — um item por linha, texto livre)</label>
+    <p class="hint">Aparece como lista de bullets na ficha técnica da página, embaixo dos números. É um resumo que <b>repete</b> o que já está na página — não substitui os campos acima nem os Diferenciais abaixo.</p>
+    <textarea id="dadosTecnicosBullets" placeholder="2 quartos&#10;Cozinha&#10;Suíte master&#10;Piscina&#10;Área Gourmet"></textarea>
+
+
+    <label style="margin-top:18px">Características específicas (exceções — até 4, ex.: canil, poço artesiano, poço caipira)</label>
+    <div class="row" style="grid-template-columns:1fr 1fr">
+      <input type="text" id="caracteristicaExtra1" placeholder="Ex.: Canil">
+      <input type="text" id="caracteristicaExtra2" placeholder="Ex.: Poço artesiano">
+    </div>
+    <div class="row" style="grid-template-columns:1fr 1fr;margin-top:12px">
+      <input type="text" id="caracteristicaExtra3" placeholder="Ex.: Poço caipira">
+      <input type="text" id="caracteristicaExtra4" placeholder="Ex.: (opcional)">
+    </div>
+
+    <label style="margin-top:18px">Acessórios do imóvel</label>
+    <div class="checkbox-grid" id="acessoriosBox"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Parceria</legend>
+    <label style="display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer">
+      <input type="checkbox" id="emParceria" style="width:auto"> Imóvel em parceria
+    </label>
+    <div id="parceriaCampos" style="display:none;margin-top:14px">
+      <label>Instagram do(s) corretor(es) parceiro(s)</label>
+      <div class="tag-input" id="parceriaTagInput">
+        <span class="tag-chips" id="parceriaChips"></span>
+        <input type="text" id="parceriaTexto" placeholder="Digite o @ e aperte vírgula, ponto e vírgula ou Enter" autocomplete="off">
+      </div>
+      <div class="tag-sugestoes" id="parceriaSugestoes"></div>
+      <p class="hint">Aparece no texto do imóvel como: Imóvel em parceria com "@corretorparceiro". Cada @ novo fica salvo neste navegador pra sugerir automaticamente da próxima vez.</p>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Fale ou digite (descrição livre)</legend>
+    <div class="voice-row">
+      <button class="btn mic" id="micBtn" type="button">🎙️ Gravar</button>
+      <span class="hint" id="micHint">Funciona no Chrome (desktop e Android). Fale naturalmente, ex.: "casa médio padrão em Salto com 3 quartos, 1 suíte, cozinha, lavabo"</span>
+    </div>
+    <label>Transcrição / texto livre</label>
+    <textarea id="transcricao" placeholder="O que fizer sentido: ambientes, diferenciais, observações soltas..."></textarea>
+    <label>Diferenciais (separados por vírgula)</label>
+    <input type="text" id="diferenciais" placeholder="Vista mar, Piscina, Área gourmet">
+  </fieldset>
+
+  <fieldset>
+    <legend>Copy comercial</legend>
+    <p class="hint">Preencha título, características e diferenciais acima primeiro — a IA usa exatamente o que você escreveu ali pra montar o texto (não inventa nada além disso). Usa o Gemini (Google) como principal, com repetição automática em caso de falha passageira. Aviso de transparência: no plano gratuito do Gemini, o Google pode usar o texto enviado para treinar os modelos deles (não é o caso no plano pago).</p>
+    <label>Chave da API Gemini (Google AI Studio)</label>
+    <input type="password" id="geminiKey" placeholder="AIza...">
+    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="lembrarGeminiKey" style="width:auto"> Lembrar esta chave neste navegador
+    </label>
+
+    <details style="margin-top:16px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">🔁 Backup gratuito (opcional) — usado automaticamente só se o Gemini falhar</summary>
+      <p class="hint" style="margin-top:8px">OpenRouter tem modelos gratuitos sem cartão de crédito. Crie uma conta grátis em openrouter.ai/keys e cole a chave abaixo. Se você não preencher isso, o sistema só usa o Gemini (com repetição automática em falha passageira).</p>
+      <label>Chave da API OpenRouter (backup)</label>
+      <input type="password" id="openrouterKey" placeholder="sk-or-...">
+      <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+        <input type="checkbox" id="lembrarOpenrouterKey" style="width:auto"> Lembrar esta chave neste navegador
+      </label>
+    </details>
+
+    <button class="btn secondary" id="gerarCopyBtn" type="button" style="margin-top:12px">🪄 Gerar copy com IA</button>
+    <div id="copyStatus" class="hint" style="margin-top:8px"></div>
+
+    <label style="margin-top:18px">Frase de efeito <span style="font-weight:400;color:var(--ink-muted)">(diferente do título — é 1 frase de venda logo abaixo dele, reaparece no FAQ)</span></label>
+    <input type="text" id="resumo" placeholder="Ex.: Casa de alto padrão em Praia Preta, a poucos passos do mar.">
+
+    <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
+    <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
+
+    <label style="margin-top:16px">Descrição final (parágrafos curtos, um por linha)</label>
+    <textarea id="descricaoFinal" placeholder="Gerado pela IA, ou cole aqui manualmente..."></textarea>
+
+    <details style="margin-top:16px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">Alternativa manual: gerar o prompt e colar numa conversa à parte</summary>
+      <p class="hint" style="margin-top:10px">Cole isto numa conversa com o Claude para transformar em parágrafos prontos — cole a resposta de volta no campo acima.</p>
+      <div id="promptBox"></div>
+      <button class="btn secondary" id="copyPrompt" type="button" style="margin-top:10px">Copiar prompt</button>
+    </details>
+  </fieldset>
+
+  <fieldset>
+    <legend>Publicar GitHub e Redes (opcional)</legend>
+    <p class="hint">Fica só na memória desta aba — nunca é salvo em disco nem enviado a nada além da API do GitHub. Use um token com escopo restrito a este repositório (fine-grained personal access token, permissão "Contents: Read and write"). Preencher aqui também permite que o código do imóvel (em Dados básicos) busque o próximo número sozinho. Depois de publicar, o próprio GitHub Actions cuida de postar automaticamente no Instagram/Facebook (token já configurado nos Secrets do repositório) — não precisa colar nenhum token de rede social aqui.</p>
+    <div class="row">
+      <div><label>usuario/repositorio</label><input type="text" id="ghRepo" placeholder="marcio-itu/imoveis-itu-salto-indaiatuba"></div>
+      <div><label>Branch</label><input type="text" id="ghBranch" value="main"></div>
+    </div>
+    <label>Token</label>
+    <input type="password" id="ghToken" placeholder="github_pat_...">
+    <label style="display:flex;align-items:center;gap:6px;margin:10px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="lembrarGhToken" style="width:auto"> Lembrar usuário/repositório, branch e token neste navegador
+    </label>    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
+    <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
+    <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar GitHub e Redes</button>
+    <div id="ghStatus" class="hint" style="margin-top:8px"></div>
+    <div id="posPublicarBox" style="display:none;margin-top:14px;gap:10px;flex-wrap:wrap"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>Gerenciar imóveis existentes</legend>
+    <p class="hint">Usa o mesmo repositório/token do passo acima. Imóveis com 6 meses ou mais de "vida" ficam destacados — decida se continuam na vitrine.</p>
+    <div class="row">
+      <button class="btn secondary" id="carregarImoveisBtn" type="button">🔄 Carregar imóveis</button>
+      <label style="display:flex;align-items:center;gap:6px;margin:0">
+        <input type="checkbox" id="soMaisDe6Meses"> Mostrar só 6+ meses
+      </label>
+    </div>
+    <div id="listaImoveis" style="margin-top:14px"></div>
+  </fieldset>
+
+  <div id="okMsg" class="ok" style="display:none">Pacote gerado! Confira a pasta baixada.</div>
+</div>
+
+<div class="sticky">
+  <button class="btn" id="gerarBtn" type="button">⬇️ Baixar pacote (.zip)</button>
+</div>
+
+<script>
+// --- trava simples de acesso ---
+// IMPORTANTE (honestidade, não fine print): isto NÃO é segurança de verdade.
+// Qualquer pessoa que abra o "código-fonte" da página no navegador vê a frase
+// exata abaixo. Isso só afasta quem clica no link sem querer ou por curiosidade —
+// não impede alguém que saiba abrir o DevTools. A proteção real é: (1) o robots.txt
+// já bloqueia buscadores de indexar /admin/, (2) publicar de verdade exige o SEU
+// token do GitHub e a SUA chave da Gemini, que ninguém mais tem.
+// Troque a frase abaixo se quiser.
+const SENHA_ADMIN = "Harmonia100%";
+(function(){
+  if (localStorage.getItem("admOk") === SENHA_ADMIN) return; // já desbloqueado antes neste navegador
+  const tentativa = prompt("Senha do admin:");
+  if (tentativa !== SENHA_ADMIN){
+    document.documentElement.innerHTML = '<div style="font-family:sans-serif;padding:60px;text-align:center;color:#666">Acesso restrito.</div>';
+    throw new Error("acesso negado");
+  }
+  localStorage.setItem("admOk", SENHA_ADMIN);
+})();
+
+// --- máscara de milhar no campo de preço (ex.: digita 450000, mostra R$ 450.000) ---
+(function(){
+  const precoEl = document.getElementById("preco");
+  precoEl.addEventListener("input", () => {
+    const digitos = precoEl.value.replace(/\D/g, "");
+    precoEl.value = digitos ? "R$ " + digitos.replace(/\B(?=(\d{3})+(?!\d))/g, ".") : "";
+  });
+})();
+
+const THEMES = {
+  "alto-padrao": { label: "Alto padrão", accent: "#4E9E97" },
+  "medio-padrao": { label: "Médio padrão", accent: "#2F5D7C" },
+  "padrao-popular": { label: "Padrão popular", accent: "#E0562B" },
+  "padrao-neutro": { label: "Padrão neutro", accent: "#8A7F63" },
+};
+const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, permuta: { label: "Permuta" } };
+// Ordem alfabética (pelo rótulo, como aparece no dropdown) — mais fácil de achar o ambiente certo
+// numa lista longa. Ao adicionar um novo ambiente, mantenha a lista alfabetizada.
+const AMBIENTES = ["area-lazer","banheiro","card-comercial","churrasqueira","cozinha",
+  "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina",
+  "piso-superior","piso-terreo","planta-baixa",
+  "quarto","quarto-empregada","quarto-hospedes","quintal","sacada","sala-estar","sala-jantar",
+  "salao-comercial-interna",
+  "suite-master","terreno-vista-frente","terreno-vista-fundos","terreno-vista-perspectiva",
+  "terreno-vista-perspectiva-lateral","varanda","vista-aerea","vista-ampla-local","vista-mar"];
+const AMBIENTE_LABEL = {
+  "area-lazer":"Área de lazer","banheiro":"Banheiro","card-comercial":"Card Comercial",
+  "churrasqueira":"Churrasqueira","cozinha":"Cozinha",
+  "entorno-bairro":"Entorno do bairro","fachada":"Fachada","fachada-noturna":"Fachada noturna",
+  "foto-comercial":"Foto comercial","garagem":"Garagem","lavabo":"Lavabo","piscina":"Piscina",
+  "piso-superior":"Piso superior","piso-terreo":"Piso térreo",
+  "planta-baixa":"Planta baixa","quarto":"Quarto","quarto-empregada":"Quarto de empregada",
+  "quarto-hospedes":"Quarto de hóspedes","quintal":"Quintal","sacada":"Sacada","sala-estar":"Sala de estar",
+  "sala-jantar":"Sala de jantar","salao-comercial-interna":"Salão comercial (interna)",
+  "suite-master":"Suíte master",
+  "terreno-vista-frente":"Terreno vista frente","terreno-vista-fundos":"Terreno vista fundos",
+  "terreno-vista-perspectiva":"Terreno vista perspectiva","terreno-vista-perspectiva-lateral":"Terreno vista perspectiva lateral",
+  "varanda":"Varanda","vista-aerea":"Vista aérea","vista-ampla-local":"Vista ampla do local","vista-mar":"Vista mar"
+};
+
+// Adjetivos usados só pra diferenciar nome de arquivo quando há mais de uma foto do mesmo
+// ambiente (ex.: 3 fotos de "piscina") — sem isso, os arquivos colidiam (mesmo nome,
+// mesmo segundo). Ordem fixa: a 1ª foto do grupo pega o 1º adjetivo, a 2ª o 2º, etc. —
+// nunca aleatório, pra o nome não trocar sozinho a cada vez que a lista é redesenhada.
+const ADJETIVOS_DIFERENCIACAO = [
+  "amplo","espacoso","iluminado","aconchegante","elegante","encantador","charmoso",
+  "sofisticado","acolhedor","deslumbrante","arejado","moderno","reformado","impecavel",
+  "generoso","exclusivo","premium","refinado","convidativo","privativo"
+];
+
+// Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
+const ACESSORIOS = [
+  "Placa fotovoltaica", "Aquecedor a gás", "Aquecedor elétrico", "Paisagismo",
+  "Ar-condicionado", "Gerador de energia", "Cisterna / reuso de água", "Automação residencial",
+  "Portão eletrônico", "Sistema de câmeras / alarme", "Piso aquecido", "Elevador privativo",
+];
+
+let padraoAtual = "medio-padrao";
+let operacoesAtuais = new Set(["venda"]);
+let fotos = []; // {file, ambiente, hero}
+let modoEdicao = null; // { pasta, fotosExistentes, publicadoEm } — preenchido ao clicar "Editar" num imóvel já publicado
+
+document.getElementById("atualizarPaginaBtn").onclick = () => location.reload();
+
+function resetFormulario(){
+  ["titulo","tipo","cidade","uf","bairro","condominio","referencia","preco","financiamento",
+   "quartos","suites","banheiros","vagas","areaUtil","areaTerreno","diferenciais","dadosTecnicosBullets","resumo","tituloSecao",
+   "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
+  ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+  document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
+  parceriaHandles = [];
+  document.getElementById("emParceria").checked = false;
+  document.getElementById("parceriaCampos").style.display = "none";
+  renderParceriaChips(); renderParceriaSugestoes();
+  fotos = [];
+  modoEdicao = null;
+  document.getElementById("edicaoBanner").style.display = "none";
+  document.getElementById("fotosExistentesBox").style.display = "none";
+  padraoAtual = "medio-padrao";
+  renderTiers();
+  operacoesAtuais = new Set(["venda"]);
+  renderOps();
+  renderFotos();
+  document.getElementById("posPublicarBox").style.display = "none";
+  document.getElementById("posPublicarBox").innerHTML = "";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// --- lembrar chave da API Gemini neste navegador (opcional, opt-in) ---
+(function(){
+  const keyEl = document.getElementById("geminiKey");
+  const lembrarEl = document.getElementById("lembrarGeminiKey");
+  const salva = localStorage.getItem("geminiKey");
+  if (salva){ keyEl.value = salva; lembrarEl.checked = true; }
+  const persistir = () => {
+    if (lembrarEl.checked && keyEl.value.trim()) localStorage.setItem("geminiKey", keyEl.value.trim());
+    else localStorage.removeItem("geminiKey");
+  };
+  keyEl.addEventListener("input", persistir);
+  lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- lembrar chave da API OpenRouter (backup) neste navegador (opcional, opt-in) ---
+(function(){
+  const keyEl = document.getElementById("openrouterKey");
+  const lembrarEl = document.getElementById("lembrarOpenrouterKey");
+  const salva = localStorage.getItem("openrouterKey");
+  if (salva){ keyEl.value = salva; lembrarEl.checked = true; }
+  const persistir = () => {
+    if (lembrarEl.checked && keyEl.value.trim()) localStorage.setItem("openrouterKey", keyEl.value.trim());
+    else localStorage.removeItem("openrouterKey");
+  };
+  keyEl.addEventListener("input", persistir);
+  lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- lembrar usuário/repositório, branch e token do GitHub neste navegador (opcional, opt-in) ---
+(function(){
+  const repoEl = document.getElementById("ghRepo");
+  const branchEl = document.getElementById("ghBranch");
+  const tokenEl = document.getElementById("ghToken");
+  const lembrarEl = document.getElementById("lembrarGhToken");
+  const salvo = localStorage.getItem("ghCreds");
+  if (salvo){
+    try {
+      const { repo, branch, token } = JSON.parse(salvo);
+      if (repo) repoEl.value = repo;
+      if (branch) branchEl.value = branch;
+      if (token) tokenEl.value = token;
+      lembrarEl.checked = true;
+    } catch {}
+  }
+  const persistir = () => {
+    if (lembrarEl.checked) {
+      localStorage.setItem("ghCreds", JSON.stringify({ repo: repoEl.value.trim(), branch: branchEl.value.trim(), token: tokenEl.value.trim() }));
+    } else {
+      localStorage.removeItem("ghCreds");
+    }
+  };
+  [repoEl, branchEl, tokenEl].forEach(el => el.addEventListener("input", persistir));
+  lembrarEl.addEventListener("change", persistir);
+})();
+
+// --- checkbox "imóvel em parceria" + campo de tags de Instagram, com autocomplete salvo no navegador ---
+let parceriaHandles = [];
+function normalizarHandle(s){
+  s = s.trim().replace(/^@+/, "");
+  return s ? "@" + s : "";
+}
+function getParceirosSalvos(){
+  try { return JSON.parse(localStorage.getItem("parceirosSalvos") || "[]"); } catch { return []; }
+}
+function salvarParceiroNoHistorico(handle){
+  const lista = getParceirosSalvos();
+  if (!lista.includes(handle)){
+    lista.push(handle);
+    localStorage.setItem("parceirosSalvos", JSON.stringify(lista));
+  }
+}
+function apagarParceiroDoHistorico(handle){
+  const lista = getParceirosSalvos().filter(h => h !== handle);
+  localStorage.setItem("parceirosSalvos", JSON.stringify(lista));
+}
+function renderParceriaChips(){
+  const box = document.getElementById("parceriaChips");
+  box.innerHTML = parceriaHandles.map((h, i) =>
+    `<span class="tag-chip">${h}<button type="button" data-i="${i}" aria-label="Remover">✕</button></span>`
+  ).join("");
+  box.querySelectorAll("button").forEach(btn => {
+    btn.onclick = () => { parceriaHandles.splice(Number(btn.dataset.i), 1); renderParceriaChips(); renderParceriaSugestoes(); };
+  });
+}
+function renderParceriaSugestoes(){
+  const box = document.getElementById("parceriaSugestoes");
+  const disponiveis = getParceirosSalvos().filter(h => !parceriaHandles.includes(h));
+  box.innerHTML = disponiveis.map(h =>
+    `<span class="tag-sugestao">
+      <button type="button" class="usar" data-h="${h}">+ ${h}</button>
+      <button type="button" class="apagar" data-h="${h}" aria-label="Apagar ${h} do histórico" title="Apagar do histórico">✕</button>
+    </span>`
+  ).join("");
+  box.querySelectorAll("button.usar").forEach(btn => {
+    btn.onclick = () => {
+      parceriaHandles.push(btn.dataset.h);
+      renderParceriaChips(); renderParceriaSugestoes();
+    };
+  });
+  box.querySelectorAll("button.apagar").forEach(btn => {
+    btn.onclick = () => {
+      if (confirm(`Apagar "${btn.dataset.h}" da lista de sugestões? (não afeta imóveis já publicados)`)){
+        apagarParceiroDoHistorico(btn.dataset.h);
+        renderParceriaSugestoes();
+      }
+    };
+  });
+}
+function commitParceriaTexto(){
+  const input = document.getElementById("parceriaTexto");
+  const partes = input.value.split(/[,;]/).map(normalizarHandle).filter(Boolean);
+  partes.forEach(h => {
+    if (!parceriaHandles.includes(h)) parceriaHandles.push(h);
+    salvarParceiroNoHistorico(h);
+  });
+  input.value = "";
+  renderParceriaChips(); renderParceriaSugestoes();
+}
+(function(){
+  const checkbox = document.getElementById("emParceria");
+  const campos = document.getElementById("parceriaCampos");
+  const input = document.getElementById("parceriaTexto");
+  checkbox.addEventListener("change", () => { campos.style.display = checkbox.checked ? "block" : "none"; });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === "," || e.key === ";"){
+      e.preventDefault();
+      commitParceriaTexto();
+    }
+  });
+  input.addEventListener("blur", () => { if (input.value.trim()) commitParceriaTexto(); });
+  renderParceriaSugestoes();
+})();
+
+function slugify(s){
+  return (s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase()
+    .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+
+// --- busca de CEP (ViaCEP, gratuito, sem chave) — só preenche bairro/cidade/UF ---
+document.getElementById("buscarCepBtn").onclick = async () => {
+  const cep = document.getElementById("cep").value.replace(/\D/g, "");
+  const info = document.getElementById("cepInfo");
+  if (cep.length !== 8){ info.textContent = "CEP precisa ter 8 números."; return; }
+  info.textContent = "Buscando...";
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+    const data = await res.json();
+    if (data.erro){ info.textContent = "CEP não encontrado."; return; }
+    document.getElementById("bairro").value = data.bairro || document.getElementById("bairro").value;
+    document.getElementById("cidade").value = data.localidade || document.getElementById("cidade").value;
+    document.getElementById("uf").value = data.uf || document.getElementById("uf").value;
+    document.getElementById("ruaInterna").value = data.logradouro || "";
+    info.textContent = data.logradouro ? `Preenchido: ${data.logradouro}, ${data.bairro} (fica só na ficha interna)` : "Bairro/cidade preenchidos.";
+    renderFotos();
+  } catch (err) {
+    info.textContent = "Não consegui buscar o CEP agora — preencha bairro/cidade manualmente.";
+  }
+};
+
+// --- busca reversa: nome da rua -> lista de CEPs (evita ter que sair pro Google) ---
+document.getElementById("buscarRuaBtn").onclick = async () => {
+  const rua = document.getElementById("ruaBusca").value.trim();
+  const cidade = document.getElementById("cidade").value.trim() || "Itu";
+  const uf = document.getElementById("uf").value.trim() || "SP";
+  const box = document.getElementById("ruaResultados");
+  if (rua.length < 3){ box.innerHTML = `<span class="hint">Digite pelo menos 3 letras da rua.</span>`; return; }
+  box.innerHTML = `<span class="hint">Buscando...</span>`;
+  try {
+    const res = await fetch(`https://viacep.com.br/ws/${encodeURIComponent(uf)}/${encodeURIComponent(cidade)}/${encodeURIComponent(rua)}/json/`);
+    const data = await res.json();
+    if (!Array.isArray(data) || !data.length){
+      box.innerHTML = `<span class="hint">Nenhuma rua encontrada com esse nome em ${cidade}/${uf}. Confira a grafia ou tente só um pedaço do nome.</span>`;
+      return;
+    }
+    box.innerHTML = data.slice(0, 12).map(r =>
+      `<button type="button" class="rua-resultado" data-cep="${r.cep}">
+        <b>${r.cep}</b> — ${r.logradouro}${r.bairro ? `, ${r.bairro}` : ""}
+      </button>`
+    ).join("");
+    box.querySelectorAll(".rua-resultado").forEach(btn => {
+      btn.onclick = () => {
+        document.getElementById("cep").value = btn.dataset.cep;
+        document.getElementById("buscarCepBtn").click();
+        box.innerHTML = "";
+        document.getElementById("ruaBusca").value = "";
+      };
+    });
+  } catch (err) {
+    box.innerHTML = `<span class="hint">Não consegui buscar agora — tente de novo em instantes.</span>`;
+  }
+};
+["cidade","uf","tipo","diferenciais"].forEach(id => document.getElementById(id).addEventListener("input", renderFotos));
+
+// --- ficha interna (endereço completo) — arquivo separado, NUNCA entra no dados.json/zip/GitHub ---
+document.getElementById("baixarFichaBtn").onclick = () => {
+  const get = id => document.getElementById(id).value;
+  const rua = get("ruaInterna"), numero = get("numeroInterna");
+  if (!rua && !numero){ alert("Preencha rua e/ou número antes de baixar a ficha."); return; }
+  const slug = slugify(get("titulo")) || "imovel";
+  const conteudo = `FICHA INTERNA — USO EXCLUSIVO DO CORRETOR
+Não publicar, não anexar ao repositório, não compartilhar publicamente.
+
+Imóvel: ${get("titulo")} (ref. ${get("referencia") || slug})
+Endereço completo: ${rua}${numero ? ", " + numero : ""} - ${get("bairro")}, ${get("cidade")} - ${get("uf")}
+CEP: ${get("cep")}
+Gerado em: ${new Date().toLocaleString("pt-BR")}
+`;
+  const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `ficha-interna-${slug}.txt`;
+  a.click();
+};
+
+// --- acessórios (checkboxes) ---
+const acessoriosBox = document.getElementById("acessoriosBox");
+ACESSORIOS.forEach((nome) => {
+  const label = document.createElement("label");
+  const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+  label.innerHTML = `<input type="checkbox" id="${id}" value="${nome}"> ${nome}`;
+  acessoriosBox.appendChild(label);
+});
+function getAcessoriosMarcados(){
+  return [...acessoriosBox.querySelectorAll("input:checked")].map(i => i.value);
+}
+
+// --- padrão tiles ---
+const tierBox = document.getElementById("tierOptions");
+Object.entries(THEMES).forEach(([key,t])=>{
+  const div = document.createElement("div");
+  div.className = "tier" + (key===padraoAtual ? " selected" : "");
+  div.style.setProperty("--sw", t.accent);
+  div.innerHTML = `<div class="swatch" style="background:${t.accent}"></div>${t.label}`;
+  div.onclick = () => { padraoAtual = key; renderTiers(); renderFotos(); updatePrompt(); };
+  div.dataset.key = key;
+  tierBox.appendChild(div);
+});
+function renderTiers(){
+  [...tierBox.children].forEach(el => el.classList.toggle("selected", el.dataset.key===padraoAtual));
+}
+
+// --- operação (venda/locação/permuta) — múltipla escolha ---
+const opBox = document.getElementById("opOptions");
+Object.entries(OPERACOES).forEach(([key,o])=>{
+  const div = document.createElement("div");
+  div.className = "op" + (operacoesAtuais.has(key) ? " selected" : "");
+  div.textContent = o.label;
+  div.onclick = () => {
+    if (operacoesAtuais.has(key)){
+      if (operacoesAtuais.size === 1){ alert("Pelo menos uma operação precisa ficar marcada."); return; }
+      operacoesAtuais.delete(key);
+    } else {
+      operacoesAtuais.add(key);
+    }
+    renderOps();
+  };
+  div.dataset.key = key;
+  opBox.appendChild(div);
+});
+function renderOps(){
+  [...opBox.children].forEach(el => el.classList.toggle("selected", operacoesAtuais.has(el.dataset.key)));
+}
+
+// Monta as 3 letras do código a partir das operações marcadas, na ordem fixa P-L-V
+// (posição 1 = permuta, 2 = locação, 3 = venda; "O" quando a operação não se aplica).
+// Ordem fixa das posições: Locação, Venda, Permuta (confirmada com o Marcio a partir de exemplos concretos —
+// não é ordem alfabética estrita, mas L sempre 1ª posição, V sempre 2ª, P sempre 3ª, quando presentes).
+function letrasOperacao(){
+  return (operacoesAtuais.has("locacao") ? "L" : "O")
+       + (operacoesAtuais.has("venda") ? "V" : "O")
+       + (operacoesAtuais.has("permuta") ? "P" : "O");
+}
+
+// --- código do imóvel: [L/V/P ou O] x3 + cidade + sequencial de 3 dígitos, sem separador (ex.: LVP01013) ---
+// Reutilizável: chamado pelo botão manual E automaticamente no momento de publicar (item 8 pedido pelo Marcio).
+async function gerarCodigoAutomatico(silencioso){
+  const letra = letrasOperacao();
+  const cidadeCod = document.getElementById("cidadeCod").value;
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+
+  const inicio = Number(document.getElementById("codSeqManual").value) || 13;
+  let seq = inicio;
+
+  if (repo && token){
+    try {
+      const usados = await buscarNumerosUsados(repo, branch, token);
+      while (usados.has(seq)) seq++;
+    } catch (err) {
+      // Sem conexão com o GitHub agora — segue com o número informado (silencioso, não bloqueia o publicar).
+    }
+  }
+
+  const codigo = `${letra}${cidadeCod}${String(seq).padStart(3,"0")}`;
+  document.getElementById("referencia").value = codigo;
+  document.getElementById("codSeqManual").value = seq;
+  return codigo;
+}
+
+// Retorna o conjunto de todos os números sequenciais já em uso (varre imoveis/ no GitHub).
+// Uma pasta apagada não aparece mais aqui — é assim que o número volta a ficar disponível.
+async function buscarNumerosUsados(repo, branch, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis?ref=${encodeURIComponent(branch)}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (res.status === 404) return new Set();
+  if (!res.ok) throw new Error(`GET imoveis/ falhou (${res.status})`);
+  const pastas = (await res.json()).filter(e => e.type === "dir");
+  const usados = new Set();
+  for (const pasta of pastas){
+    try {
+      const r2 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pasta.name}/dados.json?ref=${encodeURIComponent(branch)}`, {
+        headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+      });
+      if (!r2.ok) continue;
+      const json = await r2.json();
+      const conteudo = decodeURIComponent(escape(atob(json.content.replace(/\n/g,""))));
+      const dados = JSON.parse(conteudo);
+      const m = String(dados.referencia || "").match(/(\d{3})$/);
+      if (m) usados.add(Number(m[1]));
+    } catch (e) { /* ignora pasta com erro e segue */ }
+  }
+  return usados;
+}
+
+// --- voz ---
+const micBtn = document.getElementById("micBtn");
+const micHint = document.getElementById("micHint");
+const transcricaoEl = document.getElementById("transcricao");
+let recognition = null, listening = false;
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SR){
+  recognition = new SR();
+  recognition.lang = "pt-BR";
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.onresult = (e) => {
+    let finalText = "";
+    for (let i = e.resultIndex; i < e.results.length; i++){
+      if (e.results[i].isFinal) finalText += e.results[i][0].transcript + " ";
+    }
+    if (finalText) transcricaoEl.value = (transcricaoEl.value + " " + finalText).trim();
+  };
+  recognition.onend = () => { if (listening) recognition.start(); };
+} else {
+  micHint.textContent = "Reconhecimento de voz não disponível neste navegador — digite o texto direto.";
+  micBtn.disabled = true;
+}
+micBtn.onclick = () => {
+  if (!recognition) return;
+  listening = !listening;
+  micBtn.classList.toggle("on", listening);
+  micBtn.textContent = listening ? "⏹️ Parar" : "🎙️ Gravar";
+  if (listening) recognition.start(); else recognition.stop();
+};
+
+// --- fotos ---
+const fotoInput = document.getElementById("fotoInput");
+const fotoList = document.getElementById("fotoList");
+fotoInput.addEventListener("change", () => {
+  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0 }));
+  renderFotos();
+});
+
+// Quando há mais de uma foto do mesmo ambiente (ex.: 3 fotos de "piscina"), sem isso os
+// nomes colidiam — mesmo ambiente, mesmo segundo. Cada foto do grupo ganha um adjetivo
+// diferente, na ordem em que aparecem na lista (nunca sorteado, pra não mudar sozinho
+// a cada vez que a tela é redesenhada).
+function adjetivoPara(f){
+  const doMesmoAmbiente = fotos.filter(x => x.ambiente === f.ambiente);
+  if (doMesmoAmbiente.length <= 1) return "";
+  const posicao = doMesmoAmbiente.indexOf(f);
+  return ADJETIVOS_DIFERENCIACAO[posicao % ADJETIVOS_DIFERENCIACAO.length];
+}
+
+// Nome final: ambiente[-adjetivo]-cidade-padrao-tipo-uf[-diferencial]-data
+function nomeArquivo(f){
+  // O horário fica travado na primeira vez que essa foto ganha um nome — sem isso, o
+  // nome mostrado na lista podia ficar diferente do nome realmente salvo, se um segundo
+  // passasse entre uma chamada e outra.
+  if (!f._ts) f._ts = new Date().toISOString().replace(/[-:TZ]|\.\d+/g,"").slice(0,14);
+  const cidade = slugify(document.getElementById("cidade").value || "cidade");
+  const tipo = document.getElementById("tipo").value || "imovel";
+  const uf = (document.getElementById("uf").value || "sp").toLowerCase();
+  const diffRaw = (document.getElementById("diferenciais").value || "").split(",")[0]?.trim();
+  const diff = diffRaw ? "-" + slugify(diffRaw) : "";
+  const adj = adjetivoPara(f);
+  const ambiente = adj ? `${f.ambiente}-${adj}` : f.ambiente;
+  const ext = (f.file.name.split(".").pop() || "jpg").toLowerCase();
+  return `${ambiente}-${cidade}-${padraoAtual}-${tipo}-${uf}${diff}-${f._ts}`.replace(/-+/g,"-") + "." + ext;
+}
+
+function altText(f){
+  const tipo = document.getElementById("tipo").value || "imóvel";
+  const bairro = document.getElementById("bairro").value || "";
+  const cidade = document.getElementById("cidade").value || "";
+  const uf = document.getElementById("uf").value || "";
+  const label = THEMES[padraoAtual].label.toLowerCase();
+  const adj = adjetivoPara(f);
+  const ambienteTexto = adj ? `${AMBIENTE_LABEL[f.ambiente]} ${adj}` : AMBIENTE_LABEL[f.ambiente];
+  return `${ambienteTexto} do(a) ${tipo} ${label} em ${bairro}, ${cidade} - ${uf}`.replace(/\s+/g," ").trim();
+}
+
+function renderFotos(){
+  fotoList.innerHTML = "";
+  fotos.forEach((f, i) => {
+    const url = URL.createObjectURL(f.file);
+    const div = document.createElement("div");
+    div.className = "foto-item";
+    const opts = AMBIENTES.map(a => `<option value="${a}" ${a===f.ambiente?"selected":""}>${AMBIENTE_LABEL[a]}</option>`).join("");
+    div.innerHTML = `
+      <img src="${url}">
+      <div class="meta">
+        <select data-i="${i}" class="ambienteSel">${opts}</select>
+        <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
+          <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
+        </label>
+        <button type="button" data-i="${i}" class="removerFotoBtn" style="border:none;background:none;color:#c23f18;cursor:pointer;font-size:13px">✕ remover</button>
+        <div class="filename">${nomeArquivo(f)}</div>
+      </div>`;
+    fotoList.appendChild(div);
+  });
+  fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
+    const f = fotos[+e.target.dataset.i];
+    f.ambiente = e.target.value;
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
+    fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".removerFotoBtn").forEach(b => b.onclick = (e) => {
+    const i = +e.target.dataset.i;
+    const eraHero = fotos[i].hero;
+    fotos.splice(i, 1);
+    if (eraHero && fotos.length) fotos[0].hero = true; // garante que sempre sobra 1 hero
+    renderFotos();
+  });
+}
+
+// --- editar imóvel já publicado ---
+function carregarParaEdicao(pasta, dados){
+  modoEdicao = { pasta, publicadoEm: dados.publicadoEm, fotosExistentes: (dados.fotos || []).map(f => ({ ...f, manter: true })) };
+  document.getElementById("edicaoBanner").style.display = "block";
+  document.getElementById("edicaoTitulo").textContent = dados.titulo || pasta;
+
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = (val ?? "") === "" ? "" : val; };
+  set("titulo", dados.titulo); set("tipo", dados.tipo);
+  set("cidade", dados.cidade); set("uf", dados.uf); set("bairro", dados.bairro);
+  set("condominio", dados.condominio); set("referencia", dados.referencia);
+  set("preco", dados.preco); set("financiamento", dados.financiamento ? "sim" : "");
+  set("quartos", dados.quartos); set("suites", dados.suites);
+  set("banheiros", dados.banheiros); set("vagas", dados.vagas);
+  set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
+  set("diferenciais", (dados.diferenciais || []).join(", "));
+  set("dadosTecnicosBullets", (dados.dadosTecnicos || []).join("\n"));
+  parceriaHandles = (dados.parceria?.instagrams || []).slice();
+  document.getElementById("emParceria").checked = parceriaHandles.length > 0;
+  document.getElementById("parceriaCampos").style.display = parceriaHandles.length > 0 ? "block" : "none";
+  renderParceriaChips(); renderParceriaSugestoes();
+  set("resumo", dados.resumo);
+  set("tituloSecao", dados.tituloSecao);
+  set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
+
+  padraoAtual = dados.padrao || "medio-padrao";
+  renderTiers();
+
+  const opsCarregadas = (Array.isArray(dados.tiposOperacao) && dados.tiposOperacao.length) ? dados.tiposOperacao : [dados.tipoOperacao || "venda"];
+  operacoesAtuais = new Set(opsCarregadas);
+  renderOps();
+
+  ACESSORIOS.forEach((nome) => {
+    const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    const el = document.getElementById(id);
+    if (el) el.checked = (dados.acessorios || []).includes(nome);
+  });
+  const extras = dados.caracteristicasExtras || [];
+  set("caracteristicaExtra1", extras[0]); set("caracteristicaExtra2", extras[1]);
+  set("caracteristicaExtra3", extras[2]); set("caracteristicaExtra4", extras[3]);
+
+  fotos = []; // fotos novas ficam vazias — as existentes aparecem à parte, abaixo
+  renderFotos();
+  renderFotosExistentes();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function renderFotosExistentes(){
+  const box = document.getElementById("fotosExistentesBox");
+  const list = document.getElementById("fotosExistentesList");
+  if (!modoEdicao || !modoEdicao.fotosExistentes.length){ box.style.display = "none"; return; }
+  box.style.display = "block";
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  list.innerHTML = modoEdicao.fotosExistentes.map((f, i) => {
+    const url = repo ? `https://raw.githubusercontent.com/${repo}/${branch}/imoveis/${modoEdicao.pasta}/fotos/${f.arquivo}` : "";
+    return `<div class="foto-item">
+      ${url ? `<img src="${url}" style="width:70px;height:70px;object-fit:cover;border-radius:6px">` : ""}
+      <div class="meta">
+        <div style="font-size:13px">${f.arquivo}${f.hero ? " · <b>hero</b>" : ""}</div>
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px">
+          <input type="checkbox" data-i="${i}" class="manterChk" ${f.manter ? "checked" : ""}> manter
+        </label>
+      </div>
+    </div>`;
+  }).join("");
+  list.querySelectorAll(".manterChk").forEach(chk => chk.onchange = (e) => {
+    modoEdicao.fotosExistentes[+e.target.dataset.i].manter = e.target.checked;
+  });
+}
+
+document.getElementById("cancelarEdicaoBtn").onclick = () => {
+  modoEdicao = null;
+  document.getElementById("edicaoBanner").style.display = "none";
+  document.getElementById("fotosExistentesBox").style.display = "none";
+};
+
+
+// "banheiros" aqui já é o TOTAL (banheiro + lavabo + suítes), como o Marcio pediu pro site mostrar "Banheiros (Totais)".
+// --- prompt para IA ---
+function updatePrompt(){
+  const get = id => document.getElementById(id).value;
+  const box = document.getElementById("promptBox");
+  box.textContent =
+`Escreva 2 parágrafos de descrição de imóvel em português, tom profissional e caloroso, sem exagero. Não invente características que não estão listadas.
+
+Tipo: ${get("tipo")}, ${THEMES[padraoAtual].label}, ${[...operacoesAtuais].map(k=>OPERACOES[k].label).join("+")}
+Localização: ${get("bairro")}, ${get("cidade")} - ${get("uf")}
+Características: ${get("quartos")} quartos, ${get("suites")} suítes, ${get("banheiros")} banheiros, ${get("vagas")} vagas, ${get("areaUtil")} m² útil
+Diferenciais: ${get("diferenciais")}
+Notas soltas do corretor (podem estar desorganizadas, extraia o que for útil): ${get("transcricao")}
+
+Devolva só os 2 parágrafos, um por linha, sem títulos.`;
+}
+["tipo","bairro","cidade","uf","quartos","suites","banheiros","vagas","areaUtil","diferenciais","transcricao"]
+  .forEach(id => document.getElementById(id).addEventListener("input", updatePrompt));
+updatePrompt();
+
+document.getElementById("copyPrompt").onclick = () => {
+  navigator.clipboard.writeText(document.getElementById("promptBox").textContent);
+  const btn = document.getElementById("copyPrompt");
+  const old = btn.textContent; btn.textContent = "Copiado!"; setTimeout(()=>btn.textContent=old, 1500);
+};
+
+document.getElementById("gerarCopyBtn").onclick = async () => {
+  const key = document.getElementById("geminiKey").value.trim();
+  const status = document.getElementById("copyStatus");
+  const btn = document.getElementById("gerarCopyBtn");
+  if (!key){ status.textContent = "Cole sua chave da API Gemini acima antes de gerar."; return; }
+
+  const get = id => document.getElementById(id).value;
+  const ambientesUnicos = [...new Set(fotos.map(f=>AMBIENTE_LABEL[f.ambiente]))];
+  const acessorios = getAcessoriosMarcados();
+  const extras = ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean);
+  const operacoesTexto = [...operacoesAtuais].map(k=>OPERACOES[k].label).join(", ");
+
+  const dadosTexto = `Título: ${get("titulo")}
+Tipo: ${get("tipo")}, padrão ${THEMES[padraoAtual].label}
+Operação: ${operacoesTexto}
+Localização: bairro ${get("bairro")}, ${get("cidade")}/${get("uf")}${get("condominio") ? `, condomínio ${get("condominio")}` : ""}
+Preço: ${get("preco")}${get("financiamento") ? ` (${get("financiamento")})` : ""}
+Quartos: ${get("quartos")||"-"} | Suítes: ${get("suites")||"-"} | Banheiros totais: ${get("banheiros")||"-"} | Vagas: ${get("vagas")||"-"}
+Área útil: ${get("areaUtil")||"-"} m² | Área terreno: ${get("areaTerreno")||"-"} m²
+Todos os ambientes fotografados: ${ambientesUnicos.join(", ") || "nenhum"}
+Diferenciais: ${get("diferenciais") || "nenhum"}
+Acessórios: ${acessorios.join(", ") || "nenhum"}
+Características específicas (exceções): ${extras.join(", ") || "nenhuma"}
+Notas soltas do corretor: ${get("transcricao") || "nenhuma"}`;
+
+  const prompt = `Você é redator de copy imobiliário para Itu/SP e região, seguindo princípios de SEO e "IA-first" (Generative Engine Optimization): a informação mais importante sempre na primeira frase, parágrafos curtos (2-3 linhas), linguagem direta, sem clichês vazios ("imperdível", "não perca essa oportunidade"), sem inventar nenhuma característica que não esteja nos dados abaixo.
+Regra de destaque entre as operações: se o imóvel for pra venda E locação ao mesmo tempo, dê destaque à venda no texto (mencione primeiro). Se houver permuta entre as operações, NUNCA dê destaque a ela — apenas mencione uma vez, de forma discreta, com a frase exata "Estuda-se permuta." (sem detalhar mais que isso).
+Regra de vocabulário por tipo de imóvel: adapte a linguagem ao campo "Tipo" acima. NUNCA use palavras como "morar", "viver", "lar" ou "sua família" a menos que o tipo seja claramente residencial (casa, apartamento, condomínio). Para salão/ponto comercial, use vocabulário de negócio (ex.: "operar", "atender clientes", "fluxo"); para terreno, vocabulário de terreno (ex.: "construir", "localização", "topografia").
+
+Dados do imóvel:
+${dadosTexto}
+
+Responda SOMENTE em JSON, sem markdown, neste formato exato:
+{"resumo": "1 frase direta resumindo o imóvel (o dado mais relevante primeiro)", "paragrafos": ["parágrafo 1 (começa pela informação mais relevante)", "parágrafo 2", "parágrafo 3 opcional"]}`;
+
+  btn.disabled = true;
+  status.textContent = "Gerando copy...";
+  try {
+    let obj;
+    try {
+      obj = await chamarGeminiCopy(prompt, key, (msg) => { status.textContent = msg; });
+    } catch (errGemini) {
+      const orKey = document.getElementById("openrouterKey").value.trim();
+      if (!orKey) throw errGemini;
+      status.textContent = `Gemini falhou (${errGemini.message}) — tentando o backup...`;
+      obj = await chamarOpenRouterCopy(prompt, orKey);
+    }
+    if (obj.resumo) document.getElementById("resumo").value = obj.resumo;
+    if (Array.isArray(obj.paragrafos)) document.getElementById("descricaoFinal").value = obj.paragrafos.join("\n");
+    status.textContent = "✅ Copy gerada — confira e ajuste o texto antes de publicar.";
+  } catch (err) {
+    status.textContent = "❌ " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+};
+
+// --- extrai o primeiro objeto JSON de um texto (tolera cercas ```json e texto solto ao redor) ---
+function extrairObjJson(texto){
+  const cleaned = texto.replace(/```json|```/g, "").trim();
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+  if (start === -1 || end === -1) throw new Error("Resposta da IA não trouxe um JSON reconhecível");
+  return JSON.parse(cleaned.slice(start, end + 1));
+}
+
+// --- Gemini com repetição automática: 503 (sobrecarga do Google) e erros de rede são passageiros,
+// então tenta de novo antes de desistir — só um erro persistente depois disso é "culpa da API" de verdade.
+async function chamarGeminiCopy(prompt, key, onProgress){
+  const TENTATIVAS = 3;
+  let ultimoErro;
+  for (let i = 1; i <= TENTATIVAS; i++){
+    try {
+      if (i > 1 && onProgress) onProgress(`Gerando copy (tentativa ${i}/${TENTATIVAS})...`);
+      const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent", {
+        method: "POST",
+        headers: { "content-type": "application/json", "x-goog-api-key": key },
+        body: JSON.stringify({
+          contents: [{ role: "user", parts: [{ text: prompt }] }],
+          generationConfig: { responseMimeType: "application/json" }
+        })
+      });
+      if (!res.ok){
+        const body = await res.text();
+        const transitorio = res.status === 503 || res.status === 429 || res.status >= 500;
+        const err = new Error(`API retornou ${res.status}: ${body.slice(0,200)}`);
+        if (transitorio && i < TENTATIVAS){ ultimoErro = err; await new Promise(r => setTimeout(r, 1500 * i)); continue; }
+        throw err;
+      }
+      const data = await res.json();
+      const textOut = (data.candidates?.[0]?.content?.parts || []).map(p => p.text || "").join("\n");
+      return extrairObjJson(textOut);
+    } catch (e) {
+      ultimoErro = e;
+      // erro de rede (não é resposta HTTP) também vale tentar de novo
+      if (i < TENTATIVAS && !(e instanceof SyntaxError)) { await new Promise(r => setTimeout(r, 1500 * i)); continue; }
+      throw e;
+    }
+  }
+  throw ultimoErro;
+}
+
+// --- Backup gratuito via OpenRouter (openrouter.ai). Usa o roteador "openrouter/free", que escolhe
+// sozinho entre os modelos gratuitos disponíveis no momento — evita quebrar quando um modelo
+// específico sai do ar (a lista de gratuitos muda com frequência).
+async function chamarOpenRouterCopy(prompt, key){
+  const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      "authorization": `Bearer ${key}`,
+      "HTTP-Referer": location.origin,
+      "X-Title": "Gerador de páginas de imóveis"
+    },
+    body: JSON.stringify({
+      model: "openrouter/free",
+      messages: [{ role: "user", content: prompt + "\n\nResponda SOMENTE com o JSON, sem markdown, sem texto antes ou depois." }]
+    })
+  });
+  if (!res.ok){
+    const body = await res.text();
+    throw new Error(`Backup (OpenRouter) também falhou — ${res.status}: ${body.slice(0,200)}`);
+  }
+  const data = await res.json();
+  const textOut = data.choices?.[0]?.message?.content || "";
+  return extrairObjJson(textOut);
+}
+
+// --- monta o objeto dados.json a partir do formulário (usado pelo zip e pelo publicar) ---
+function montarDados(){
+  const get = id => document.getElementById(id).value;
+  const slug = modoEdicao ? modoEdicao.pasta : (slugify(get("titulo")) || "imovel-" + Date.now());
+  const descFinal = get("descricaoFinal").trim();
+  const descricaoLonga = descFinal ? descFinal.split("\n").filter(Boolean) : (get("transcricao") ? [get("transcricao")] : []);
+  const fotosExistentesMantidas = modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter) : [];
+  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero }));
+  let fotosFinal = [...fotosExistentesMantidas.map(({manter, ...f}) => f), ...fotosNovas];
+  if (fotosFinal.length && !fotosFinal.some(f => f.hero)) fotosFinal[0].hero = true; // garante 1 hero mesmo se a antiga foi removida
+  return {
+    slug,
+    titulo: get("titulo"),
+    tipo: get("tipo"),
+    padrao: padraoAtual,
+    tiposOperacao: [...operacoesAtuais],
+    cidade: get("cidade"),
+    uf: get("uf"),
+    bairro: get("bairro"),
+    condominio: get("condominio"),
+    referencia: get("referencia"),
+    preco: get("preco"),
+    financiamento: get("financiamento") === "sim" ? true : undefined,
+    quartos: Number(get("quartos"))||undefined,
+    suites: Number(get("suites"))||undefined,
+    banheiros: Number(get("banheiros"))||undefined,
+    vagas: Number(get("vagas"))||undefined,
+    areaUtil: Number(get("areaUtil"))||undefined,
+    areaTerreno: Number(get("areaTerreno"))||undefined,
+    descricaoCurta: descricaoLonga[0] ? descricaoLonga[0].slice(0,160) : `${get("titulo")} em ${get("bairro")}, ${get("cidade")}/${get("uf")}`,
+    descricaoLonga,
+    resumo: get("resumo").trim() || undefined,
+    tituloSecao: get("tituloSecao").trim() || undefined,
+    diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
+    dadosTecnicos: get("dadosTecnicosBullets").split("\n").map(s=>s.trim()).filter(Boolean),
+    parceria: (document.getElementById("emParceria").checked && parceriaHandles.length)
+      ? { instagrams: parceriaHandles.slice() } : undefined,
+    acessorios: getAcessoriosMarcados(),
+    caracteristicasExtras: ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean),
+    publicadoEm: modoEdicao ? modoEdicao.publicadoEm : new Date().toISOString().slice(0,10),
+    fotos: fotosFinal
+  };
+}
+
+// --- gerar pacote (.zip) ---
+document.getElementById("gerarBtn").onclick = async () => {
+  if (!fotos.length){ alert("Suba pelo menos uma foto antes de gerar o pacote."); return; }
+  const dados = montarDados();
+  const zip = new JSZip();
+  zip.file("dados.json", JSON.stringify(dados, null, 2));
+  const fotosFolder = zip.folder("fotos");
+  for (const f of fotos){
+    fotosFolder.file(nomeArquivo(f), f.file);
+  }
+  const blob = await zip.generateAsync({type:"blob"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `${dados.slug}.zip`;
+  a.click();
+  document.getElementById("okMsg").style.display = "block";
+};
+
+// --- publicar direto no GitHub (Contents API) ---
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+function utf8ToBase64(str){
+  return btoa(unescape(encodeURIComponent(str)));
+}
+async function ghGetSha(repo, path, branch, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}?ref=${encodeURIComponent(branch)}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (res.status === 404) return undefined;
+  if (!res.ok) throw new Error(`GET ${path} falhou (${res.status})`);
+  const json = await res.json();
+  return json.sha;
+}
+async function ghPutFile(repo, path, branch, token, base64Content, message){
+  const sha = await ghGetSha(repo, path, branch, token);
+  const res = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ message, content: base64Content, branch, ...(sha ? { sha } : {}) })
+  });
+  if (!res.ok){
+    const body = await res.text();
+    throw new Error(`Falha ao publicar ${path} (${res.status}): ${body.slice(0,200)}`);
+  }
+}
+
+// --- commit atômico (Git Data API): publica/apaga vários arquivos em UM push só ---
+// Antes: cada foto (e o dados.json) virava um commit separado — se um deles falhasse no meio
+// do caminho, o imóvel ficava com o dados.json publicado apontando pra uma foto que nunca
+// chegou a subir (a hero quebrada), ou apagado pela metade com fotos órfãs. Cada commit também
+// disparava sua própria execução do GitHub Actions. Agora: todas as fotos viram blobs primeiro
+// (sem tocar no histórico do repositório); só ao final um único commit é criado com tudo junto —
+// ou publica/apaga tudo de uma vez, ou (se algo falhar antes desse passo) o repositório nem chega
+// a mudar. Um push só, uma execução do Actions só.
+async function ghGetBranchTip(repo, branch, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (!res.ok) throw new Error(`Não consegui ler a branch "${branch}" (${res.status})`);
+  const json = await res.json();
+  return json.object.sha;
+}
+async function ghGetCommitTreeSha(repo, commitSha, token){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/commits/${commitSha}`, {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+  });
+  if (!res.ok) throw new Error(`Não consegui ler o commit base (${res.status})`);
+  return (await res.json()).tree.sha;
+}
+async function ghCreateBlob(repo, token, base64Content){
+  const res = await fetch(`https://api.github.com/repos/${repo}/git/blobs`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ content: base64Content, encoding: "base64" })
+  });
+  if (!res.ok){
+    const body = await res.text();
+    throw new Error(`Falha ao preparar arquivo (${res.status}): ${body.slice(0,200)}`);
+  }
+  return (await res.json()).sha;
+}
+/**
+ * Publica ou apaga vários arquivos em um único commit atômico.
+ * changes: [{ path, contentBase64 }] pra criar/atualizar, ou [{ path, remove:true }] pra apagar.
+ * onProgress(mensagem) opcional, pra atualizar o status na tela durante o envio dos blobs.
+ */
+async function ghCommitMultiplo(repo, branch, token, changes, message, onProgress){
+  const branchTip = await ghGetBranchTip(repo, branch, token);
+  const baseTreeSha = await ghGetCommitTreeSha(repo, branchTip, token);
+
+  const treeEntries = [];
+  for (let i = 0; i < changes.length; i++){
+    const c = changes[i];
+    if (c.remove){
+      treeEntries.push({ path: c.path, mode: "100644", type: "blob", sha: null });
+    } else {
+      if (onProgress) onProgress(`Enviando ${i+1}/${changes.length}: ${c.path.split("/").pop()}`);
+      const blobSha = await ghCreateBlob(repo, token, c.contentBase64);
+      treeEntries.push({ path: c.path, mode: "100644", type: "blob", sha: blobSha });
+    }
+  }
+
+  if (onProgress) onProgress("Montando o commit...");
+  const treeRes = await fetch(`https://api.github.com/repos/${repo}/git/trees`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ base_tree: baseTreeSha, tree: treeEntries })
+  });
+  if (!treeRes.ok) throw new Error(`Falha ao montar as mudanças (${treeRes.status}): ${(await treeRes.text()).slice(0,200)}`);
+  const newTreeSha = (await treeRes.json()).sha;
+
+  const commitRes = await fetch(`https://api.github.com/repos/${repo}/git/commits`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ message, tree: newTreeSha, parents: [branchTip] })
+  });
+  if (!commitRes.ok) throw new Error(`Falha ao criar o commit (${commitRes.status}): ${(await commitRes.text()).slice(0,200)}`);
+  const newCommitSha = (await commitRes.json()).sha;
+
+  if (onProgress) onProgress("Publicando (git push)...");
+  const refRes = await fetch(`https://api.github.com/repos/${repo}/git/refs/heads/${encodeURIComponent(branch)}`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "Content-Type": "application/json" },
+    body: JSON.stringify({ sha: newCommitSha })
+  });
+  if (!refRes.ok){
+    // Alguém publicou algo entre nossa leitura da branch e agora — o próprio HTML já trava o
+    // botão contra duplo clique, então isso só deve acontecer em uso simultâneo real (raro).
+    const body = await refRes.text();
+    throw new Error(`A branch mudou durante a publicação, tente novamente (${refRes.status}): ${body.slice(0,200)}`);
+  }
+}
+
+document.getElementById("sairFixoBtn").onclick = () => {
+  if (confirm("Sair do admin? Você vai precisar da senha de novo pra entrar.")){
+    localStorage.removeItem("admOk");
+    location.reload();
+  }
+};
+
+document.getElementById("testarConexaoBtn").onclick = async () => {
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const token = document.getElementById("ghToken").value.trim();
+  const out = document.getElementById("ghTestStatus");
+
+  if (!repo || !token){ out.textContent = "❌ Preencha usuário/repositório e o token antes de testar."; return; }
+
+  out.textContent = "Testando...";
+  try {
+    const resRepo = await fetch(`https://api.github.com/repos/${repo}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+
+    if (resRepo.status === 401){
+      out.textContent = "❌ Token inválido ou expirado (401). Gere um novo token fine-grained em github.com/settings/personal-access-tokens.";
+      return;
+    }
+    if (resRepo.status === 404){
+      out.textContent = "❌ Repositório não encontrado com este token (404). Causa mais comum com token fine-grained: no passo de criação do token, em \"Repository access\", o repositório precisa estar marcado explicitamente (\"Only select repositories\" → escolher este) — ter a permissão certa não basta se o repositório não foi selecionado ali. Confira também se digitou \"usuario/repositorio\" corretamente.";
+      return;
+    }
+    if (!resRepo.ok){
+      out.textContent = `❌ GitHub retornou erro ${resRepo.status} ao acessar o repositório.`;
+      return;
+    }
+
+    const repoJson = await resRepo.json();
+    const podeEscrever = repoJson.permissions?.push === true;
+
+    const resBranch = await fetch(`https://api.github.com/repos/${repo}/branches/${encodeURIComponent(branch)}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+    const branchOk = resBranch.ok;
+
+    if (podeEscrever && branchOk){
+      out.textContent = `✅ Conexão ok! Repositório acessível, permissão de escrita confirmada, branch "${branch}" existe. Pode publicar.`;
+    } else if (!podeEscrever){
+      out.textContent = `⚠️ Repositório acessível, mas o token não tem permissão de escrita confirmada. Confira se o token fine-grained tem "Contents: Read and write" (não só "Read-only") para este repositório.`;
+    } else {
+      out.textContent = `⚠️ Repositório e token ok, mas a branch "${branch}" não foi encontrada. Confira o nome da branch (o padrão do GitHub costuma ser "main").`;
+    }
+  } catch (err) {
+    out.textContent = "❌ Não consegui conectar ao GitHub agora (" + err.message + "). Confira sua internet ou tente novamente.";
+  }
+};
+
+document.getElementById("publicarBtn").onclick = async () => {
+  const btn = document.getElementById("publicarBtn");
+  if (btn.disabled) return; // já publicando — ignora cliques repetidos (causa real dos SHAs conflitando e fotos duplicadas)
+  btn.disabled = true;
+  btn.textContent = "⏳ Publicando...";
+
+  const repo = document.getElementById("ghRepo").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const token = document.getElementById("ghToken").value.trim();
+  const status = document.getElementById("ghStatus");
+
+  const temFotoValida = fotos.length || (modoEdicao && modoEdicao.fotosExistentes.some(f => f.manter));
+  if (!temFotoValida){
+    alert("Suba pelo menos uma foto (ou mantenha alguma existente) antes de publicar.");
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
+    return;
+  }
+  if (!repo || !token){
+    status.textContent = "Preencha usuario/repositorio e o token antes de publicar.";
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
+    return;
+  }
+
+  const faltando = [];
+  if (!document.getElementById("titulo").value.trim()) faltando.push("Título");
+  if (!document.getElementById("tipo").value.trim()) faltando.push("Tipo do imóvel");
+  if (!document.getElementById("cidade").value.trim()) faltando.push("Cidade");
+  if (!document.getElementById("uf").value.trim()) faltando.push("UF");
+  if (!document.getElementById("bairro").value.trim()) faltando.push("Bairro");
+  if (!document.getElementById("preco").value.trim()) faltando.push("Preço");
+  if (!operacoesAtuais.size) faltando.push("Tipo de operação (venda/locação/permuta)");
+  if (faltando.length){
+    status.textContent = "⚠️ Falta preencher: " + faltando.join(", ") + ".";
+    btn.disabled = false; btn.textContent = "☁️ Publicar GitHub e Redes";
+    return;
+  }
+
+  const pularCodigoNovo = modoEdicao && document.getElementById("referencia").value.trim();
+  if (pularCodigoNovo){
+    status.textContent = "Editando: mantendo o código existente...";
+  } else {
+    status.textContent = "Gerando código do imóvel...";
+    await gerarCodigoAutomatico(true);
+  }
+
+  const dados = montarDados();
+  const base = `imoveis/${dados.slug}`;
+
+  try {
+    status.textContent = "Preparando arquivos...";
+    const changes = [
+      { path: `${base}/dados.json`, contentBase64: utf8ToBase64(JSON.stringify(dados, null, 2)) },
+    ];
+    for (const f of fotos){
+      const nome = nomeArquivo(f);
+      const b64 = await fileToBase64(f.file);
+      changes.push({ path: `${base}/fotos/${nome}`, contentBase64: b64 });
+    }
+
+    await ghCommitMultiplo(repo, branch, token, changes,
+      `feat: adiciona/atualiza ${dados.slug} (via admin)`,
+      (msg) => { status.textContent = msg; });
+
+    status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página e publicar no Instagram/Facebook em alguns minutos.";
+    const pos = document.getElementById("posPublicarBox");
+    pos.style.display = "flex";
+    pos.innerHTML = `
+      <a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/story.png" target="_blank" rel="noopener" id="storyImgLink">📱 Imagem de story (pronta em ~2 min)</a>
+      <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
+      <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
+    document.getElementById("novaPublicacaoBtn").onclick = resetFormulario;
+    document.getElementById("sairBtn").onclick = () => {
+      localStorage.removeItem("admOk");
+      location.reload();
+    };
+  } catch (err) {
+    status.textContent = "❌ " + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "☁️ Publicar GitHub e Redes";
+  }
+};
+
+// --- gerenciar imóveis existentes: listar, retirar/reativar, apagar (duplo clique) ---
+let ultimaLista = [];
+
+function idadeEmMeses(dataIso){
+  if (!dataIso) return 0;
+  const d = new Date(dataIso);
+  const hoje = new Date();
+  return (hoje.getFullYear() - d.getFullYear()) * 12 + (hoje.getMonth() - d.getMonth());
+}
+
+document.getElementById("carregarImoveisBtn").onclick = carregarImoveis;
+document.getElementById("soMaisDe6Meses").onchange = () => renderListaImoveis(ultimaLista);
+
+async function carregarImoveis(){
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const container = document.getElementById("listaImoveis");
+  if (!repo || !token){ container.innerHTML = '<p class="hint">Preencha usuario/repositorio e token no passo "Publicar GitHub e Redes" acima.</p>'; return; }
+  container.innerHTML = '<p class="hint">Carregando...</p>';
+  try {
+    const res = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis?ref=${encodeURIComponent(branch)}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+    if (!res.ok) throw new Error(`Não consegui listar imoveis/ (${res.status})`);
+    const pastas = (await res.json()).filter(e => e.type === "dir");
+    const lista = [];
+    for (const pasta of pastas){
+      try {
+        const r2 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pasta.name}/dados.json?ref=${encodeURIComponent(branch)}`, {
+          headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+        });
+        if (!r2.ok) continue;
+        const json = await r2.json();
+        const dados = JSON.parse(decodeURIComponent(escape(atob(json.content.replace(/\n/g,"")))));
+        lista.push({ pasta: pasta.name, dados });
+      } catch (e) { /* pula pasta com erro */ }
+    }
+    ultimaLista = lista;
+    renderListaImoveis(lista);
+  } catch (err) {
+    container.innerHTML = `<p class="hint">❌ ${err.message}</p>`;
+  }
+}
+
+function renderListaImoveis(lista){
+  const container = document.getElementById("listaImoveis");
+  const soAntigos = document.getElementById("soMaisDe6Meses").checked;
+  const filtrada = lista.filter(item => !soAntigos || idadeEmMeses(item.dados.publicadoEm) >= 6);
+  if (!filtrada.length){ container.innerHTML = `<p class="hint">Nenhum imóvel encontrado${soAntigos ? " com 6+ meses." : "."}</p>`; return; }
+  container.innerHTML = filtrada.map((item) => {
+    const meses = idadeEmMeses(item.dados.publicadoEm);
+    const ativo = item.dados.ativo !== false;
+    const corIdade = meses >= 6 ? "#c23f18" : "var(--ink-muted)";
+    return `<div class="foto-item" style="align-items:flex-start">
+      <div class="meta">
+        <div style="font-weight:600">${item.dados.titulo || item.pasta} <span style="color:${corIdade};font-size:11px">(${meses} meses)</span></div>
+        <div class="hint">Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}</div>
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ Editar</button>
+          <button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>
+          <button class="btn secondary apagarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px;border-color:#c23f18;color:#c23f18">Apagar definitivamente</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  container.querySelectorAll(".editarBtn").forEach(btn => {
+    btn.onclick = () => {
+      const item = filtrada.find(i => i.pasta === btn.dataset.pasta);
+      if (item) carregarParaEdicao(item.pasta, item.dados);
+    };
+  });
+
+  container.querySelectorAll(".toggleAtivoBtn").forEach(btn => btn.onclick = () => toggleAtivo(btn.dataset.pasta));
+  container.querySelectorAll(".apagarBtn").forEach(btn => {
+    // Confirmação explícita em vez de "clique duas vezes em 4s" — um duplo toque sem querer
+    // (comum em celular) não apagava mais nada por engano.
+    btn.onclick = () => {
+      const item = filtrada.find(i => i.pasta === btn.dataset.pasta);
+      const nome = item?.dados.titulo || btn.dataset.pasta;
+      if (confirm(`Apagar definitivamente "${nome}"? Isso remove o imóvel e todas as fotos dele do repositório. Não tem como desfazer.`)){
+        apagarImovel(btn.dataset.pasta);
+      }
+    };
+  });
+}
+
+async function toggleAtivo(pastaNome){
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const item = ultimaLista.find(i => i.pasta === pastaNome);
+  if (!item) return;
+  const novoAtivo = item.dados.ativo === false ? true : false;
+  try {
+    const dadosAtualizados = { ...item.dados, ativo: novoAtivo };
+    await ghPutFile(repo, `imoveis/${pastaNome}/dados.json`, branch, token,
+      utf8ToBase64(JSON.stringify(dadosAtualizados, null, 2)),
+      `chore: ${novoAtivo ? "reativa" : "retira"} ${pastaNome} (via admin)`);
+    item.dados = dadosAtualizados;
+    renderListaImoveis(ultimaLista);
+  } catch (err) {
+    alert("Erro ao atualizar: " + err.message);
+  }
+}
+
+async function apagarImovel(pastaNome){
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  try {
+    const changes = [];
+    const r1 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pastaNome}/dados.json?ref=${encodeURIComponent(branch)}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+    if (r1.ok) changes.push({ path: `imoveis/${pastaNome}/dados.json`, remove: true });
+
+    const r2 = await fetch(`https://api.github.com/repos/${repo}/contents/imoveis/${pastaNome}/fotos?ref=${encodeURIComponent(branch)}`, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
+    });
+    if (r2.ok){
+      const fotosRepo = await r2.json();
+      for (const f of fotosRepo) changes.push({ path: `imoveis/${pastaNome}/fotos/${f.name}`, remove: true });
+    }
+
+    if (!changes.length){ alert("Não encontrei arquivos desse imóvel pra apagar — pode já ter sido removido."); return; }
+
+    // Apaga tudo (dados.json + todas as fotos) num commit só — nunca fica pela metade.
+    await ghCommitMultiplo(repo, branch, token, changes, `chore: apaga ${pastaNome} (via admin)`);
+
+    ultimaLista = ultimaLista.filter(i => i.pasta !== pastaNome);
+    renderListaImoveis(ultimaLista);
+  } catch (err) {
+    alert("Erro ao apagar: " + err.message);
+  }
+}
+</script>
+</body>
+</html>
