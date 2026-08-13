@@ -26,6 +26,9 @@ R: Este imóvel está disponível para venda.
 P: Se fosse possível financiar este imóvel, quanto ficaria a parcela?
 R: O valor da parcela depende de vários fatores — valor de entrada, prazo, taxa de juros do banco escolhido e renda do comprador. Para ter uma referência, use nosso simulador de financiamento: os valores exibidos ali são apenas uma estimativa, sujeita à análise de crédito de cada instituição financeira.
 
+P: O que torna este imóvel especial?
+R: Corre que o preço está excelente!
+
 ## Fotos
 
 - https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp — Terreno vista frente do(a) terreno padrão neutro em Residencial Central Parque, Salto - SP

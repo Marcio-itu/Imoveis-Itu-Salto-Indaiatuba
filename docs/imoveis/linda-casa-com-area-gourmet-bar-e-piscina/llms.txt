@@ -34,6 +34,9 @@ R: 2 vagas de garagem.
 P: Qual a área do imóvel?
 R: 174.17 m² de área útil e 150 m² de terreno.
 
+P: O que torna este imóvel especial?
+R: Casa de 3 quartos com piscina à venda por R$ 690.000 no bairro Jardim Aeroporto I, em Itu/SP.
+
 ## Fotos
 
 - https://www.imoveis-itu-salto.com.br/imoveis/linda-casa-com-area-gourmet-bar-e-piscina/fotos/piscina-itu-medio-padrao-casa-sp-piscina-com-hidromassagem-20260810220150.webp — Piscina do(a) casa médio padrão em Jardim Aeroporto I, Itu - SP

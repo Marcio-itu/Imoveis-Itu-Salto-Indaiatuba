@@ -37,6 +37,9 @@ R: 2 vagas de garagem.
 P: Qual a área do imóvel?
 R: 68 m² de área útil e 96.97 m² de terreno.
 
+P: O que torna este imóvel especial?
+R: Apto de 3 dormitórios à venda por R$ 340.000 no Cond Grande Parc
+
 ## Fotos
 
 - https://www.imoveis-itu-salto.com.br/imoveis/apartamento-duplex-no-rancho-grande/fotos/area-lazer-itu-padrao-popular-apartamento-sp-portaria-20260811191258.webp — Área de lazer do(a) apartamento padrão popular em Rancho Grande, Itu - SP

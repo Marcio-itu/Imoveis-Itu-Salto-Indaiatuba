@@ -36,6 +36,9 @@ R: 4 vagas de garagem.
 P: Qual a área do imóvel?
 R: 250 m² de área útil.
 
+P: O que torna este imóvel especial?
+R: Salão comercial com 250 m² e 4 vagas para locação na Avenida do Rancho, bairro Liberdade, Itu/SP, por R$ 7.900 mensais.
+
 ## Fotos
 
 - https://www.imoveis-itu-salto.com.br/imoveis/salao-comercial-250m-2-pisos-na-avendida-do-rancho/fotos/banheiro-itu-padrao-neutro-terreno-sp-4-vagas-20260811033733.webp — Banheiro do(a) terreno padrão neutro em Liberdade, Itu - SP
