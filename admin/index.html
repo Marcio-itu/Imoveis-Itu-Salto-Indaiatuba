@@ -142,9 +142,7 @@
     <legend>Dados básicos</legend>
     <label>Tipo(s) de operação <span style="font-weight:400;color:var(--ink-muted)">(marque quantos se aplicarem)</span></label>
     <div class="op-options" id="opOptions"></div>
-    <label style="margin-top:14px">Título do imóvel <span style="font-weight:400;color:var(--ink-muted)">(nome curto — aparece no topo da página, na aba do navegador e nos cards de busca)</span></label>
-    <input type="text" id="titulo" placeholder="Casa em Praia Preta">
-    <div class="row">
+    <div class="row" style="margin-top:14px">
       <div><label>Tipo de imóvel</label>
         <select id="tipo"><option>casa</option><option>apartamento</option><option>sobrado</option><option>cobertura</option><option>terreno</option><option>chácara</option><option>salão comercial</option></select>
       </div>
@@ -181,23 +179,67 @@
   </fieldset>
 
   <fieldset>
+    <legend>Textos do imóvel</legend>
+    <p class="hint">Os quatro campos de texto do imóvel, juntos aqui — os outros campos abaixo são números e caixinhas de marcar.</p>
+    <label>Título do imóvel <span style="font-weight:400;color:var(--ink-muted)">(nome curto — aparece no topo da página, na aba do navegador e nos cards de busca)</span></label>
+    <input type="text" id="titulo" placeholder="Casa em Praia Preta">
+
+    <label style="margin-top:16px">Frase de efeito <span style="font-weight:400;color:var(--ink-muted)">(diferente do título — é 1 frase de venda logo abaixo dele, reaparece no FAQ)</span></label>
+    <input type="text" id="resumo" placeholder="Ex.: Casa de alto padrão em Praia Preta, a poucos passos do mar.">
+
+    <label style="margin-top:16px">Diferenciais <span style="font-weight:400;color:var(--ink-muted)">(separados por vírgula)</span></label>
+    <input type="text" id="diferenciais" placeholder="Vista mar, Piscina, Área gourmet">
+
+    <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
+    <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
+  </fieldset>
+
+  <fieldset>
     <legend>Características</legend>
-    <p class="hint">Preencha quartos, suítes, banheiros e vagas aqui diretamente.</p>
+    <p class="hint">Preenche os campos abaixo e as caixinhas de marcar mais adiante — tudo isso alimenta a IA na hora de montar o texto do imóvel.</p>
+
+    <p class="hint" style="margin-top:16px;font-weight:600;color:var(--ink)">Dormitórios</p>
     <div class="row3">
       <div><label>Quartos</label><input type="number" id="quartos" min="0"></div>
       <div><label>Suítes</label><input type="number" id="suites" min="0"></div>
       <div><label>Banheiros (totais)</label><input type="number" id="banheiros" min="0"></div>
     </div>
+    <div class="row3" style="margin-top:10px">
+      <div><label>Lavabos</label><input type="number" id="lavabos" min="0"></div>
+    </div>
+
+    <p class="hint" style="margin-top:18px;font-weight:600;color:var(--ink)">Ambientes</p>
     <div class="row3">
-      <div><label>Vagas</label><input type="number" id="vagas" min="0"></div>
+      <div><label>Salas de estar</label><input type="number" id="salasEstar" min="0"></div>
+      <div><label>Salas de jantar</label><input type="number" id="salasJantar" min="0"></div>
+      <div><label>Salas de TV</label><input type="number" id="salasTV" min="0"></div>
+    </div>
+    <div class="row3" style="margin-top:10px">
+      <div><label>Salas de jogos</label><input type="number" id="salasJogos" min="0"></div>
+      <div><label>Cozinhas</label><input type="number" id="cozinhas" min="0"></div>
+      <div><label>Copas</label><input type="number" id="copas" min="0"></div>
+    </div>
+    <div class="row3" style="margin-top:10px">
+      <div><label>Escritórios</label><input type="number" id="escritorios" min="0"></div>
+      <div><label>Closets</label><input type="number" id="closets" min="0"></div>
+    </div>
+
+    <p class="hint" style="margin-top:18px;font-weight:600;color:var(--ink)">Garagem</p>
+    <div class="row3">
+      <div><label>Vagas de garagem</label><input type="number" id="vagas" min="0"></div>
+    </div>
+
+    <p class="hint" style="margin-top:18px;font-weight:600;color:var(--ink)">Áreas</p>
+    <div class="row3">
       <div><label>Área útil (m²)</label><input type="number" id="areaUtil" min="0"></div>
       <div><label>Área terreno (m²)</label><input type="number" id="areaTerreno" min="0"></div>
     </div>
 
-    <label style="margin-top:18px">Dados técnicos em bullets (opcional — um item por linha, texto livre)</label>
-    <p class="hint">Aparece como lista de bullets na ficha técnica da página, embaixo dos números. É um resumo que <b>repete</b> o que já está na página — não substitui os campos acima nem os Diferenciais abaixo.</p>
-    <textarea id="dadosTecnicosBullets" placeholder="2 quartos&#10;Cozinha&#10;Suíte master&#10;Piscina&#10;Área Gourmet"></textarea>
-
+    <details style="margin-top:18px">
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">Dados técnicos em bullets (opcional, não aparece mais na página)</summary>
+      <p class="hint" style="margin-top:8px">Fica salvo no imóvel, mas não é mais exibido no site — os campos acima e as caixinhas abaixo já cobrem isso de forma mais completa. Um item por linha, texto livre.</p>
+      <textarea id="dadosTecnicosBullets" placeholder="2 quartos&#10;Cozinha&#10;Suíte master&#10;Piscina&#10;Área Gourmet"></textarea>
+    </details>
 
     <label style="margin-top:18px">Características específicas (exceções — até 4, ex.: canil, poço artesiano, poço caipira)</label>
     <div class="row" style="grid-template-columns:1fr 1fr">
@@ -209,8 +251,11 @@
       <input type="text" id="caracteristicaExtra4" placeholder="Ex.: (opcional)">
     </div>
 
-    <label style="margin-top:18px">Acessórios do imóvel</label>
-    <div class="checkbox-grid" id="acessoriosBox"></div>
+    <label style="margin-top:18px">Características</label>
+    <div id="acessoriosBox"></div>
+
+    <label style="margin-top:18px">Características especiais</label>
+    <div id="caracteristicasEspeciaisBox" class="checkbox-grid"></div>
   </fieldset>
 
   <fieldset>
@@ -237,8 +282,6 @@
     </div>
     <label>Transcrição / texto livre</label>
     <textarea id="transcricao" placeholder="O que fizer sentido: ambientes, diferenciais, observações soltas..."></textarea>
-    <label>Diferenciais (separados por vírgula)</label>
-    <input type="text" id="diferenciais" placeholder="Vista mar, Piscina, Área gourmet">
   </fieldset>
 
   <fieldset>
@@ -262,12 +305,6 @@
 
     <button class="btn secondary" id="gerarCopyBtn" type="button" style="margin-top:12px">🪄 Gerar copy com IA</button>
     <div id="copyStatus" class="hint" style="margin-top:8px"></div>
-
-    <label style="margin-top:18px">Frase de efeito <span style="font-weight:400;color:var(--ink-muted)">(diferente do título — é 1 frase de venda logo abaixo dele, reaparece no FAQ)</span></label>
-    <input type="text" id="resumo" placeholder="Ex.: Casa de alto padrão em Praia Preta, a poucos passos do mar.">
-
-    <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
-    <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
 
     <label style="margin-top:16px">Descrição final (parágrafos curtos, um por linha)</label>
     <textarea id="descricaoFinal" placeholder="Gerado pela IA, ou cole aqui manualmente..."></textarea>
@@ -388,11 +425,21 @@ const ADJETIVOS_DIFERENCIACAO = [
 ];
 
 // Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
-const ACESSORIOS = [
-  "Placa fotovoltaica", "Aquecedor a gás", "Aquecedor elétrico", "Paisagismo",
-  "Ar-condicionado", "Gerador de energia", "Cisterna / reuso de água", "Automação residencial",
-  "Portão eletrônico", "Sistema de câmeras / alarme", "Piso aquecido", "Elevador privativo",
-];
+const CARACTERISTICAS_GRUPOS = {
+  "Ambientes e comodidades": ["Varanda","Sacada","Despensa","Área de serviço","Lavanderia","Quintal",
+    "Jardim","Área verde","Churrasqueira","Espaço gourmet","Piscina"],
+  "Condomínio e lazer": ["Academia","Playground","Salão de festas","Quadra esportiva","Coworking",
+    "Pet place","Elevador"],
+  "Segurança": ["Portaria 24h","Portaria presencial","Portaria remota","Câmeras de segurança",
+    "Controle de acesso","Cerca elétrica","Alarme","Condomínio fechado"],
+};
+const CARACTERISTICAS_ESPECIAIS = ["Mobiliado","Semi-mobiliado","Ar-condicionado","Aquecimento solar",
+  "Energia solar","Gás encanado","Gerador","Acessibilidade","Aceita pets","Vista panorâmica",
+  "Frente para área verde","Frente para o lago","Pé-direito alto","Recém-reformado","Imóvel novo"];
+// União de tudo — usada só pra restaurar checkboxes marcadas ao editar um imóvel já publicado
+// (o valor salvo em dados.acessorios é sempre a string literal, então isso funciona pros
+// dois grupos, não importa em qual <div> a caixinha realmente está).
+const ACESSORIOS = [...Object.values(CARACTERISTICAS_GRUPOS).flat(), ...CARACTERISTICAS_ESPECIAIS];
 
 let padraoAtual = "medio-padrao";
 let operacoesAtuais = new Set(["venda"]);
@@ -403,7 +450,9 @@ document.getElementById("atualizarPaginaBtn").onclick = () => location.reload();
 
 function resetFormulario(){
   ["titulo","tipo","cidade","uf","bairro","condominio","referencia","preco","financiamento",
-   "quartos","suites","banheiros","vagas","areaUtil","areaTerreno","diferenciais","dadosTecnicosBullets","resumo","tituloSecao",
+   "quartos","suites","banheiros","lavabos","salasEstar","salasJantar","salasTV","salasJogos",
+   "cozinhas","copas","escritorios","closets","vagas","areaUtil","areaTerreno",
+   "diferenciais","dadosTecnicosBullets","resumo","tituloSecao",
    "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
   ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
   document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
@@ -639,16 +688,39 @@ Gerado em: ${new Date().toLocaleString("pt-BR")}
   a.click();
 };
 
-// --- acessórios (checkboxes) ---
+// --- características (checkboxes, agrupadas por seção) ---
 const acessoriosBox = document.getElementById("acessoriosBox");
-ACESSORIOS.forEach((nome) => {
+Object.entries(CARACTERISTICAS_GRUPOS).forEach(([grupo, itens]) => {
+  const h = document.createElement("p");
+  h.className = "hint";
+  h.style.cssText = "margin-top:14px;font-weight:600;color:var(--ink)";
+  h.textContent = grupo;
+  acessoriosBox.appendChild(h);
+  const grid = document.createElement("div");
+  grid.className = "checkbox-grid";
+  itens.forEach((nome) => {
+    const label = document.createElement("label");
+    const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    label.innerHTML = `<input type="checkbox" id="${id}" value="${nome}"> ${nome}`;
+    grid.appendChild(label);
+  });
+  acessoriosBox.appendChild(grid);
+});
+
+// --- características especiais (checkboxes, grupo único) ---
+const caracteristicasEspeciaisBox = document.getElementById("caracteristicasEspeciaisBox");
+CARACTERISTICAS_ESPECIAIS.forEach((nome) => {
   const label = document.createElement("label");
   const id = "acc-" + nome.toLowerCase().replace(/[^a-z0-9]+/g, "-");
   label.innerHTML = `<input type="checkbox" id="${id}" value="${nome}"> ${nome}`;
-  acessoriosBox.appendChild(label);
+  caracteristicasEspeciaisBox.appendChild(label);
 });
+
 function getAcessoriosMarcados(){
-  return [...acessoriosBox.querySelectorAll("input:checked")].map(i => i.value);
+  return [
+    ...acessoriosBox.querySelectorAll("input:checked"),
+    ...caracteristicasEspeciaisBox.querySelectorAll("input:checked"),
+  ].map(i => i.value);
 }
 
 // --- padrão tiles ---
@@ -878,7 +950,11 @@ function carregarParaEdicao(pasta, dados){
   set("condominio", dados.condominio); set("referencia", dados.referencia);
   set("preco", dados.preco); set("financiamento", dados.financiamento ? "sim" : "");
   set("quartos", dados.quartos); set("suites", dados.suites);
-  set("banheiros", dados.banheiros); set("vagas", dados.vagas);
+  set("banheiros", dados.banheiros); set("lavabos", dados.lavabos); set("vagas", dados.vagas);
+  set("salasEstar", dados.salasEstar); set("salasJantar", dados.salasJantar);
+  set("salasTV", dados.salasTV); set("salasJogos", dados.salasJogos);
+  set("cozinhas", dados.cozinhas); set("copas", dados.copas);
+  set("escritorios", dados.escritorios); set("closets", dados.closets);
   set("areaUtil", dados.areaUtil); set("areaTerreno", dados.areaTerreno);
   set("diferenciais", (dados.diferenciais || []).join(", "));
   set("dadosTecnicosBullets", (dados.dadosTecnicos || []).join("\n"));
@@ -986,7 +1062,17 @@ Tipo: ${get("tipo")}, padrão ${THEMES[padraoAtual].label}
 Operação: ${operacoesTexto}
 Localização: bairro ${get("bairro")}, ${get("cidade")}/${get("uf")}${get("condominio") ? `, condomínio ${get("condominio")}` : ""}
 Preço: ${get("preco")}${get("financiamento") ? ` (${get("financiamento")})` : ""}
-Quartos: ${get("quartos")||"-"} | Suítes: ${get("suites")||"-"} | Banheiros totais: ${get("banheiros")||"-"} | Vagas: ${get("vagas")||"-"}
+Quartos: ${get("quartos")||"-"} | Suítes: ${get("suites")||"-"} | Banheiros totais: ${get("banheiros")||"-"} | Lavabos: ${get("lavabos")||"-"} | Vagas: ${get("vagas")||"-"}
+Outros ambientes: ${[
+  Number(get("salasEstar")) ? `${get("salasEstar")} sala(s) de estar` : "",
+  Number(get("salasJantar")) ? `${get("salasJantar")} sala(s) de jantar` : "",
+  Number(get("salasTV")) ? `${get("salasTV")} sala(s) de TV` : "",
+  Number(get("salasJogos")) ? `${get("salasJogos")} sala(s) de jogos` : "",
+  Number(get("cozinhas")) ? `${get("cozinhas")} cozinha(s)` : "",
+  Number(get("copas")) ? `${get("copas")} copa(s)` : "",
+  Number(get("escritorios")) ? `${get("escritorios")} escritório(s)` : "",
+  Number(get("closets")) ? `${get("closets")} closet(s)` : "",
+].filter(Boolean).join(", ") || "nenhum informado"}
 Área útil: ${get("areaUtil")||"-"} m² | Área terreno: ${get("areaTerreno")||"-"} m²
 Todos os ambientes fotografados: ${ambientesUnicos.join(", ") || "nenhum"}
 Diferenciais: ${get("diferenciais") || "nenhum"}
@@ -1123,6 +1209,15 @@ function montarDados(){
     quartos: Number(get("quartos"))||undefined,
     suites: Number(get("suites"))||undefined,
     banheiros: Number(get("banheiros"))||undefined,
+    lavabos: Number(get("lavabos"))||undefined,
+    salasEstar: Number(get("salasEstar"))||undefined,
+    salasJantar: Number(get("salasJantar"))||undefined,
+    salasTV: Number(get("salasTV"))||undefined,
+    salasJogos: Number(get("salasJogos"))||undefined,
+    cozinhas: Number(get("cozinhas"))||undefined,
+    copas: Number(get("copas"))||undefined,
+    escritorios: Number(get("escritorios"))||undefined,
+    closets: Number(get("closets"))||undefined,
     vagas: Number(get("vagas"))||undefined,
     areaUtil: Number(get("areaUtil"))||undefined,
     areaTerreno: Number(get("areaTerreno"))||undefined,
