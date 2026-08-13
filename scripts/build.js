@@ -63,6 +63,7 @@ function loadImoveis() {
       const dataPath = path.join(dir, "dados.json");
       if (!fs.existsSync(dataPath)) return null;
       const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
+      if (data.rascunho) return null; // rascunho: fica salvo no repo, mas nunca entra no site
       data.slug = data.slug || slugify(e.name);
       data._dir = dir;
       return data;

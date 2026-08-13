@@ -266,6 +266,10 @@ async function publicarImovel(slug, config) {
   }
 
   const dados = readJSON(dadosPath);
+  if (dados.rascunho) {
+    log(`  📝 ${slug}: ainda é rascunho — pulando publicação social até ser publicado de verdade.`);
+    return;
+  }
   const fotos = listarFotos(dados);
   if (!fotos.length) {
     log(`  ⚠️  ${slug}: sem fotos cadastradas — pulando.`);
