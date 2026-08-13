@@ -249,6 +249,9 @@ function buildFaqs(imovel) {
   if (imovel.areaUtil) {
     auto.push({ pergunta: "Qual a área do imóvel?", resposta: `${imovel.areaUtil} m² de área útil${imovel.areaTerreno ? ` e ${imovel.areaTerreno} m² de terreno` : ""}.` });
   }
+  if (imovel.resumo) {
+    auto.push({ pergunta: "O que torna este imóvel especial?", resposta: imovel.resumo });
+  }
   return auto;
 }
 
@@ -376,17 +379,10 @@ ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padd
 ${(() => {
   const blocks = {};
 
-  const bulletsAuto = [];
-  bulletsAuto.push(`${formatPreco(imovel.preco)}${precoSufixo}${imovel.financiamento ? " - aceita financiamento" : ""}`);
-  if (imovel.quartos) bulletsAuto.push(`${imovel.quartos} quartos`);
-  if (imovel.suites) bulletsAuto.push(`${imovel.suites} suítes`);
-  if (imovel.banheiros) bulletsAuto.push(`${imovel.banheiros} banheiros (totais)`);
-  if (imovel.vagas) bulletsAuto.push(`${imovel.vagas} vagas`);
-  if (imovel.areaUtil) bulletsAuto.push(`${imovel.areaUtil} m² de área útil`);
-  if (imovel.areaTerreno) bulletsAuto.push(`${imovel.areaTerreno} m² de terreno`);
-  (imovel.acessorios || []).forEach((a) => bulletsAuto.push(a));
-  (imovel.caracteristicasExtras || []).forEach((c) => bulletsAuto.push(c));
-  const bulletsFinais = [...(imovel.dadosTecnicos || []), ...bulletsAuto];
+  // "Dados técnicos em bullets" (campo livre do admin) não aparece mais aqui — ele
+  // só repetia números que já estão na Ficha técnica. Continua sendo salvo no imóvel
+  // (imovel.dadosTecnicos), só não é mais renderizado na página.
+  const caracteristicasParaExibir = [...(imovel.acessorios || []), ...(imovel.caracteristicasExtras || [])];
 
   blocks.sobre = `<section id="sobre">
     <div class="wrap">
@@ -394,7 +390,7 @@ ${(() => {
       <h2 style="margin-top:10px">${esc(imovel.tituloSecao || "Sobre este imóvel")}</h2>
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
-      ${bulletsFinais.length ? `<ul class="bullets">${bulletsFinais.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
+      ${caracteristicasParaExibir.length ? `<ul class="bullets">${caracteristicasParaExibir.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
       <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${(imovel.parceria?.instagrams || []).length ? `: ${imovel.parceria.instagrams.map((h) => `@${esc(h.replace(/^@/, ""))}`).join(", ")}` : ""}.</p>
       <p class="disclaimer">⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.</p>
       <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>

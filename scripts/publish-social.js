@@ -101,18 +101,38 @@ function montarLegenda(dados, config) {
   const linhas = [];
   linhas.push(`🏡 ${dados.titulo || "Imóvel"}`);
   linhas.push(`${dados.bairro}, ${dados.cidade} - ${dados.uf || "SP"}`);
-
-  const specs = [];
-  if (dados.quartos) specs.push(`🛏️ ${dados.quartos} quartos`);
-  if (dados.banheiros) specs.push(`🚿 ${dados.banheiros} banhos`);
-  if (dados.vagas) specs.push(`🚗 ${dados.vagas} vagas`);
-  if (dados.areaUtil) specs.push(`📐 ${dados.areaUtil}m²`);
-  if (specs.length) linhas.push(specs.join(" | "));
-
   if (dados.preco) linhas.push(`💰 ${dados.preco}`);
 
+  // FICHA TÉCNICA — os mesmos números da seção "Ficha técnica" do site (nem mais nem menos).
+  const specs = [];
+  if (dados.quartos) specs.push(`🛏️ ${dados.quartos} quartos`);
+  if (dados.suites) specs.push(`${dados.suites} suítes`);
+  if (dados.banheiros) specs.push(`🚿 ${dados.banheiros} banheiros`);
+  if (dados.vagas) specs.push(`🚗 ${dados.vagas} vagas`);
+  if (dados.areaUtil) specs.push(`📐 ${dados.areaUtil}m² úteis`);
+  if (dados.areaTerreno) specs.push(`${dados.areaTerreno}m² de terreno`);
+  if (specs.length) linhas.push("", "FICHA TÉCNICA", specs.join(" | "));
+
+  // DESTAQUE — os mesmos Diferenciais da seção "Destaques" do site.
+  if ((dados.diferenciais || []).length) {
+    linhas.push("", "DESTAQUE", dados.diferenciais.join(", "));
+  }
+
+  // SOBRE ESTE IMÓVEL — mesmo título, frase de efeito e parágrafos da seção "Sobre o imóvel" do site.
   const textoReal = dados.resumo || dados.descricaoCurta;
-  if (textoReal) linhas.push("", textoReal);
+  if (textoReal || (dados.descricaoLonga || []).length) {
+    linhas.push("", (dados.tituloSecao || "SOBRE ESTE IMÓVEL").toUpperCase());
+    if (textoReal) linhas.push(textoReal);
+    (dados.descricaoLonga || []).forEach((p) => linhas.push(p));
+  }
+
+  // Os dois avisos — texto idêntico ao rodapé da seção "Sobre o imóvel" do site.
+  const instagramsParceria = (dados.parceria?.instagrams || []);
+  linhas.push(
+    "",
+    `✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${instagramsParceria.length ? `: ${instagramsParceria.map((h) => `@${h.replace(/^@/, "")}`).join(", ")}` : ""}.`,
+    "⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta."
+  );
 
   const whatsapp = config?.corretor?.whatsapp || "";
   const creci = config?.corretor?.creci || "";
@@ -123,7 +143,18 @@ function montarLegenda(dados, config) {
   if (bairroTag) hashtags.push(`#${bairroTag}`);
   linhas.push(hashtags.join(" "));
 
-  return linhas.join("\n");
+  let legenda = linhas.join("\n");
+
+  // Instagram recusa legenda com mais de 2200 caracteres — corta preservando o fim
+  // (link/CRECI/hashtags), que é a parte que não pode faltar.
+  const LIMITE_INSTAGRAM = 2200;
+  if (legenda.length > LIMITE_INSTAGRAM) {
+    const rodape = linhas.slice(-3).join("\n"); // link + CRECI + hashtags
+    const corpoDisponivel = LIMITE_INSTAGRAM - rodape.length - 20;
+    legenda = legenda.slice(0, corpoDisponivel).trim() + "…\n\n" + rodape;
+  }
+
+  return legenda;
 }
 
 // --- URLs públicas das fotos ---------------------------------------------
