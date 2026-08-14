@@ -331,8 +331,6 @@
     </label>    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
     <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
     <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar GitHub e Redes</button>
-    <button class="btn secondary" id="salvarRascunhoBtn" type="button" style="margin-top:8px">💾 Salvar rascunho (continuar depois)</button>
-    <p class="hint" style="margin-top:6px">Salva tudo que já foi preenchido — inclusive fotos já adicionadas — sem publicar no site nem postar nas redes. Aparece na lista "Gerenciar imóveis existentes" abaixo, marcado como rascunho, pra você continuar de onde parou.</p>
     <div id="ghStatus" class="hint" style="margin-top:8px"></div>
     <div id="posPublicarBox" style="display:none;margin-top:14px;gap:10px;flex-wrap:wrap"></div>
   </fieldset>
@@ -944,7 +942,7 @@ function renderFotos(){
 function carregarParaEdicao(pasta, dados){
   modoEdicao = { pasta, publicadoEm: dados.publicadoEm, fotosExistentes: (dados.fotos || []).map(f => ({ ...f, manter: true })) };
   document.getElementById("edicaoBanner").style.display = "block";
-  document.getElementById("edicaoTitulo").textContent = (dados.titulo || pasta) + (dados.rascunho ? " (rascunho)" : "");
+  document.getElementById("edicaoTitulo").textContent = dados.titulo || pasta;
 
   const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = (val ?? "") === "" ? "" : val; };
   set("titulo", dados.titulo); set("tipo", dados.tipo);
@@ -1186,7 +1184,7 @@ async function chamarOpenRouterCopy(prompt, key){
 }
 
 // --- monta o objeto dados.json a partir do formulário (usado pelo zip e pelo publicar) ---
-function montarDados(comoRascunho){
+function montarDados(){
   const get = id => document.getElementById(id).value;
   const slug = modoEdicao ? modoEdicao.pasta : (slugify(get("titulo")) || "imovel-" + Date.now());
   const descFinal = get("descricaoFinal").trim();
@@ -1234,9 +1232,6 @@ function montarDados(comoRascunho){
     acessorios: getAcessoriosMarcados(),
     caracteristicasExtras: ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean),
     publicadoEm: modoEdicao ? modoEdicao.publicadoEm : new Date().toISOString().slice(0,10),
-    // Sempre reflete o botão clicado agora — nunca "herda" de um rascunho carregado:
-    // clicar em Publicar sempre tira do rascunho, mesmo editando um rascunho salvo antes.
-    rascunho: comoRascunho ? true : undefined,
     fotos: fotosFinal
   };
 }
@@ -1305,13 +1300,7 @@ async function ghGetBranchTip(repo, branch, token){
   const res = await fetch(`https://api.github.com/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
   });
-  if (!res.ok) {
-    // Inclui o corpo da resposta do GitHub, não só o código — "404" sozinho pode ser
-    // repositório errado, branch errada, ou token sem acesso a este repo específico;
-    // a mensagem do GitHub dentro do corpo diz qual dos três é.
-    const body = await res.text();
-    throw new Error(`Não consegui ler a branch "${branch}" do repositório "${repo}" (${res.status}): ${body.slice(0,300)}`);
-  }
+  if (!res.ok) throw new Error(`Não consegui ler a branch "${branch}" (${res.status})`);
   const json = await res.json();
   return json.object.sha;
 }
@@ -1319,10 +1308,7 @@ async function ghGetCommitTreeSha(repo, commitSha, token){
   const res = await fetch(`https://api.github.com/repos/${repo}/git/commits/${commitSha}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
   });
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`Não consegui ler o commit base (${res.status}): ${body.slice(0,300)}`);
-  }
+  if (!res.ok) throw new Error(`Não consegui ler o commit base (${res.status})`);
   return (await res.json()).tree.sha;
 }
 async function ghCreateBlob(repo, token, base64Content){
@@ -1488,7 +1474,7 @@ document.getElementById("publicarBtn").onclick = async () => {
     await gerarCodigoAutomatico(true);
   }
 
-  const dados = montarDados(false);
+  const dados = montarDados();
   const base = `imoveis/${dados.slug}`;
 
   try {
@@ -1523,57 +1509,6 @@ document.getElementById("publicarBtn").onclick = async () => {
   } finally {
     btn.disabled = false;
     btn.textContent = "☁️ Publicar GitHub e Redes";
-  }
-};
-
-document.getElementById("salvarRascunhoBtn").onclick = async () => {
-  const btn = document.getElementById("salvarRascunhoBtn");
-  if (btn.disabled) return;
-  btn.disabled = true;
-  btn.textContent = "⏳ Salvando rascunho...";
-
-  const repo = document.getElementById("ghRepo").value.trim();
-  const branch = document.getElementById("ghBranch").value.trim() || "main";
-  const token = document.getElementById("ghToken").value.trim();
-  const status = document.getElementById("ghStatus");
-
-  if (!repo || !token){
-    status.textContent = "Preencha usuario/repositorio e o token antes de salvar o rascunho.";
-    btn.disabled = false; btn.textContent = "💾 Salvar rascunho (continuar depois)";
-    return;
-  }
-  // Rascunho não exige nada preenchido — nem foto, nem título, nem código de referência
-  // (esses só são obrigatórios/gerados na hora de publicar de verdade).
-  if (!document.getElementById("titulo").value.trim() && !fotos.length && !(modoEdicao && modoEdicao.fotosExistentes.length)){
-    status.textContent = "Preencha ao menos o título ou adicione uma foto antes de salvar — assim dá pra reconhecer o rascunho na lista depois.";
-    btn.disabled = false; btn.textContent = "💾 Salvar rascunho (continuar depois)";
-    return;
-  }
-
-  const dados = montarDados(true);
-  const base = `imoveis/${dados.slug}`;
-
-  try {
-    status.textContent = "Salvando rascunho...";
-    const changes = [
-      { path: `${base}/dados.json`, contentBase64: utf8ToBase64(JSON.stringify(dados, null, 2)) },
-    ];
-    for (const f of fotos){
-      const nome = nomeArquivo(f);
-      const b64 = await fileToBase64(f.file);
-      changes.push({ path: `${base}/fotos/${nome}`, contentBase64: b64 });
-    }
-
-    await ghCommitMultiplo(repo, branch, token, changes,
-      `chore: salva rascunho de ${dados.slug} (via admin)`,
-      (msg) => { status.textContent = msg; });
-
-    status.textContent = "💾 Rascunho salvo! Continue quando quiser pela lista \"Gerenciar imóveis existentes\" abaixo — em qualquer aparelho.";
-  } catch (err) {
-    status.textContent = "❌ " + err.message;
-  } finally {
-    btn.disabled = false;
-    btn.textContent = "💾 Salvar rascunho (continuar depois)";
   }
 };
 
@@ -1625,24 +1560,19 @@ async function carregarImoveis(){
 function renderListaImoveis(lista){
   const container = document.getElementById("listaImoveis");
   const soAntigos = document.getElementById("soMaisDe6Meses").checked;
-  // O filtro de "6+ meses" é pra achar anúncios publicados e esquecidos — rascunho
-  // sempre aparece, independente da idade, senão um rascunho fresquinho podia sumir da lista.
-  const filtrada = lista.filter(item => item.dados.rascunho || !soAntigos || idadeEmMeses(item.dados.publicadoEm) >= 6);
+  const filtrada = lista.filter(item => !soAntigos || idadeEmMeses(item.dados.publicadoEm) >= 6);
   if (!filtrada.length){ container.innerHTML = `<p class="hint">Nenhum imóvel encontrado${soAntigos ? " com 6+ meses." : "."}</p>`; return; }
   container.innerHTML = filtrada.map((item) => {
     const meses = idadeEmMeses(item.dados.publicadoEm);
     const ativo = item.dados.ativo !== false;
-    const rascunho = !!item.dados.rascunho;
     const corIdade = meses >= 6 ? "#c23f18" : "var(--ink-muted)";
     return `<div class="foto-item" style="align-items:flex-start">
       <div class="meta">
-        <div style="font-weight:600">${item.dados.titulo || item.pasta}
-          ${rascunho ? `<span style="background:#F1B93B;color:#3A2E00;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px">RASCUNHO</span>` : `<span style="color:${corIdade};font-size:11px">(${meses} meses)</span>`}
-        </div>
-        <div class="hint">${rascunho ? "Ainda não publicado — continue de onde parou" : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
+        <div style="font-weight:600">${item.dados.titulo || item.pasta} <span style="color:${corIdade};font-size:11px">(${meses} meses)</span></div>
+        <div class="hint">Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}</div>
         <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ ${rascunho ? "Continuar" : "Editar"}</button>
-          ${rascunho ? "" : `<button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>`}
+          <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ Editar</button>
+          <button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>
           <button class="btn secondary apagarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px;border-color:#c23f18;color:#c23f18">Apagar definitivamente</button>
         </div>
       </div>
