@@ -1305,7 +1305,13 @@ async function ghGetBranchTip(repo, branch, token){
   const res = await fetch(`https://api.github.com/repos/${repo}/git/ref/heads/${encodeURIComponent(branch)}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
   });
-  if (!res.ok) throw new Error(`Não consegui ler a branch "${branch}" (${res.status})`);
+  if (!res.ok) {
+    // Inclui o corpo da resposta do GitHub, não só o código — "404" sozinho pode ser
+    // repositório errado, branch errada, ou token sem acesso a este repo específico;
+    // a mensagem do GitHub dentro do corpo diz qual dos três é.
+    const body = await res.text();
+    throw new Error(`Não consegui ler a branch "${branch}" do repositório "${repo}" (${res.status}): ${body.slice(0,300)}`);
+  }
   const json = await res.json();
   return json.object.sha;
 }
@@ -1313,7 +1319,10 @@ async function ghGetCommitTreeSha(repo, commitSha, token){
   const res = await fetch(`https://api.github.com/repos/${repo}/git/commits/${commitSha}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" }
   });
-  if (!res.ok) throw new Error(`Não consegui ler o commit base (${res.status})`);
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`Não consegui ler o commit base (${res.status}): ${body.slice(0,300)}`);
+  }
   return (await res.json()).tree.sha;
 }
 async function ghCreateBlob(repo, token, base64Content){
