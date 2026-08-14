@@ -1,0 +1,30 @@
+{
+  "slug": "imovel-1786742813995",
+  "titulo": "",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "",
+  "uf": "SP",
+  "bairro": "",
+  "condominio": "",
+  "referencia": "",
+  "preco": "",
+  "descricaoCurta": " em , /SP",
+  "descricaoLonga": [],
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-14",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "sala-estar-cidade-medio-padrao-casa-sp-20260814212648.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em , - SP",
+      "hero": true
+    }
+  ]
+}
