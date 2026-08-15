@@ -1,4 +1,4 @@
-# Gerador de páginas de imóveis
+# Gerador de páginas de imóveis - ImobMind 5.0
 
 Sistema estático (sem Netlify, só Git) que gera páginas de imóvel sofisticadas
 a partir de um arquivo de dados + fotos. 3 diagramações diferentes por padrão
