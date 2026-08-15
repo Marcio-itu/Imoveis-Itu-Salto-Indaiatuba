@@ -192,6 +192,21 @@
 
     <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
     <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
+
+    <label style="margin-top:16px">Trilha sonora do vídeo <span style="font-weight:400;color:var(--ink-muted)">(vídeo automático com as fotos — deixe em branco pra escolher sozinho, sempre o mesmo por imóvel)</span></label>
+    <select id="trilhaSonora">
+      <option value="">Escolher automaticamente</option>
+      <option value="beautiful-wonderful-you">Beautiful Wonderful You — Jason Fabus</option>
+      <option value="once-in-a-while-i-dream">Once In A While I Dream — Tama Shutts</option>
+      <option value="gone-away">Gone Away — Blue Beat Review</option>
+      <option value="town-this-small">Town This Small — Anno Domini Beats</option>
+      <option value="paradise">Paradise — Anno Domini Beats</option>
+      <option value="saddled-up-at-dawn">Saddled Up At Dawn — Patrick Jordan Patrikios</option>
+      <option value="fields-of-fariness">Fields of Fariness — Patrick Jordan Patrikios</option>
+      <option value="when-it-ends">When It Ends — Cosplay</option>
+      <option value="stay-the-same">Stay the Same (Small Town) — Bill Douglas, Rod Kim</option>
+      <option value="happy-is">Happy Is (feat. Sybil Rose) — Splitshine</option>
+    </select>
   </fieldset>
 
   <fieldset>
@@ -454,7 +469,7 @@ function resetFormulario(){
   ["titulo","tipo","cidade","uf","bairro","condominio","referencia","preco","financiamento",
    "quartos","suites","banheiros","lavabos","salasEstar","salasJantar","salasTV","salasJogos",
    "cozinhas","copas","escritorios","closets","vagas","areaUtil","areaTerreno",
-   "diferenciais","dadosTecnicosBullets","resumo","tituloSecao",
+   "diferenciais","dadosTecnicosBullets","resumo","tituloSecao","trilhaSonora",
    "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
   ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
   document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
@@ -966,6 +981,7 @@ function carregarParaEdicao(pasta, dados){
   renderParceriaChips(); renderParceriaSugestoes();
   set("resumo", dados.resumo);
   set("tituloSecao", dados.tituloSecao);
+  set("trilhaSonora", dados.trilhaSonora);
   set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
 
   padraoAtual = dados.padrao || "medio-padrao";
@@ -1227,6 +1243,7 @@ function montarDados(comoRascunho){
     descricaoLonga,
     resumo: get("resumo").trim() || undefined,
     tituloSecao: get("tituloSecao").trim() || undefined,
+    trilhaSonora: get("trilhaSonora") || undefined,
     diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
     dadosTecnicos: get("dadosTecnicosBullets").split("\n").map(s=>s.trim()).filter(Boolean),
     parceria: (document.getElementById("emParceria").checked && parceriaHandles.length)
@@ -1568,7 +1585,8 @@ document.getElementById("salvarRascunhoBtn").onclick = async () => {
       `chore: salva rascunho de ${dados.slug} (via admin)`,
       (msg) => { status.textContent = msg; });
 
-    status.textContent = "💾 Rascunho salvo! Continue quando quiser pela lista \"Gerenciar imóveis existentes\" abaixo — em qualquer aparelho.";
+    const linkPreview = `https://www.imoveis-itu-salto.com.br/previews/${dados.slug}/`;
+    status.innerHTML = `💾 Rascunho salvo! Continue quando quiser pela lista "Gerenciar imóveis existentes" abaixo — em qualquer aparelho.<br><br>🔍 Link de prévia pro cliente aprovar (fica pronto em ~2 min): <a href="${linkPreview}" target="_blank" rel="noopener">${linkPreview}</a>`;
   } catch (err) {
     status.textContent = "❌ " + err.message;
   } finally {
@@ -1639,7 +1657,7 @@ function renderListaImoveis(lista){
         <div style="font-weight:600">${item.dados.titulo || item.pasta}
           ${rascunho ? `<span style="background:#F1B93B;color:#3A2E00;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px">RASCUNHO</span>` : `<span style="color:${corIdade};font-size:11px">(${meses} meses)</span>`}
         </div>
-        <div class="hint">${rascunho ? "Ainda não publicado — continue de onde parou" : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
+        <div class="hint">${rascunho ? `Ainda não publicado — continue de onde parou. <a href="https://www.imoveis-itu-salto.com.br/previews/${item.pasta}/" target="_blank" rel="noopener">🔍 Ver link de prévia</a>` : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
         <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ ${rascunho ? "Continuar" : "Editar"}</button>
           ${rascunho ? "" : `<button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>`}
