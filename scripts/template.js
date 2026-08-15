@@ -281,7 +281,7 @@ function breadcrumbLd(siteRoot, hubUrl, bairro, canonicalUrl, titulo) {
 }
 
 function renderPropertyPage(imovel, theme, opts) {
-  const { canonicalUrl, hubUrl, fotosBaseUrl, siteRoot, parecidos = [], analyticsToken, simuladorUrl } = opts;
+  const { canonicalUrl, hubUrl, fotosBaseUrl, siteRoot, parecidos = [], analyticsToken, simuladorUrl, preview = false } = opts;
   const fotos = imovel.fotos || [];
   const hero = fotos.find((f) => f.hero) || fotos[0] || {};
   const imagesUrls = fotos.map((f) => `${fotosBaseUrl}/${f.arquivo}`);
@@ -327,7 +327,7 @@ function renderPropertyPage(imovel, theme, opts) {
 <title>${esc(tituloSeo)} | ${esc(theme.label)}</title>
 <meta name="description" content="${esc(imovel.descricaoCurta)}">
 <link rel="canonical" href="${esc(canonicalUrl)}">
-<meta name="robots" content="${inativo ? "noindex, nofollow" : "index, follow, max-image-preview:large"}">
+<meta name="robots" content="${(inativo || preview) ? "noindex, nofollow" : "index, follow, max-image-preview:large"}">
 <link rel="icon" type="image/png" sizes="32x32" href="${esc(siteRoot)}/favicon-cliente-32.png">
 <link rel="apple-touch-icon" sizes="180x180" href="${esc(siteRoot)}/favicon-cliente-180.png">
 <meta name="geo.region" content="BR-${esc(imovel.uf)}">
@@ -352,6 +352,7 @@ ${analyticsToken ? `<script defer src="https://static.cloudflareinsights.com/bea
 </head>
 <body>
 ${inativo ? `<div style="background:#3A3826;color:#F3EFE4;text-align:center;padding:12px 20px;font-size:14px">Este imóvel não está mais disponível para novos contatos.</div>` : ""}
+${preview ? `<div style="background:#F1B93B;color:#3A2E00;text-align:center;padding:12px 20px;font-size:14px;font-weight:600">🔍 Prévia — este imóvel ainda não foi publicado. Link privado só para aprovação, não compartilhe.</div>` : ""}
 <header class="topbar">
   <div class="wrap">
     <a class="back" href="${esc(hubUrl)}">← ${esc(imovel.bairro)}</a>

@@ -63,7 +63,6 @@ function loadImoveis() {
       const dataPath = path.join(dir, "dados.json");
       if (!fs.existsSync(dataPath)) return null;
       const data = JSON.parse(fs.readFileSync(dataPath, "utf8"));
-      if (data.rascunho) return null; // rascunho: fica salvo no repo, mas nunca entra no site
       data.slug = data.slug || slugify(e.name);
       data._dir = dir;
       return data;
@@ -138,9 +137,12 @@ async function build() {
     const theme = THEMES[imovel.padrao] || THEMES["medio-padrao"];
     imovel.corretor = { ...(config.corretor || {}), ...(imovel.corretor || {}) };
     const bairroSlug = slugify(imovel.bairro);
-    const propUrl = `${SITE}/imoveis/${imovel.slug}/`;
+    // Rascunho vira uma "prévia" isolada (docs/previews/), nunca docs/imoveis/ — não
+    // sitemap, não hub, não sitemap de imagens, não "imóveis parecidos" de ninguém.
+    const outBase = imovel.rascunho ? "previews" : "imoveis";
+    const propUrl = `${SITE}/${outBase}/${imovel.slug}/`;
     const fotosBaseUrl = `${propUrl}fotos`;
-    const outDir = path.join(DOCS_DIR, "imoveis", imovel.slug);
+    const outDir = path.join(DOCS_DIR, outBase, imovel.slug);
     fs.mkdirSync(outDir, { recursive: true });
 
     await processarFotos(imovel, outDir);
@@ -158,7 +160,7 @@ async function build() {
       precoSufixo: tiposOperacao.includes("locacao") ? "/mês" : "",
     };
 
-    if (ativo) {
+    if (ativo && !imovel.rascunho) {
       sitemapUrls.push(propUrl);
       sitemapImagens.set(propUrl, (imovel.fotos || []).map((f) => ({ loc: `${fotosBaseUrl}/${f.arquivo}`, caption: f.alt })));
       todosImoveis.push(resumo);
@@ -171,20 +173,24 @@ async function build() {
   for (const imovel of imoveis) {
     const theme = THEMES[imovel.padrao] || THEMES["medio-padrao"];
     const bairroSlug = slugify(imovel.bairro);
-    const propUrl = `${SITE}/imoveis/${imovel.slug}/`;
+    const outBase = imovel.rascunho ? "previews" : "imoveis";
+    const propUrl = `${SITE}/${outBase}/${imovel.slug}/`;
     const hubUrl = `${SITE}/${bairroSlug}/`;
     const fotosBaseUrl = `${propUrl}fotos`;
-    const outDir = path.join(DOCS_DIR, "imoveis", imovel.slug);
+    const outDir = path.join(DOCS_DIR, outBase, imovel.slug);
 
-    const parecidos = similaresDe({ slug: imovel.slug, bairro: imovel.bairro, cidade: imovel.cidade }, todosImoveis);
+    const parecidos = imovel.rascunho ? [] : similaresDe({ slug: imovel.slug, bairro: imovel.bairro, cidade: imovel.cidade }, todosImoveis);
 
     const html = renderPropertyPage(imovel, theme, {
       canonicalUrl: propUrl, hubUrl, fotosBaseUrl, siteRoot: SITE,
       parecidos, analyticsToken: config.analytics?.cloudflareToken,
       simuladorUrl: config.simuladorFinanciamento,
+      preview: !!imovel.rascunho,
     });
     fs.writeFileSync(path.join(outDir, "index.html"), html);
-    fs.writeFileSync(path.join(outDir, "llms.txt"), propertyLlmsTxt(imovel, theme, propUrl, fotosBaseUrl));
+    if (!imovel.rascunho) {
+      fs.writeFileSync(path.join(outDir, "llms.txt"), propertyLlmsTxt(imovel, theme, propUrl, fotosBaseUrl));
+    }
   }
 
   // Páginas de bairro (o "linktree" próprio)
@@ -285,6 +291,7 @@ ${sitemapUrls
   const robots = `User-agent: *
 Allow: /
 Disallow: /admin/
+Disallow: /previews/
 
 User-agent: GPTBot
 Allow: /
@@ -331,7 +338,7 @@ Sitemap: ${SITE}/sitemap.xml
     fs.writeFileSync(path.join(DOCS_DIR, "CNAME"), SITE.replace(/^https?:\/\//, ""));
   }
 
-  console.log(`Build ok: ${imoveis.length} imóvel(is), ${bairrosMap.size} bairro(s) -> /docs`);
+  console.log(`Build ok: ${todosImoveis.length} imóvel(is) publicado(s), ${bairrosMap.size} bairro(s)${imoveis.length > todosImoveis.length ? ` (+${imoveis.length - todosImoveis.length} rascunho(s))` : ""} -> /docs`);
 
   // Imagem de story (1080x1920) pra WhatsApp/Instagram — uma por imóvel, sempre no
   // mesmo layout, só trocando foto e dados. Erro em um imóvel não derruba o build do site.
@@ -341,6 +348,17 @@ Sitemap: ${SITE}/sitemap.xml
       await gerarParaImovel(im.slug);
     } catch (err) {
       console.error(`  ❌ ${im.slug}: falha ao gerar imagem de story — ${err.message}`);
+    }
+  }
+
+  // Vídeo reel (fotos com efeito Ken Burns + trilha sonora) — mesma lógica de não
+  // derrubar o build por causa de 1 imóvel, e pula sozinho se o ffmpeg não existir aqui.
+  const { gerarParaImovel: gerarReel } = require("./reel-video");
+  for (const im of imoveis) {
+    try {
+      await gerarReel(im.slug);
+    } catch (err) {
+      console.error(`  ❌ ${im.slug}: falha ao gerar vídeo reel — ${err.message}`);
     }
   }
 }
