@@ -629,21 +629,45 @@ function slugify(s){
     .replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 }
 
-// --- busca de CEP (ViaCEP, gratuito, sem chave) — só preenche bairro/cidade/UF ---
+// --- busca de CEP: ViaCEP primeiro, BrasilAPI como plano B se o ViaCEP falhar (ele tem
+// histórico conhecido de instabilidade) — os dois são gratuitos, sem chave de API ---
+async function buscarCepViaCep(cep) {
+  const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+  if (!res.ok) throw new Error("ViaCEP indisponível");
+  const data = await res.json();
+  if (data.erro) return { encontrado: false };
+  return { encontrado: true, bairro: data.bairro, cidade: data.localidade, uf: data.uf, rua: data.logradouro };
+}
+async function buscarCepBrasilApi(cep) {
+  const res = await fetch(`https://brasilapi.com.br/api/cep/v1/${cep}`);
+  if (!res.ok) return { encontrado: false }; // 404 = CEP não encontrado nessa API também
+  const data = await res.json();
+  return { encontrado: true, bairro: data.neighborhood, cidade: data.city, uf: data.state, rua: data.street };
+}
 document.getElementById("buscarCepBtn").onclick = async () => {
   const cep = document.getElementById("cep").value.replace(/\D/g, "");
   const info = document.getElementById("cepInfo");
   if (cep.length !== 8){ info.textContent = "CEP precisa ter 8 números."; return; }
   info.textContent = "Buscando...";
+  let data;
   try {
-    const res = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
-    const data = await res.json();
-    if (data.erro){ info.textContent = "CEP não encontrado."; return; }
+    data = await buscarCepViaCep(cep);
+  } catch (err) {
+    info.textContent = "ViaCEP fora do ar no momento, tentando outra fonte...";
+    try {
+      data = await buscarCepBrasilApi(cep);
+    } catch (err2) {
+      info.textContent = "Não consegui buscar o CEP agora (as duas fontes falharam) — preencha bairro/cidade manualmente.";
+      return;
+    }
+  }
+  try {
+    if (!data.encontrado){ info.textContent = "CEP não encontrado."; return; }
     document.getElementById("bairro").value = data.bairro || document.getElementById("bairro").value;
-    document.getElementById("cidade").value = data.localidade || document.getElementById("cidade").value;
+    document.getElementById("cidade").value = data.cidade || document.getElementById("cidade").value;
     document.getElementById("uf").value = data.uf || document.getElementById("uf").value;
-    document.getElementById("ruaInterna").value = data.logradouro || "";
-    info.textContent = data.logradouro ? `Preenchido: ${data.logradouro}, ${data.bairro} (fica só na ficha interna)` : "Bairro/cidade preenchidos.";
+    document.getElementById("ruaInterna").value = data.rua || "";
+    info.textContent = data.rua ? `Preenchido: ${data.rua}, ${data.bairro} (fica só na ficha interna)` : "Bairro/cidade preenchidos.";
     renderFotos();
   } catch (err) {
     info.textContent = "Não consegui buscar o CEP agora — preencha bairro/cidade manualmente.";
