@@ -3,7 +3,7 @@
 > Apto de 3 dormitórios à venda por R$ 340.000 no Cond Grande Parc
 
 - Tipo: apartamento, Padrão popular
-- Condomínio: Condomínio Grande Parc
+- Condomínio: Grande Parc
 - Preço: R$ 340.000
 - Localização: Rancho Grande, Itu - SP
 - Características: 3 quarto(s), 1 suíte(s), 2 banheiro(s), 2 vaga(s), 68 m² de área útil, 96.97 m² de terreno
@@ -23,7 +23,7 @@ A estrutura do condomínio oferece portaria e monitoramento 24 horas, piscina, q
 ## Perguntas frequentes
 
 P: Em qual condomínio fica o imóvel?
-R: Fica no condomínio Condomínio Grande Parc, bairro Rancho Grande, Itu/SP.
+R: Fica no condomínio Grande Parc, bairro Rancho Grande, Itu/SP.
 
 P: O imóvel é para venda, locação ou permuta?
 R: Este imóvel está disponível para venda.
