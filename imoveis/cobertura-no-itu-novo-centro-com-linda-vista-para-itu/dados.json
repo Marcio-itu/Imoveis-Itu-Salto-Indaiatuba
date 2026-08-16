@@ -54,14 +54,9 @@
   "publicadoEm": "2026-08-16",
   "fotos": [
     {
-      "arquivo": "sala-estar-amplo-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
-      "alt": "Sala de estar amplo do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
-      "hero": true
-    },
-    {
       "arquivo": "sala-estar-espacoso-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
       "alt": "Sala de estar espacoso do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
-      "hero": false
+      "hero": true
     },
     {
       "arquivo": "sala-estar-iluminado-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
@@ -79,11 +74,6 @@
       "hero": false
     },
     {
-      "arquivo": "quarto-espacoso-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
-      "alt": "Quarto espacoso do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
-      "hero": false
-    },
-    {
       "arquivo": "quarto-iluminado-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
       "alt": "Quarto iluminado do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
       "hero": false
@@ -91,11 +81,6 @@
     {
       "arquivo": "banheiro-amplo-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
       "alt": "Banheiro amplo do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
-      "hero": false
-    },
-    {
-      "arquivo": "banheiro-espacoso-itu-medio-padrao-cobertura-sp-cobertura-20260816023526.jpeg",
-      "alt": "Banheiro espacoso do(a) cobertura médio padrão em Itu Novo Centro, Itu - SP",
       "hero": false
     },
     {
