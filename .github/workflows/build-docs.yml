@@ -39,6 +39,13 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
+      - name: Instalar ffmpeg (pra gerar o vídeo reel de cada imóvel)
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          fi
+          ffmpeg -version | head -1
+
       - name: Detectar imóvel alterado (pra publicar depois nas redes)
         id: slug
         run: |
