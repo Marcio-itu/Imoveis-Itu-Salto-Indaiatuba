@@ -257,6 +257,30 @@ async function comFallbackDeUrl(fn, urlPrincipal, urlFallback) {
 
 // --- publicação de um imóvel ----------------------------------------------
 
+// Confere se cada URL de foto já está respondendo (200 e com corpo de verdade, não uma
+// página de erro do GitHub Pages) antes de mandar pro Instagram — evita o erro "Only photo
+// or video can be accepted as media type" que acontece quando o Instagram busca a imagem
+// antes do CDN terminar de propagar o arquivo recém-publicado.
+async function aguardarFotosDisponiveis(urls, tentativas = 6, esperaMs = 5000) {
+  for (const url of urls) {
+    let ok = false;
+    for (let i = 0; i < tentativas && !ok; i++) {
+      try {
+        const res = await fetch(url, { method: "HEAD" });
+        if (res.ok) {
+          ok = true;
+        } else if (i < tentativas - 1) {
+          log(`  aguardando foto ficar disponível (tentativa ${i + 1}/${tentativas}, status ${res.status}): ${url}`);
+          await sleep(esperaMs);
+        }
+      } catch {
+        if (i < tentativas - 1) await sleep(esperaMs);
+      }
+    }
+    if (!ok) log(`  aviso: ${url} não respondeu 200 depois de ${tentativas} tentativas — publicando mesmo assim.`);
+  }
+}
+
 async function publicarImovel(slug, config) {
   const imovelDir = path.join(ROOT, "imoveis", slug);
   const dadosPath = path.join(imovelDir, "dados.json");
@@ -285,6 +309,14 @@ async function publicarImovel(slug, config) {
   log(legenda);
   log("--- fotos ---");
   urls.forEach((u) => log(" -", u));
+
+  if (!DRY_RUN) {
+    // O commit que sobe as fotos e o commit que dispara este script acontecem quase juntos —
+    // o Instagram pode tentar buscar a imagem antes do CDN do GitHub Pages terminar de servir
+    // o arquivo novo. Confirma que cada URL já responde 200 antes de mandar pro Graph API,
+    // esperando um pouco e tentando de novo se ainda não estiver pronta.
+    await aguardarFotosDisponiveis(urls);
+  }
 
   if (DRY_RUN) {
     log("  (dry-run: nada foi enviado à Meta Graph API)");
