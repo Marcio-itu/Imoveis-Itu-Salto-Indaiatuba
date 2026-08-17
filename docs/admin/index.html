@@ -193,6 +193,11 @@
     <label style="margin-top:16px">Título da seção "sobre o imóvel" <span style="font-weight:400;color:var(--ink-muted)">(opcional — padrão neutro serve pra qualquer tipo de imóvel; troque se quiser algo específico)</span></label>
     <input type="text" id="tituloSecao" placeholder="Padrão: Sobre este imóvel">
 
+    <label style="margin-top:16px;display:flex;align-items:center;gap:8px">
+      <input type="checkbox" id="gerarVideo" checked style="width:auto">
+      Gerar vídeo reel automático <span style="font-weight:400;color:var(--ink-muted)">(desmarque se as fotos deste imóvel não renderem bem em formato vertical — a imagem de story continua sendo gerada de qualquer forma)</span>
+    </label>
+
     <label style="margin-top:16px">Trilha sonora do vídeo <span style="font-weight:400;color:var(--ink-muted)">(vídeo automático com as fotos — deixe em branco pra escolher sozinho, sempre o mesmo por imóvel)</span></label>
     <select id="trilhaSonora">
       <option value="">Escolher automaticamente</option>
@@ -251,8 +256,8 @@
     </div>
 
     <details style="margin-top:18px">
-      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">Dados técnicos em bullets (opcional, não aparece mais na página)</summary>
-      <p class="hint" style="margin-top:8px">Fica salvo no imóvel, mas não é mais exibido no site — os campos acima e as caixinhas abaixo já cobrem isso de forma mais completa. Um item por linha, texto livre.</p>
+      <summary style="cursor:pointer;font-size:13px;color:var(--ink-muted)">Dados técnicos em bullets (opcional)</summary>
+      <p class="hint" style="margin-top:8px">Aparece como lista de bullets na página do imóvel, embaixo do texto — pode repetir números que já estão na Ficha técnica, sem problema. Um item por linha, texto livre.</p>
       <textarea id="dadosTecnicosBullets" placeholder="2 quartos&#10;Cozinha&#10;Suíte master&#10;Piscina&#10;Área Gourmet"></textarea>
     </details>
 
@@ -478,6 +483,7 @@ function resetFormulario(){
    "descricaoFinal","transcricao","caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"
   ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
   document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
+  document.getElementById("gerarVideo").checked = true;
   parceriaHandles = [];
   document.getElementById("emParceria").checked = false;
   document.getElementById("parceriaCampos").style.display = "none";
@@ -961,8 +967,10 @@ function renderFotos(){
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
           <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
         </label>
+        <button type="button" data-i="${i}" class="moverCimaBtn" title="Mover pra cima" ${i===0?"disabled":""} style="border:none;background:none;color:var(--ink-muted);cursor:pointer;font-size:15px;padding:0 4px">▲</button>
+        <button type="button" data-i="${i}" class="moverBaixoBtn" title="Mover pra baixo" ${i===fotos.length-1?"disabled":""} style="border:none;background:none;color:var(--ink-muted);cursor:pointer;font-size:15px;padding:0 4px">▼</button>
         <button type="button" data-i="${i}" class="removerFotoBtn" style="border:none;background:none;color:#c23f18;cursor:pointer;font-size:13px">✕ remover</button>
-        <div class="filename">${nomeArquivo(f)}</div>
+        <div class="filename">${i+1}. ${nomeArquivo(f)}</div>
       </div>`;
     fotoList.appendChild(div);
   });
@@ -973,6 +981,18 @@ function renderFotos(){
   });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
     fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".moverCimaBtn").forEach(b => b.onclick = (e) => {
+    const i = +e.target.dataset.i;
+    if (i === 0) return;
+    [fotos[i-1], fotos[i]] = [fotos[i], fotos[i-1]];
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".moverBaixoBtn").forEach(b => b.onclick = (e) => {
+    const i = +e.target.dataset.i;
+    if (i === fotos.length-1) return;
+    [fotos[i], fotos[i+1]] = [fotos[i+1], fotos[i]];
     renderFotos();
   });
   fotoList.querySelectorAll(".removerFotoBtn").forEach(b => b.onclick = (e) => {
@@ -1011,6 +1031,7 @@ function carregarParaEdicao(pasta, dados){
   set("resumo", dados.resumo);
   set("tituloSecao", dados.tituloSecao);
   set("trilhaSonora", dados.trilhaSonora);
+  document.getElementById("gerarVideo").checked = dados.gerarVideo !== false;
   set("descricaoFinal", (dados.descricaoLonga || []).join("\n"));
 
   padraoAtual = dados.padrao || "medio-padrao";
@@ -1273,6 +1294,7 @@ function montarDados(comoRascunho){
     resumo: get("resumo").trim() || undefined,
     tituloSecao: get("tituloSecao").trim() || undefined,
     trilhaSonora: get("trilhaSonora") || undefined,
+    gerarVideo: document.getElementById("gerarVideo").checked ? undefined : false,
     diferenciais: get("diferenciais").split(",").map(s=>s.trim()).filter(Boolean),
     dadosTecnicos: get("dadosTecnicosBullets").split("\n").map(s=>s.trim()).filter(Boolean),
     parceria: (document.getElementById("emParceria").checked && parceriaHandles.length)
@@ -1557,7 +1579,7 @@ document.getElementById("publicarBtn").onclick = async () => {
     pos.style.display = "flex";
     pos.innerHTML = `
       <a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/story.png" target="_blank" rel="noopener" id="storyImgLink">📱 Imagem de story (pronta em ~2 min)</a>
-      <a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/reel.mp4" target="_blank" rel="noopener" id="reelVideoLink">🎬 Vídeo reel (pronto em ~3-4 min)</a>
+      ${dados.gerarVideo === false ? "" : `<a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/reel.mp4" target="_blank" rel="noopener" id="reelVideoLink">🎬 Vídeo reel (pronto em ~3-4 min)</a>`}
       <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
       <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
     document.getElementById("novaPublicacaoBtn").onclick = resetFormulario;
