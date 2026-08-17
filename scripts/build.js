@@ -158,10 +158,12 @@ async function build() {
       } catch (err) {
         console.error(`  ❌ ${imovel.slug}: falha ao gerar imagem de story — ${err.message}`);
       }
-      try {
-        await gerarReel(imovel.slug);
-      } catch (err) {
-        console.error(`  ❌ ${imovel.slug}: falha ao gerar vídeo reel — ${err.message}`);
+      if (imovel.gerarVideo !== false) {
+        try {
+          await gerarReel(imovel.slug);
+        } catch (err) {
+          console.error(`  ❌ ${imovel.slug}: falha ao gerar vídeo reel — ${err.message}`);
+        }
       }
     }
 

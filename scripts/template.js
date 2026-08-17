@@ -384,10 +384,22 @@ ${preview ? `<div style="background:#F1B93B;color:#3A2E00;text-align:center;padd
 ${(() => {
   const blocks = {};
 
-  // "Dados técnicos em bullets" (campo livre do admin) não aparece mais aqui — ele
-  // só repetia números que já estão na Ficha técnica. Continua sendo salvo no imóvel
-  // (imovel.dadosTecnicos), só não é mais renderizado na página.
-  const caracteristicasParaExibir = [...(imovel.acessorios || []), ...(imovel.caracteristicasExtras || [])];
+  // Lista de bullets embaixo do texto — de propósito repete números já mostrados na Ficha
+  // técnica ali em cima (o pedido foi manter mesmo com a redundância).
+  const bulletsAuto = [];
+  bulletsAuto.push(`${formatPreco(imovel.preco)}${precoSufixo}${imovel.financiamento ? " - aceita financiamento" : ""}`);
+  if (imovel.quartos) bulletsAuto.push(`${imovel.quartos} quartos`);
+  if (imovel.suites) bulletsAuto.push(`${imovel.suites} suítes`);
+  if (imovel.banheiros) bulletsAuto.push(`${imovel.banheiros} banheiros (totais)`);
+  if (imovel.vagas) bulletsAuto.push(`${imovel.vagas} vagas`);
+  if (imovel.areaUtil) bulletsAuto.push(`${imovel.areaUtil} m² de área útil`);
+  if (imovel.areaTerreno) bulletsAuto.push(`${imovel.areaTerreno} m² de terreno`);
+  const caracteristicasParaExibir = [
+    ...(imovel.dadosTecnicos || []),
+    ...bulletsAuto,
+    ...(imovel.acessorios || []),
+    ...(imovel.caracteristicasExtras || []),
+  ];
 
   blocks.sobre = `<section id="sobre">
     <div class="wrap">
