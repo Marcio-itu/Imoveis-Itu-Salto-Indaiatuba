@@ -89,6 +89,10 @@
   .foto-abrir:hover figure{box-shadow:0 6px 20px rgba(0,0,0,.14)}
   .galeria img{aspect-ratio:4/3;object-fit:cover;transition:transform .35s ease;width:100%;display:block}
   .foto-abrir:hover img{transform:scale(1.04)}
+  .video-abrir figure{position:relative}
+  .play-icone{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;
+    border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:22px;padding-left:4px}
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
 
   .lightbox{position:fixed;inset:0;background:rgba(10,14,12,.94);z-index:200;display:none;
@@ -233,7 +237,10 @@
       <span class="eyebrow">Galeria</span>
       <h2 style="margin-top:10px">Fotos</h2>
       <div class="galeria">
-        <button type="button" class="foto-abrir" data-idx="0" aria-label="Ampliar foto 1 de 1">
+        <button type="button" class="foto-abrir video-abrir" data-idx="0" aria-label="Assistir vídeo do imóvel">
+            <figure><img src="https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp" alt="Vídeo do imóvel" loading="lazy" onerror="this.style.display='none'"><span class="play-icone">▶</span></figure>
+          </button>
+        <button type="button" class="foto-abrir" data-idx="1" aria-label="Ampliar foto 1 de 1">
             <figure><img src="https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp" alt="Terreno vista frente do(a) terreno padrão neutro em Residencial Central Parque, Salto - SP" loading="lazy" onerror="this.style.display='none'"></figure>
           </button>
       </div>
@@ -243,19 +250,33 @@
       <button type="button" class="lightbox-fechar" id="lightboxFechar" aria-label="Voltar para o imóvel">✕ Voltar</button>
       <button type="button" class="lightbox-seta lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
       <img class="lightbox-img" id="lightboxImg" alt="">
+      <video class="lightbox-img" id="lightboxVideo" controls playsinline style="display:none"></video>
       <button type="button" class="lightbox-seta lightbox-next" id="lightboxNext" aria-label="Próxima foto">›</button>
       <div class="lightbox-contador" id="lightboxContador"></div>
     </div>
     <script>
     (function(){
       var fotosUrls = ["https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp"];
+      var videoUrl = "https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/reel.mp4"; fotosUrls = [videoUrl].concat(fotosUrls.map(function(u){return u}));
+      var ehVideo = function(i){ return i === 0; };
       var lightbox = document.getElementById("lightbox");
       var img = document.getElementById("lightboxImg");
+      var video = document.getElementById("lightboxVideo");
       var contador = document.getElementById("lightboxContador");
       var idx = 0;
       function mostrar(i){
         idx = (i + fotosUrls.length) % fotosUrls.length;
-        img.src = fotosUrls[idx];
+        if (ehVideo(idx)) {
+          video.src = fotosUrls[idx];
+          video.style.display = "block";
+          img.style.display = "none";
+        } else {
+          img.src = fotosUrls[idx];
+          img.style.display = "block";
+          video.style.display = "none";
+          video.pause();
+          video.removeAttribute("src");
+        }
         contador.textContent = (idx + 1) + " / " + fotosUrls.length;
       }
       function abrir(i){
@@ -268,6 +289,7 @@
         lightbox.classList.remove("aberto");
         lightbox.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+        video.pause();
       }
       document.querySelectorAll(".foto-abrir").forEach(function(btn){
         btn.addEventListener("click", function(){ abrir(Number(btn.dataset.idx)); });

@@ -362,6 +362,11 @@
       </label>
     </div>
     <div id="listaImoveis" style="margin-top:14px"></div>
+
+    <details id="ultimasMidiasBox" style="margin-top:18px">
+      <summary style="cursor:pointer;font-weight:600">🎬 Últimas mídias geradas</summary>
+      <div id="ultimasMidiasLista" class="hint" style="margin-top:10px">Clique em "Carregar imóveis" acima primeiro.</div>
+    </details>
   </fieldset>
 
   <div id="okMsg" class="ok" style="display:none">Pacote gerado! Confira a pasta baixada.</div>
@@ -1660,9 +1665,27 @@ async function carregarImoveis(){
     }
     ultimaLista = lista;
     renderListaImoveis(lista);
+    renderUltimasMidias(lista);
   } catch (err) {
     container.innerHTML = `<p class="hint">❌ ${err.message}</p>`;
   }
+}
+
+function renderUltimasMidias(lista){
+  const box = document.getElementById("ultimasMidiasLista");
+  const publicados = lista
+    .filter(i => !i.dados.rascunho)
+    .sort((a, b) => (b.dados.publicadoEm || "").localeCompare(a.dados.publicadoEm || ""))
+    .slice(0, 8);
+  if (!publicados.length){ box.textContent = "Nenhum imóvel publicado ainda."; return; }
+  box.innerHTML = publicados.map(item => {
+    const base = `https://www.imoveis-itu-salto.com.br/imoveis/${item.pasta}`;
+    return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
+      <span style="flex:1;font-weight:600">${item.dados.titulo || item.pasta}</span>
+      <a class="btn secondary" href="${base}/story.png" target="_blank" rel="noopener" style="padding:6px 12px;font-size:12px">📱 Story</a>
+      <a class="btn secondary" href="${base}/reel.mp4" target="_blank" rel="noopener" style="padding:6px 12px;font-size:12px">🎬 Vídeo</a>
+    </div>`;
+  }).join("");
 }
 
 function renderListaImoveis(lista){
