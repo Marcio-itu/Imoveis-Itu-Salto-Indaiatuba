@@ -42,12 +42,13 @@
     "Suíte"
   ],
   "dadosTecnicos": [],
-  "acessorios": [
-    "Varanda",
-    "Área de serviço",
-    "Quintal"
+  "acessorios": [],
+  "caracteristicasExtras": [
+    "Sobrado",
+    "3 banheiros",
+    "4 quartos",
+    "Arejada"
   ],
-  "caracteristicasExtras": [],
   "publicadoEm": "2026-08-17",
   "rascunho": true,
   "fotos": [
