@@ -1,0 +1,48 @@
+{
+  "slug": "casa-pelo-preco-do-terreno",
+  "titulo": "Casa pelo preço do terreno! ",
+  "tipo": "casa",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Alto",
+  "condominio": "",
+  "referencia": "OVO01020",
+  "preco": "R$ 125.000",
+  "quartos": 2,
+  "banheiros": 1,
+  "salasEstar": 1,
+  "cozinhas": 1,
+  "areaUtil": 43,
+  "areaTerreno": 115,
+  "descricaoCurta": "Com valor de venda de R$ 125.000, esta casa no bairro Alto destaca-se por ter o preço equivalente ao de um terreno de 115 m² na região de Itu.",
+  "descricaoLonga": [
+    "Com valor de venda de R$ 125.000, esta casa no bairro Alto destaca-se por ter o preço equivalente ao de um terreno de 115 m² na região de Itu.",
+    "A estrutura conta com 43 m² de área útil distribuídos em 2 dormitórios, sala de estar, cozinha e 1 banheiro, ideal para sua família reformar ou construir.",
+    "A excelente localização no tradicional bairro Alto garante facilidade de acesso a comércios e serviços, oferecendo praticidade para a rotina diária."
+  ],
+  "resumo": "Casa à venda no bairro Alto, em Itu, por R$ 125.000, comercializada pelo preço do terreno e ideal para quem busca excelente custo-benefício.",
+  "tituloSecao": "Faça uma vista!",
+  "diferenciais": [
+    "Localização"
+  ],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-08-17",
+  "fotos": [
+    {
+      "arquivo": "sala-estar-amplo-itu-padrao-neutro-casa-sp-localizacao-20260817221053.jpeg",
+      "alt": "Sala de estar amplo do(a) casa padrão neutro em Alto, Itu - SP",
+      "hero": true
+    },
+    {
+      "arquivo": "sala-estar-espacoso-itu-padrao-neutro-casa-sp-localizacao-20260817221053.jpeg",
+      "alt": "Sala de estar espacoso do(a) casa padrão neutro em Alto, Itu - SP",
+      "hero": false
+    }
+  ]
+}
