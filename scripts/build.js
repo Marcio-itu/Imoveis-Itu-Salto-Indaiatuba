@@ -147,6 +147,24 @@ async function build() {
 
     await processarFotos(imovel, outDir);
 
+    // Story image e vídeo reel geram AQUI (antes da página), não no fim do build como antes —
+    // assim a passada 2 já sabe com certeza se o reel.mp4 existe de verdade, em vez de
+    // arriscar linkar um vídeo que ainda não foi gerado.
+    if (!imovel.rascunho) {
+      const { gerarParaImovel: gerarStory } = require("./story-image");
+      const { gerarParaImovel: gerarReel } = require("./reel-video");
+      try {
+        await gerarStory(imovel.slug);
+      } catch (err) {
+        console.error(`  ❌ ${imovel.slug}: falha ao gerar imagem de story — ${err.message}`);
+      }
+      try {
+        await gerarReel(imovel.slug);
+      } catch (err) {
+        console.error(`  ❌ ${imovel.slug}: falha ao gerar vídeo reel — ${err.message}`);
+      }
+    }
+
     const ativo = imovel.ativo !== false;
     const hero = (imovel.fotos || []).find((f) => f.hero) || (imovel.fotos || [])[0];
     const thumb = hero ? `${fotosBaseUrl}/${hero.arquivo}` : undefined;
@@ -180,12 +198,14 @@ async function build() {
     const outDir = path.join(DOCS_DIR, outBase, imovel.slug);
 
     const parecidos = imovel.rascunho ? [] : similaresDe({ slug: imovel.slug, bairro: imovel.bairro, cidade: imovel.cidade }, todosImoveis);
+    const temVideo = !imovel.rascunho && fs.existsSync(path.join(outDir, "reel.mp4"));
 
     const html = renderPropertyPage(imovel, theme, {
       canonicalUrl: propUrl, hubUrl, fotosBaseUrl, siteRoot: SITE,
       parecidos, analyticsToken: config.analytics?.cloudflareToken,
       simuladorUrl: config.simuladorFinanciamento,
       preview: !!imovel.rascunho,
+      videoUrl: temVideo ? `${propUrl}reel.mp4` : undefined,
     });
     fs.writeFileSync(path.join(outDir, "index.html"), html);
     if (!imovel.rascunho) {
@@ -339,28 +359,6 @@ Sitemap: ${SITE}/sitemap.xml
   }
 
   console.log(`Build ok: ${todosImoveis.length} imóvel(is) publicado(s), ${bairrosMap.size} bairro(s)${imoveis.length > todosImoveis.length ? ` (+${imoveis.length - todosImoveis.length} rascunho(s))` : ""} -> /docs`);
-
-  // Imagem de story (1080x1920) pra WhatsApp/Instagram — uma por imóvel, sempre no
-  // mesmo layout, só trocando foto e dados. Erro em um imóvel não derruba o build do site.
-  const { gerarParaImovel } = require("./story-image");
-  for (const im of imoveis) {
-    try {
-      await gerarParaImovel(im.slug);
-    } catch (err) {
-      console.error(`  ❌ ${im.slug}: falha ao gerar imagem de story — ${err.message}`);
-    }
-  }
-
-  // Vídeo reel (fotos com efeito Ken Burns + trilha sonora) — mesma lógica de não
-  // derrubar o build por causa de 1 imóvel, e pula sozinho se o ffmpeg não existir aqui.
-  const { gerarParaImovel: gerarReel } = require("./reel-video");
-  for (const im of imoveis) {
-    try {
-      await gerarReel(im.slug);
-    } catch (err) {
-      console.error(`  ❌ ${im.slug}: falha ao gerar vídeo reel — ${err.message}`);
-    }
-  }
 }
 
 build().catch((err) => {

@@ -72,6 +72,10 @@ function css(t) {
   .foto-abrir:hover figure{box-shadow:0 6px 20px rgba(0,0,0,.14)}
   .galeria img{aspect-ratio:4/3;object-fit:cover;transition:transform .35s ease;width:100%;display:block}
   .foto-abrir:hover img{transform:scale(1.04)}
+  .video-abrir figure{position:relative}
+  .play-icone{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;
+    border-radius:50%;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;justify-content:center;
+    font-size:22px;padding-left:4px}
   @media (max-width:720px){.galeria{grid-template-columns:repeat(2,1fr)}}
 
   .lightbox{position:fixed;inset:0;background:rgba(10,14,12,.94);z-index:200;display:none;
@@ -281,7 +285,7 @@ function breadcrumbLd(siteRoot, hubUrl, bairro, canonicalUrl, titulo) {
 }
 
 function renderPropertyPage(imovel, theme, opts) {
-  const { canonicalUrl, hubUrl, fotosBaseUrl, siteRoot, parecidos = [], analyticsToken, simuladorUrl, preview = false } = opts;
+  const { canonicalUrl, hubUrl, fotosBaseUrl, siteRoot, parecidos = [], analyticsToken, simuladorUrl, preview = false, videoUrl } = opts;
   const fotos = imovel.fotos || [];
   const hero = fotos.find((f) => f.hero) || fotos[0] || {};
   const imagesUrls = fotos.map((f) => `${fotosBaseUrl}/${f.arquivo}`);
@@ -436,10 +440,13 @@ ${(() => {
       <span class="eyebrow">Galeria</span>
       <h2 style="margin-top:10px">${esc(tituloGaleria)}</h2>
       <div class="galeria">
+        ${videoUrl ? `<button type="button" class="foto-abrir video-abrir" data-idx="0" aria-label="Assistir vídeo do imóvel">
+            <figure><img src="${fotosBaseUrl}/${esc(fotos[0].arquivo)}" alt="Vídeo do imóvel" loading="lazy" onerror="this.style.display='none'"><span class="play-icone">▶</span></figure>
+          </button>` : ""}
         ${fotos
           .map(
             (f, i) =>
-              `<button type="button" class="foto-abrir" data-idx="${i}" aria-label="Ampliar foto ${i + 1} de ${fotos.length}">
+              `<button type="button" class="foto-abrir" data-idx="${videoUrl ? i + 1 : i}" aria-label="Ampliar foto ${i + 1} de ${fotos.length}">
             <figure><img src="${fotosBaseUrl}/${esc(f.arquivo)}" alt="${esc(f.alt || imovel.titulo)}" loading="lazy" onerror="this.style.display='none'"></figure>
           </button>`
           )
@@ -451,19 +458,33 @@ ${(() => {
       <button type="button" class="lightbox-fechar" id="lightboxFechar" aria-label="Voltar para o imóvel">✕ Voltar</button>
       <button type="button" class="lightbox-seta lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
       <img class="lightbox-img" id="lightboxImg" alt="">
+      <video class="lightbox-img" id="lightboxVideo" controls playsinline style="display:none"></video>
       <button type="button" class="lightbox-seta lightbox-next" id="lightboxNext" aria-label="Próxima foto">›</button>
       <div class="lightbox-contador" id="lightboxContador"></div>
     </div>
     <script>
     (function(){
       var fotosUrls = ${JSON.stringify(fotos.map((f) => `${fotosBaseUrl}/${f.arquivo}`))};
+      ${videoUrl ? `var videoUrl = ${JSON.stringify(videoUrl)}; fotosUrls = [videoUrl].concat(fotosUrls.map(function(u){return u}));` : ""}
+      var ehVideo = ${videoUrl ? "function(i){ return i === 0; }" : "function(){ return false; }"};
       var lightbox = document.getElementById("lightbox");
       var img = document.getElementById("lightboxImg");
+      var video = document.getElementById("lightboxVideo");
       var contador = document.getElementById("lightboxContador");
       var idx = 0;
       function mostrar(i){
         idx = (i + fotosUrls.length) % fotosUrls.length;
-        img.src = fotosUrls[idx];
+        if (ehVideo(idx)) {
+          video.src = fotosUrls[idx];
+          video.style.display = "block";
+          img.style.display = "none";
+        } else {
+          img.src = fotosUrls[idx];
+          img.style.display = "block";
+          video.style.display = "none";
+          video.pause();
+          video.removeAttribute("src");
+        }
         contador.textContent = (idx + 1) + " / " + fotosUrls.length;
       }
       function abrir(i){
@@ -476,6 +497,7 @@ ${(() => {
         lightbox.classList.remove("aberto");
         lightbox.setAttribute("aria-hidden", "true");
         document.body.style.overflow = "";
+        video.pause();
       }
       document.querySelectorAll(".foto-abrir").forEach(function(btn){
         btn.addEventListener("click", function(){ abrir(Number(btn.dataset.idx)); });
