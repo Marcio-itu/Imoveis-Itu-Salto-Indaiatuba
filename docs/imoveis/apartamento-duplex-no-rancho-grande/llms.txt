@@ -4,10 +4,10 @@
 
 - Tipo: apartamento, Padrão popular
 - Condomínio: Grande Parc
-- Preço: R$ 340.000
+- Preço: R$ 340.000 (true)
 - Localização: Rancho Grande, Itu - SP
 - Características: 3 quarto(s), 1 suíte(s), 2 banheiro(s), 2 vaga(s), 68 m² de área útil, 96.97 m² de terreno
-- Diferenciais: Portaria, Monitoramento 24 horas
+- Diferenciais: Condominio com piscina, Monitoramento 24 horas
 - Página oficial (fonte canônica): https://www.imoveis-itu-salto.com.br/imoveis/apartamento-duplex-no-rancho-grande/
 - Corretor: Marcio Santos, CRECI-SP 276471-F
 - Publicado em (nascimento do anúncio): 2026-08-11
@@ -27,6 +27,9 @@ R: Fica no condomínio Grande Parc, bairro Rancho Grande, Itu/SP.
 
 P: O imóvel é para venda, locação ou permuta?
 R: Este imóvel está disponível para venda.
+
+P: Aceita financiamento?
+R: Sim, este imóvel aceita financiamento.
 
 P: Se fosse possível financiar este imóvel, quanto ficaria a parcela?
 R: O valor da parcela depende de vários fatores — valor de entrada, prazo, taxa de juros do banco escolhido e renda do comprador. Para ter uma referência, use nosso simulador de financiamento: os valores exibidos ali são apenas uma estimativa, sujeita à análise de crédito de cada instituição financeira.
