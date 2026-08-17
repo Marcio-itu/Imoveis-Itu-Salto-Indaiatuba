@@ -12,9 +12,12 @@
   "condominio": "Grande Parc",
   "referencia": "OVO01017",
   "preco": "R$ 340.000",
+  "financiamento": true,
   "quartos": 3,
   "suites": 1,
   "banheiros": 2,
+  "salasEstar": 1,
+  "cozinhas": 1,
   "vagas": 2,
   "areaUtil": 68,
   "areaTerreno": 96.97,
@@ -26,8 +29,9 @@
   ],
   "resumo": "Apto de 3 dormitórios à venda por R$ 340.000 no Cond Grande Parc",
   "tituloSecao": "Bora conhecer?",
+  "trilhaSonora": "fields-of-fariness",
   "diferenciais": [
-    "Portaria",
+    "Condominio com piscina",
     "Monitoramento 24 horas"
   ],
   "dadosTecnicos": [],
