@@ -26,7 +26,12 @@
       "@marcionunesmarins"
     ]
   },
-  "acessorios": [],
+  "acessorios": [
+    "Playground",
+    "Portaria 24h",
+    "Cerca elétrica",
+    "Condomínio fechado"
+  ],
   "caracteristicasExtras": [
     "Contato com a Natureza",
     "Localização Privilegiada",
