@@ -1,0 +1,32 @@
+{
+  "slug": "imovel-teste",
+  "titulo": "Imovel teste",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Parque Residencial Presidente Médici",
+  "condominio": "",
+  "referencia": "OVO01021",
+  "preco": "R$ 630.000",
+  "descricaoCurta": "Imovel teste em Parque Residencial Presidente Médici, Itu/SP",
+  "descricaoLonga": [],
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [
+    "Teste",
+    "Teste"
+  ],
+  "publicadoEm": "2026-08-18",
+  "fotos": [
+    {
+      "arquivo": "sala-estar-itu-medio-padrao-casa-sp-20260818155502.jpeg",
+      "alt": "Sala de estar do(a) casa médio padrão em Parque Residencial Presidente Médici, Itu - SP",
+      "hero": true
+    }
+  ]
+}
