@@ -46,7 +46,7 @@ const ACCESS_TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN || "";
 
 // IDs criados hoje (09/05/2026)
 const PAGE_ID = process.env.FACEBOOK_PAGE_ID || "111021645138305"; // Imóveis Itu Salto Sorocaba
-const CATALOG_ID = process.env.CATALOG_ID || "925058123358743"; // Catalog_Real_Estate
+const CATALOG_ID = process.env.CATALOG_ID || "2149735395585577"; // novo catalogo imoveis-itu-salto HOME_LISTINGS // Catalog_Real_Estate
 const BUSINESS_ID = "858693698625808";
 
 
