@@ -44,6 +44,12 @@ if (veioCorrompido) {
 }
 const ACCESS_TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN || "";
 
+// IDs criados hoje (09/05/2026)
+const PAGE_ID = process.env.FACEBOOK_PAGE_ID || "111021645138305"; // Imóveis Itu Salto Sorocaba
+const CATALOG_ID = process.env.CATALOG_ID || "925058123358743"; // Catalog_Real_Estate
+const BUSINESS_ID = "858693698625808";
+
+
 // --- utilidades ---------------------------------------------------------
 
 function log(...parts) {
@@ -174,9 +180,32 @@ function urlRawGithubFallback(slug, nomeArquivo) {
 
 function listarFotos(dados) {
   const fotos = (dados.fotos || []).slice();
+  // --- FILTRO ANTI-REJEIÇÃO INSTAGRAM ---
+  // Instagram rejeita imagens com muito texto/gráfico (planta baixa, card comercial)
+  // Essas fotos continuam no site, mas não vão pro Instagram
+  const TERMOS_BLOQUEADOS = ['planta', 'baixa', 'comercial', 'card', 'capa-comercial', 'logo', 'capa', 'anuncio', 'banner'];
+  const fotosFiltradas = fotos.filter(f => {
+    const nome = (f.arquivo || '').toLowerCase();
+    const ambiente = (f.ambiente || '').toLowerCase();
+    // Se o nome contém termo bloqueado, pula
+    if (TERMOS_BLOQUEADOS.some(t => nome.includes(t) && !nome.includes('fachada') && !nome.includes('frente'))) {
+        // exceção: permite se for explicitamente fachada, mas planta mesmo bloqueia
+        if (nome.includes('planta')) return false;
+        if (nome.includes('comercial-card') || nome.includes('capa-comercial')) return false;
+    }
+    // Checagem mais precisa
+    if (/planta.*baixa|comercial.*card|capa.comercial/i.test(nome)) return false;
+    return true;
+  });
+  
+  const listaFinal = fotosFiltradas.length >= 1 ? fotosFiltradas : fotos; // fallback: se filtrar tudo, usa original
+  if (fotosFiltradas.length < fotos.length) {
+    console.log(`  filtro: ${fotos.length - fotosFiltradas.length} foto(s) comercial/planta removida(s) do Instagram`);
+  }
+  
   // hero primeiro, se marcada
-  fotos.sort((a, b) => (b.hero ? 1 : 0) - (a.hero ? 1 : 0));
-  return fotos.slice(0, 10); // limite do Instagram para carrossel
+  listaFinal.sort((a, b) => (b.hero ? 1 : 0) - (a.hero ? 1 : 0));
+  return listaFinal.slice(0, 10); // limite do Instagram para carrossel
 }
 
 // --- chamadas à Graph API -------------------------------------------------
@@ -252,6 +281,147 @@ async function comFallbackDeUrl(fn, urlPrincipal, urlFallback) {
       return fn(urlFallback);
     }
     throw err;
+  }
+}
+
+// --- Facebook Page + Catálogo -------------------------------------------
+
+async function publicarNaPaginaFacebook(slug, dados, fotos, legenda, config) {
+  if (!PAGE_ID) {
+    log("  FB Page: PAGE_ID não configurado - pulando");
+    return null;
+  }
+  try {
+    // Para Facebook Page, podemos usar todas as fotos (inclui planta, etc)
+    // mas o Facebook também prefere fotos reais. Vamos usar as filtradas do Instagram mesmo
+    const urls = fotos.map(f => urlPublicaFoto(config, slug, f.arquivo));
+    
+    if (fotos.length === 1) {
+      log(`  FB Page: publicando foto única na página ${PAGE_ID}...`);
+      const data = await graphPost(`${PAGE_ID}/photos`, {
+        url: urls[0],
+        caption: legenda,
+      });
+      log(`  ✅ FB Page foto: id=${data.id || data.post_id}`);
+      return data;
+    } else {
+      // Carrossel na Page: precisa upload unpublished + feed com attached_media
+      log(`  FB Page: publicando carrossel com ${urls.length} fotos na página ${PAGE_ID}...`);
+      const mediaIds = [];
+      for (const url of urls) {
+        const up = await graphPost(`${PAGE_ID}/photos`, {
+          url: url,
+          published: "false",
+        });
+        mediaIds.push(up.id);
+        await sleep(800);
+      }
+      const attached = mediaIds.map(id => ({ media_fbid: id }));
+      const feed = await graphPost(`${PAGE_ID}/feed`, {
+        message: legenda,
+        attached_media: JSON.stringify(attached),
+      });
+      log(`  ✅ FB Page carrossel: id=${feed.id}`);
+      return feed;
+    }
+  } catch (err) {
+    console.error(`  ⚠️ FB Page falhou (não crítico): ${err.message}`);
+    return null;
+  }
+}
+
+async function publicarNoCatalogo(slug, dados, fotos, config) {
+  if (!CATALOG_ID) {
+    log("  Catálogo: CATALOG_ID não configurado - pulando");
+    return null;
+  }
+  try {
+    // Monta dados pro formato HOME_LISTING do Facebook
+    const precoNumerico = parseInt((dados.preco || '').replace(/[^0-9]/g, '')) || 0;
+    const imagemPrincipal = fotos[0] ? urlPublicaFoto(config, slug, fotos[0].arquivo) : '';
+    const todasImagens = fotos.map(f => ({ url: urlPublicaFoto(config, slug, f.arquivo) }));
+    
+    const homeListing = {
+      home_listing_id: slug,
+      name: (dados.titulo || slug).slice(0, 100),
+      description: (dados.resumo || dados.descricaoCurta || dados.titulo || '').slice(0, 5000),
+      address: {
+        city: dados.cidade || 'Itu',
+        region: dados.uf || 'SP',
+        country: 'BR',
+        neighborhood: dados.bairro || '',
+      },
+      availability: 'available',
+      listing_type: 'for_sale',
+      property_type: (dados.tipo || '').toLowerCase().includes('casa') ? 'house' : 'house',
+      price: precoNumerico,
+      currency: 'BRL',
+      num_beds: parseInt(dados.quartos) || 0,
+      num_baths: parseInt(dados.banheiros) || 0,
+      image: todasImagens.slice(0, 20),
+      url: `${config.dominio.replace(/\/$/, "")}/imoveis/${slug}/`,
+    };
+    
+    // Remove campos vazios
+    if (!homeListing.price) delete homeListing.price;
+    
+    log(`  Catálogo ${CATALOG_ID}: enviando ${slug}...`);
+    
+    const payload = {
+      access_token: ACCESS_TOKEN,
+      item_type: 'HOME_LISTING',
+      requests: JSON.stringify([{
+        method: 'CREATE',
+        data: homeListing
+      }])
+    };
+    
+    const url = `${GRAPH}/${CATALOG_ID}/items_batch`;
+    const params = new URLSearchParams(payload);
+    const res = await fetch(url, { method: 'POST', body: params });
+    const data = await res.json();
+    
+    if (!res.ok || data.error) {
+      throw new Error(data.error?.message || JSON.stringify(data));
+    }
+    
+    log(`  ✅ Catálogo: ${slug} enviado - ${JSON.stringify(data).slice(0, 200)}`);
+    return data;
+  } catch (err) {
+    // Se já existe, tenta UPDATE
+    if (/already exists|duplicate|already being used/i.test(err.message)) {
+      try {
+        log(`  Catálogo: ${slug} já existe, tentando UPDATE...`);
+        const precoNumerico = parseInt((dados.preco || '').replace(/[^0-9]/g, '')) || 0;
+        const imagemPrincipal = fotos[0] ? urlPublicaFoto(config, slug, fotos[0].arquivo) : '';
+        const homeListing = {
+          home_listing_id: slug,
+          name: (dados.titulo || slug).slice(0, 100),
+          price: precoNumerico,
+          currency: 'BRL',
+          availability: 'available',
+          url: `${config.dominio.replace(/\/$/, "")}/imoveis/${slug}/`,
+        };
+        const payload = {
+          access_token: ACCESS_TOKEN,
+          item_type: 'HOME_LISTING',
+          requests: JSON.stringify([{
+            method: 'UPDATE',
+            data: homeListing
+          }])
+        };
+        const url = `${GRAPH}/${CATALOG_ID}/items_batch`;
+        const params = new URLSearchParams(payload);
+        const res = await fetch(url, { method: 'POST', body: params });
+        const data = await res.json();
+        log(`  ✅ Catálogo UPDATE: ${slug}`);
+        return data;
+      } catch (e2) {
+        console.error(`  ⚠️ Catálogo UPDATE falhou: ${e2.message}`);
+      }
+    }
+    console.error(`  ⚠️ Catálogo falhou (não crítico): ${err.message}`);
+    return null;
   }
 }
 
@@ -351,7 +521,13 @@ async function publicarImovel(slug, config) {
   const mediaId = resultado.id;
   const permalink = await buscarPermalink(mediaId);
   salvarLog(imovelDir, { instagram_media_id: mediaId, permalink, data: new Date().toISOString() });
-  log(`  ✅ publicado! media_id=${mediaId}${permalink ? " permalink=" + permalink : ""}`);
+  log(`  ✅ Instagram publicado! media_id=${mediaId}${permalink ? " permalink=" + permalink : ""}`);
+
+  // 2. Publica na Página do Facebook (Imóveis Itu Salto Sorocaba - 111021645138305)
+  await publicarNaPaginaFacebook(slug, dados, fotos, legenda, config);
+
+  // 3. Publica no Catálogo Real Estate (925058123358743)
+  await publicarNoCatalogo(slug, dados, fotos, config);
 }
 
 async function buscarPermalink(mediaId) {
