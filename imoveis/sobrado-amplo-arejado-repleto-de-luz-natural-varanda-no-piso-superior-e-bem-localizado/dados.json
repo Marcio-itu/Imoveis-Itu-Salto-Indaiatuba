@@ -11,7 +11,7 @@
   "uf": "SP",
   "bairro": "Jardim Santa Tereza",
   "condominio": "",
-  "referencia": "",
+  "referencia": "OVP01021",
   "preco": "R$ 600.000",
   "financiamento": true,
   "quartos": 4,
@@ -50,7 +50,6 @@
     "Arejada"
   ],
   "publicadoEm": "2026-08-17",
-  "rascunho": true,
   "fotos": [
     {
       "arquivo": "fachada-itu-medio-padrao-casa-sp-localizacao-20260817010400.jpg",
