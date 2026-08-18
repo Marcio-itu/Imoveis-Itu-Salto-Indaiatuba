@@ -286,41 +286,76 @@ async function comFallbackDeUrl(fn, urlPrincipal, urlFallback) {
 
 // --- Facebook Page + Catálogo -------------------------------------------
 
+
+async function getPageAccessToken() {
+  try {
+    const url = `${GRAPH}/me/accounts?fields=id,access_token,name&limit=100&access_token=${ACCESS_TOKEN}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    const page = (data.data || []).find(p => p.id === PAGE_ID);
+    if (page && page.access_token) {
+      log(`  FB Page: token da página ${PAGE_ID} obtido`);
+      return page.access_token;
+    }
+    log(`  FB Page: página ${PAGE_ID} não encontrada em /me/accounts - usando token de usuário como fallback`);
+    return ACCESS_TOKEN;
+  } catch (e) {
+    log(`  FB Page: falha ao obter token da página: ${e.message} - usando token de usuário`);
+    return ACCESS_TOKEN;
+  }
+}
+
+async function graphPostWithToken(pathSegment, body, token) {
+  const useToken = token || ACCESS_TOKEN;
+  const url = `${GRAPH}/${pathSegment}`;
+  const params = new URLSearchParams({ ...body, access_token: useToken });
+  const res = await fetch(url, { method: "POST", body: params });
+  const data = await res.json();
+  if (!res.ok || data.error) {
+    const err = data.error || {};
+    if (err.code === 190) {
+      console.error("TOKEN EXPIRADO - renovar em developers.facebook.com");
+    }
+    const msg = err.message || `HTTP ${res.status}`;
+    throw new Error(`Graph API (${pathSegment}): ${msg}`);
+  }
+  return data;
+}
+
 async function publicarNaPaginaFacebook(slug, dados, fotos, legenda, config) {
   if (!PAGE_ID) {
     log("  FB Page: PAGE_ID não configurado - pulando");
     return null;
   }
   try {
-    // Para Facebook Page, podemos usar todas as fotos (inclui planta, etc)
-    // mas o Facebook também prefere fotos reais. Vamos usar as filtradas do Instagram mesmo
+    const PAGE_TOKEN = await getPageAccessToken();
     const urls = fotos.map(f => urlPublicaFoto(config, slug, f.arquivo));
     
     if (fotos.length === 1) {
       log(`  FB Page: publicando foto única na página ${PAGE_ID}...`);
-      const data = await graphPost(`${PAGE_ID}/photos`, {
+      const data = await graphPostWithToken(`${PAGE_ID}/photos`, {
         url: urls[0],
         caption: legenda,
-      });
+      }, PAGE_TOKEN);
       log(`  ✅ FB Page foto: id=${data.id || data.post_id}`);
       return data;
     } else {
-      // Carrossel na Page: precisa upload unpublished + feed com attached_media
       log(`  FB Page: publicando carrossel com ${urls.length} fotos na página ${PAGE_ID}...`);
       const mediaIds = [];
       for (const url of urls) {
-        const up = await graphPost(`${PAGE_ID}/photos`, {
+        const up = await graphPostWithToken(`${PAGE_ID}/photos`, {
           url: url,
           published: "false",
-        });
+        }, PAGE_TOKEN);
         mediaIds.push(up.id);
         await sleep(800);
       }
       const attached = mediaIds.map(id => ({ media_fbid: id }));
-      const feed = await graphPost(`${PAGE_ID}/feed`, {
+      const feed = await graphPostWithToken(`${PAGE_ID}/feed`, {
         message: legenda,
         attached_media: JSON.stringify(attached),
-      });
+      }, PAGE_TOKEN);
       log(`  ✅ FB Page carrossel: id=${feed.id}`);
       return feed;
     }
