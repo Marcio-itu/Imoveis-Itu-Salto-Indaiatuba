@@ -8,12 +8,12 @@
   ],
   "cidade": "Salto",
   "uf": "SP",
-  "bairro": "Residencial Central Parque",
+  "bairro": "Residencial Reserva Central Parque",
   "condominio": "",
   "referencia": "OVO01013",
   "preco": "R$ 250.000",
   "areaTerreno": 331,
-  "descricaoCurta": "Terreno em Condomínio com Excelente Preço! em Residencial Central Parque, Salto/SP",
+  "descricaoCurta": "Terreno em Condomínio com Excelente Preço! em Residencial Reserva Central Parque, Salto/SP",
   "descricaoLonga": [],
   "resumo": "Corre que o preço está excelente!",
   "diferenciais": [
@@ -26,12 +26,7 @@
       "@marcionunesmarins"
     ]
   },
-  "acessorios": [
-    "Playground",
-    "Portaria 24h",
-    "Cerca elétrica",
-    "Condomínio fechado"
-  ],
+  "acessorios": [],
   "caracteristicasExtras": [
     "Contato com a Natureza",
     "Localização Privilegiada",
