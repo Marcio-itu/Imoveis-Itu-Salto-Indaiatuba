@@ -4,16 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - "imoveis/**"
-      - "scripts/**"
-      - "config.json"
-      - "package.json"
-      - "assets/**"
-  workflow_dispatch: {}
-
-concurrency:
-  group: build-docs-${{ github.ref }}
-  cancel-in-progress: false
+      - 'imoveis/**'
+      - 'scripts/**'
+      - 'config.json'
+      - '.github/workflows/build-docs.yml'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,56 +17,61 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      slug: ${{ steps.slug.outputs.slug }}
+      slugs: ${{ steps.detectar.outputs.slugs }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
+          cache: 'npm'
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci || npm install
 
-      - name: Instalar ffmpeg (pra gerar o vídeo reel de cada imóvel)
+      - name: Verificar ffmpeg (já vem no runner)
         run: |
-          if ! command -v ffmpeg >/dev/null 2>&1; then
-            sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
-          fi
           ffmpeg -version | head -1
+          echo "ffmpeg OK"
 
-      - name: Detectar imóvel alterado (pra publicar depois nas redes)
-        id: slug
+      - name: Detectar imóvel alterado
+        id: detectar
         run: |
-          SLUG=$(git diff --name-only HEAD~1 HEAD -- imoveis/ 2>/dev/null | awk -F/ '{print $2}' | sort -u | tr '\n' ' ' | sed 's/ *$//')
-          echo "Imóveis alterados: $SLUG"
-          echo "slug=$SLUG" >> "$GITHUB_OUTPUT"
+          SLUGS=$(git diff --name-only --diff-filter=AMR HEAD~1 HEAD -- imoveis/ | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+          if [ -z "$SLUGS" ]; then
+            SLUGS=$(git diff --name-only --diff-filter=AMR HEAD~1 -- imoveis/ 2>/dev/null | cut -d'/' -f2 | sort -u | tr '\n' ' ' || true)
+          fi
+          echo "Imóveis alterados: $SLUGS"
+          echo "slugs=$SLUGS" >> $GITHUB_OUTPUT
 
-      - name: Gerar /docs
-        run: node scripts/build.js
+      - name: Gerar /docs só do que mudou
+        run: |
+          if [ -n "${{ steps.detectar.outputs.slugs }}" ]; then
+            node scripts/build.js --only=${{ steps.detectar.outputs.slugs }}
+          else
+            node scripts/build.js
+          fi
 
       - name: Commitar /docs se mudou
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add docs
-          git diff --cached --quiet && exit 0
-          git commit -m "build: atualiza páginas geradas [automático]"
-          for i in 1 2 3 4 5; do
-            if git pull --rebase origin main && git push; then
-              exit 0
-            fi
-            echo "Push rejeitado, tentando novamente ($i/5)..."
-            sleep $((i * 4))
-          done
-          echo "Não consegui publicar /docs após várias tentativas, mas não vou quebrar o workflow"
-          exit 0
+          git add docs/
+          if git diff --staged --quiet; then
+            echo "Nada pra commitar"
+          else
+            git commit -m "chore: atualiza docs - ${{ steps.detectar.outputs.slugs }}"
+            git pull --rebase origin main || true
+            git push
+          fi
 
   publish-instagram:
     needs: build
-    if: needs.build.outputs.slug != ''
+    if: ${{ needs.build.outputs.slugs!= '' }}
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -81,16 +81,17 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
+          cache: 'npm'
 
       - name: Instalar dependências
-        run: npm install
+        run: npm ci || npm install
 
       - name: Publicar no Instagram / Facebook / Catálogo
-        run: node scripts/publish-social.js
         env:
-          IMOVEL_SLUG: ${{ needs.build.outputs.slug }}
           INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          INSTAGRAM_USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          FACEBOOK_ACCESS_TOKEN: ${{ secrets.FACEBOOK_ACCESS_TOKEN }}
           FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
           CATALOG_ID: ${{ secrets.CATALOG_ID }}
+          IMOVEL_SLUG: ${{ needs.build.outputs.slugs }}
+        run: node scripts/publish-social.js
