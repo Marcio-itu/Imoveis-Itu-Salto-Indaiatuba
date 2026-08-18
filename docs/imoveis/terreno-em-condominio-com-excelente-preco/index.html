@@ -237,10 +237,8 @@
       <span class="eyebrow">Galeria</span>
       <h2 style="margin-top:10px">Fotos</h2>
       <div class="galeria">
-        <button type="button" class="foto-abrir video-abrir" data-idx="0" aria-label="Assistir vídeo do imóvel">
-            <figure><img src="https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp" alt="Vídeo do imóvel" loading="lazy" onerror="this.style.display='none'"><span class="play-icone">▶</span></figure>
-          </button>
-        <button type="button" class="foto-abrir" data-idx="1" aria-label="Ampliar foto 1 de 1">
+        
+        <button type="button" class="foto-abrir" data-idx="0" aria-label="Ampliar foto 1 de 1">
             <figure><img src="https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp" alt="Terreno vista frente do(a) terreno padrão neutro em Residencial Central Parque, Salto - SP" loading="lazy" onerror="this.style.display='none'"></figure>
           </button>
       </div>
@@ -257,8 +255,8 @@
     <script>
     (function(){
       var fotosUrls = ["https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/fotos/terreno-vista-frente-salto-padrao-neutro-terreno-sp-excelente-preco-20260810221802.webp"];
-      var videoUrl = "https://www.imoveis-itu-salto.com.br/imoveis/terreno-em-condominio-com-excelente-preco/reel.mp4"; fotosUrls = [videoUrl].concat(fotosUrls.map(function(u){return u}));
-      var ehVideo = function(i){ return i === 0; };
+      
+      var ehVideo = function(){ return false; };
       var lightbox = document.getElementById("lightbox");
       var img = document.getElementById("lightboxImg");
       var video = document.getElementById("lightboxVideo");
