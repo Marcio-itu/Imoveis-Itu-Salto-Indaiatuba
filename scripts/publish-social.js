@@ -20,7 +20,7 @@ const path = require("path");
 const { execSync } = require("child_process");
 
 const ROOT = path.join(__dirname, "..");
-const GRAPH = "https://graph.facebook.com/v26.0";
+const GRAPH = "https://graph.facebook.com/v21.0";
 
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
