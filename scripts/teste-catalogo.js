@@ -1,5 +1,5 @@
 // teste-catalogo.js
-// Teste real para validar publicação no catálogo Home Listings via API
+// Envia um item completo para o catálogo Home Listings sem looping
 
 const fetch = require("node-fetch");
 
@@ -17,15 +17,18 @@ async function testarCatalogo() {
   const params = new URLSearchParams({
     access_token: ACCESS_TOKEN,
 
+    // Identificador único
     home_listing_id: "teste-validacao-js",
 
-    name: "Teste via JS",
+    // Campos obrigatórios
+    name: "Casa de Teste Completa",
     availability: "for_sale",
     listing_type: "for_sale",
     property_type: "house",
     price: "123456",
     currency: "BRL",
 
+    // Endereço completo
     "address[street_address]": "Rua Exemplo 123",
     "address[city]": "Itu",
     "address[region]": "SP",
@@ -33,13 +36,22 @@ async function testarCatalogo() {
     "address[latitude]": "-23.2645",
     "address[longitude]": "-47.2992",
 
+    // Campos estruturais obrigatórios
+    year_built: "2005",
+    num_bedrooms: "3",
+    num_bathrooms: "2",
+    parking_spaces: "2",
+    lot_size: "250",
+    square_footage: "180",
+
+    // URL do imóvel
     url: "https://www.google.com",
 
-    // CORREÇÃO: formato aceito pela API
+    // Imagem obrigatória
     "images[0][image_url]": "https://via.placeholder.com/808"
   });
 
-  console.log("📡 Enviando teste ao catálogo...");
+  console.log("📡 Enviando item completo ao catálogo...");
 
   try {
     const res = await fetch(url, { method: "POST", body: params });
