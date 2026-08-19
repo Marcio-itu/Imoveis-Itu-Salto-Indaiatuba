@@ -1,6 +1,7 @@
 // teste-catalogo.js
 // Teste real para validar publicação no catálogo Home Listings via API
 
+// IMPORTAÇÃO CORRETA PARA COMMONJS (node-fetch v2)
 const fetch = require("node-fetch");
 
 // Use o MESMO token que está no GitHub Actions
@@ -48,16 +49,20 @@ async function testarCatalogo() {
 
   console.log("📡 Enviando teste ao catálogo...");
 
-  const res = await fetch(url, { method: "POST", body: params });
-  const data = await res.json();
+  try {
+    const res = await fetch(url, { method: "POST", body: params });
+    const data = await res.json();
 
-  console.log("📥 Resposta da API:");
-  console.log(JSON.stringify(data, null, 2));
+    console.log("📥 Resposta da API:");
+    console.log(JSON.stringify(data, null, 2));
 
-  if (data.error) {
-    console.error("❌ Erro:", data.error.message);
-  } else {
-    console.log("✅ Sucesso! Item criado no catálogo.");
+    if (data.error) {
+      console.error("❌ Erro:", data.error.message);
+    } else {
+      console.log("✅ Sucesso! Item criado no catálogo.");
+    }
+  } catch (err) {
+    console.error("❌ Erro ao enviar requisição:", err.message);
   }
 }
 
