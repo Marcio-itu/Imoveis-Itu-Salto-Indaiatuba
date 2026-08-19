@@ -13,7 +13,7 @@
 // Uso local pra testar sem publicar de verdade:
 //   node scripts/publish-social.js --slug=casa-praia-preta --dry-run
 //
-// Graph API v26.0. Sem dependências além do fetch nativo do Node 20.
+// Graph API v21.0. Sem dependências além do fetch nativo do Node 20.
 
 const fs = require("fs");
 const path = require("path");
