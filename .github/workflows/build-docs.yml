@@ -95,3 +95,9 @@ jobs:
           CATALOG_ID: ${{ secrets.CATALOG_ID }}
           IMOVEL_SLUG: ${{ needs.build.outputs.slugs }}
         run: node scripts/publish-social.js
+
+      - name: Testar catálogo Home Listings
+        env:
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          CATALOG_ID: ${{ secrets.CATALOG_ID }}
+        run: node scripts/teste-catalogo.js
