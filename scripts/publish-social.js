@@ -43,10 +43,12 @@ if (veioCorrompido) {
   );
 }
 const ACCESS_TOKEN = process.env.INSTAGRAM_ACCESS_TOKEN || "";
+const FB_USER_TOKEN = process.env.FACEBOOK_ACCESS_TOKEN || ""; // token de USUÁRIO com catalog_management (gerado no Graph Explorer)
+const PAGE_ACCESS_TOKEN = process.env.FACEBOOK_PAGE_ACCESS_TOKEN || FB_USER_TOKEN; // se não tiver page token separado, usa o de usuário
 
 // IDs criados hoje (09/05/2026)
 const PAGE_ID = process.env.FACEBOOK_PAGE_ID || "111021645138305"; // Imóveis Itu Salto Sorocaba
-const CATALOG_ID = process.env.CATALOG_ID || "2149735395585577"; // novo catalogo imoveis-itu-salto HOME_LISTINGS // Catalog_Real_Estate
+const CATALOG_ID = process.env.CATALOG_ID || "2149735395585577"; // catalogo HOME_LISTING - 2149735395585577 imoveis-itu-salto HOME_LISTINGS // Catalog_Real_Estate
 const BUSINESS_ID = "858693698625808";
 
 
@@ -403,7 +405,7 @@ async function publicarNoCatalogo(slug, dados, fotos, config) {
     log(`  Catálogo ${CATALOG_ID}: enviando ${slug}...`);
     
     const payload = {
-      access_token: ACCESS_TOKEN,
+      access_token: FB_USER_TOKEN,
       item_type: 'HOME_LISTING',
       requests: JSON.stringify([{
         method: 'CREATE',
@@ -438,7 +440,7 @@ async function publicarNoCatalogo(slug, dados, fotos, config) {
           url: `${config.dominio.replace(/\/$/, "")}/imoveis/${slug}/`,
         };
         const payload = {
-          access_token: ACCESS_TOKEN,
+          access_token: FB_USER_TOKEN,
           item_type: 'HOME_LISTING',
           requests: JSON.stringify([{
             method: 'UPDATE',
