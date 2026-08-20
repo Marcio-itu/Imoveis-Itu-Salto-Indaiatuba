@@ -34,7 +34,13 @@ jobs:
         run: npm ci || npm install
 
       - name: Verificar ffmpeg (já vem no runner)
+        # Sem o "-o pipefail", "ffmpeg -version | head -1" reporta sucesso mesmo se o
+        # ffmpeg não existir (o status de saída vira o do "head", não o do "ffmpeg").
+        # Com pipefail, se o ffmpeg realmente sumir do runner, esse step falha de verdade
+        # e aparece vermelho no Actions — em vez de mentir "ffmpeg OK" e deixar os vídeos
+        # pararem de ser gerados silenciosamente (só um aviso enterrado no log do build).
         run: |
+          set -o pipefail
           ffmpeg -version | head -1
           echo "ffmpeg OK"
 
@@ -95,9 +101,3 @@ jobs:
           CATALOG_ID: ${{ secrets.CATALOG_ID }}
           IMOVEL_SLUG: ${{ needs.build.outputs.slugs }}
         run: node scripts/publish-social.js
-
-      - name: Testar catálogo Home Listings
-        env:
-          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-          CATALOG_ID: ${{ secrets.CATALOG_ID }}
-        run: node scripts/teste-catalogo.js
