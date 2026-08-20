@@ -62,7 +62,6 @@
   .foto-item img{width:70px;height:52px;object-fit:cover;border-radius:4px;flex-shrink:0}
   .foto-item .meta{flex:1}
   .filename{font-size:11px;color:var(--ink-muted);word-break:break-all;margin-top:4px}
-  .foto-item select{width:auto;display:inline-block;margin-right:8px}
   .hint{font-size:12px;color:var(--ink-muted);margin-top:6px}
   .rua-resultado{display:block;width:100%;text-align:left;border:1px solid var(--border);background:#fff;
     border-radius:8px;padding:8px 12px;font-size:13px;margin-top:6px;cursor:pointer;font-family:inherit}
@@ -98,7 +97,7 @@
     </div>
     <input type="file" id="fotoInput" accept="image/*" multiple>
     <div id="fotoList" style="margin-top:14px"></div>
-    <p class="hint">Marque qual é a foto "hero" (capa) e o ambiente de cada uma. O nome final do arquivo se completa sozinho conforme você preenche os passos abaixo — não precisa voltar aqui depois.</p>
+    <p class="hint">Marque qual é a foto "hero" (capa) e quais vão pras redes sociais (Instagram e o vídeo reel usam exatamente essas, na ordem em que aparecem aqui — <span id="contadorSocial">0/10 selecionadas</span>). O nome final do arquivo se completa sozinho conforme você preenche os passos abaixo — não precisa voltar aqui depois.</p>
   </fieldset>
 
   <fieldset>
@@ -195,7 +194,7 @@
 
     <label style="margin-top:16px;display:flex;align-items:center;gap:8px">
       <input type="checkbox" id="gerarVideo" checked style="width:auto">
-      Gerar vídeo reel automático <span style="font-weight:400;color:var(--ink-muted)">(desmarque se as fotos deste imóvel não renderem bem em formato vertical — a imagem de story continua sendo gerada de qualquer forma)</span>
+      Gerar vídeo reel automático <span style="font-weight:400;color:var(--ink-muted)">(desmarque se as fotos deste imóvel não renderem bem em formato vertical — usa as fotos marcadas "redes sociais" acima)</span>
     </label>
 
     <label style="margin-top:16px">Trilha sonora do vídeo <span style="font-weight:400;color:var(--ink-muted)">(vídeo automático com as fotos — deixe em branco pra escolher sozinho, sempre o mesmo por imóvel)</span></label>
@@ -417,38 +416,28 @@ const THEMES = {
   "padrao-neutro": { label: "Padrão neutro", accent: "#8A7F63" },
 };
 const OPERACOES = { locacao: { label: "Locação" }, venda: { label: "Venda" }, permuta: { label: "Permuta" } };
-// Ordem alfabética (pelo rótulo, como aparece no dropdown) — mais fácil de achar o ambiente certo
-// numa lista longa. Ao adicionar um novo ambiente, mantenha a lista alfabetizada.
-const AMBIENTES = ["area-lazer","banheiro","card-comercial","churrasqueira","cozinha",
-  "entorno-bairro","fachada","fachada-noturna","foto-comercial","garagem","lavabo","piscina",
-  "piso-superior","piso-terreo","planta-baixa",
-  "quarto","quarto-empregada","quarto-hospedes","quintal","sacada","sala-estar","sala-jantar",
-  "salao-comercial-interna",
-  "suite-master","terreno-vista-frente","terreno-vista-fundos","terreno-vista-perspectiva",
-  "terreno-vista-perspectiva-lateral","varanda","vista-aerea","vista-ampla-local","vista-mar"];
-const AMBIENTE_LABEL = {
-  "area-lazer":"Área de lazer","banheiro":"Banheiro","card-comercial":"Card Comercial",
-  "churrasqueira":"Churrasqueira","cozinha":"Cozinha",
-  "entorno-bairro":"Entorno do bairro","fachada":"Fachada","fachada-noturna":"Fachada noturna",
-  "foto-comercial":"Foto comercial","garagem":"Garagem","lavabo":"Lavabo","piscina":"Piscina",
-  "piso-superior":"Piso superior","piso-terreo":"Piso térreo",
-  "planta-baixa":"Planta baixa","quarto":"Quarto","quarto-empregada":"Quarto de empregada",
-  "quarto-hospedes":"Quarto de hóspedes","quintal":"Quintal","sacada":"Sacada","sala-estar":"Sala de estar",
-  "sala-jantar":"Sala de jantar","salao-comercial-interna":"Salão comercial (interna)",
-  "suite-master":"Suíte master",
-  "terreno-vista-frente":"Terreno vista frente","terreno-vista-fundos":"Terreno vista fundos",
-  "terreno-vista-perspectiva":"Terreno vista perspectiva","terreno-vista-perspectiva-lateral":"Terreno vista perspectiva lateral",
-  "varanda":"Varanda","vista-aerea":"Vista aérea","vista-ampla-local":"Vista ampla do local","vista-mar":"Vista mar"
-};
 
-// Adjetivos usados só pra diferenciar nome de arquivo quando há mais de uma foto do mesmo
-// ambiente (ex.: 3 fotos de "piscina") — sem isso, os arquivos colidiam (mesmo nome,
-// mesmo segundo). Ordem fixa: a 1ª foto do grupo pega o 1º adjetivo, a 2ª o 2º, etc. —
-// nunca aleatório, pra o nome não trocar sozinho a cada vez que a lista é redesenhada.
+// Nome do arquivo NÃO depende mais de qual cômodo a foto mostra (fachada, quarto, cozinha
+// etc.) — isso não ajudava o SEO de verdade e ainda deixava muita foto (corredor, janela,
+// detalhe) sem categoria óbvia. Agora toda foto do imóvel usa a MESMA raiz (tipo + "à venda"
+// + cidade + região), só variando um adjetivo qualificativo no final pra diferenciar os
+// arquivos entre si. Ordem fixa: a 1ª foto pega o 1º adjetivo, a 2ª o 2º, etc. — nunca
+// aleatório, pra o nome não trocar sozinho a cada vez que a lista é redesenhada. Se o imóvel
+// tiver mais fotos do que adjetivos na lista, repete a lista com um número no final (ex.:
+// "amplo-2") — nunca colide.
 const ADJETIVOS_DIFERENCIACAO = [
   "amplo","espacoso","iluminado","aconchegante","elegante","encantador","charmoso",
   "sofisticado","acolhedor","deslumbrante","arejado","moderno","reformado","impecavel",
-  "generoso","exclusivo","premium","refinado","convidativo","privativo"
+  "generoso","exclusivo","premium","refinado","convidativo","privativo",
+  "bem-avaliada","bem-distribuida","linda","espacosa",
+  "funcional","pratico","versatil","harmonioso","confortavel","luminoso","ventilado",
+  "tranquilo","valorizado","panoramico","contemporaneo","renovado","cativante",
+  "surpreendente","inspirador","marcante","singular","autentico","aprazivel","agradavel",
+  "familiar","nobre","requintado","luxuoso","imponente","atraente","bem-cuidado",
+  "arrojado","vibrante","acolhedora","climatizado","bem-servido","bem-localizado",
+  "atualizado","primoroso","suntuoso","dinamico","original","excelente",
+  "bem-iluminado","bem-arejado","completo","integrado","acessivel","planejado",
+  "excepcional","admiravel","fascinante","envolvente","peculiar","distinto"
 ];
 
 // Acessórios: itens que normalmente não têm foto própria dedicada, mas agregam valor.
@@ -470,7 +459,7 @@ const ACESSORIOS = [...Object.values(CARACTERISTICAS_GRUPOS).flat(), ...CARACTER
 
 let padraoAtual = "medio-padrao";
 let operacoesAtuais = new Set(["venda"]);
-let fotos = []; // {file, ambiente, hero}
+let fotos = []; // {file, hero, social}
 let modoEdicao = null; // { pasta, fotosExistentes, publicadoEm } — preenchido ao clicar "Editar" num imóvel já publicado
 
 document.getElementById("atualizarPaginaBtn").onclick = () => location.reload();
@@ -907,39 +896,44 @@ micBtn.onclick = () => {
 };
 
 // --- fotos ---
+const MAX_FOTOS_SOCIAL = 10; // teto do carrossel do Instagram — o reel usa o mesmo conjunto
 const fotoInput = document.getElementById("fotoInput");
 const fotoList = document.getElementById("fotoList");
 fotoInput.addEventListener("change", () => {
-  [...fotoInput.files].forEach(file => fotos.push({ file, ambiente: "sala-estar", hero: fotos.length===0 }));
+  [...fotoInput.files].forEach(file => fotos.push({ file, hero: fotos.length===0, social: false }));
   renderFotos();
 });
 
-// Quando há mais de uma foto do mesmo ambiente (ex.: 3 fotos de "piscina"), sem isso os
-// nomes colidiam — mesmo ambiente, mesmo segundo. Cada foto do grupo ganha um adjetivo
-// diferente, na ordem em que aparecem na lista (nunca sorteado, pra não mudar sozinho
-// a cada vez que a tela é redesenhada).
+// Cada foto recebe um adjetivo diferente conforme a posição dela na lista (não mais
+// agrupado por ambiente, já que não existe mais essa classificação). Se o imóvel tiver mais
+// fotos do que adjetivos na lista, a lista recomeça com um número no final (ex.: "amplo-2"),
+// nunca colide.
 function adjetivoPara(f){
-  const doMesmoAmbiente = fotos.filter(x => x.ambiente === f.ambiente);
-  if (doMesmoAmbiente.length <= 1) return "";
-  const posicao = doMesmoAmbiente.indexOf(f);
-  return ADJETIVOS_DIFERENCIACAO[posicao % ADJETIVOS_DIFERENCIACAO.length];
+  const posicao = fotos.indexOf(f);
+  const volta = Math.floor(posicao / ADJETIVOS_DIFERENCIACAO.length);
+  const adj = ADJETIVOS_DIFERENCIACAO[posicao % ADJETIVOS_DIFERENCIACAO.length];
+  return volta > 0 ? `${adj}-${volta + 1}` : adj;
 }
 
-// Nome final: ambiente[-adjetivo]-cidade-padrao-tipo-uf[-diferencial]-data
+// Raiz do nome, igual pra todas as fotos do imóvel: tipo + "a-venda" + cidade + região.
+// "interior de São Paulo" é o termo de busca mais natural pra região atendida — só cai pra
+// só a UF se o imóvel não for de SP (não é o caso hoje, mas evita nome errado se mudar).
+function raizNomeArquivo(){
+  const tipo = slugify(document.getElementById("tipo").value || "imovel");
+  const cidade = slugify(document.getElementById("cidade").value || "cidade");
+  const uf = (document.getElementById("uf").value || "SP").toUpperCase();
+  const regiao = uf === "SP" ? "interior-de-sao-paulo" : slugify(uf);
+  return `${tipo}-a-venda-${cidade}-${regiao}`.replace(/-+/g,"-");
+}
+
+// Nome final: raiz-adjetivo-data
 function nomeArquivo(f){
   // O horário fica travado na primeira vez que essa foto ganha um nome — sem isso, o
   // nome mostrado na lista podia ficar diferente do nome realmente salvo, se um segundo
   // passasse entre uma chamada e outra.
   if (!f._ts) f._ts = new Date().toISOString().replace(/[-:TZ]|\.\d+/g,"").slice(0,14);
-  const cidade = slugify(document.getElementById("cidade").value || "cidade");
-  const tipo = document.getElementById("tipo").value || "imovel";
-  const uf = (document.getElementById("uf").value || "sp").toLowerCase();
-  const diffRaw = (document.getElementById("diferenciais").value || "").split(",")[0]?.trim();
-  const diff = diffRaw ? "-" + slugify(diffRaw) : "";
-  const adj = adjetivoPara(f);
-  const ambiente = adj ? `${f.ambiente}-${adj}` : f.ambiente;
   const ext = (f.file.name.split(".").pop() || "jpg").toLowerCase();
-  return `${ambiente}-${cidade}-${padraoAtual}-${tipo}-${uf}${diff}-${f._ts}`.replace(/-+/g,"-") + "." + ext;
+  return `${raizNomeArquivo()}-${adjetivoPara(f)}-${f._ts}`.replace(/-+/g,"-") + "." + ext;
 }
 
 function altText(f){
@@ -947,25 +941,33 @@ function altText(f){
   const bairro = document.getElementById("bairro").value || "";
   const cidade = document.getElementById("cidade").value || "";
   const uf = document.getElementById("uf").value || "";
-  const label = THEMES[padraoAtual].label.toLowerCase();
-  const adj = adjetivoPara(f);
-  const ambienteTexto = adj ? `${AMBIENTE_LABEL[f.ambiente]} ${adj}` : AMBIENTE_LABEL[f.ambiente];
-  return `${ambienteTexto} do(a) ${tipo} ${label} em ${bairro}, ${cidade} - ${uf}`.replace(/\s+/g," ").trim();
+  const adj = adjetivoPara(f).replace(/-\d+$/, ""); // sem o sufixo numérico de repetição
+  return `${tipo} à venda em ${bairro}, ${cidade} - ${uf}: ${adj}`.replace(/\s+/g," ").trim();
+}
+
+function qtdSocialSelecionadas(){
+  return fotos.filter(f => f.social).length;
 }
 
 function renderFotos(){
   fotoList.innerHTML = "";
+  // Em modo de edição, o teto de 10 conta as fotos existentes marcadas + as novas juntas.
+  const totalSocial = qtdSocialSelecionadas() + (modoEdicao ? qtdSocialSelecionadasExistentes() : 0);
+  const contadorSocial = document.getElementById("contadorSocial");
+  if (contadorSocial) contadorSocial.textContent = `${totalSocial}/${MAX_FOTOS_SOCIAL} selecionadas`;
   fotos.forEach((f, i) => {
     const url = URL.createObjectURL(f.file);
     const div = document.createElement("div");
     div.className = "foto-item";
-    const opts = AMBIENTES.map(a => `<option value="${a}" ${a===f.ambiente?"selected":""}>${AMBIENTE_LABEL[a]}</option>`).join("");
+    const cheioENaoMarcada = !f.social && totalSocial >= MAX_FOTOS_SOCIAL;
     div.innerHTML = `
       <img src="${url}">
       <div class="meta">
-        <select data-i="${i}" class="ambienteSel">${opts}</select>
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
           <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
+        </label>
+        <label style="display:inline-flex;align-items:center;gap:4px;margin:0" title="Vai pro carrossel do Instagram e pro vídeo reel, no máximo ${MAX_FOTOS_SOCIAL}">
+          <input type="checkbox" data-i="${i}" class="socialChk" ${f.social?"checked":""} ${cheioENaoMarcada?"disabled":""}> 📱 redes sociais
         </label>
         <button type="button" data-i="${i}" class="moverCimaBtn" title="Mover pra cima" ${i===0?"disabled":""} style="border:none;background:none;color:var(--ink-muted);cursor:pointer;font-size:15px;padding:0 4px">▲</button>
         <button type="button" data-i="${i}" class="moverBaixoBtn" title="Mover pra baixo" ${i===fotos.length-1?"disabled":""} style="border:none;background:none;color:var(--ink-muted);cursor:pointer;font-size:15px;padding:0 4px">▼</button>
@@ -974,13 +976,15 @@ function renderFotos(){
       </div>`;
     fotoList.appendChild(div);
   });
-  fotoList.querySelectorAll(".ambienteSel").forEach(sel => sel.onchange = (e) => {
-    const f = fotos[+e.target.dataset.i];
-    f.ambiente = e.target.value;
-    renderFotos();
-  });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
     fotos.forEach((f,idx)=> f.hero = (idx===+e.target.dataset.i));
+    renderFotos();
+  });
+  fotoList.querySelectorAll(".socialChk").forEach(chk => chk.onchange = (e) => {
+    const f = fotos[+e.target.dataset.i];
+    const totalAgora = qtdSocialSelecionadas() + (modoEdicao ? qtdSocialSelecionadasExistentes() : 0);
+    if (e.target.checked && totalAgora >= MAX_FOTOS_SOCIAL) { e.target.checked = false; return; }
+    f.social = e.target.checked;
     renderFotos();
   });
   fotoList.querySelectorAll(".moverCimaBtn").forEach(b => b.onclick = (e) => {
@@ -1056,6 +1060,10 @@ function carregarParaEdicao(pasta, dados){
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+function qtdSocialSelecionadasExistentes(){
+  return modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter && f.social).length : 0;
+}
+
 function renderFotosExistentes(){
   const box = document.getElementById("fotosExistentesBox");
   const list = document.getElementById("fotosExistentesList");
@@ -1063,8 +1071,12 @@ function renderFotosExistentes(){
   box.style.display = "block";
   const repo = document.getElementById("ghRepo").value.trim();
   const branch = document.getElementById("ghBranch").value.trim() || "main";
+  // Teto de 10 fotos "redes sociais" conta as existentes marcadas + as novas marcadas juntas —
+  // senão dava pra passar de 10 combinando as duas listas.
+  const totalSocial = qtdSocialSelecionadasExistentes() + qtdSocialSelecionadas();
   list.innerHTML = modoEdicao.fotosExistentes.map((f, i) => {
     const url = repo ? `https://raw.githubusercontent.com/${repo}/${branch}/imoveis/${modoEdicao.pasta}/fotos/${f.arquivo}` : "";
+    const cheioENaoMarcada = !f.social && totalSocial >= MAX_FOTOS_SOCIAL;
     return `<div class="foto-item">
       ${url ? `<img src="${url}" style="width:70px;height:70px;object-fit:cover;border-radius:6px">` : ""}
       <div class="meta">
@@ -1072,11 +1084,21 @@ function renderFotosExistentes(){
         <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px">
           <input type="checkbox" data-i="${i}" class="manterChk" ${f.manter ? "checked" : ""}> manter
         </label>
+        <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px" title="Vai pro carrossel do Instagram e pro vídeo reel, no máximo ${MAX_FOTOS_SOCIAL} entre existentes + novas">
+          <input type="checkbox" data-i="${i}" class="socialExistenteChk" ${f.social ? "checked" : ""} ${cheioENaoMarcada?"disabled":""}> 📱 redes sociais
+        </label>
       </div>
     </div>`;
   }).join("");
   list.querySelectorAll(".manterChk").forEach(chk => chk.onchange = (e) => {
     modoEdicao.fotosExistentes[+e.target.dataset.i].manter = e.target.checked;
+  });
+  list.querySelectorAll(".socialExistenteChk").forEach(chk => chk.onchange = (e) => {
+    const f = modoEdicao.fotosExistentes[+e.target.dataset.i];
+    const totalAgora = qtdSocialSelecionadasExistentes() + qtdSocialSelecionadas();
+    if (e.target.checked && totalAgora >= MAX_FOTOS_SOCIAL) { e.target.checked = false; return; }
+    f.social = e.target.checked;
+    renderFotosExistentes();
   });
 }
 
@@ -1120,7 +1142,6 @@ document.getElementById("gerarCopyBtn").onclick = async () => {
   if (!key){ status.textContent = "Cole sua chave da API Gemini acima antes de gerar."; return; }
 
   const get = id => document.getElementById(id).value;
-  const ambientesUnicos = [...new Set(fotos.map(f=>AMBIENTE_LABEL[f.ambiente]))];
   const acessorios = getAcessoriosMarcados();
   const extras = ["caracteristicaExtra1","caracteristicaExtra2","caracteristicaExtra3","caracteristicaExtra4"].map(get).filter(Boolean);
   const operacoesTexto = [...operacoesAtuais].map(k=>OPERACOES[k].label).join(", ");
@@ -1142,7 +1163,6 @@ Outros ambientes: ${[
   Number(get("closets")) ? `${get("closets")} closet(s)` : "",
 ].filter(Boolean).join(", ") || "nenhum informado"}
 Área útil: ${get("areaUtil")||"-"} m² | Área terreno: ${get("areaTerreno")||"-"} m²
-Todos os ambientes fotografados: ${ambientesUnicos.join(", ") || "nenhum"}
 Diferenciais: ${get("diferenciais") || "nenhum"}
 Acessórios: ${acessorios.join(", ") || "nenhum"}
 Características específicas (exceções): ${extras.join(", ") || "nenhuma"}
@@ -1258,7 +1278,7 @@ function montarDados(comoRascunho){
   const descFinal = get("descricaoFinal").trim();
   const descricaoLonga = descFinal ? descFinal.split("\n").filter(Boolean) : (get("transcricao") ? [get("transcricao")] : []);
   const fotosExistentesMantidas = modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter) : [];
-  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero }));
+  const fotosNovas = fotos.map(f => ({ arquivo: nomeArquivo(f), alt: altText(f), hero: f.hero, social: !!f.social }));
   let fotosFinal = [...fotosExistentesMantidas.map(({manter, ...f}) => f), ...fotosNovas];
   if (fotosFinal.length && !fotosFinal.some(f => f.hero)) fotosFinal[0].hero = true; // garante 1 hero mesmo se a antiga foi removida
   return {
@@ -1578,7 +1598,6 @@ document.getElementById("publicarBtn").onclick = async () => {
     const pos = document.getElementById("posPublicarBox");
     pos.style.display = "flex";
     pos.innerHTML = `
-      <a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/story.png" target="_blank" rel="noopener" id="storyImgLink">📱 Imagem de story (pronta em ~2 min)</a>
       ${dados.gerarVideo === false ? "" : `<a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/reel.mp4" target="_blank" rel="noopener" id="reelVideoLink">🎬 Vídeo reel (pronto em ~3-4 min)</a>`}
       <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
       <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
@@ -1704,7 +1723,6 @@ function renderUltimasMidias(lista){
     const base = `https://www.imoveis-itu-salto.com.br/imoveis/${item.pasta}`;
     return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
       <span style="flex:1;font-weight:600">${item.dados.titulo || item.pasta}</span>
-      <a class="btn secondary" href="${base}/story.png" target="_blank" rel="noopener" style="padding:6px 12px;font-size:12px">📱 Story</a>
       <a class="btn secondary" href="${base}/reel.mp4" target="_blank" rel="noopener" style="padding:6px 12px;font-size:12px">🎬 Vídeo</a>
     </div>`;
   }).join("");
