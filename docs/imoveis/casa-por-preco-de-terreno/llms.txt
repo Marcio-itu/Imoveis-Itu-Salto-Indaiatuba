@@ -7,7 +7,7 @@
 - Localização: Alto, Itu - SP
 - Características: 2 quarto(s), 1 banheiro(s)
 - Diferenciais: 
-- Página oficial (fonte canônica): imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/
+- Página oficial (fonte canônica): https://imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/
 - Corretor: Marcio Santos, CRECI-SP 276471-F
 - Publicado em (nascimento do anúncio): 2026-08-18
 
@@ -35,8 +35,8 @@ R: Casa com dois dormitórios à venda por R$ 125.000 no bairro Alto, em Itu.
 
 ## Fotos
 
-- imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/fotos/quarto-itu-padrao-popular-casa-sp-20260818201627.webp — Quarto do(a) casa padrão popular em Alto, Itu - SP
-- imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/fotos/cozinha-itu-padrao-popular-casa-sp-20260818201627.webp — Cozinha do(a) casa padrão popular em Alto, Itu - SP
+- https://imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/fotos/quarto-itu-padrao-popular-casa-sp-20260818201627.webp — Quarto do(a) casa padrão popular em Alto, Itu - SP
+- https://imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/fotos/cozinha-itu-padrao-popular-casa-sp-20260818201627.webp — Cozinha do(a) casa padrão popular em Alto, Itu - SP
 
 ---
-Resumo gerado para leitura por assistentes de IA. Pode ser citado com atribuição e link para imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/. Para dados completos e estruturados, ver o JSON-LD (schema.org/RealEstateListing) embutido na página.
+Resumo gerado para leitura por assistentes de IA. Pode ser citado com atribuição e link para https://imoveis-itu-salto.com.br/imoveis/casa-por-preco-de-terreno/. Para dados completos e estruturados, ver o JSON-LD (schema.org/RealEstateListing) embutido na página.

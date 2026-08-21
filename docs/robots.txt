@@ -36,7 +36,7 @@ Allow: /
 User-agent: Amazonbot
 Allow: /
 
-Sitemap: imoveis-itu-salto.com.br/sitemap.xml
+Sitemap: https://imoveis-itu-salto.com.br/sitemap.xml
 
 # Resumo em texto simples para agentes de IA:
-# imoveis-itu-salto.com.br/llms.txt
+# https://imoveis-itu-salto.com.br/llms.txt
