@@ -32,7 +32,7 @@
     "Esta residência une praticidade e conforto para o dia a dia da sua família em um terreno de 132,5 m². Estuda-se permuta."
   ],
   "resumo": "Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP.",
-  "tituloSecao": "Curta as fotos e agende sua visita!",
+  "tituloSecao": "Confira as fotos e agende sua visita!",
   "trilhaSonora": "gone-away",
   "diferenciais": [
     "Localização",
@@ -58,12 +58,14 @@
     {
       "arquivo": "fachada-itu-medio-padrao-casa-sp-localizacao-20260817010400.jpg",
       "alt": "Fachada do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": true
+      "hero": true,
+      "social": true
     },
     {
       "arquivo": "garagem-amplo-itu-medio-padrao-casa-sp-localizacao-20260817010430.jpeg",
       "alt": "Garagem amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "garagem-espacoso-itu-medio-padrao-casa-sp-localizacao-20260817010444.jpeg",
@@ -88,12 +90,14 @@
     {
       "arquivo": "sala-estar-aconchegante-itu-medio-padrao-casa-sp-localizacao-20260817010520.jpeg",
       "alt": "Sala de estar aconchegante do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "lavabo-itu-medio-padrao-casa-sp-localizacao-20260817010520.jpeg",
       "alt": "Lavabo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "sala-estar-elegante-itu-medio-padrao-casa-sp-localizacao-20260817010616.jpg",
@@ -123,7 +127,8 @@
     {
       "arquivo": "piso-terreo-itu-medio-padrao-casa-sp-localizacao-20260817010616.jpeg",
       "alt": "Piso térreo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "sala-estar-acolhedor-itu-medio-padrao-casa-sp-localizacao-20260817010857.jpg",
@@ -143,7 +148,8 @@
     {
       "arquivo": "piso-superior-itu-medio-padrao-casa-sp-localizacao-20260817010927.jpeg",
       "alt": "Piso superior do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "vista-ampla-local-amplo-itu-medio-padrao-casa-sp-localizacao-20260817010945.jpeg",
@@ -163,7 +169,8 @@
     {
       "arquivo": "quarto-amplo-itu-medio-padrao-casa-sp-localizacao-20260817011007.jpeg",
       "alt": "Quarto amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "vista-ampla-local-espacoso-itu-medio-padrao-casa-sp-localizacao-20260817011007.jpeg",
@@ -173,7 +180,8 @@
     {
       "arquivo": "banheiro-amplo-itu-medio-padrao-casa-sp-localizacao-20260817011007.jpeg",
       "alt": "Banheiro amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "banheiro-espacoso-itu-medio-padrao-casa-sp-localizacao-20260817011104.jpg",
@@ -193,12 +201,14 @@
     {
       "arquivo": "quarto-espacoso-itu-medio-padrao-casa-sp-localizacao-20260817011219.jpeg",
       "alt": "Quarto espacoso do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     },
     {
       "arquivo": "vista-ampla-local-aconchegante-itu-medio-padrao-casa-sp-localizacao-20260817011259.jpeg",
       "alt": "Vista ampla do local aconchegante do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false
+      "hero": false,
+      "social": true
     }
   ]
 }
