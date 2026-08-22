@@ -375,7 +375,7 @@ async function publicarNoCatalogo(slug, dados, fotos, config) {
   try {
     const precoNumerico = parseInt((dados.preco || '').replace(/[^0-9]/g, '')) || 600000;
     const urlFotoPrincipal = fotos[0] ? urlPublicaFoto(config, slug, fotos[0].arquivo) : '';
-    const dominio = (config.dominio || 'https://www.imoveis-itu-salto.com.br').replace(/\/$/, "");
+    const dominio = (config.dominio || 'https://imoveis-itu-salto.com.br').replace(/\/$/, "");
 
     log("  Catalogo " + CATALOG_ID + ": enviando " + slug + " via /home_listings...");
 
