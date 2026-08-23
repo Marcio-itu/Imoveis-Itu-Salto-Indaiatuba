@@ -10,37 +10,46 @@
   "uf": "SP",
   "bairro": "Alto",
   "condominio": "",
-  "referencia": "OVO01022",
+  "referencia": "OVO01020",
   "preco": "R$ 125.000",
   "quartos": 2,
   "banheiros": 1,
-  "cozinhas": 1,
-  "descricaoCurta": "Esta casa térrea no bairro Alto está disponível para venda pelo valor de R$ 125.000, destacando-se como uma excelente oportunidade em termos de preço e localiza",
+  "areaUtil": 43.17,
+  "areaTerreno": 115.95,
+  "descricaoCurta": "Esta casa de padrão popular possui 43,17 m² de área útil em um terreno de 115,95 m², sendo comercializada com preço de terreno devido à sua estrutura simples.",
   "descricaoLonga": [
-    "Esta casa térrea no bairro Alto está disponível para venda pelo valor de R$ 125.000, destacando-se como uma excelente oportunidade em termos de preço e localização em Itu.",
-    "A configuração interna do imóvel atende às necessidades essenciais para morar, contando com dois dormitórios, uma cozinha e um banheiro social.",
-    "A localização no tradicional bairro Alto oferece praticidade para a rotina diária, situando o imóvel em uma região de fácil acesso."
+    "Esta casa de padrão popular possui 43,17 m² de área útil em um terreno de 115,95 m², sendo comercializada com preço de terreno devido à sua estrutura simples.",
+    "O imóvel conta com 2 quartos e 1 banheiro, apresentando uma excelente localização na região central para quem deseja reformar ou construir o seu próprio lar.",
+    "Venha conferir!"
   ],
-  "resumo": "Casa com dois dormitórios à venda por R$ 125.000 no bairro Alto, em Itu.",
-  "gerarVideo": false,
+  "resumo": "Localizada a apenas 5 minutos do centro da cidade!",
+  "trilhaSonora": "fields-of-fariness",
   "diferenciais": [],
   "dadosTecnicos": [],
   "acessorios": [],
   "caracteristicasExtras": [
-    "Localização ",
-    "Preço"
+    "Excelente Localização ",
+    "Ponto Central na R Dr Graciano Geribello"
   ],
-  "publicadoEm": "2026-08-18",
+  "publicadoEm": "2026-08-23",
   "fotos": [
     {
-      "arquivo": "quarto-itu-padrao-popular-casa-sp-20260818201627.jpeg",
-      "alt": "Quarto do(a) casa padrão popular em Alto, Itu - SP",
-      "hero": true
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260823152357.jpeg",
+      "alt": "casa à venda em Alto, Itu - SP: amplo",
+      "hero": false,
+      "social": true
     },
     {
-      "arquivo": "cozinha-itu-padrao-popular-casa-sp-20260818201627.jpeg",
-      "alt": "Cozinha do(a) casa padrão popular em Alto, Itu - SP",
-      "hero": false
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260823152357.jpeg",
+      "alt": "casa à venda em Alto, Itu - SP: espacoso",
+      "hero": true,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-iluminado-20260823152440.png",
+      "alt": "casa à venda em Alto, Itu - SP: iluminado",
+      "hero": false,
+      "social": true
     }
   ]
 }
