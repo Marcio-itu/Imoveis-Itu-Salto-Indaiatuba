@@ -1598,7 +1598,7 @@ document.getElementById("publicarBtn").onclick = async () => {
     const pos = document.getElementById("posPublicarBox");
     pos.style.display = "flex";
     pos.innerHTML = `
-      ${dados.gerarVideo === false ? "" : `<a class="btn secondary" href="https://www.imoveis-itu-salto.com.br/imoveis/${dados.slug}/reel.mp4" target="_blank" rel="noopener" id="reelVideoLink">🎬 Vídeo reel (pronto em ~3-4 min)</a>`}
+      ${dados.gerarVideo === false ? "" : `<a class="btn secondary" href="https://imoveis-itu-salto.com.br/imoveis/${dados.slug}/reel.mp4" target="_blank" rel="noopener" id="reelVideoLink">🎬 Vídeo reel (pronto em ~3-4 min)</a>`}
       <button type="button" class="btn secondary" id="novaPublicacaoBtn">➕ Nova publicação</button>
       <button type="button" class="btn secondary" id="sairBtn">🚪 Sair</button>`;
     document.getElementById("novaPublicacaoBtn").onclick = resetFormulario;
@@ -1656,7 +1656,7 @@ document.getElementById("salvarRascunhoBtn").onclick = async () => {
       `chore: salva rascunho de ${dados.slug} (via admin)`,
       (msg) => { status.textContent = msg; });
 
-    const linkPreview = `https://www.imoveis-itu-salto.com.br/previews/${dados.slug}/`;
+    const linkPreview = `https://imoveis-itu-salto.com.br/previews/${dados.slug}/`;
     status.innerHTML = `💾 Rascunho salvo! Continue quando quiser pela lista "Gerenciar imóveis existentes" abaixo — em qualquer aparelho.<br><br>🔍 Link de prévia pro cliente aprovar (fica pronto em ~2 min): <a href="${linkPreview}" target="_blank" rel="noopener">${linkPreview}</a>`;
   } catch (err) {
     status.textContent = "❌ " + err.message;
@@ -1720,7 +1720,7 @@ function renderUltimasMidias(lista){
     .slice(0, 8);
   if (!publicados.length){ box.textContent = "Nenhum imóvel publicado ainda."; return; }
   box.innerHTML = publicados.map(item => {
-    const base = `https://www.imoveis-itu-salto.com.br/imoveis/${item.pasta}`;
+    const base = `https://imoveis-itu-salto.com.br/imoveis/${item.pasta}`;
     return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
       <span style="flex:1;font-weight:600">${item.dados.titulo || item.pasta}</span>
       <a class="btn secondary" href="${base}/reel.mp4" target="_blank" rel="noopener" style="padding:6px 12px;font-size:12px">🎬 Vídeo</a>
@@ -1745,7 +1745,7 @@ function renderListaImoveis(lista){
         <div style="font-weight:600">${item.dados.titulo || item.pasta}
           ${rascunho ? `<span style="background:#F1B93B;color:#3A2E00;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px">RASCUNHO</span>` : `<span style="color:${corIdade};font-size:11px">(${meses} meses)</span>`}
         </div>
-        <div class="hint">${rascunho ? `Ainda não publicado — continue de onde parou. <a href="https://www.imoveis-itu-salto.com.br/previews/${item.pasta}/" target="_blank" rel="noopener">🔍 Ver link de prévia</a>` : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
+        <div class="hint">${rascunho ? `Ainda não publicado — continue de onde parou. <a href="https://imoveis-itu-salto.com.br/previews/${item.pasta}/" target="_blank" rel="noopener">🔍 Ver link de prévia</a>` : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
         <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
           <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ ${rascunho ? "Continuar" : "Editar"}</button>
           ${rascunho ? "" : `<button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>`}
