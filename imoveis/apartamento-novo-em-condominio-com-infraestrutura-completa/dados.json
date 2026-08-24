@@ -105,6 +105,12 @@
       "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: acolhedor",
       "hero": false,
       "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20260824131315.png",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: amplo",
+      "hero": true,
+      "social": true
     }
   ]
 }
