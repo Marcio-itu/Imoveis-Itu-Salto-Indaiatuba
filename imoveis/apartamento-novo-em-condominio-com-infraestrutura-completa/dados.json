@@ -1,0 +1,110 @@
+{
+  "slug": "apartamento-novo-em-condominio-com-infraestrutura-completa",
+  "titulo": "Apartamento novo em condomínio com infraestrutura completa!",
+  "tipo": "apartamento",
+  "padrao": "padrao-popular",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Nossa Senhora Aparecida",
+  "condominio": "Maxim Home Club Itu",
+  "referencia": "OVO01022",
+  "preco": "R$ 300.000",
+  "financiamento": true,
+  "quartos": 2,
+  "suites": 1,
+  "banheiros": 2,
+  "salasEstar": 1,
+  "cozinhas": 1,
+  "vagas": 1,
+  "areaUtil": 47,
+  "descricaoCurta": "Este apartamento novo em Itu possui 47 m² de área útil distribuídos em 2 quartos, sendo 1 suíte, banheiro social, sala de estar, cozinha, sacada e vaga para 1 v",
+  "descricaoLonga": [
+    "Este apartamento novo em Itu possui 47 m² de área útil distribuídos em 2 quartos, sendo 1 suíte, banheiro social, sala de estar, cozinha, sacada e vaga para 1 veículo.",
+    "O condomínio fechado Maxim Home Club Itu oferece portaria 24h, piscina, sauna, quadra society, quadra de beach tennis, playground, espaço gourmet com churrasqueira e 3 salões de festa.",
+    "A estrutura de lazer completa e a segurança constante garantem praticidade e bem-estar para o cotidiano de sua família."
+  ],
+  "resumo": "Apartamento novo de 47 m² com 2 quartos à venda por R$ 300.000 no condomínio Maxim Home Club Itu, no bairro Nossa Senhora Aparecida.",
+  "tituloSecao": "Que tal uma visita?",
+  "diferenciais": [
+    "Condomínio repleto de lazer e comodidades"
+  ],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Sacada",
+    "Churrasqueira",
+    "Espaço gourmet",
+    "Piscina",
+    "Playground",
+    "Salão de festas",
+    "Quadra esportiva",
+    "Portaria 24h",
+    "Condomínio fechado",
+    "Imóvel novo"
+  ],
+  "caracteristicasExtras": [
+    "Quadra Society",
+    "Quadra de Beach Tennis",
+    "Sauna",
+    "3 Salões de Festa"
+  ],
+  "publicadoEm": "2026-08-24",
+  "fotos": [
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: amplo",
+      "hero": true,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-espacoso-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: espacoso",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-iluminado-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: iluminado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-aconchegante-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: aconchegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-elegante-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: elegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-encantador-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: encantador",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-charmoso-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: charmoso",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-sofisticado-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: sofisticado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-acolhedor-20260824125109.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: acolhedor",
+      "hero": false,
+      "social": true
+    }
+  ]
+}
