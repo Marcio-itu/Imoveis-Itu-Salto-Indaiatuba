@@ -1,6 +1,6 @@
 {
   "slug": "salao-comercial-250m-2-pisos-na-avendida-do-rancho",
-  "titulo": "Salão Comercial 250m, 2 Pisos, na Avendida do Rancho!",
+  "titulo": "Salão Comercial 250m, 2 Pisos, na Avenida do Rancho!",
   "tipo": "terreno",
   "padrao": "padrao-neutro",
   "tiposOperacao": [
@@ -8,7 +8,7 @@
   ],
   "cidade": "Itu",
   "uf": "SP",
-  "bairro": "Jardim do Estádio",
+  "bairro": "Rancho Grande",
   "condominio": "",
   "referencia": "LOO01015",
   "preco": "R$ 7.900",
@@ -21,10 +21,9 @@
     "A área útil de 250 m² é distribuída em dois pisos, sendo o piso térreo composto por 100 m² e o piso superior por 150 m².",
     "O imóvel possui dois banheiros e oferece quatro vagas de estacionamento frontais para facilitar o fluxo de clientes no local."
   ],
-  "resumo": "Salão comercial com 250 m² e 4 vagas para locação na Avenida do Rancho, bairro Liberdade, Itu/SP, por R$ 7.900 mensais.",
+  "resumo": "Salão comercial com 250 m² e 4 vagas para locação na Avenida do Rancho, Itu/SP, por R$ 7.900 mensais.",
   "diferenciais": [
     "4 vagas",
-    "Localizado na Avenida do Rancho",
     "2 pisos"
   ],
   "dadosTecnicos": [],
