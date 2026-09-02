@@ -56,12 +56,6 @@
   "publicadoEm": "2026-08-17",
   "fotos": [
     {
-      "arquivo": "fachada-itu-medio-padrao-casa-sp-localizacao-20260817010400.jpg",
-      "alt": "Fachada do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": true,
-      "social": true
-    },
-    {
       "arquivo": "garagem-amplo-itu-medio-padrao-casa-sp-localizacao-20260817010430.jpeg",
       "alt": "Garagem amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
       "hero": false,
@@ -146,12 +140,6 @@
       "hero": false
     },
     {
-      "arquivo": "piso-superior-itu-medio-padrao-casa-sp-localizacao-20260817010927.jpeg",
-      "alt": "Piso superior do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false,
-      "social": true
-    },
-    {
       "arquivo": "vista-ampla-local-amplo-itu-medio-padrao-casa-sp-localizacao-20260817010945.jpeg",
       "alt": "Vista ampla do local amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
       "hero": false
@@ -208,6 +196,12 @@
       "arquivo": "vista-ampla-local-aconchegante-itu-medio-padrao-casa-sp-localizacao-20260817011259.jpeg",
       "alt": "Vista ampla do local aconchegante do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
       "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260902013226.jpeg",
+      "alt": "casa à venda em Jardim Santa Tereza, Itu - SP: amplo",
+      "hero": true,
       "social": true
     }
   ]
