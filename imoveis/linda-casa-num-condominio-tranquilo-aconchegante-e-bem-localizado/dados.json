@@ -1,0 +1,160 @@
+{
+  "slug": "linda-casa-num-condominio-tranquilo-aconchegante-e-bem-localizado",
+  "titulo": "Linda casa num condomínio tranquilo, aconchegante e bem localizado!",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Pinheirinho",
+  "condominio": "Aldeia de España",
+  "referencia": "",
+  "preco": "R$ 1.100.000",
+  "financiamento": true,
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 2,
+  "lavabos": 1,
+  "salasEstar": 1,
+  "salasJantar": 1,
+  "cozinhas": 1,
+  "areaUtil": 150.48,
+  "areaTerreno": 200,
+  "descricaoCurta": "Com 150,48 m² de área construída em terreno de 200 m², esta residência nova de arquitetura contemporânea destaca-se pelo conceito aberto que integra as salas de",
+  "descricaoLonga": [
+    "Com 150,48 m² de área construída em terreno de 200 m², esta residência nova de arquitetura contemporânea destaca-se pelo conceito aberto que integra as salas de estar e jantar à cozinha gourmet, garantindo excelente iluminação natural e ventilação cruzada.",
+    "A área íntima possui 3 dormitórios, sendo uma suíte master, além de banheiro social e lavabo. O imóvel conta ainda com um quintal privativo bem dimensionado, ideal para a criação de um espaço gourmet personalizado e varanda de convivência.",
+    "O condomínio fechado Aldeia de España, no bairro Pinheirinho, oferece infraestrutura completa com portaria presencial 24h, câmeras de segurança, quadra esportiva, playground, salão de festas e espaço gourmet. Veja fotos da casa e do condomínio aqui."
+  ],
+  "resumo": "Casa contemporânea recém-construída com 3 dormitórios à venda por R$ 1.100.000 no condomínio Aldeia de España, em Itu/SP.",
+  "tituloSecao": "Agende sua visita!",
+  "diferenciais": [
+    "Condomínio com infraestrutura completa de lazer"
+  ],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Varanda",
+    "Espaço gourmet",
+    "Playground",
+    "Salão de festas",
+    "Quadra esportiva",
+    "Portaria 24h",
+    "Portaria presencial",
+    "Câmeras de segurança",
+    "Condomínio fechado"
+  ],
+  "caracteristicasExtras": [
+    "Arquitetura & Design Contemporâneo",
+    "Muita Luz Natural & Conforto Térmico",
+    "Cozinha Gourmet & Funcionalidade",
+    "Área Íntima & Suíte Exclusiva"
+  ],
+  "publicadoEm": "2026-09-03",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260903203103.png",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: amplo",
+      "hero": true,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260903194638.jpeg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: espacoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-iluminado-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: iluminado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-aconchegante-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-elegante-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: elegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-encantador-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: encantador",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-charmoso-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: charmoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-sofisticado-20260903195843.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: sofisticado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-acolhedor-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: acolhedor",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-deslumbrante-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: deslumbrante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-arejado-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: arejado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-moderno-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: moderno",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-reformado-20260903194638.jpeg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: reformado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-impecavel-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: impecavel",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-generoso-20260903194638.jpeg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: generoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-exclusivo-20260903194638.jpg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: exclusivo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-premium-20260903194638.jpeg",
+      "alt": "casa à venda em Pinheirinho, Itu - SP: premium",
+      "hero": false,
+      "social": false
+    }
+  ]
+}
