@@ -964,7 +964,7 @@ function renderFotos(){
       <img src="${url}">
       <div class="meta">
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0">
-          <input type="checkbox" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
+          <input type="radio" name="fotoHero" data-i="${i}" class="heroChk" ${f.hero?"checked":""}> hero
         </label>
         <label style="display:inline-flex;align-items:center;gap:4px;margin:0" title="Vai pro carrossel do Instagram e pro vídeo reel, no máximo ${MAX_FOTOS_SOCIAL}">
           <input type="checkbox" data-i="${i}" class="socialChk" ${f.social?"checked":""} ${cheioENaoMarcada?"disabled":""}> 📱 redes sociais
@@ -977,7 +977,6 @@ function renderFotos(){
     fotoList.appendChild(div);
   });
   fotoList.querySelectorAll(".heroChk").forEach(chk => chk.onchange = (e) => {
-    if (!e.target.checked) { e.target.checked = true; return; } // sempre precisa sobrar 1 hero — não deixa desmarcar sem escolher outra
     definirHero("nova", +e.target.dataset.i);
   });
   fotoList.querySelectorAll(".socialChk").forEach(chk => chk.onchange = (e) => {
@@ -1064,15 +1063,13 @@ function qtdSocialSelecionadasExistentes(){
   return modoEdicao ? modoEdicao.fotosExistentes.filter(f => f.manter && f.social).length : 0;
 }
 
-// Hero é único entre TODAS as fotos do imóvel — existentes + novas juntas. Escolher uma
-// hero em qualquer uma das duas listas zera a marcação nas outras, senão dava pra ficar
-// com duas fotos "hero" ao mesmo tempo (uma antiga + uma nova), e o build sempre usava a
-// antiga sem avisar, porque ela vinha primeiro no array final.
+// Hero é único entre TODAS as fotos do imóvel — existentes + novas juntas. Os radios abaixo
+// (renderFotos + renderFotosExistentes) compartilham o mesmo "name", então o próprio
+// navegador garante que só um fica marcado por vez, mesmo estando em duas listas
+// separadas — não depende de eu desmarcar os outros na mão a cada re-render.
 function definirHero(origem, indice){
-  fotos.forEach((f, i) => f.hero = (origem === "nova" && i === indice));
-  if (modoEdicao) modoEdicao.fotosExistentes.forEach((f, i) => f.hero = (origem === "existente" && i === indice));
-  renderFotos();
-  renderFotosExistentes();
+  fotos.forEach((f, i) => { f.hero = (origem === "nova" && i === indice); });
+  if (modoEdicao) modoEdicao.fotosExistentes.forEach((f, i) => { f.hero = (origem === "existente" && i === indice); });
 }
 
 function renderFotosExistentes(){
@@ -1093,7 +1090,7 @@ function renderFotosExistentes(){
       <div class="meta">
         <div style="font-size:13px">${f.arquivo}</div>
         <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px">
-          <input type="checkbox" data-i="${i}" class="heroExistenteChk" ${f.hero ? "checked" : ""}> hero
+          <input type="radio" name="fotoHero" data-i="${i}" class="heroExistenteChk" ${f.hero ? "checked" : ""}> hero
         </label>
         <label style="display:inline-flex;align-items:center;gap:6px;margin-top:4px">
           <input type="checkbox" data-i="${i}" class="manterChk" ${f.manter ? "checked" : ""}> manter
@@ -1105,7 +1102,6 @@ function renderFotosExistentes(){
     </div>`;
   }).join("");
   list.querySelectorAll(".heroExistenteChk").forEach(chk => chk.onchange = (e) => {
-    if (!e.target.checked) { e.target.checked = true; return; } // sempre precisa sobrar 1 hero — não deixa desmarcar sem escolher outra
     definirHero("existente", +e.target.dataset.i);
   });
   list.querySelectorAll(".manterChk").forEach(chk => chk.onchange = (e) => {
