@@ -78,6 +78,15 @@ Nome, CRECI, telefone, WhatsApp, e-mail e Instagram ficam em `config.json`
 algum imóvel precisar de um contato diferente, adicione um bloco
 `corretor` no `dados.json` dele só pra sobrescrever o padrão.
 
+## Ordem de exibição na home e nos hubs de bairro
+
+Por padrão, os imóveis aparecem do mais recente pro mais antigo (por data de
+publicação). Se quiser fixar algum imóvel numa posição específica (ex.:
+destacar um lançamento no topo), vá na lista de imóveis publicados do admin
+e preencha "Posição fixa" com um número (1 = primeiro lugar). Imóveis com
+posição fixa sempre aparecem antes dos ordenados por data, na ordem desses
+números. Deixe o campo vazio pra voltar ao automático (por data).
+
 ## Imóveis parecidos
 
 Cada página de imóvel mostra até 3 imóveis parecidos no fim (antes do
