@@ -20,13 +20,13 @@
   "cozinhas": 1,
   "vagas": 1,
   "areaUtil": 47,
-  "descricaoCurta": "Este apartamento novo em Itu possui 47 m² de área útil distribuídos em 2 quartos, sendo 1 suíte, banheiro social, sala de estar, cozinha, sacada e vaga para 1 v",
+  "descricaoCurta": "Este apartamento novo de 47 m² no bairro Nossa Senhora Aparecida possui 2 dormitórios, sendo 1 suíte, sala de estar, cozinha, sacada, banheiro social e uma vaga",
   "descricaoLonga": [
-    "Este apartamento novo em Itu possui 47 m² de área útil distribuídos em 2 quartos, sendo 1 suíte, banheiro social, sala de estar, cozinha, sacada e vaga para 1 veículo.",
-    "O condomínio fechado Maxim Home Club Itu oferece portaria 24h, piscina, sauna, quadra society, quadra de beach tennis, playground, espaço gourmet com churrasqueira e 3 salões de festa.",
-    "A estrutura de lazer completa e a segurança constante garantem praticidade e bem-estar para o cotidiano de sua família."
+    "Este apartamento novo de 47 m² no bairro Nossa Senhora Aparecida possui 2 dormitórios, sendo 1 suíte, sala de estar, cozinha, sacada, banheiro social e uma vaga de garagem.",
+    "O condomínio Maxim Home Club oferece estrutura de lazer completa com piscina, sauna, quadra de beach tennis, quadra society, playground e espaço gourmet com churrasqueira.",
+    "A segurança é garantida por portaria 24 horas em condomínio fechado, que também dispõe de três salões de festas para receber sua família com total comodidade."
   ],
-  "resumo": "Apartamento novo de 47 m² com 2 quartos à venda por R$ 300.000 no condomínio Maxim Home Club Itu, no bairro Nossa Senhora Aparecida.",
+  "resumo": "Apartamento novo de 2 dormitórios com suíte à venda por R$ 300.000 no condomínio Maxim Home Club, em Itu.",
   "tituloSecao": "Que tal uma visita?",
   "diferenciais": [
     "Condomínio repleto de lazer e comodidades"
@@ -52,12 +52,6 @@
   ],
   "publicadoEm": "2026-08-24",
   "fotos": [
-    {
-      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20260824125109.jpeg",
-      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: amplo",
-      "hero": true,
-      "social": true
-    },
     {
       "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-espacoso-20260824125109.jpeg",
       "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: espacoso",
