@@ -1740,16 +1740,22 @@ function renderListaImoveis(lista){
     const ativo = item.dados.ativo !== false;
     const rascunho = !!item.dados.rascunho;
     const corIdade = meses >= 6 ? "#c23f18" : "var(--ink-muted)";
+    const ordemAtual = (typeof item.dados.ordemManual === "number" && !isNaN(item.dados.ordemManual)) ? item.dados.ordemManual : "";
     return `<div class="foto-item" style="align-items:flex-start">
       <div class="meta">
         <div style="font-weight:600">${item.dados.titulo || item.pasta}
           ${rascunho ? `<span style="background:#F1B93B;color:#3A2E00;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px">RASCUNHO</span>` : `<span style="color:${corIdade};font-size:11px">(${meses} meses)</span>`}
         </div>
         <div class="hint">${rascunho ? `Ainda não publicado — continue de onde parou. <a href="https://imoveis-itu-salto.com.br/previews/${item.pasta}/" target="_blank" rel="noopener">🔍 Ver link de prévia</a>` : `Ref. ${item.dados.referencia || "-"} · ${ativo ? "ativo na vitrine" : "retirado da vitrine"}`}</div>
-        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
+        <div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;align-items:center">
           <button class="btn secondary editarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">✏️ ${rascunho ? "Continuar" : "Editar"}</button>
           ${rascunho ? "" : `<button class="btn secondary toggleAtivoBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px">${ativo ? "Retirar da vitrine" : "Reativar"}</button>`}
           <button class="btn secondary apagarBtn" data-pasta="${item.pasta}" type="button" style="padding:7px 12px;font-size:12px;border-color:#c23f18;color:#c23f18">Apagar definitivamente</button>
+          ${rascunho ? "" : `
+          <label style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--ink-muted);margin-left:auto" title="1 = primeiro lugar na home e no hub do bairro. Vazio = ordena por mais recente.">
+            Posição fixa:
+            <input type="number" min="1" step="1" class="ordemManualInput" data-pasta="${item.pasta}" value="${ordemAtual}" placeholder="auto" style="width:60px;padding:4px 6px;font-size:12px">
+          </label>`}
         </div>
       </div>
     </div>`;
@@ -1763,6 +1769,9 @@ function renderListaImoveis(lista){
   });
 
   container.querySelectorAll(".toggleAtivoBtn").forEach(btn => btn.onclick = () => toggleAtivo(btn.dataset.pasta));
+  container.querySelectorAll(".ordemManualInput").forEach(inp => {
+    inp.onchange = () => salvarOrdemManual(inp.dataset.pasta, inp.value);
+  });
   container.querySelectorAll(".apagarBtn").forEach(btn => {
     // Confirmação explícita em vez de "clique duas vezes em 4s" — um duplo toque sem querer
     // (comum em celular) não apagava mais nada por engano.
@@ -1774,6 +1783,26 @@ function renderListaImoveis(lista){
       }
     };
   });
+}
+
+async function salvarOrdemManual(pastaNome, valorStr){
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const item = ultimaLista.find(i => i.pasta === pastaNome);
+  if (!item) return;
+  const numero = valorStr.trim() === "" ? undefined : Number(valorStr);
+  if (numero !== undefined && (isNaN(numero) || numero < 1)) { alert("Posição precisa ser um número maior que zero, ou deixe vazio pra voltar ao automático."); renderListaImoveis(ultimaLista); return; }
+  try {
+    const dadosAtualizados = { ...item.dados, ordemManual: numero };
+    await ghPutFile(repo, `imoveis/${pastaNome}/dados.json`, branch, token,
+      utf8ToBase64(JSON.stringify(dadosAtualizados, null, 2)),
+      `chore: ${numero !== undefined ? `fixa posição ${numero} de` : "remove posição fixa de"} ${pastaNome} (via admin)`);
+    item.dados = dadosAtualizados;
+    renderListaImoveis(ultimaLista);
+  } catch (err) {
+    alert("Erro ao atualizar: " + err.message);
+  }
 }
 
 async function toggleAtivo(pastaNome){
