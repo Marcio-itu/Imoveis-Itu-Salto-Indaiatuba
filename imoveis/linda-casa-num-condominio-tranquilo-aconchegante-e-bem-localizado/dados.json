@@ -55,15 +55,9 @@
   "rascunho": true,
   "fotos": [
     {
-      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260903203103.png",
-      "alt": "casa à venda em Pinheirinho, Itu - SP: amplo",
-      "hero": true,
-      "social": false
-    },
-    {
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260903194638.jpeg",
       "alt": "casa à venda em Pinheirinho, Itu - SP: espacoso",
-      "hero": false,
+      "hero": true,
       "social": false
     },
     {
