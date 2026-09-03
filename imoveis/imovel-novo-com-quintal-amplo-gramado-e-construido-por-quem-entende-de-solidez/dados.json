@@ -1,0 +1,101 @@
+{
+  "slug": "imovel-novo-com-quintal-amplo-gramado-e-construido-por-quem-entende-de-solidez",
+  "titulo": "Imóvel novo com quintal amplo, gramado e construído por quem entende de solidez! ",
+  "tipo": "casa",
+  "padrao": "padrao-popular",
+  "tiposOperacao": [
+    "venda",
+    "permuta"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim Madre Paulina",
+  "condominio": "",
+  "referencia": "",
+  "preco": "R$ 395.000",
+  "financiamento": true,
+  "quartos": 2,
+  "banheiros": 1,
+  "cozinhas": 1,
+  "vagas": 2,
+  "areaUtil": 51.12,
+  "areaTerreno": 231.24,
+  "descricaoCurta": "Esta casa nova de 51,12 m² de área útil está disponível para venda por R$ 395.000 no Jardim Madre Paulina, construída em um terreno espaçoso de 231,24 m² com qu",
+  "descricaoLonga": [
+    "Esta casa nova de 51,12 m² de área útil está disponível para venda por R$ 395.000 no Jardim Madre Paulina, construída em um terreno espaçoso de 231,24 m² com quintal gramado pronto para uso.",
+    "O interior dispõe de dois dormitórios, banheiro social, cozinha funcional e living integrado que une as salas de estar e jantar de forma arejada. Portas amplas de até 1,40m facilitam a acessibilidade, enquanto as grandes janelas de 1,20m x 1,10m asseguram conforto térmico e luz natural.",
+    "A estrutura conta com duas vagas de garagem e foi construída por quem entende de solidez estrutural e sofisticação no acabamento: AMZ Empreendimentos. Estuda-se permuta."
+  ],
+  "resumo": "Casa nova à venda por R$ 395.000 no Jardim Madre Paulina, em Itu/SP, com amplo quintal gramado de 231,24 m².",
+  "tituloSecao": "Agende sua visita!",
+  "diferenciais": [
+    "Living Integrado",
+    "Cozinha Funcional",
+    "Conforto Térmico"
+  ],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Quintal"
+  ],
+  "caracteristicasExtras": [
+    "Quintal gramado"
+  ],
+  "publicadoEm": "2026-09-03",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: amplo",
+      "hero": true,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: espacoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-iluminado-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: iluminado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-aconchegante-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-elegante-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: elegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-encantador-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: encantador",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-charmoso-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: charmoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-sofisticado-20260903172811.jpeg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: sofisticado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-acolhedor-20260903172811.jpg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: acolhedor",
+      "hero": false,
+      "social": false
+    }
+  ]
+}
