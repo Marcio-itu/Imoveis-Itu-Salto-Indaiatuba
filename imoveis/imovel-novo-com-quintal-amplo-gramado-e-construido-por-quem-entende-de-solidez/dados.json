@@ -93,6 +93,12 @@
       "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: acolhedor",
       "hero": false,
       "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260903190707.jpg",
+      "alt": "casa à venda em Jardim Madre Paulina, Itu - SP: amplo",
+      "hero": true,
+      "social": false
     }
   ]
 }
