@@ -149,6 +149,21 @@ function similaresDe(atual, todos) {
 
 async function build() {
   const imoveis = loadImoveis();
+
+  // Ordem de exibição no site: quem tem "ordemManual" definido (1, 2, 3...) no admin vai
+  // primeiro, nessa ordem — dá pra fixar quais imóveis aparecem nos primeiros lugares da
+  // home e dos hubs de bairro. Quem não tem nada definido cai pro comportamento padrão:
+  // mais recente primeiro (por publicadoEm). Os dois grupos nunca se misturam — os com
+  // ordem manual sempre ficam acima dos ordenados por data, seja qual for o número usado.
+  imoveis.sort((a, b) => {
+    const temA = typeof a.ordemManual === "number" && !isNaN(a.ordemManual);
+    const temB = typeof b.ordemManual === "number" && !isNaN(b.ordemManual);
+    if (temA && temB) return a.ordemManual - b.ordemManual;
+    if (temA) return -1;
+    if (temB) return 1;
+    return (b.publicadoEm || "").localeCompare(a.publicadoEm || "");
+  });
+
   const { tmpDir: reelsTmpDir, backups: reelsBackup } = backupReels(imoveis);
   rimrafKeepGitkeep(DOCS_DIR);
   const today = new Date().toISOString().slice(0, 10);
