@@ -10,7 +10,7 @@
   "uf": "SP",
   "bairro": "Pinheirinho",
   "condominio": "Aldeia de España",
-  "referencia": "",
+  "referencia": "OVO01025",
   "preco": "R$ 1.100.000",
   "financiamento": true,
   "quartos": 3,
@@ -52,7 +52,6 @@
     "Área Íntima & Suíte Exclusiva"
   ],
   "publicadoEm": "2026-09-03",
-  "rascunho": true,
   "fotos": [
     {
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260903194638.jpeg",
