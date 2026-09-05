@@ -1,6 +1,6 @@
 {
   "slug": "excelente-terreno-comercial-muito-bem-localizado",
-  "titulo": "Excelente terreno comercial muito bem localizado!",
+  "titulo": "Excelente terreno comercial de 882 m² muito bem localizado!",
   "tipo": "terreno",
   "padrao": "padrao-popular",
   "tiposOperacao": [
@@ -19,7 +19,7 @@
     "A área é ideal para construir empreendimentos comerciais que necessitam de boa visibilidade e fácil acesso em uma região em expansão.",
     "O imóvel de destaca-se pela sua ampla metragem de terreno, permitindo planejar e executar projetos sob medida. São 3 lotes de uma mesma família à venda numa região nobre de Salto."
   ],
-  "resumo": "Terreno comercial de 882 m² está disponível para venda por R$ 1.000.000 no bairro Vila Roma, em Salto/SP.",
+  "resumo": "Raridade! 3 lotes juntos para venda por R$ 1.000.000 no bairro Vila Roma, em Salto/SP.",
   "tituloSecao": "Faça uma visita",
   "diferenciais": [
     "Localização"
@@ -50,6 +50,12 @@
     {
       "arquivo": "terreno-a-venda-salto-interior-de-sao-paulo-aconchegante-20260903003235.png",
       "alt": "terreno à venda em Vila Roma, Salto - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260905125302.jpeg",
+      "alt": "terreno à venda em Vila Roma, Salto - SP: amplo",
       "hero": false,
       "social": false
     }
