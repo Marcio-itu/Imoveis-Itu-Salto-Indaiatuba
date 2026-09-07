@@ -444,10 +444,16 @@ const ADJETIVOS_DIFERENCIACAO = [
 const CARACTERISTICAS_GRUPOS = {
   "Ambientes e comodidades": ["Varanda","Sacada","Despensa","Área de serviço","Lavanderia","Quintal",
     "Jardim","Área verde","Churrasqueira","Espaço gourmet","Piscina"],
+  // "coletivo/coletiva"/"aquecida" nos itens abaixo é de propósito — existe "Espaço gourmet",
+  // "Churrasqueira", "Piscina" e "Lavanderia" no grupo de cima (do imóvel em si), então
+  // precisa de um texto diferente pra não colidir quando é a versão do condomínio.
   "Condomínio e lazer": ["Academia","Playground","Salão de festas","Quadra esportiva","Coworking",
-    "Pet place","Elevador"],
+    "Pet place","Elevador","Espaço gourmet coletivo","Churrasqueira coletiva","Adega climatizada",
+    "Spa e sauna","Quadra de tênis","Piscina coletiva","Piscina aquecida","Trilha para caminhada/corrida","Concierge",
+    "Lavanderia compartilhada","Mercado 24h","Vaga com carregador elétrico"],
   "Segurança": ["Portaria 24h","Portaria presencial","Portaria remota","Câmeras de segurança",
-    "Controle de acesso","Cerca elétrica","Alarme","Condomínio fechado"],
+    "Controle de acesso","Cerca elétrica","Alarme","Condomínio fechado","Biometria/reconhecimento facial",
+    "Ronda 24h","Recuo entre unidades","Controle de visitantes"],
 };
 const CARACTERISTICAS_ESPECIAIS = ["Mobiliado","Semi-mobiliado","Ar-condicionado","Aquecimento solar",
   "Energia solar","Gás encanado","Gerador","Acessibilidade","Aceita pets","Vista panorâmica",
