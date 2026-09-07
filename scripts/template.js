@@ -384,6 +384,31 @@ ${preview ? `<div style="background:#F1B93B;color:#3A2E00;text-align:center;padd
 ${(() => {
   const blocks = {};
 
+  // Separa o que é do imóvel do que é do condomínio, pra montar 2 blocos de destaque em
+  // vez de 1 só. Essa lista precisa espelhar os grupos "Condomínio e lazer" e "Segurança"
+  // do admin (CARACTERISTICAS_GRUPOS) — se um checkbox novo for adicionado lá dentro de um
+  // desses 2 grupos, adicione o mesmo texto aqui também, senão ele cai no bloco errado.
+  const ACESSORIOS_CONDOMINIO = new Set([
+    "Academia","Playground","Salão de festas","Quadra esportiva","Coworking","Pet place","Elevador",
+    "Espaço gourmet coletivo","Churrasqueira coletiva","Adega climatizada","Spa e sauna",
+    "Quadra de tênis","Piscina coletiva","Piscina aquecida","Trilha para caminhada/corrida","Concierge",
+    "Lavanderia compartilhada","Mercado 24h","Vaga com carregador elétrico",
+    "Portaria 24h","Portaria presencial","Portaria remota","Câmeras de segurança",
+    "Controle de acesso","Cerca elétrica","Alarme","Condomínio fechado",
+    "Biometria/reconhecimento facial","Ronda 24h","Recuo entre unidades","Controle de visitantes",
+  ]);
+  const todosAcessorios = imovel.acessorios || [];
+  // Só separa em 2 blocos de verdade quando o imóvel tem nome de condomínio preenchido —
+  // sem nome, "Você encontra no Condomínio ___" não faz sentido, então tudo fica junto
+  // como sempre foi (ex.: casa com portão eletrônico mas sem condomínio).
+  const temCondominioNomeado = !!(imovel.condominio && imovel.condominio.trim());
+  const acessoriosImovel = temCondominioNomeado
+    ? todosAcessorios.filter((a) => !ACESSORIOS_CONDOMINIO.has(a))
+    : todosAcessorios;
+  const acessoriosCondominio = temCondominioNomeado
+    ? todosAcessorios.filter((a) => ACESSORIOS_CONDOMINIO.has(a))
+    : [];
+
   // Lista de bullets embaixo do texto — de propósito repete números já mostrados na Ficha
   // técnica ali em cima (o pedido foi manter mesmo com a redundância).
   const bulletsAuto = [];
@@ -397,7 +422,7 @@ ${(() => {
   const caracteristicasParaExibir = [
     ...(imovel.dadosTecnicos || []),
     ...bulletsAuto,
-    ...(imovel.acessorios || []),
+    ...acessoriosImovel,
     ...(imovel.caracteristicasExtras || []),
   ];
 
@@ -408,6 +433,9 @@ ${(() => {
       <p class="resumo" style="margin-top:14px">${esc(imovel.resumo || imovel.descricaoCurta)}</p>
       ${(imovel.descricaoLonga || []).map((p) => `<p class="lead" style="margin-top:14px">${esc(p)}</p>`).join("")}
       ${caracteristicasParaExibir.length ? `<ul class="bullets">${caracteristicasParaExibir.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
+      ${acessoriosCondominio.length ? `
+      <p class="lead" style="margin-top:22px;font-weight:600">Você encontra no Condomínio <strong>${esc(imovel.condominio)}</strong></p>
+      <ul class="bullets">${acessoriosCondominio.map((d) => `<li>✔️ ${esc(d)}</li>`).join("")}</ul>` : ""}
       <p class="disclaimer">✍️ As informações disponíveis neste momento foram elaboradas com o máximo de cuidado e fornecidas diretamente pelo proprietário ou corretor parceiro${(imovel.parceria?.instagrams || []).length ? `: ${imovel.parceria.instagrams.map((h) => `@${esc(h.replace(/^@/, ""))}`).join(", ")}` : ""}.</p>
       <p class="disclaimer">⚠️ Em respeito à boa-fé objetiva (art. 422 do CC), o preço vigente será confirmado no contato antes da formalização de qualquer proposta.</p>
       <a class="cta" style="margin-top:22px" href="${esc(shareUrl)}" target="_blank" rel="noopener">Compartilhe este imóvel</a>
