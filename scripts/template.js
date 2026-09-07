@@ -316,9 +316,23 @@ function renderPropertyPage(imovel, theme, opts) {
   );
   const shareUrl = `https://wa.me/?text=${shareMsg}`;
 
+  // Título de busca (o que o Google mostra e o que mais pesa pro ranking) tem que abrir com
+  // a frase que as pessoas realmente digitam. Conferindo como ZAP, Imovelweb, OLX, Lopes e
+  // Chaves na Mão nomeiam suas páginas de Itu, todos usam "[tipo] à venda em [cidade]" — nenhum
+  // usa "comprar [tipo] em [cidade]". O H1 da página segue essa mesma frase agora (antes era só
+  // o título criativo do corretor, que antes não tinha nenhuma palavra-chave de busca nele) —
+  // o título criativo continua visível, como subtítulo logo abaixo do H1.
+  const operacaoTituloSeo = opsAtivas.includes("venda")
+    ? "à venda"
+    : opsAtivas.includes("locacao")
+      ? "para alugar"
+      : "à venda";
+  // "casa"/"apartamento" vêm em minúscula do campo do admin — maiúscula só na primeira letra
+  // porque essa palavra abre a frase tanto no <title> quanto no H1 agora.
+  const tipoTitulo = imovel.tipo ? imovel.tipo.charAt(0).toUpperCase() + imovel.tipo.slice(1) : imovel.tipo;
   const tituloSeo = imovel.condominio
-    ? `${imovel.titulo} — Condomínio ${imovel.condominio}, ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}`
-    : `${imovel.titulo} — ${imovel.bairro}, ${imovel.cidade}/${imovel.uf}`;
+    ? `${tipoTitulo} ${operacaoTituloSeo} em ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} — Condomínio ${imovel.condominio} | ${imovel.titulo}`
+    : `${tipoTitulo} ${operacaoTituloSeo} em ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} | ${imovel.titulo}`;
 
   const inativo = imovel.ativo === false;
   const faqs = buildFaqs(imovel);
@@ -369,7 +383,8 @@ ${preview ? `<div style="background:#F1B93B;color:#3A2E00;text-align:center;padd
   <div class="wrap hero-content">
     <div class="plaqueta">${imovel.padrao === "alto-padrao" ? `<b>${esc(theme.label)}</b> · ` : ""}${operacaoLabel ? `${esc(operacaoLabel)} · ` : ""}${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
     ${temPermuta ? `<div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Estuda-se permuta</div>` : ""}
-    <h1>${esc(imovel.titulo)}</h1>
+    <h1>${esc(tipoTitulo)} ${operacaoTituloSeo} em ${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</h1>
+    <p class="subtitulo-criativo" style="font-size:17px;font-weight:600;color:rgba(255,255,255,.92);margin-top:6px">${esc(imovel.titulo)}</p>
     <div class="hero-meta">
       <span>${imovel.condominio ? `Condomínio ${esc(imovel.condominio)}, ` : ""}${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</span>
     </div>
