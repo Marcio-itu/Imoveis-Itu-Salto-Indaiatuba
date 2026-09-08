@@ -4,7 +4,8 @@
 // imóvel: as fotos com efeito Ken Burns (zoom/pan lento), transições suaves em crossfade
 // entre elas, texto sobreposto (título, localização, preço), um card de encerramento com
 // chamada pra ação, e uma trilha sonora (assets/trilhas/, licenciadas do YouTube Audio
-// Library) com fade de entrada e saída.
+// Library) com fade de entrada e saída. Foto horizontal ganha fundo desfocado automático
+// (ver prepararFotoParaClipe) em vez de ser cortada nas laterais pra caber no formato vertical.
 //
 // Precisa do ffmpeg instalado no ambiente (já vem pronto nos runners do GitHub Actions).
 //
@@ -149,6 +150,31 @@ function gerarClipeFoto(fotoPath, outPath, indice, duracao) {
   ]);
 }
 
+// Foto horizontal (a maioria das fotos de imóvel, já que cômodo se fotografa na largura)
+// forçada a preencher um quadro vertical 9:16 corta demais a lateral — em foto de ambiente,
+// muitas vezes corta parte do cômodo. Em vez de cortar, monta um quadro 1080x1920 com a
+// própria foto desfocada e escurecida preenchendo tudo de fundo, e a foto original INTEIRA,
+// nítida, centralizada por cima — não perde nenhuma parte da foto, sem faixa preta vazia
+// (truque parecido com o que CapCut/InShot fazem ao importar vídeo horizontal pro Reels).
+// Foto já vertical ou quase quadrada passa direto sem esse tratamento — o corte de
+// preenchimento já funciona bem pra ela, não teria porque desfocar fundo à toa.
+async function prepararFotoParaClipe(fotoPath, tmpDir, indice) {
+  const meta = await sharp(fotoPath).metadata();
+  const isHorizontal = (meta.width || 0) > (meta.height || 0);
+  if (!isHorizontal) return fotoPath;
+
+  const fundo = await sharp(fotoPath).resize(W, H, { fit: "cover" }).blur(45).modulate({ brightness: 0.6 }).toBuffer();
+  const frente = await sharp(fotoPath).resize(W, H, { fit: "inside" }).toBuffer();
+  const frenteMeta = await sharp(frente).metadata();
+  const composto = await sharp(fundo)
+    .composite([{ input: frente, left: Math.round((W - frenteMeta.width) / 2), top: Math.round((H - frenteMeta.height) / 2) }])
+    .jpeg({ quality: 92 })
+    .toBuffer();
+  const compostoPath = path.join(tmpDir, `foto-vertical-${indice}.jpg`);
+  fs.writeFileSync(compostoPath, composto);
+  return compostoPath;
+}
+
 function gerarClipeEstatico(imgPath, outPath, duracao) {
   ffmpeg([
     "-loop", "1", "-i", imgPath,
@@ -190,12 +216,14 @@ async function gerarVideo(dados, fotosPaths, trilha, config, outPath) {
 
     const clipes = [];
     const duracoes = [];
-    fotosPaths.slice(0, MAX_FOTOS).forEach((fotoPath, i) => {
+    const fotosParaClipe = fotosPaths.slice(0, MAX_FOTOS);
+    for (let i = 0; i < fotosParaClipe.length; i++) {
+      const fotoParaClipe = await prepararFotoParaClipe(fotosParaClipe[i], tmpDir, i);
       const clipePath = path.join(tmpDir, `clip${i}.mp4`);
-      gerarClipeFoto(fotoPath, clipePath, i, segundosPorFoto);
+      gerarClipeFoto(fotoParaClipe, clipePath, i, segundosPorFoto);
       clipes.push(clipePath);
       duracoes.push(segundosPorFoto);
-    });
+    }
 
     const ctaBuffer = await gerarCardEncerramento(dados, config);
     const ctaImgPath = path.join(tmpDir, "cta.png");
