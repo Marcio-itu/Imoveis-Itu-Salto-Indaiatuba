@@ -1,6 +1,35 @@
 const { esc, formatPreco, fontLinkTag } = require("./utils");
 
 const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B", "padrao-neutro": "#8A7F63" };
+const OPERACAO_LABEL_HUB = { venda: "Comprar", locacao: "Alugar", permuta: "Permutar" };
+
+// Cartão de imóvel da home, gerado no servidor (build time) — igual ao que o JS do cliente
+// gera em aplicarFiltros() (mesmas classes/estrutura), só que já pronto no HTML estático.
+// Sem isso, o <div id="grid"> chegava VAZIO pra qualquer leitor que não executa JavaScript
+// (a maioria dos crawlers de IA, e até o Google no primeiro rastreamento antes de renderizar)
+// — a home, que é a página mais importante do site, não mostrava nenhum imóvel de verdade
+// pra quem só lê o HTML puro. O JS do cliente continua rodando por cima normalmente (troca
+// esse conteúdo quando o usuário usa os filtros), isso aqui só garante que o conteúdo real
+// já existe ANTES do JavaScript rodar.
+function cardHtmlHub(i) {
+  const tipos = (i.tiposOperacao || ["venda"]);
+  const operacaoTexto = ["venda", "locacao"].filter((o) => tipos.includes(o)).map((o) => OPERACAO_LABEL_HUB[o]).join(" / ");
+  return `<div class="card-wrap">
+    <a class="card" href="${esc(i.url)}">
+      ${i.thumb ? `<img class="thumb" src="${esc(i.thumb)}" loading="lazy" alt="${esc(i.titulo)}" onerror="this.style.display='none'">` : ""}
+      <div class="body">
+        ${i.padrao === "alto-padrao" ? `<span class="tag" style="background:${PADRAO_COR[i.padrao] || "#999"}">${esc(i.padraoLabel)}</span>` : ""}
+        <div class="tit">${esc(i.titulo)}</div>
+        <div class="meta">${esc(operacaoTexto)} · ${esc(i.bairro)}, ${esc(i.cidade)} - ${esc(i.uf)}</div>
+        ${tipos.includes("permuta") ? `<div class="meta" style="opacity:.75">Estuda-se permuta</div>` : ""}
+        <div class="preco">${esc(i.preco)}${esc(i.precoSufixo || "")}</div>
+      </div>
+    </a>
+    <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent(`Confira este imóvel: ${i.url}`)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+    </a>
+  </div>`;
+}
 const FOTOS_DESTAQUE = ["imoveis-itu-salto-indaiatuba-2027-01.webp", "imoveis-itu-salto-indaiatuba-2027-02.webp", "imoveis-itu-salto-indaiatuba-2027-03.webp"];
 
 // Hub usa paleta neutra própria (não é nenhum dos 3 temas de imóvel) —
@@ -354,9 +383,9 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
   })();
   </script>
 
-  <p class="contagem" id="contagem"></p>
-  <div class="grid" id="grid"></div>
-  <div class="vazio" id="vazio" style="display:none">Nenhum imóvel encontrado com esses filtros.</div>
+  <p class="contagem" id="contagem">${imoveis.length} ${imoveis.length === 1 ? "imóvel" : "imóveis"} encontrado${imoveis.length === 1 ? "" : "s"}</p>
+  <div class="grid" id="grid">${imoveis.map(cardHtmlHub).join("")}</div>
+  <div class="vazio" id="vazio" style="display:${imoveis.length ? "none" : "block"}">Nenhum imóvel encontrado com esses filtros.</div>
 
   <footer class="site-footer">
     <div class="footer-brand">${esc(nomeHub)}</div>
@@ -488,15 +517,20 @@ renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 
 function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
   const nomeHub = config?.nomeHub || "Inteligência Imobiliária";
+  // Mesma lógica da página de imóvel: título abrindo com "Imóveis à venda em [bairro],
+  // [cidade]" — o padrão que ZAP/Imovelweb/OLX/Lopes usam, e que bate com o que as pessoas
+  // realmente digitam, em vez de só o nome do bairro sozinho.
+  const cidadeDoBairro = imoveis[0]?.cidade || "";
+  const tituloHub = `Imóveis à venda em ${bairroNome}${cidadeDoBairro ? `, ${cidadeDoBairro}` : ""} — ${nomeHub}`;
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Imóveis em ${esc(bairroNome)} — ${esc(nomeHub)}</title>
-<meta name="description" content="Imóveis à venda em ${esc(bairroNome)}.">
+<title>${esc(tituloHub)}</title>
+<meta name="description" content="Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Imóveis em ${esc(bairroNome)} — ${esc(nomeHub)}">
-<meta property="og:description" content="Imóveis à venda em ${esc(bairroNome)}.">
+<meta property="og:title" content="${esc(tituloHub)}">
+<meta property="og:description" content="Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}.">
 <meta property="og:url" content="${esc(hubUrl)}">
 <meta property="og:image" content="${hubUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
 <meta name="twitter:card" content="summary_large_image">
@@ -511,7 +545,7 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 <body>
 <div class="wrap">
   <span class="eyebrow"><a href="${esc(hubUrl)}" style="color:inherit">← Todas as cidades</a></span>
-  <h1>${esc(bairroNome)}</h1>
+  <h1>Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}</h1>
   <p class="sub">${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"}</p>
   <div class="grid">
     ${imoveis
