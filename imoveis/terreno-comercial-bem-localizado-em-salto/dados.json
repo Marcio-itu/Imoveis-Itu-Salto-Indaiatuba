@@ -1,0 +1,69 @@
+{
+  "slug": "terreno-comercial-bem-localizado-em-salto",
+  "titulo": "Terreno comercial bem localizado em Salto!",
+  "tipo": "terreno",
+  "padrao": "padrao-popular",
+  "tiposOperacao": [
+    "venda",
+    "permuta"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Centro",
+  "condominio": "",
+  "referencia": "",
+  "preco": "R$ 280.000",
+  "financiamento": true,
+  "areaTerreno": 288,
+  "descricaoCurta": "Este terreno comercial de 288 m² de área total está disponível para venda por R$ 280.000 no bairro Centro, em Itu/SP.",
+  "descricaoLonga": [
+    "Este terreno comercial de 288 m² de área total está disponível para venda por R$ 280.000 no bairro Centro, em Itu/SP.",
+    "A localização na região central é estratégica para construir e viabilizar o seu projeto comercial. Estuda-se permuta."
+  ],
+  "resumo": "Terreno comercial de 288 m² está à venda por R$ 280.000 no bairro Centro, em Itu/SP.",
+  "tituloSecao": "Agende sua visita!",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-09-09",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-amplo-20260909204739.jpeg",
+      "alt": "terreno à venda em Centro, Itu - SP: amplo",
+      "hero": true,
+      "social": true
+    },
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-espacoso-20260909204739.jpeg",
+      "alt": "terreno à venda em Centro, Itu - SP: espacoso",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-iluminado-20260909204739.jpeg",
+      "alt": "terreno à venda em Centro, Itu - SP: iluminado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-aconchegante-20260909204739.jpeg",
+      "alt": "terreno à venda em Centro, Itu - SP: aconchegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-elegante-20260909204739.jpeg",
+      "alt": "terreno à venda em Centro, Itu - SP: elegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "terreno-a-venda-itu-interior-de-sao-paulo-encantador-20260909204739.webp",
+      "alt": "terreno à venda em Centro, Itu - SP: encantador",
+      "hero": false,
+      "social": true
+    }
+  ]
+}
