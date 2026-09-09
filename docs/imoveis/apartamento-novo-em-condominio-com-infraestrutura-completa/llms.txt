@@ -1,6 +1,6 @@
 # Apartamento novo em condomínio com infraestrutura completa!
 
-> Apartamento novo de 2 dormitórios com suíte à venda por R$ 300.000 no condomínio Maxim Home Club, em Itu.
+> Apartamento novo de 2 dormitórios com suíte à venda por R$ 300.000 no condomínio Maxim Home Club.
 
 - Tipo: apartamento, Padrão popular
 - Condomínio: Maxim Home Club Itu
@@ -41,7 +41,7 @@ P: Qual a área do imóvel?
 R: 47 m² de área útil.
 
 P: O que torna este imóvel especial?
-R: Apartamento novo de 2 dormitórios com suíte à venda por R$ 300.000 no condomínio Maxim Home Club, em Itu.
+R: Apartamento novo de 2 dormitórios com suíte à venda por R$ 300.000 no condomínio Maxim Home Club.
 
 ## Fotos
 
