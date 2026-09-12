@@ -4,7 +4,6 @@
 
 ## Imóveis
 
-- [Terreno comercial bem localizado em Salto!](https://imoveis-itu-salto.com.br/imoveis/terreno-comercial-bem-localizado-em-salto/) — R$ 280.000, Centro/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/terreno-comercial-bem-localizado-em-salto/llms.txt
 - [Excelente terreno comercial de 882 m² muito bem localizado!](https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/) — R$ 1.000.000, Vila Roma/Salto-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/llms.txt
 - [Imóvel novo com quintal amplo, gramado e construído por quem entende de solidez! ](https://imoveis-itu-salto.com.br/imoveis/imovel-novo-com-quintal-amplo-gramado-e-construido-por-quem-entende-de-solidez/) — R$ 395.000, Jardim Madre Paulina/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/imovel-novo-com-quintal-amplo-gramado-e-construido-por-quem-entende-de-solidez/llms.txt
 - [Linda casa num condomínio tranquilo, aconchegante e bem localizado!](https://imoveis-itu-salto.com.br/imoveis/linda-casa-num-condominio-tranquilo-aconchegante-e-bem-localizado/) — R$ 1.100.000, Pinheirinho/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/linda-casa-num-condominio-tranquilo-aconchegante-e-bem-localizado/llms.txt
