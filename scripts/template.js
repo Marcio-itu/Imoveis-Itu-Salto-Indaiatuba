@@ -1,4 +1,4 @@
-const { esc, formatPreco, fontLinkTag } = require("./utils");
+const { esc, formatPreco, fontLinkTag, slugify } = require("./utils");
 
 const FOTOS_FINANCIAMENTO = [
   "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
@@ -671,6 +671,7 @@ ${
     ${imovel.corretor?.instagram ? `· <a href="${esc(imovel.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a>` : ""}
     · Imóvel publicado em: ${esc(formatDateBR(imovel.publicadoEm))}
     · <a href="${esc(hubUrl)}">Ver outros imóveis em ${esc(imovel.bairro)}</a>
+    · <a href="${esc(siteRoot)}/${slugify(imovel.cidade)}/">Ver todos os imóveis em ${esc(imovel.cidade)}</a>
   </div>
 </footer>
 </body>

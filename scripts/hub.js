@@ -1,4 +1,4 @@
-const { esc, formatPreco, fontLinkTag } = require("./utils");
+const { esc, formatPreco, fontLinkTag, slugify } = require("./utils");
 
 const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B", "padrao-neutro": "#8A7F63" };
 const OPERACAO_LABEL_HUB = { venda: "Comprar", locacao: "Alugar", permuta: "Permutar" };
@@ -326,6 +326,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
     <div class="filtros">
       <h1 class="filtros-headline">Imóveis à venda em Itu e Salto</h1>
       <p class="filtros-sub">Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região.</p>
+      ${cidadesComImovel.length ? `<p class="filtros-sub" style="margin-top:-10px">Ver todos os imóveis em: ${cidadesComImovel.map((c) => `<a href="${siteUrl}${slugify(c)}/" style="color:inherit;text-decoration:underline">${esc(c)}</a>`).join(" · ")}</p>` : ""}
       <div class="tabs-op" id="chipsOperacao"></div>
       <span class="busca-inteligente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Busca</span>
       <span class="grupo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cidade</span>
@@ -403,7 +404,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
       </div>
       <div>
         <div class="footer-label">Atendemos</div>
-        <div>${esc(cidadesConfig.join(" · "))}</div>
+        <div>${cidadesConfig.map((c) => cidadesComImovel.includes(c) ? `<a href="${siteUrl}${slugify(c)}/">${esc(c)}</a>` : esc(c)).join(" · ")}</div>
       </div>
     </div>
     <div class="compartilhar-site">
@@ -515,6 +516,75 @@ renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 </html>`;
 }
 
+// Página exclusiva por cidade (ex.: /itu/, /salto/) — existe porque ninguém busca
+// "casa em itu salto" (o título/H1 da home combina as duas cidades numa frase só, que
+// não bate com nenhuma busca real). Quem procura imóvel digita "casa em itu" OU "casa
+// em salto" separadamente — cada cidade precisa da sua própria página com título e H1
+// batendo exatamente com isso, senão o Google não tem o que ranquear pra essas buscas.
+function renderCidadeHub(cidadeNome, uf, bairrosDaCidade, imoveis, theme, hubUrl, config) {
+  const nomeHub = config?.nomeHub || "Inteligência Imobiliária";
+  const tituloHub = `Casas e Imóveis à Venda em ${cidadeNome}, ${uf} — ${nomeHub}`;
+  const descricao = `Casas, apartamentos, terrenos e condomínios à venda em ${cidadeNome}, ${uf}. ${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"} atualizados direto com o corretor.`;
+  return `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(tituloHub)}</title>
+<meta name="description" content="${esc(descricao)}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="${esc(tituloHub)}">
+<meta property="og:description" content="${esc(descricao)}">
+<meta property="og:url" content="${esc(hubUrl)}">
+<meta property="og:image" content="${hubUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="${esc(hubUrl)}">
+<link rel="apple-touch-icon" sizes="180x180" href="${hubUrl}favicon-cliente-180.png">
+<meta name="geo.region" content="BR-${esc(uf)}">
+<meta name="geo.placename" content="${esc(cidadeNome)}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap")}
+<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: tituloHub,
+    url: hubUrl,
+    about: { "@type": "City", name: cidadeNome, containedInPlace: { "@type": "State", name: uf === "SP" ? "São Paulo" : uf } },
+  })}</script>
+<style>${hubCss(theme)}</style>
+${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow"><a href="${esc(hubUrl.replace(/[^/]+\/$/, ""))}" style="color:inherit">← Todas as cidades</a></span>
+  <h1>Casas e imóveis à venda em ${esc(cidadeNome)}, ${esc(uf)}</h1>
+  <p class="sub">${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"}</p>
+  ${bairrosDaCidade.length > 1 ? `<p class="sub">Bairros: ${bairrosDaCidade.map((b) => `<a href="${hubUrl.replace(/[^/]+\/$/, "")}${slugify(b)}/" style="color:inherit;text-decoration:underline">${esc(b)}</a>`).join(" · ")}</p>` : ""}
+  <div class="grid">
+    ${imoveis
+      .map(
+        (im) => `<div class="card-wrap">
+        <a class="card" href="../imoveis/${esc(im.slug)}/">
+        ${im.thumb ? `<img class="thumb" src="${esc(im.thumb)}" loading="lazy" alt="${esc(im.titulo)}" onerror="this.style.display='none'">` : ""}
+        <div class="body">
+          ${im.padrao === "alto-padrao" ? `<span class="tag" style="background:${PADRAO_COR[im.padrao] || "#999"}">${esc(im.padraoLabel)}</span>` : ""}
+          <div class="tit">${esc(im.titulo)}</div>
+          <div class="meta">${esc(im.bairro)} · ${esc(formatPreco(im.preco))}${esc(im.precoSufixo || "")}</div>
+        </div>
+      </a>
+      <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent(`Confira este imóvel: ${hubUrl}../imoveis/${im.slug}/`)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
+      </a>
+      </div>`
+      )
+      .join("")}
+  </div>
+</div>
+</body>
+</html>`;
+}
+
 function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
   const nomeHub = config?.nomeHub || "Inteligência Imobiliária";
   // Mesma lógica da página de imóvel: título abrindo com "Imóveis à venda em [bairro],
@@ -571,4 +641,4 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 </html>`;
 }
 
-module.exports = { renderMainHub, renderBairroHub };
+module.exports = { renderMainHub, renderBairroHub, renderCidadeHub };

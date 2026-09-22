@@ -4,7 +4,7 @@ const os = require("os");
 const sharp = require("sharp");
 const { THEMES } = require("./themes");
 const { renderPropertyPage, buildFaqs } = require("./template");
-const { renderMainHub, renderBairroHub } = require("./hub");
+const { renderMainHub, renderBairroHub, renderCidadeHub } = require("./hub");
 const { renderSobrePage, renderInvestidoresPage, renderDiplomaPage } = require("./institucional");
 const { slugify, parsePreco, esc, formatPreco } = require("./utils");
 
@@ -169,6 +169,7 @@ async function build() {
   const today = new Date().toISOString().slice(0, 10);
 
   const bairrosMap = new Map(); // slug -> { nome, imoveis: [] }
+  const cidadesMap = new Map(); // slug -> { nome, uf, imoveis: [], bairros: Set }
   const todosImoveis = [];
   const sitemapUrls = [`${SITE}/`];
   const sitemapImagens = new Map(); // propUrl -> [{loc, caption}]
@@ -232,6 +233,11 @@ async function build() {
       todosImoveis.push(resumo);
       if (!bairrosMap.has(bairroSlug)) bairrosMap.set(bairroSlug, { nome: imovel.bairro, imoveis: [] });
       bairrosMap.get(bairroSlug).imoveis.push(resumo);
+
+      const cidadeSlug = slugify(imovel.cidade);
+      if (!cidadesMap.has(cidadeSlug)) cidadesMap.set(cidadeSlug, { nome: imovel.cidade, uf: imovel.uf, imoveis: [], bairros: new Set() });
+      cidadesMap.get(cidadeSlug).imoveis.push(resumo);
+      cidadesMap.get(cidadeSlug).bairros.add(imovel.bairro);
     }
   }
 
@@ -267,6 +273,20 @@ async function build() {
     const outDir = path.join(DOCS_DIR, slug);
     fs.mkdirSync(outDir, { recursive: true });
     const html = renderBairroHub(nome, lista, hubTheme, `${SITE}/`, config);
+    fs.writeFileSync(path.join(outDir, "index.html"), html);
+    sitemapUrls.push(`${SITE}/${slug}/`);
+  }
+
+  // Páginas por cidade (ex.: /itu/, /salto/) — ver comentário em hub.js/renderCidadeHub
+  // pra entender por que essa página precisa existir separada da home.
+  for (const [slug, { nome, uf, imoveis: lista, bairros } ] of cidadesMap) {
+    if (bairrosMap.has(slug)) {
+      console.warn(`  ⚠️  slug de cidade "${slug}" colide com um bairro existente — pulando hub de cidade pra não sobrescrever`);
+      continue;
+    }
+    const outDir = path.join(DOCS_DIR, slug);
+    fs.mkdirSync(outDir, { recursive: true });
+    const html = renderCidadeHub(nome, uf, [...bairros], lista, hubTheme, `${SITE}/${slug}/`, config);
     fs.writeFileSync(path.join(outDir, "index.html"), html);
     sitemapUrls.push(`${SITE}/${slug}/`);
   }
@@ -408,7 +428,7 @@ Sitemap: ${SITE}/sitemap.xml
 
   fs.rmSync(reelsTmpDir, { recursive: true, force: true });
 
-  console.log(`Build ok: ${todosImoveis.length} imóvel(is) publicado(s), ${bairrosMap.size} bairro(s)${imoveis.length > todosImoveis.length ? ` (+${imoveis.length - todosImoveis.length} rascunho(s))` : ""} -> /docs`);
+  console.log(`Build ok: ${todosImoveis.length} imóvel(is) publicado(s), ${bairrosMap.size} bairro(s), ${cidadesMap.size} cidade(s)${imoveis.length > todosImoveis.length ? ` (+${imoveis.length - todosImoveis.length} rascunho(s))` : ""} -> /docs`);
 }
 
 build().catch((err) => {
