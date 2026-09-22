@@ -347,6 +347,12 @@ async function build() {
 
 > Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba e Cabreúva (SP), corretor ${config.corretor?.nome}, CRECI-SP ${config.corretor?.creci}. Cada imóvel tem uma página própria com preço, endereço, ficha técnica e fotos, além de um arquivo llms.txt individual com o resumo em texto simples.
 
+## Cidades
+
+${[...cidadesMap.entries()]
+  .map(([slug, { nome, imoveis: lista }]) => `- [Imóveis em ${nome}](${SITE}/${slug}/) — ${lista.length} ${lista.length === 1 ? "imóvel disponível" : "imóveis disponíveis"}`)
+  .join("\n")}
+
 ## Imóveis
 
 ${imoveis

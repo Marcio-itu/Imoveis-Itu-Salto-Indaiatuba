@@ -552,6 +552,14 @@ ${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family
     url: hubUrl,
     about: { "@type": "City", name: cidadeNome, containedInPlace: { "@type": "State", name: uf === "SP" ? "São Paulo" : uf } },
   })}</script>
+<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Início", item: hubUrl.replace(/[^/]+\/$/, "") },
+      { "@type": "ListItem", position: 2, name: `Imóveis em ${cidadeNome}`, item: hubUrl },
+    ],
+  })}</script>
 <style>${hubCss(theme)}</style>
 ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>
