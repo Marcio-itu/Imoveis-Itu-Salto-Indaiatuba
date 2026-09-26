@@ -593,38 +593,73 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
 </html>`;
 }
 
-function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config) {
+function renderBairroHub(bairroNome, imoveis, theme, hubUrl, config, outrosBairros = []) {
   const nomeHub = config?.nomeHub || "Inteligência Imobiliária";
   // Mesma lógica da página de imóvel: título abrindo com "Imóveis à venda em [bairro],
   // [cidade]" — o padrão que ZAP/Imovelweb/OLX/Lopes usam, e que bate com o que as pessoas
   // realmente digitam, em vez de só o nome do bairro sozinho.
   const cidadeDoBairro = imoveis[0]?.cidade || "";
+  const ufDoBairro = imoveis[0]?.uf || "";
+  // hubUrl agora é a URL própria desta página de bairro (antes vinha errado como a raiz do
+  // site — o que fazia og:url de TODAS as páginas de bairro apontar pra home, quebrando o
+  // preview de compartilhamento no WhatsApp/Facebook). siteRoot é derivado tirando o último
+  // segmento, igual já era feito em renderCidadeHub.
+  const siteRoot = hubUrl.replace(/[^/]+\/$/, "");
+  const cidadeSlug = slugify(cidadeDoBairro);
+  const cidadeUrl = `${siteRoot}${cidadeSlug}/`;
   const tituloHub = `Imóveis à venda em ${bairroNome}${cidadeDoBairro ? `, ${cidadeDoBairro}` : ""} — ${nomeHub}`;
+  const precos = imoveis.map((i) => i.precoNumerico).filter((p) => Number.isFinite(p) && p > 0);
+  const precoMin = precos.length ? Math.min(...precos) : null;
+  const contagem = `${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"}`;
+  const descricao = `${contagem} em ${bairroNome}${cidadeDoBairro ? `, ${cidadeDoBairro}` : ""}${precoMin ? `, a partir de ${formatPreco(precoMin)}` : ""}. Atualizado direto com ${config?.corretor?.nome ? `o corretor ${config.corretor.nome}` : "o corretor"}${config?.corretor?.creci ? `, CRECI-SP ${config.corretor.creci}` : ""}.`;
   return `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(tituloHub)}</title>
-<meta name="description" content="Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}.">
+<meta name="description" content="${esc(descricao)}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="${esc(tituloHub)}">
-<meta property="og:description" content="Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}.">
+<meta property="og:description" content="${esc(descricao)}">
 <meta property="og:url" content="${esc(hubUrl)}">
-<meta property="og:image" content="${hubUrl}imoveis-itu-salto-indaiatuba-2027-01.webp">
+<meta property="og:image" content="${siteRoot}imoveis-itu-salto-indaiatuba-2027-01.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="robots" content="index, follow">
-<link rel="apple-touch-icon" sizes="180x180" href="${hubUrl}favicon-cliente-180.png">
+<link rel="canonical" href="${esc(hubUrl)}">
+<link rel="apple-touch-icon" sizes="180x180" href="${siteRoot}favicon-cliente-180.png">
+${ufDoBairro ? `<meta name="geo.region" content="BR-${esc(ufDoBairro)}">\n<meta name="geo.placename" content="${esc(bairroNome)}, ${esc(cidadeDoBairro)}">` : ""}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 ${fontLinkTag("https://fonts.googleapis.com/css2?family=Fraunces:wght@500&family=Inter:wght@400;500;600&display=swap")}
+<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: tituloHub,
+    url: hubUrl,
+    about: {
+      "@type": "Place",
+      name: `${bairroNome}, ${cidadeDoBairro}`,
+      containedInPlace: { "@type": "City", name: cidadeDoBairro, containedInPlace: { "@type": "State", name: ufDoBairro === "SP" ? "São Paulo" : ufDoBairro } },
+    },
+  })}</script>
+<script type="application/ld+json">${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Início", item: siteRoot },
+      { "@type": "ListItem", position: 2, name: `Imóveis em ${cidadeDoBairro}`, item: cidadeUrl },
+      { "@type": "ListItem", position: 3, name: bairroNome, item: hubUrl },
+    ],
+  })}</script>
 <style>${hubCss(theme)}</style>
 ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "${config.analytics.cloudflareToken}"}'></script>` : ""}
 </head>
 <body>
 <div class="wrap">
-  <span class="eyebrow"><a href="${esc(hubUrl)}" style="color:inherit">← Todas as cidades</a></span>
+  <span class="eyebrow"><a href="${esc(siteRoot)}" style="color:inherit">Início</a> · <a href="${esc(cidadeUrl)}" style="color:inherit">${esc(cidadeDoBairro)}</a> · ${esc(bairroNome)}</span>
   <h1>Imóveis à venda em ${esc(bairroNome)}${cidadeDoBairro ? `, ${esc(cidadeDoBairro)}` : ""}</h1>
-  <p class="sub">${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"}</p>
+  <p class="sub">${contagem}${precoMin ? ` · a partir de ${esc(formatPreco(precoMin))}` : ""}</p>
+  <p class="sub">Casas, apartamentos e terrenos em ${esc(bairroNome)} atualizados direto com ${config?.corretor?.nome ? esc(config.corretor.nome) : "o corretor"}${config?.corretor?.creci ? `, CRECI-SP ${esc(config.corretor.creci)}` : ""}.</p>
   <div class="grid">
     ${imoveis
       .map(
@@ -637,13 +672,14 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
           <div class="meta">${esc(formatPreco(im.preco))}${esc(im.precoSufixo || "")}</div>
         </div>
       </a>
-      <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent(`Confira este imóvel: ${hubUrl}imoveis/${im.slug}/`)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
+      <a class="wa-share" href="https://wa.me/?text=${encodeURIComponent(`Confira este imóvel: ${siteRoot}imoveis/${im.slug}/`)}" target="_blank" rel="noopener" aria-label="Compartilhar no WhatsApp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg>
       </a>
       </div>`
       )
       .join("")}
   </div>
+  ${outrosBairros.length ? `<p class="sub" style="margin-top:28px">Outros bairros em ${esc(cidadeDoBairro)}: ${outrosBairros.map((b) => `<a href="${siteRoot}${esc(b.slug)}/" style="color:inherit;text-decoration:underline">${esc(b.nome)}</a>`).join(" · ")}</p>` : ""}
 </div>
 </body>
 </html>`;

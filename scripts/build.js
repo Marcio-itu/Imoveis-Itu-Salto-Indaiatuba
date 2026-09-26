@@ -269,10 +269,23 @@ async function build() {
 
   // Páginas de bairro (o "linktree" próprio)
   const hubTheme = THEMES["medio-padrao"];
+  // Mapa cidadeSlug -> lista de bairros daquela cidade, pra cada página de bairro linkar os
+  // bairros "irmãos" da mesma cidade (malha de links internos — ajuda exatamente as páginas
+  // de bairro, que são onde um site novo consegue ranquear mais rápido que os grandes
+  // portais e imobiliárias tradicionais da região, que não têm página própria por bairro).
+  const bairrosPorCidadeSlug = new Map();
+  for (const [slug, { imoveis: lista }] of bairrosMap) {
+    const nomeBairro = bairrosMap.get(slug).nome;
+    const cSlug = slugify(lista[0]?.cidade || "");
+    if (!bairrosPorCidadeSlug.has(cSlug)) bairrosPorCidadeSlug.set(cSlug, []);
+    bairrosPorCidadeSlug.get(cSlug).push({ slug, nome: nomeBairro });
+  }
   for (const [slug, { nome, imoveis: lista } ] of bairrosMap) {
     const outDir = path.join(DOCS_DIR, slug);
     fs.mkdirSync(outDir, { recursive: true });
-    const html = renderBairroHub(nome, lista, hubTheme, `${SITE}/`, config);
+    const cSlug = slugify(lista[0]?.cidade || "");
+    const outrosBairros = (bairrosPorCidadeSlug.get(cSlug) || []).filter((b) => b.slug !== slug);
+    const html = renderBairroHub(nome, lista, hubTheme, `${SITE}/${slug}/`, config, outrosBairros);
     fs.writeFileSync(path.join(outDir, "index.html"), html);
     sitemapUrls.push(`${SITE}/${slug}/`);
   }
