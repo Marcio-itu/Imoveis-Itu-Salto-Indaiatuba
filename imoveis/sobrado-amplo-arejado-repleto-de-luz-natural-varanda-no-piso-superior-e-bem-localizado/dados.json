@@ -58,7 +58,7 @@
     {
       "arquivo": "garagem-amplo-itu-medio-padrao-casa-sp-localizacao-20260817010430.jpeg",
       "alt": "Garagem amplo do(a) casa médio padrão em Jardim Santa Tereza, Itu - SP",
-      "hero": false,
+      "hero": true,
       "social": true
     },
     {
@@ -201,7 +201,7 @@
     {
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260902013226.jpeg",
       "alt": "casa à venda em Jardim Santa Tereza, Itu - SP: amplo",
-      "hero": true,
+      "hero": false,
       "social": true
     },
     {
