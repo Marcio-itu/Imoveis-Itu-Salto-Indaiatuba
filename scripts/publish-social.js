@@ -431,7 +431,14 @@ async function publicarNoCatalogo(slug, dados, fotos, config) {
 // página de erro do GitHub Pages) antes de mandar pro Instagram — evita o erro "Only photo
 // or video can be accepted as media type" que acontece quando o Instagram busca a imagem
 // antes do CDN terminar de propagar o arquivo recém-publicado.
-async function aguardarFotosDisponiveis(urls, tentativas = 6, esperaMs = 5000) {
+// Esse job roda logo depois do commit do docs/, mas o deploy de verdade do GitHub Pages
+// (job separado "pages-build-deployment") é assíncrono e pode levar 1-2min sozinho, mais
+// tempo ainda de propagação de CDN em cima disso — principalmente em imóveis com muitas
+// fotos (deploy mais pesado). 6 tentativas de 5s (30s no total) não era orçamento
+// suficiente pra isso; em 29/09 um imóvel com 30+ fotos falhou a publicação inteira por
+// causa disso (a foto ainda dava 404 na tentativa 4/6, e o código manda pro Instagram
+// mesmo assim quando esgota as tentativas). Ampliado pra cobrir deploys pesados com folga.
+async function aguardarFotosDisponiveis(urls, tentativas = 24, esperaMs = 10000) {
   for (const url of urls) {
     let ok = false;
     for (let i = 0; i < tentativas && !ok; i++) {
