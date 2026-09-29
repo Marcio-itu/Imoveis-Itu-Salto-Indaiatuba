@@ -1,0 +1,294 @@
+{
+  "slug": "casa-incrivel-com-area-gourmet-churrasqueira-forno-e-fogao-a-lenha",
+  "titulo": "Casa incrível com área gourmet, churrasqueira, forno e fogão a lenha! ",
+  "tipo": "casa",
+  "padrao": "medio-padrao",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Itu Novo Centro",
+  "condominio": "",
+  "referencia": "",
+  "preco": "R$ 1.100.000",
+  "financiamento": true,
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 4,
+  "lavabos": 1,
+  "salasEstar": 1,
+  "salasJantar": 1,
+  "salasTV": 1,
+  "cozinhas": 1,
+  "escritorios": 1,
+  "closets": 1,
+  "vagas": 2,
+  "areaUtil": 218,
+  "areaTerreno": 200,
+  "descricaoCurta": "Casa de 218m² útil no Itu Novo Centro, com sala de estar e jantar integradas, cozinha, escritório, 3 quartos (1 suíte com closet), lavabo e 4 banheiros no total",
+  "descricaoLonga": [
+    "Casa de 218m² útil no Itu Novo Centro, com sala de estar e jantar integradas, cozinha, escritório, 3 quartos (1 suíte com closet), lavabo e 4 banheiros no total. Área gourmet coberta com churrasqueira, forno e fogão a lenha, quintal coberto e banheiro externo.",
+    "Semi-mobiliada, com ar-condicionado, aquecimento solar, despensa, lavanderia, varanda e sacada. Repleta de iluminação natural em todos os ambientes. Duas vagas de garagem em localização consolidada de Itu/SP, próxima a comércios e serviços do centro."
+  ],
+  "resumo": "R$ 1.100.000.",
+  "tituloSecao": "Venha conferir pessoalmente",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "parceria": {
+    "instagrams": [
+      "@rms.imoveis"
+    ]
+  },
+  "acessorios": [
+    "Varanda",
+    "Sacada",
+    "Despensa",
+    "Área de serviço",
+    "Lavanderia",
+    "Quintal",
+    "Churrasqueira",
+    "Espaço gourmet",
+    "Semi-mobiliado",
+    "Ar-condicionado",
+    "Aquecimento solar"
+  ],
+  "caracteristicasExtras": [
+    "Banheiro externo ",
+    "Quintal coberto",
+    "Repleta de iluminação natural",
+    "Sala de jantar e estar integradas"
+  ],
+  "publicadoEm": "2026-09-29",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: amplo",
+      "hero": true,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: espacoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-iluminado-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: iluminado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-aconchegante-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-elegante-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: elegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-encantador-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: encantador",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-charmoso-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: charmoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-sofisticado-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: sofisticado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-acolhedor-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: acolhedor",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-deslumbrante-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: deslumbrante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-arejado-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: arejado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-moderno-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: moderno",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-reformado-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: reformado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-impecavel-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: impecavel",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-generoso-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: generoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-exclusivo-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: exclusivo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-premium-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: premium",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-refinado-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: refinado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-convidativo-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: convidativo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-privativo-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: privativo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-bem-avaliada-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: bem-avaliada",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-bem-distribuida-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: bem-distribuida",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-linda-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: linda",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacosa-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: espacosa",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-funcional-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: funcional",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-pratico-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: pratico",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-versatil-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: versatil",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-harmonioso-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: harmonioso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-confortavel-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: confortavel",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-luminoso-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: luminoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-ventilado-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: ventilado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-tranquilo-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: tranquilo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-valorizado-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: valorizado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-panoramico-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: panoramico",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-contemporaneo-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: contemporaneo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-renovado-20260929131406.jpg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: renovado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-cativante-20260929131406.jpeg",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: cativante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-surpreendente-20260929131406.png",
+      "alt": "casa à venda em Itu Novo Centro, Itu - SP: surpreendente",
+      "hero": false,
+      "social": false
+    }
+  ]
+}
