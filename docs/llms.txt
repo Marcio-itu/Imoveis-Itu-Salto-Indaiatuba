@@ -9,6 +9,7 @@
 
 ## Imóveis
 
+- [Casa no Itu Novo Centro com área gourmet, churrasqueira, forno e fogão a lenha!](https://imoveis-itu-salto.com.br/imoveis/casa-no-itu-novo-centro-com-area-gourmet-churrasqueira-forno-e-fogao-a-lenha/) — R$ 1.100.000, Itu Novo Centro/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/casa-no-itu-novo-centro-com-area-gourmet-churrasqueira-forno-e-fogao-a-lenha/llms.txt
 - [Excelente terreno comercial de 882 m² muito bem localizado!](https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/) — R$ 1.000.000, Vila Roma/Salto-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/llms.txt
 - [Linda casa num condomínio tranquilo, aconchegante e bem localizado!](https://imoveis-itu-salto.com.br/imoveis/linda-casa-num-condominio-tranquilo-aconchegante-e-bem-localizado/) — R$ 1.100.000, Pinheirinho/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/linda-casa-num-condominio-tranquilo-aconchegante-e-bem-localizado/llms.txt
 - [Apartamento novo em condomínio com infraestrutura completa!](https://imoveis-itu-salto.com.br/imoveis/apartamento-novo-em-condominio-com-infraestrutura-completa/) — R$ 300.000, Nossa Senhora Aparecida/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/apartamento-novo-em-condominio-com-infraestrutura-completa/llms.txt
