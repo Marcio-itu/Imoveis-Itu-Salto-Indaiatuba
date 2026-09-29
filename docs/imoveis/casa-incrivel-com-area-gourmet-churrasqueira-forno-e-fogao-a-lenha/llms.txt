@@ -2,7 +2,7 @@
 
 > R$ 1.100.000.
 
-- Tipo: casa, Alto padrão
+- Tipo: casa, Padrão neutro
 - Preço: R$ 1.100.000 (true)
 - Localização: Itu Novo Centro, Itu - SP
 - Características: 3 quarto(s), 1 suíte(s), 4 banheiro(s), 2 vaga(s), 218 m² de área útil, 200 m² de terreno
