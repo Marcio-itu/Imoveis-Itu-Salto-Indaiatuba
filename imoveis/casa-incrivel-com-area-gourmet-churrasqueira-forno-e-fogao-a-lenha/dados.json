@@ -275,7 +275,7 @@
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-renovado-20260929131406.jpg",
       "alt": "casa à venda em Itu Novo Centro, Itu - SP: renovado",
       "hero": false,
-      "social": false
+      "social": true
     },
     {
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-cativante-20260929131406.jpeg",
@@ -287,7 +287,7 @@
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-surpreendente-20260929131406.png",
       "alt": "casa à venda em Itu Novo Centro, Itu - SP: surpreendente",
       "hero": false,
-      "social": true
+      "social": false
     }
   ]
 }
