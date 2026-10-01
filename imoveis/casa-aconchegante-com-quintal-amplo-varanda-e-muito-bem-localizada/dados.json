@@ -1,0 +1,163 @@
+{
+  "slug": "casa-aconchegante-com-quintal-amplo-varanda-e-muito-bem-localizada",
+  "titulo": "Casa aconchegante com quintal amplo, varanda e muito bem localizada! ",
+  "tipo": "casa",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda",
+    "permuta"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Jardim Convenção",
+  "condominio": "",
+  "referencia": "",
+  "preco": "R$ 590.000",
+  "financiamento": true,
+  "quartos": 3,
+  "banheiros": 3,
+  "salasEstar": 2,
+  "salasJantar": 1,
+  "cozinhas": 1,
+  "copas": 1,
+  "vagas": 2,
+  "areaUtil": 153,
+  "areaTerreno": 250,
+  "descricaoCurta": "Esta casa de 3 quartos no Jardim Convenção, em Itu/SP, está à venda por R$ 590.000 e oferece um amplo quintal com jardim e um lindo pé de pitanga. ",
+  "descricaoLonga": [
+    "Esta casa de 3 quartos no Jardim Convenção, em Itu/SP, está à venda por R$ 590.000 e oferece um amplo quintal com jardim e um lindo pé de pitanga. ",
+    "A residência une uma construção robusta com excelente iluminação natural para o conforto do seu lar. Além de contar cômodos adicionais nos fundo da casa principal contendo quarto, sala e banheiro muito bem construídos. ",
+    "O espaço interno é distribuído em sala de estar, copa, cozinha, despensa, além de área de serviço e lavanderia. A estrutura conta com três banheiros, varanda, ventilador de teto nos quartos e duas vagas de garagem.",
+    "A localização no bairro é excelente e oferece praticidade para a rotina da sua família. Estuda-se permuta."
+  ],
+  "resumo": "Casa à venda por R$ 590.000 no Jardim Convenção, em Itu/SP.",
+  "tituloSecao": "Venha conhecer pessoalmente!",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Varanda",
+    "Despensa",
+    "Área de serviço",
+    "Lavanderia",
+    "Quintal",
+    "Jardim"
+  ],
+  "caracteristicasExtras": [
+    "Lindo pé de pitanga no quintal",
+    "Bem iluminada",
+    "Construção robusta",
+    "Ventilador de teto nos quartos"
+  ],
+  "publicadoEm": "2026-10-01",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: amplo",
+      "hero": true,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-espacoso-20261001191942.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: espacoso",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-iluminado-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: iluminado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-aconchegante-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-elegante-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: elegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-encantador-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: encantador",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-charmoso-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: charmoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-sofisticado-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: sofisticado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-acolhedor-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: acolhedor",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-deslumbrante-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: deslumbrante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-arejado-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: arejado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-moderno-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: moderno",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-reformado-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: reformado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-impecavel-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: impecavel",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-generoso-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: generoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-exclusivo-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: exclusivo",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-premium-20261001191856.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: premium",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-refinado-20261001193702.jpeg",
+      "alt": "casa à venda em Jardim Convenção, Itu - SP: refinado",
+      "hero": false,
+      "social": true
+    }
+  ]
+}
