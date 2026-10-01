@@ -11,7 +11,7 @@
   "uf": "SP",
   "bairro": "Jardim Convenção",
   "condominio": "",
-  "referencia": "",
+  "referencia": "OVP01026",
   "preco": "R$ 590.000",
   "financiamento": true,
   "quartos": 3,
@@ -49,7 +49,6 @@
     "Ventilador de teto nos quartos"
   ],
   "publicadoEm": "2026-10-01",
-  "rascunho": true,
   "fotos": [
     {
       "arquivo": "casa-a-venda-itu-interior-de-sao-paulo-amplo-20261001191856.jpeg",
