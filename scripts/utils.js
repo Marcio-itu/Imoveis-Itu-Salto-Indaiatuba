@@ -37,4 +37,20 @@ function fontLinkTag(href) {
 <noscript><link rel="stylesheet" href="${href}"></noscript>`;
 }
 
-module.exports = { slugify, esc, parsePreco, formatPreco, fontLinkTag };
+// Preposição certa pra nome de bairro em frase tipo "Casa à venda [prep] [bairro]".
+// "em" só está correto pra nome próprio puro (Pinheirinho, Liberdade); bairro que começa
+// com uma palavra comum (Jardim, Vila, Parque...) pede a contração dessa palavra com "em"
+// (no/na), senão a frase sai errada tipo "em Jardim Convenção" em vez de "no Jardim
+// Convenção". Lista cobre os prefixos mais comuns de bairro no Brasil; o que não bate
+// com nenhum prefixo conhecido continua usando "em" (comportamento de antes, seguro pra
+// nome próprio sem artigo).
+const PREFIXOS_MASCULINOS = ["jardim", "parque", "conjunto", "residencial", "condomínio", "condominio", "centro", "bosque", "recanto", "núcleo", "nucleo", "loteamento", "alto", "distrito"];
+const PREFIXOS_FEMININOS = ["vila", "chácara", "chacara", "chácaras", "chacaras", "colina", "colinas", "cidade", "granja", "fazenda", "estância", "estancia"];
+function prepBairro(nome) {
+  const primeira = (nome || "").trim().split(/\s+/)[0]?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  if (PREFIXOS_MASCULINOS.some((p) => p.normalize("NFD").replace(/[\u0300-\u036f]/g, "") === primeira)) return "no";
+  if (PREFIXOS_FEMININOS.some((p) => p.normalize("NFD").replace(/[\u0300-\u036f]/g, "") === primeira)) return "na";
+  return "em";
+}
+
+module.exports = { slugify, esc, parsePreco, formatPreco, fontLinkTag, prepBairro };

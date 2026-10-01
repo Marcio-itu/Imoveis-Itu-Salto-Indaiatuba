@@ -1,4 +1,4 @@
-const { esc, formatPreco, fontLinkTag, slugify } = require("./utils");
+const { esc, formatPreco, fontLinkTag, slugify, prepBairro } = require("./utils");
 
 const FOTOS_FINANCIAMENTO = [
   "simulador-financiamento-imovel-itu-salto-cabreuva-01.webp",
@@ -330,9 +330,10 @@ function renderPropertyPage(imovel, theme, opts) {
   // "casa"/"apartamento" vêm em minúscula do campo do admin — maiúscula só na primeira letra
   // porque essa palavra abre a frase tanto no <title> quanto no H1 agora.
   const tipoTitulo = imovel.tipo ? imovel.tipo.charAt(0).toUpperCase() + imovel.tipo.slice(1) : imovel.tipo;
+  const prepB = prepBairro(imovel.bairro);
   const tituloSeo = imovel.condominio
-    ? `${tipoTitulo} ${operacaoTituloSeo} em ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} — Condomínio ${imovel.condominio} | ${imovel.titulo}`
-    : `${tipoTitulo} ${operacaoTituloSeo} em ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} | ${imovel.titulo}`;
+    ? `${tipoTitulo} ${operacaoTituloSeo} ${prepB} ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} — Condomínio ${imovel.condominio} | ${imovel.titulo}`
+    : `${tipoTitulo} ${operacaoTituloSeo} ${prepB} ${imovel.bairro}, ${imovel.cidade} - ${imovel.uf} | ${imovel.titulo}`;
 
   const inativo = imovel.ativo === false;
   const faqs = buildFaqs(imovel);
@@ -383,7 +384,7 @@ ${preview ? `<div style="background:#F1B93B;color:#3A2E00;text-align:center;padd
   <div class="wrap hero-content">
     <div class="plaqueta">${imovel.padrao === "alto-padrao" ? `<b>${esc(theme.label)}</b> · ` : ""}${operacaoLabel ? `${esc(operacaoLabel)} · ` : ""}${esc(imovel.cidade)}/${esc(imovel.uf)} · ref. ${esc(imovel.referencia || imovel.slug)}</div>
     ${temPermuta ? `<div style="font-size:13px;color:rgba(255,255,255,.75);margin-top:2px">Estuda-se permuta</div>` : ""}
-    <h1>${esc(tipoTitulo)} ${operacaoTituloSeo} em ${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</h1>
+    <h1>${esc(tipoTitulo)} ${operacaoTituloSeo} ${prepB} ${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</h1>
     <p class="subtitulo-criativo" style="font-size:17px;font-weight:600;color:rgba(255,255,255,.92);margin-top:6px">${esc(imovel.titulo)}</p>
     <div class="hero-meta">
       <span>${imovel.condominio ? `Condomínio ${esc(imovel.condominio)}, ` : ""}${esc(imovel.bairro)}, ${esc(imovel.cidade)} - ${esc(imovel.uf)}</span>
@@ -485,7 +486,7 @@ ${(() => {
   </section>`
     : "";
 
-  const tituloGaleria = imovel.padrao === "alto-padrao" ? "Deleite-se com as fotos"
+  const tituloGaleria = imovel.padrao === "alto-padrao" ? "Curta as fotos e venha conferir pessoalmente!"
     : imovel.padrao === "medio-padrao" ? "Fotos pra você curtir"
     : "Fotos";
 
@@ -670,9 +671,10 @@ ${
     Inteligência Imobiliária, Construindo Confiança · ${imovel.corretor?.creci ? `CRECI-SP ${esc(imovel.corretor.creci)}` : ""}
     ${imovel.corretor?.instagram ? `· <a href="${esc(imovel.corretor.instagram)}" target="_blank" rel="noopener">Instagram</a>` : ""}
     · Imóvel publicado em: ${esc(formatDateBR(imovel.publicadoEm))}
-    · <a href="${esc(hubUrl)}">Ver outros imóveis em ${esc(imovel.bairro)}</a>
+    · <a href="${esc(hubUrl)}">Ver outros imóveis ${prepB} ${esc(imovel.bairro)}</a>
     · <a href="${esc(siteRoot)}/${slugify(imovel.cidade)}/">Ver todos os imóveis em ${esc(imovel.cidade)}</a>
   </div>
+  <div class="wrap" style="opacity:.55;font-size:11px;margin-top:4px">site desenvolvido por Márcio Santos | ${new Date().getFullYear()}</div>
 </footer>
 </body>
 </html>`;
