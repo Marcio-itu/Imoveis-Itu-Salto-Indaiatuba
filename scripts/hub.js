@@ -327,7 +327,6 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
       <h1 class="filtros-headline">Imóveis à venda em Itu e Salto</h1>
       <p class="filtros-sub">Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região.</p>
       ${cidadesComImovel.length ? `<p class="filtros-sub" style="margin-top:-10px">Ver todos os imóveis em: ${cidadesComImovel.map((c) => `<a href="${siteUrl}${slugify(c)}/" style="color:inherit;text-decoration:underline">${esc(c)}</a>`).join(" · ")}</p>` : ""}
-      <p class="filtros-sub" style="opacity:.6;font-size:12px;max-width:48ch">Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de reunir mais de 20.000 imóveis anunciados.</p>
       <div class="tabs-op" id="chipsOperacao"></div>
       <span class="busca-inteligente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg> Busca</span>
       <span class="grupo-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.2-7-11a7 7 0 0 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Cidade</span>
@@ -416,6 +415,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
       </a>
     </div>
     <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(nomeHub)}. Todos os direitos reservados.</div>
+    <div class="footer-bottom" style="opacity:.6;font-size:12px;max-width:48ch;margin-top:8px">Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de reunir mais de 20.000 imóveis anunciados.</div>
     <div class="footer-bottom" style="opacity:.55;font-size:11px;margin-top:4px">site desenvolvido por Márcio Santos | ${new Date().getFullYear()}</div>
   </footer>
 </div>
