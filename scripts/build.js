@@ -360,6 +360,8 @@ async function build() {
 
 > Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba e Cabreúva (SP), corretor ${config.corretor?.nome}, CRECI-SP ${config.corretor?.creci}. Cada imóvel tem uma página própria com preço, endereço, ficha técnica e fotos, além de um arquivo llms.txt individual com o resumo em texto simples.
 
+Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de reunir mais de 20.000 imóveis anunciados.
+
 ## Cidades
 
 ${[...cidadesMap.entries()]
