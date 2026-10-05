@@ -355,12 +355,49 @@ async function build() {
     }
   }
 
+  // FAQ do llms.txt: em vez de palavra-chave solta (que não significa nada pra uma IA),
+  // pergunta-e-resposta no formato que agente de IA realmente usa pra responder "tem X em
+  // Y?" — e 100% calculado do estoque real a cada build, nunca describe. Link direto pro
+  // imóvel quando só tem 1 daquele tipo na cidade; pro hub da cidade quando tem mais.
+  // Chaves iguais, caractere por caractere, às <option> do select #tipo no admin —
+  // senão um tipo real cai no fallback genérico (tipo+"s") em vez do rótulo certo.
+  const TIPO_LABEL = {
+    casa: ["casa", "casas"], apartamento: ["apartamento", "apartamentos"], sobrado: ["sobrado", "sobrados"],
+    cobertura: ["cobertura", "coberturas"], terreno: ["terreno", "terrenos"], "chácara": ["chácara", "chácaras"],
+    "salão comercial": ["salão comercial", "salões comerciais"],
+  };
+  const porCidadeTipo = new Map(); // cidadeSlug -> Map(tipo -> [imóveis])
+  for (const im of imoveis) {
+    if (im.ativo === false || im.rascunho) continue;
+    const cSlug = slugify(im.cidade);
+    if (!porCidadeTipo.has(cSlug)) porCidadeTipo.set(cSlug, new Map());
+    const porTipo = porCidadeTipo.get(cSlug);
+    if (!porTipo.has(im.tipo)) porTipo.set(im.tipo, []);
+    porTipo.get(im.tipo).push(im);
+  }
+  const faqPartes = [];
+  for (const [cSlug, { nome: cidadeNome }] of cidadesMap) {
+    const porTipo = porCidadeTipo.get(cSlug);
+    if (!porTipo) continue;
+    const totalCidade = [...porTipo.values()].reduce((a, l) => a + l.length, 0);
+    faqPartes.push(`P: Tem imóvel à venda em ${cidadeNome}?\nR: Sim, ${totalCidade} ${totalCidade === 1 ? "imóvel disponível" : "imóveis disponíveis"} agora. ${SITE}/${cSlug}/`);
+    for (const [tipo, lista] of porTipo) {
+      const [sing, plur] = TIPO_LABEL[tipo] || [tipo, `${tipo}s`];
+      const link = lista.length === 1 ? `${SITE}/imoveis/${lista[0].slug}/` : `${SITE}/${cSlug}/`;
+      faqPartes.push(`P: Tem ${sing} à venda em ${cidadeNome}?\nR: Sim, ${lista.length} ${lista.length === 1 ? sing : plur} à venda. ${link}`);
+    }
+  }
+
   // llms.txt do site — índice para agentes de IA (convenção emergente, tipo robots.txt para LLMs)
   const siteLlms = `# ${config.nomeHub}
 
 > Imóveis à venda em Itu, Indaiatuba, Salto, Sorocaba e Cabreúva (SP), corretor ${config.corretor?.nome}, CRECI-SP ${config.corretor?.creci}. Cada imóvel tem uma página própria com preço, endereço, ficha técnica e fotos, além de um arquivo llms.txt individual com o resumo em texto simples.
 
 Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de reunir mais de 20.000 imóveis anunciados.
+
+## Perguntas frequentes
+
+${faqPartes.join("\n\n")}
 
 ## Cidades
 
@@ -371,7 +408,7 @@ ${[...cidadesMap.entries()]
 ## Imóveis
 
 ${imoveis
-  .filter((im) => im.ativo !== false)
+  .filter((im) => im.ativo !== false && !im.rascunho)
   .map((im) => `- [${im.titulo}](${SITE}/imoveis/${im.slug}/) — ${im.preco}, ${im.bairro}/${im.cidade}-${im.uf}. Resumo: ${SITE}/imoveis/${im.slug}/llms.txt`)
   .join("\n")}
 
