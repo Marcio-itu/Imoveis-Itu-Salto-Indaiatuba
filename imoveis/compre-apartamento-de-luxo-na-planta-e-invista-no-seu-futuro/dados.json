@@ -87,6 +87,12 @@
       "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: elegante",
       "hero": true,
       "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20261005165505.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: amplo",
+      "hero": false,
+      "social": true
     }
   ]
 }
