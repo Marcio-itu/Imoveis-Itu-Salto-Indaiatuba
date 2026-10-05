@@ -1,7 +1,7 @@
 {
   "slug": "salao-comercial-250m-2-pisos-na-avendida-do-rancho",
   "titulo": "Salão Comercial 250m, 2 Pisos, na Avenida do Rancho!",
-  "tipo": "terreno",
+  "tipo": "salão comercial",
   "padrao": "padrao-neutro",
   "tiposOperacao": [
     "locacao"
