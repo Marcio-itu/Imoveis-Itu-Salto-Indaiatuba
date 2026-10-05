@@ -2,7 +2,7 @@
 
 > Salão comercial com 250 m² e 4 vagas para locação na Avenida do Rancho, Itu/SP, por R$ 7.900 mensais.
 
-- Tipo: terreno, Padrão neutro
+- Tipo: salão comercial, Padrão neutro
 - Preço: R$ 7.900
 - Localização: Rancho Grande, Itu - SP
 - Características: 2 banheiro(s), 4 vaga(s), 250 m² de área útil

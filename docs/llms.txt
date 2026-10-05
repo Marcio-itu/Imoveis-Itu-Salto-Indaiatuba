@@ -18,8 +18,8 @@ R: Sim, 2 apartamentos à venda. https://imoveis-itu-salto.com.br/itu/
 P: Tem cobertura à venda em Itu?
 R: Sim, 1 cobertura à venda. https://imoveis-itu-salto.com.br/imoveis/cobertura-no-itu-novo-centro-com-linda-vista-para-itu/
 
-P: Tem terreno à venda em Itu?
-R: Sim, 1 terreno à venda. https://imoveis-itu-salto.com.br/imoveis/salao-comercial-250m-2-pisos-na-avendida-do-rancho/
+P: Tem salão comercial à venda em Itu?
+R: Sim, 1 salão comercial à venda. https://imoveis-itu-salto.com.br/imoveis/salao-comercial-250m-2-pisos-na-avendida-do-rancho/
 
 P: Tem imóvel à venda em Salto?
 R: Sim, 2 imóveis disponíveis agora. https://imoveis-itu-salto.com.br/salto/
