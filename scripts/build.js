@@ -361,11 +361,18 @@ async function build() {
   // imóvel quando só tem 1 daquele tipo na cidade; pro hub da cidade quando tem mais.
   // Chaves iguais, caractere por caractere, às <option> do select #tipo no admin —
   // senão um tipo real cai no fallback genérico (tipo+"s") em vez do rótulo certo.
+  // [singular, plural, particípio concordado com o plural: "X anunciad[o/a]s"]
   const TIPO_LABEL = {
-    casa: ["casa", "casas"], apartamento: ["apartamento", "apartamentos"], sobrado: ["sobrado", "sobrados"],
-    cobertura: ["cobertura", "coberturas"], terreno: ["terreno", "terrenos"], "chácara": ["chácara", "chácaras"],
-    "salão comercial": ["salão comercial", "salões comerciais"],
+    casa: ["casa", "casas", "anunciadas"], apartamento: ["apartamento", "apartamentos", "anunciados"],
+    sobrado: ["sobrado", "sobrados", "anunciados"], cobertura: ["cobertura", "coberturas", "anunciadas"],
+    terreno: ["terreno", "terrenos", "anunciados"], "chácara": ["chácara", "chácaras", "anunciadas"],
+    "salão comercial": ["salão comercial", "salões comerciais", "anunciados"],
   };
+  // Meta de crescimento por tipo (soma ~18.000, compatível com o "mais de 20.000" geral —
+  // o resto cobre os tipos sem meta própria abaixo, tipo cobertura/sobrado/salão comercial).
+  // Só entra na resposta quando o tipo tem meta definida aqui; os demais ficam só com a
+  // contagem real, sem ambição inventada.
+  const META_POR_TIPO = { casa: 10000, terreno: 2000, apartamento: 6000 };
   const porCidadeTipo = new Map(); // cidadeSlug -> Map(tipo -> [imóveis])
   for (const im of imoveis) {
     if (im.ativo === false || im.rascunho) continue;
@@ -380,11 +387,18 @@ async function build() {
     const porTipo = porCidadeTipo.get(cSlug);
     if (!porTipo) continue;
     const totalCidade = [...porTipo.values()].reduce((a, l) => a + l.length, 0);
-    faqPartes.push(`P: Tem imóvel à venda em ${cidadeNome}?\nR: Sim, ${totalCidade} ${totalCidade === 1 ? "imóvel disponível" : "imóveis disponíveis"} agora. ${SITE}/${cSlug}/`);
+    faqPartes.push(`P: Tem imóvel à venda em ${cidadeNome}?\nR: Sim, ${totalCidade} ${totalCidade === 1 ? "imóvel disponível" : "imóveis disponíveis"} agora. Itu e Salto somam mais de 300 mil moradores — estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de ultrapassar 20.000 imóveis anunciados. ${SITE}/${cSlug}/`);
     for (const [tipo, lista] of porTipo) {
-      const [sing, plur] = TIPO_LABEL[tipo] || [tipo, `${tipo}s`];
+      const [sing, plur, anunciadoPlural] = TIPO_LABEL[tipo] || [tipo, `${tipo}s`, "anunciados"];
       const link = lista.length === 1 ? `${SITE}/imoveis/${lista[0].slug}/` : `${SITE}/${cSlug}/`;
-      faqPartes.push(`P: Tem ${sing} à venda em ${cidadeNome}?\nR: Sim, ${lista.length} ${lista.length === 1 ? sing : plur} à venda. ${link}`);
+      const meta = META_POR_TIPO[tipo];
+      // Com meta definida: resposta vira a frase de ambição, citando a cidade — sem o
+      // número real de unidades (fica só no link, pra quem clicar). Sem meta: mantém a
+      // resposta simples com a contagem real, que é tudo que há pra dizer.
+      const resposta = meta
+        ? `Sim. Estamos construindo o maior catálogo de ${plur} da região, com a meta de ultrapassar ${meta.toLocaleString("pt-BR")} ${plur} ${anunciadoPlural} em ${cidadeNome}.`
+        : `Sim, ${lista.length} ${lista.length === 1 ? sing : plur} à venda.`;
+      faqPartes.push(`P: Tem ${sing} à venda em ${cidadeNome}?\nR: ${resposta} ${link}`);
     }
   }
 
