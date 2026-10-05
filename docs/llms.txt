@@ -7,13 +7,13 @@ Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imó
 ## Perguntas frequentes
 
 P: Tem imóvel à venda em Itu?
-R: Sim, 12 imóveis disponíveis agora. https://imoveis-itu-salto.com.br/itu/
+R: Sim, 13 imóveis disponíveis agora. https://imoveis-itu-salto.com.br/itu/
+
+P: Tem apartamento à venda em Itu?
+R: Sim, 3 apartamentos à venda. https://imoveis-itu-salto.com.br/itu/
 
 P: Tem casa à venda em Itu?
 R: Sim, 8 casas à venda. https://imoveis-itu-salto.com.br/itu/
-
-P: Tem apartamento à venda em Itu?
-R: Sim, 2 apartamentos à venda. https://imoveis-itu-salto.com.br/itu/
 
 P: Tem cobertura à venda em Itu?
 R: Sim, 1 cobertura à venda. https://imoveis-itu-salto.com.br/imoveis/cobertura-no-itu-novo-centro-com-linda-vista-para-itu/
@@ -29,11 +29,12 @@ R: Sim, 2 terrenos à venda. https://imoveis-itu-salto.com.br/salto/
 
 ## Cidades
 
-- [Imóveis em Itu](https://imoveis-itu-salto.com.br/itu/) — 12 imóveis disponíveis
+- [Imóveis em Itu](https://imoveis-itu-salto.com.br/itu/) — 13 imóveis disponíveis
 - [Imóveis em Salto](https://imoveis-itu-salto.com.br/salto/) — 2 imóveis disponíveis
 
 ## Imóveis
 
+- [Compre apartamento de luxo na planta e invista no seu futuro!](https://imoveis-itu-salto.com.br/imoveis/compre-apartamento-de-luxo-na-planta-e-invista-no-seu-futuro/) — R$ 955.000, Itu Novo Centro/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/compre-apartamento-de-luxo-na-planta-e-invista-no-seu-futuro/llms.txt
 - [Casa aconchegante com quintal amplo, varanda e muito bem localizada! ](https://imoveis-itu-salto.com.br/imoveis/casa-aconchegante-com-quintal-amplo-varanda-e-muito-bem-localizada/) — R$ 590.000, Jardim Convenção/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/casa-aconchegante-com-quintal-amplo-varanda-e-muito-bem-localizada/llms.txt
 - [Casa incrível com área gourmet, churrasqueira, forno e fogão a lenha! ](https://imoveis-itu-salto.com.br/imoveis/casa-incrivel-com-area-gourmet-churrasqueira-forno-e-fogao-a-lenha/) — R$ 1.100.000, Itu Novo Centro/Itu-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/casa-incrivel-com-area-gourmet-churrasqueira-forno-e-fogao-a-lenha/llms.txt
 - [Excelente terreno comercial de 882 m² muito bem localizado!](https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/) — R$ 1.000.000, Vila Roma/Salto-SP. Resumo: https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/llms.txt
