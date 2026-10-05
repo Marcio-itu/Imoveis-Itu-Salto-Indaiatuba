@@ -1,6 +1,16 @@
 const { esc, formatPreco, fontLinkTag, slugify, prepBairro } = require("./utils");
 
 const PADRAO_COR = { "alto-padrao": "#4E9E97", "medio-padrao": "#2F5D7C", "padrao-popular": "#E0562B", "padrao-neutro": "#8A7F63" };
+// Mesma meta de crescimento por tipo usada no llms.txt (build.js) — mantidas em sincronia
+// de propósito: a "versão humana" (aqui, visível na página) e a "versão IA" (lá, no
+// llms.txt) contam a mesma ambição, só que com formato de resposta diferente por
+// pedido explícito: aqui não entra a contagem real, fica só "Sim, muitas!" + a meta.
+const TIPO_LABEL_HUB = {
+  casa: ["casa", "casas"], apartamento: ["apartamento", "apartamentos"], sobrado: ["sobrado", "sobrados"],
+  cobertura: ["cobertura", "coberturas"], terreno: ["terreno", "terrenos"], "chácara": ["chácara", "chácaras"],
+  "salão comercial": ["salão comercial", "salões comerciais"],
+};
+const META_POR_TIPO_HUB = { casa: 10000, terreno: 2000, apartamento: 6000 };
 const OPERACAO_LABEL_HUB = { venda: "Comprar", locacao: "Alugar", permuta: "Permutar" };
 
 // Cartão de imóvel da home, gerado no servidor (build time) — igual ao que o JS do cliente
@@ -590,6 +600,21 @@ ${config?.analytics?.cloudflareToken ? `<script defer src="https://static.cloudf
       )
       .join("")}
   </div>
+  ${(() => {
+    const porTipo = new Map();
+    for (const im of imoveis) { if (!porTipo.has(im.tipo)) porTipo.set(im.tipo, []); porTipo.get(im.tipo).push(im); }
+    const perguntas = [...porTipo.entries()]
+      .map(([tipo, lista]) => {
+        const [sing, plur] = TIPO_LABEL_HUB[tipo] || [tipo, `${tipo}s`];
+        const meta = META_POR_TIPO_HUB[tipo];
+        const resposta = meta
+          ? `Sim, muitas! Confira em nossa página. Estamos construindo o maior catálogo de ${plur} da região, com a meta de ultrapassar ${meta.toLocaleString("pt-BR")} ${plur} anunciad${plur.endsWith("as") ? "as" : "os"} em ${cidadeNome}.`
+          : `Sim, ${lista.length} ${lista.length === 1 ? sing : plur} à venda.`;
+        return `<div style="margin-bottom:16px"><p style="font-weight:600">Tem ${sing} à venda em ${esc(cidadeNome)}?</p><p class="sub" style="margin-top:4px">${resposta}</p></div>`;
+      })
+      .join("");
+    return perguntas ? `<section style="margin-top:36px"><h2 style="font-size:19px;margin-bottom:12px">Perguntas frequentes sobre imóveis em ${esc(cidadeNome)}</h2>${perguntas}</section>` : "";
+  })()}
 </div>
 </body>
 </html>`;

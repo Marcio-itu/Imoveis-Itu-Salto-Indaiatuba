@@ -220,7 +220,7 @@ async function build() {
     const tiposOperacao = (Array.isArray(imovel.tiposOperacao) && imovel.tiposOperacao.length)
       ? imovel.tiposOperacao : [imovel.tipoOperacao || "venda"];
     const resumo = {
-      slug: imovel.slug, titulo: imovel.titulo, cidade: imovel.cidade, bairro: imovel.bairro, uf: imovel.uf,
+      slug: imovel.slug, titulo: imovel.titulo, cidade: imovel.cidade, bairro: imovel.bairro, uf: imovel.uf, tipo: imovel.tipo,
       preco: formatPreco(imovel.preco), precoNumerico: parsePreco(imovel.preco), padrao: imovel.padrao,
       padraoLabel: theme.label, url: propUrl, thumb,
       tiposOperacao,
