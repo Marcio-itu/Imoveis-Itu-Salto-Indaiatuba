@@ -20,8 +20,13 @@
   "cozinhas": 1,
   "vagas": 2,
   "areaUtil": 95,
-  "descricaoCurta": "Compre apartamento de luxo na planta e invista no seu futuro! em Itu Novo Centro, Itu/SP",
-  "descricaoLonga": [],
+  "descricaoCurta": "O imóvel de 95 m² de área útil possui 3 dormitórios, sendo 1 suíte, banheiro social, sala de estar, cozinha, varanda, sacada e 2 vagas de garagem com depósito p",
+  "descricaoLonga": [
+    "O imóvel de 95 m² de área útil possui 3 dormitórios, sendo 1 suíte, banheiro social, sala de estar, cozinha, varanda, sacada e 2 vagas de garagem com depósito privativo.",
+    "Excelente opção para morar ou investir, este apartamento novo permite que seu carro seja utilizado como parte do pagamento da entrada, mediante análise das condições.",
+    "A infraestrutura do condomínio fechado dispõe de portaria presencial com segurança e ronda 24h, controle de acesso, piscina coletiva, quadra esportiva, playground, salão de festas e elevador."
+  ],
+  "resumo": "Apartamento na planta de 95 m² com 3 dormitórios está à venda por R$ 955.000 no condomínio Luxor Residencial, no Itu Novo Centro.",
   "tituloSecao": "Consulte material de divulgação!",
   "diferenciais": [],
   "dadosTecnicos": [],
@@ -47,7 +52,9 @@
   ],
   "caracteristicasExtras": [
     "Depósito na garagem!",
-    "Seu carro pode ser dado como entrada. Confira condições!"
+    "Seu carro pode ser dado como entrada. Confira condições!",
+    "Imóvel na planta",
+    "Excelente para morar, ou investir"
   ],
   "publicadoEm": "2026-10-05",
   "rascunho": true,
