@@ -1,0 +1,86 @@
+{
+  "slug": "compre-apartamento-de-luxo-na-planta-e-invista-no-seu-futuro",
+  "titulo": "Compre apartamento de luxo na planta e invista no seu futuro!",
+  "tipo": "apartamento",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Itu Novo Centro",
+  "condominio": "Luxor Residencial ",
+  "referencia": "",
+  "preco": "R$ 955.000",
+  "financiamento": true,
+  "quartos": 3,
+  "suites": 1,
+  "banheiros": 2,
+  "salasEstar": 1,
+  "cozinhas": 1,
+  "vagas": 2,
+  "areaUtil": 95,
+  "descricaoCurta": "Compre apartamento de luxo na planta e invista no seu futuro! em Itu Novo Centro, Itu/SP",
+  "descricaoLonga": [],
+  "tituloSecao": "Consulte material de divulgação!",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "parceria": {
+    "instagrams": [
+      "@ronaldocorretorimoveis"
+    ]
+  },
+  "acessorios": [
+    "Varanda",
+    "Sacada",
+    "Playground",
+    "Salão de festas",
+    "Quadra esportiva",
+    "Elevador",
+    "Piscina coletiva",
+    "Portaria 24h",
+    "Portaria presencial",
+    "Controle de acesso",
+    "Condomínio fechado",
+    "Ronda 24h",
+    "Imóvel novo"
+  ],
+  "caracteristicasExtras": [
+    "Depósito na garagem!",
+    "Seu carro pode ser dado como entrada. Confira condições!"
+  ],
+  "publicadoEm": "2026-10-05",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20261005155307.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: amplo",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-espacoso-20261005155307.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: espacoso",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-iluminado-20261005155307.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: iluminado",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-aconchegante-20261005155307.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: aconchegante",
+      "hero": false,
+      "social": true
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-elegante-20261005160027.jpeg",
+      "alt": "apartamento à venda em Itu Novo Centro, Itu - SP: elegante",
+      "hero": true,
+      "social": false
+    }
+  ]
+}
