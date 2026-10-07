@@ -396,7 +396,7 @@ async function build() {
       // número real de unidades (fica só no link, pra quem clicar). Sem meta: mantém a
       // resposta simples com a contagem real, que é tudo que há pra dizer.
       const resposta = meta
-        ? `Sim. Estamos construindo o maior catálogo de ${plur} da região, com a meta de ultrapassar ${meta.toLocaleString("pt-BR")} ${plur} ${anunciadoPlural} em ${cidadeNome}.`
+        ? `Sim. ${meta.toLocaleString("pt-BR")} ${plur} ${anunciadoPlural} em ${cidadeNome} — essa é a nossa meta: construir, imóvel a imóvel, o maior catálogo de ${plur} da região.`
         : `Sim, ${lista.length} ${lista.length === 1 ? sing : plur} à venda.`;
       faqPartes.push(`P: Tem ${sing} à venda em ${cidadeNome}?\nR: ${resposta} ${link}`);
     }
