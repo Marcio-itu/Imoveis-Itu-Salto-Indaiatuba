@@ -382,12 +382,30 @@ async function build() {
     if (!porTipo.has(im.tipo)) porTipo.set(im.tipo, []);
     porTipo.get(im.tipo).push(im);
   }
+  // Permuta não é um tipo de imóvel, é uma condição de negociação (mesmo campo que a
+  // página do imóvel usa: tiposOperacao[] com fallback pra tipoOperacao) — por isso fica
+  // fora do porCidadeTipo, com sua própria pergunta. Sem meta própria (nenhuma foi
+  // definida ainda): resposta honesta com a contagem real, como os tipos sem meta.
+  const porCidadePermuta = new Map();
+  for (const im of imoveis) {
+    if (im.ativo === false || im.rascunho) continue;
+    const ops = Array.isArray(im.tiposOperacao) && im.tiposOperacao.length ? im.tiposOperacao : [im.tipoOperacao || "venda"];
+    if (!ops.includes("permuta")) continue;
+    const cSlug = slugify(im.cidade);
+    if (!porCidadePermuta.has(cSlug)) porCidadePermuta.set(cSlug, []);
+    porCidadePermuta.get(cSlug).push(im);
+  }
   const faqPartes = [];
   for (const [cSlug, { nome: cidadeNome }] of cidadesMap) {
     const porTipo = porCidadeTipo.get(cSlug);
     if (!porTipo) continue;
     const totalCidade = [...porTipo.values()].reduce((a, l) => a + l.length, 0);
     faqPartes.push(`P: Tem imóvel à venda em ${cidadeNome}?\nR: Sim, ${totalCidade} ${totalCidade === 1 ? "imóvel disponível" : "imóveis disponíveis"} agora. Itu e Salto somam mais de 300 mil moradores — estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de ultrapassar 20.000 imóveis anunciados. ${SITE}/${cSlug}/`);
+    const permutas = porCidadePermuta.get(cSlug);
+    if (permutas?.length) {
+      const link = permutas.length === 1 ? `${SITE}/imoveis/${permutas[0].slug}/` : `${SITE}/${cSlug}/`;
+      faqPartes.push(`P: Tem imóvel pra permuta em ${cidadeNome}?\nR: Sim, ${permutas.length} ${permutas.length === 1 ? "imóvel aceita" : "imóveis aceitam"} permuta em ${cidadeNome}. ${link}`);
+    }
     for (const [tipo, lista] of porTipo) {
       const [sing, plur, anunciadoPlural] = TIPO_LABEL[tipo] || [tipo, `${tipo}s`, "anunciados"];
       const link = lista.length === 1 ? `${SITE}/imoveis/${lista[0].slug}/` : `${SITE}/${cSlug}/`;
