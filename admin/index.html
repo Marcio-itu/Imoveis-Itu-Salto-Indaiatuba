@@ -371,6 +371,10 @@
       </label>
     </div>
     <div id="listaImoveis" style="margin-top:14px"></div>
+    <div id="removerTodosReelsBox" style="display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
+      <button class="btn secondary" id="removerTodosReelsBtn" type="button">🎬🚫 Remover vídeo reel de TODOS os imóveis</button>
+      <p class="hint" style="margin-top:6px">Tira o vídeo da página de cada imóvel que tem um hoje (não mexe em foto, preço ou texto). 1 commit só, não republica nada nas redes sociais. Se quiser vídeo de novo depois, precisa gerar de novo (leva uns 3-4 min por imóvel no próximo build).</p>
+    </div>
 
     <details id="ultimasMidiasBox" style="margin-top:18px">
       <summary style="cursor:pointer;font-weight:600">🎬 Últimas mídias geradas</summary>
@@ -1707,6 +1711,35 @@ function idadeEmMeses(dataIso){
 }
 
 document.getElementById("carregarImoveisBtn").onclick = carregarImoveis;
+document.getElementById("removerTodosReelsBtn").onclick = async () => {
+  const comVideo = ultimaLista.filter(i => i.dados.gerarVideo !== false);
+  if (!comVideo.length) return;
+  if (!confirm(`Isso vai remover o vídeo de ${comVideo.length} imóve${comVideo.length === 1 ? "l" : "is"}. Não vai postar nada nas redes sociais. Confirma?`)) return;
+  const repo = document.getElementById("ghRepo").value.trim();
+  const token = document.getElementById("ghToken").value.trim();
+  const branch = document.getElementById("ghBranch").value.trim() || "main";
+  const btn = document.getElementById("removerTodosReelsBtn");
+  btn.disabled = true;
+  const status = document.createElement("p");
+  status.className = "hint";
+  btn.insertAdjacentElement("afterend", status);
+  try {
+    const changes = comVideo.map(i => ({
+      path: `imoveis/${i.pasta}/dados.json`,
+      contentBase64: utf8ToBase64(JSON.stringify({ ...i.dados, gerarVideo: false }, null, 2)),
+    }));
+    await ghCommitMultiplo(repo, branch, token, changes,
+      `chore: remove vídeo reel de ${comVideo.length} imóveis (via admin) [sem-redes]`,
+      (msg) => { status.textContent = msg; });
+    status.textContent = `✅ Pronto — vídeo removido de ${comVideo.length} imóve${comVideo.length === 1 ? "l" : "is"}. O site atualiza em alguns minutos, sem postar nas redes.`;
+    comVideo.forEach(i => { i.dados.gerarVideo = false; });
+    document.getElementById("removerTodosReelsBox").style.display = "none";
+  } catch (err) {
+    status.textContent = "❌ " + err.message;
+  } finally {
+    btn.disabled = false;
+  }
+};
 document.getElementById("soMaisDe6Meses").onchange = () => renderListaImoveis(ultimaLista);
 
 async function carregarImoveis(){
@@ -1737,6 +1770,8 @@ async function carregarImoveis(){
     ultimaLista = lista;
     renderListaImoveis(lista);
     renderUltimasMidias(lista);
+    const comVideo = lista.filter(i => i.dados.gerarVideo !== false);
+    document.getElementById("removerTodosReelsBox").style.display = comVideo.length ? "block" : "none";
   } catch (err) {
     container.innerHTML = `<p class="hint">❌ ${err.message}</p>`;
   }
