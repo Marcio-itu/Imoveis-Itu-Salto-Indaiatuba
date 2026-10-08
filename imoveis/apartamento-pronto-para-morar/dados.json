@@ -1,0 +1,98 @@
+{
+  "slug": "apartamento-pronto-para-morar",
+  "titulo": "Apartamento pronto para morar! ",
+  "tipo": "apartamento",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Nossa Senhora Aparecida",
+  "condominio": "Residencial Oiti",
+  "referencia": "",
+  "preco": "R$ 280.000",
+  "quartos": 2,
+  "banheiros": 1,
+  "cozinhas": 1,
+  "vagas": 1,
+  "descricaoCurta": "Este apartamento em Itu conta com uma distribuição interna de 2 quartos, 1 banheiro social, cozinha e 1 vaga de garagem disponível.",
+  "descricaoLonga": [
+    "Este apartamento em Itu conta com uma distribuição interna de 2 quartos, 1 banheiro social, cozinha e 1 vaga de garagem disponível.",
+    "O condomínio Residencial Oiti oferece infraestrutura para a sua família com portaria 24h, piscina coletiva, playground e espaço de convivência."
+  ],
+  "resumo": "Apartamento de 2 quartos à venda por R$ 280.000 no condomínio Residencial Oiti, localizado no bairro Nossa Senhora Aparecida em Itu/SP.",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Lavanderia",
+    "Playground",
+    "Piscina coletiva",
+    "Portaria 24h"
+  ],
+  "caracteristicasExtras": [],
+  "publicadoEm": "2026-10-08",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: amplo",
+      "hero": true,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-espacoso-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: espacoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-iluminado-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: iluminado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-aconchegante-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-elegante-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: elegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-encantador-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: encantador",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-charmoso-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: charmoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-sofisticado-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: sofisticado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-acolhedor-20261008130848.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: acolhedor",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-deslumbrante-20261008130953.jpeg",
+      "alt": "apartamento à venda em Nossa Senhora Aparecida, Itu - SP: deslumbrante",
+      "hero": false,
+      "social": false
+    }
+  ]
+}
