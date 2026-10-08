@@ -349,6 +349,11 @@
       <input type="checkbox" id="lembrarGhToken" style="width:auto"> Lembrar usuário/repositório, branch e token neste navegador
     </label>    <button class="btn secondary" id="testarConexaoBtn" type="button" style="margin-top:12px">🔎 Testar conexão</button>
     <div id="ghTestStatus" class="hint" style="margin-top:8px"></div>
+    <label style="display:flex;align-items:center;gap:6px;margin:12px 0 0;font-size:13px;color:var(--ink-muted)">
+      <input type="checkbox" id="semRedesSociais" style="width:auto">
+      Só atualizar o site — não republicar no Instagram/Facebook
+    </label>
+    <p class="hint" style="margin-top:2px">Use isto ao editar um imóvel já publicado só pra corrigir algo (ex.: apagar um vídeo reel ruim, corrigir um texto) sem criar um post novo nas redes.</p>
     <button class="btn secondary" id="publicarBtn" type="button" style="margin-top:12px">☁️ Publicar GitHub e Redes</button>
     <button class="btn secondary" id="salvarRascunhoBtn" type="button" style="margin-top:8px">💾 Salvar rascunho (continuar depois)</button>
     <p class="hint" style="margin-top:6px">Salva tudo que já foi preenchido — inclusive fotos já adicionadas — sem publicar no site nem postar nas redes. Aparece na lista "Gerenciar imóveis existentes" abaixo, marcado como rascunho, pra você continuar de onde parou.</p>
@@ -479,6 +484,7 @@ function resetFormulario(){
   ].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
   document.querySelectorAll("#acessoriosBox input[type=checkbox]").forEach(chk => chk.checked = false);
   document.getElementById("gerarVideo").checked = true;
+  document.getElementById("semRedesSociais").checked = false;
   parceriaHandles = [];
   document.getElementById("emParceria").checked = false;
   document.getElementById("parceriaCampos").style.display = "none";
@@ -1610,11 +1616,15 @@ document.getElementById("publicarBtn").onclick = async () => {
       changes.push({ path: `${base}/fotos/${nome}`, contentBase64: b64 });
     }
 
+    const semRedes = document.getElementById("semRedesSociais").checked;
     await ghCommitMultiplo(repo, branch, token, changes,
-      `feat: adiciona/atualiza ${dados.slug} (via admin)`,
+      `feat: adiciona/atualiza ${dados.slug} (via admin)${semRedes ? " [sem-redes]" : ""}`,
       (msg) => { status.textContent = msg; });
 
-    status.textContent = "✅ Publicado! O GitHub Actions vai gerar a página e publicar no Instagram/Facebook em alguns minutos.";
+    status.textContent = semRedes
+      ? "✅ Publicado! O GitHub Actions vai atualizar a página em alguns minutos — sem postar nas redes sociais."
+      : "✅ Publicado! O GitHub Actions vai gerar a página e publicar no Instagram/Facebook em alguns minutos.";
+    document.getElementById("semRedesSociais").checked = false;
     const pos = document.getElementById("posPublicarBox");
     pos.style.display = "flex";
     pos.innerHTML = `
