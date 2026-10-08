@@ -425,7 +425,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
       </a>
     </div>
     <div class="footer-bottom">© ${new Date().getFullYear()} ${esc(nomeHub)}. Todos os direitos reservados.</div>
-    <div class="footer-bottom" style="opacity:.6;font-size:12px;max-width:48ch;margin-top:8px">Itu e Salto somam mais de 300 mil moradores. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis da região, com a meta de reunir mais de 20.000 imóveis anunciados.</div>
+    <div class="footer-bottom" style="opacity:.6;font-size:12px;max-width:48ch;margin-top:8px">20.000 imóveis anunciados. Estamos construindo, imóvel a imóvel, o maior catálogo de imóveis de Itu e Salto.</div>
     <div class="footer-bottom" style="opacity:.55;font-size:11px;margin-top:4px">site desenvolvido por Márcio Santos | ${new Date().getFullYear()}</div>
   </footer>
 </div>
