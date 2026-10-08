@@ -1,0 +1,84 @@
+{
+  "slug": "apartamento-na-planta-em-itu-a-1-minuto-do-plaza-shopping",
+  "titulo": "Apartamento na planta em Itu, a 1 minuto do Plaza Shopping",
+  "tipo": "apartamento",
+  "padrao": "padrao-neutro",
+  "tiposOperacao": [
+    "venda"
+  ],
+  "cidade": "Itu",
+  "uf": "SP",
+  "bairro": "Brasil",
+  "condominio": "",
+  "referencia": "",
+  "preco": "R$ 320.000",
+  "quartos": 2,
+  "banheiros": 1,
+  "cozinhas": 1,
+  "copas": 1,
+  "vagas": 1,
+  "areaUtil": 43.46,
+  "descricaoCurta": "Este apartamento na planta possui 43,46 m² de área útil, configurado com 2 quartos, um banheiro, cozinha, copa e direito a uma vaga de garagem.",
+  "descricaoLonga": [
+    "Este apartamento na planta possui 43,46 m² de área útil, configurado com 2 quartos, um banheiro, cozinha, copa e direito a uma vaga de garagem.",
+    "A estrutura de lazer e serviços do condomínio dispõe de piscina coletiva, playground, quadra esportiva, lavanderia compartilhada e espaço coworking.",
+    "O empreendimento assegura praticidade e segurança para sua família, contando com portaria 24h, controle de acesso e espaços modernos de convivência e recreação."
+  ],
+  "resumo": "Apartamento na planta de 2 dormitórios à venda no bairro Brasil, em Itu, localizado a apenas um minuto do Plaza Shopping.",
+  "diferenciais": [],
+  "dadosTecnicos": [],
+  "acessorios": [
+    "Playground",
+    "Quadra esportiva",
+    "Coworking",
+    "Piscina coletiva",
+    "Lavanderia compartilhada",
+    "Portaria 24h",
+    "Controle de acesso"
+  ],
+  "caracteristicasExtras": [
+    "Espaços modernos de convivência",
+    "Espaços de recreação ",
+    "Excelente localização "
+  ],
+  "publicadoEm": "2026-10-08",
+  "rascunho": true,
+  "fotos": [
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-amplo-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: amplo",
+      "hero": true,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-espacoso-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: espacoso",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-iluminado-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: iluminado",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-aconchegante-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: aconchegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-elegante-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: elegante",
+      "hero": false,
+      "social": false
+    },
+    {
+      "arquivo": "apartamento-a-venda-itu-interior-de-sao-paulo-encantador-20261008121139.jpeg",
+      "alt": "apartamento à venda em Brasil, Itu - SP: encantador",
+      "hero": false,
+      "social": false
+    }
+  ]
+}
