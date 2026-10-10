@@ -334,7 +334,7 @@ document.getElementById("headerSticky").addEventListener("click", function(e){
 <div class="wrap wrap-main">
   <div class="search-shell">
     <div class="filtros">
-      <h1 class="filtros-headline">Imóveis à venda em Itu. Imóveis à venda em Salto.</h1>
+      <h1 class="filtros-headline">Imóveis à venda em Itu.</h1>
       <p class="filtros-sub">Casas, apartamentos, terrenos, chácaras e condomínios em Itu, Salto e região.</p>
       ${cidadesComImovel.length ? `<p class="filtros-sub" style="margin-top:-10px">Ver todos os imóveis em: ${cidadesComImovel.map((c) => `<a href="${siteUrl}${slugify(c)}/" style="color:inherit;text-decoration:underline">${esc(c)}</a>`).join(" · ")}</p>` : ""}
       <div class="tabs-op" id="chipsOperacao"></div>
