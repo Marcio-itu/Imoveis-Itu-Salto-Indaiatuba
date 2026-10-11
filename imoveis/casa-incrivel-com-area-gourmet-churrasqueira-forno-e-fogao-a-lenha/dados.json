@@ -283,5 +283,6 @@
       "hero": false,
       "social": true
     }
-  ]
+  ],
+  "gerarVideo": false
 }

@@ -85,5 +85,6 @@
       "hero": false,
       "quantidade": 1
     }
-  ]
+  ],
+  "gerarVideo": false
 }

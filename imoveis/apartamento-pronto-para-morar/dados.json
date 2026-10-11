@@ -94,5 +94,6 @@
       "hero": false,
       "social": false
     }
-  ]
+  ],
+  "gerarVideo": false
 }

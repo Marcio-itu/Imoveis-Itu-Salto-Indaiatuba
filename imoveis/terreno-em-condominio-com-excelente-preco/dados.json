@@ -41,5 +41,6 @@
       "hero": true,
       "quantidade": 1
     }
-  ]
+  ],
+  "gerarVideo": false
 }

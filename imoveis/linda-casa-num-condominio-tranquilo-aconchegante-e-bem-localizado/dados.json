@@ -155,5 +155,6 @@
       "hero": true,
       "social": false
     }
-  ]
+  ],
+  "gerarVideo": false
 }
