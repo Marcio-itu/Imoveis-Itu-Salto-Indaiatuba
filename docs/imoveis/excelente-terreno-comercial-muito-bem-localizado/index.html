@@ -239,18 +239,16 @@
       <span class="eyebrow">Galeria</span>
       <h2 style="margin-top:10px">Fotos</h2>
       <div class="galeria">
-        <button type="button" class="foto-abrir video-abrir" data-idx="0" aria-label="Assistir vídeo do imóvel">
-            <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260903002655.webp" alt="Vídeo do imóvel" loading="lazy" onerror="this.style.display='none'"><span class="play-icone">▶</span></figure>
-          </button>
-        <button type="button" class="foto-abrir" data-idx="1" aria-label="Ampliar foto 1 de 5">
+        
+        <button type="button" class="foto-abrir" data-idx="0" aria-label="Ampliar foto 1 de 5">
             <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260903002655.webp" alt="terreno à venda em Vila Roma, Salto - SP: amplo" loading="lazy" onerror="this.style.display='none'"></figure>
-          </button><button type="button" class="foto-abrir" data-idx="2" aria-label="Ampliar foto 2 de 5">
+          </button><button type="button" class="foto-abrir" data-idx="1" aria-label="Ampliar foto 2 de 5">
             <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-espacoso-20260903002655.webp" alt="terreno à venda em Vila Roma, Salto - SP: espacoso" loading="lazy" onerror="this.style.display='none'"></figure>
-          </button><button type="button" class="foto-abrir" data-idx="3" aria-label="Ampliar foto 3 de 5">
+          </button><button type="button" class="foto-abrir" data-idx="2" aria-label="Ampliar foto 3 de 5">
             <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-iluminado-20260903002655.webp" alt="terreno à venda em Vila Roma, Salto - SP: iluminado" loading="lazy" onerror="this.style.display='none'"></figure>
-          </button><button type="button" class="foto-abrir" data-idx="4" aria-label="Ampliar foto 4 de 5">
+          </button><button type="button" class="foto-abrir" data-idx="3" aria-label="Ampliar foto 4 de 5">
             <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-aconchegante-20260903003235.webp" alt="terreno à venda em Vila Roma, Salto - SP: aconchegante" loading="lazy" onerror="this.style.display='none'"></figure>
-          </button><button type="button" class="foto-abrir" data-idx="5" aria-label="Ampliar foto 5 de 5">
+          </button><button type="button" class="foto-abrir" data-idx="4" aria-label="Ampliar foto 5 de 5">
             <figure><img src="https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260905125302.webp" alt="terreno à venda em Vila Roma, Salto - SP: amplo" loading="lazy" onerror="this.style.display='none'"></figure>
           </button>
       </div>
@@ -267,8 +265,8 @@
     <script>
     (function(){
       var fotosUrls = ["https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260903002655.webp","https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-espacoso-20260903002655.webp","https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-iluminado-20260903002655.webp","https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-aconchegante-20260903003235.webp","https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/fotos/terreno-a-venda-salto-interior-de-sao-paulo-amplo-20260905125302.webp"];
-      var videoUrl = "https://imoveis-itu-salto.com.br/imoveis/excelente-terreno-comercial-muito-bem-localizado/reel.mp4"; fotosUrls = [videoUrl].concat(fotosUrls.map(function(u){return u}));
-      var ehVideo = function(i){ return i === 0; };
+      
+      var ehVideo = function(){ return false; };
       var lightbox = document.getElementById("lightbox");
       var img = document.getElementById("lightboxImg");
       var video = document.getElementById("lightboxVideo");
