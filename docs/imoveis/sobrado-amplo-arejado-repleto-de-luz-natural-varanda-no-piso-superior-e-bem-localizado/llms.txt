@@ -1,8 +1,8 @@
 # Sobrado amplo, arejado, repleto de luz natural, varanda no piso superior e muito bem localizado!
 
-> Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP.
+> Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP
 
-- Tipo: casa, Médio padrão
+- Tipo: casa, Padrão neutro
 - Preço: R$ 600.000 (true)
 - Localização: Jardim Santa Tereza, Itu - SP
 - Características: 4 quarto(s), 1 suíte(s), 3 banheiro(s), 2 vaga(s), 146 m² de área útil, 132.5 m² de terreno
@@ -40,7 +40,7 @@ P: Qual a área do imóvel?
 R: 146 m² de área útil e 132.5 m² de terreno.
 
 P: O que torna este imóvel especial?
-R: Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP.
+R: Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP
 
 ## Fotos
 
