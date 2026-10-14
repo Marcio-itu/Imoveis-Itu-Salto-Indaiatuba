@@ -2,7 +2,7 @@
   "slug": "sobrado-amplo-arejado-repleto-de-luz-natural-varanda-no-piso-superior-e-bem-localizado",
   "titulo": "Sobrado amplo, arejado, repleto de luz natural, varanda no piso superior e muito bem localizado!",
   "tipo": "casa",
-  "padrao": "medio-padrao",
+  "padrao": "padrao-neutro",
   "tiposOperacao": [
     "venda",
     "permuta"
@@ -31,9 +31,10 @@
     "O imóvel dispõe de salas de estar, jantar e TV, cozinha, área de serviço, quintal e lavabo no piso térreo. A área íntima possui quatro dormitórios, incluindo uma suíte master com banheira de hidromassagem e, pra curtir o final do dia, uma ampla varanda no piso superior.",
     "Esta residência une praticidade e conforto para o dia a dia da sua família em um terreno de 132,5 m². Estuda-se permuta."
   ],
-  "resumo": "Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP.",
+  "resumo": "Sobrado de 146 m² com 4 quartos à venda por R$ 600.000 no Jardim Santa Tereza, em Itu/SP",
   "tituloSecao": "Confira as fotos e agende sua visita!",
   "trilhaSonora": "gone-away",
+  "gerarVideo": false,
   "diferenciais": [
     "Localização",
     "Suíte master com banheira de hidromassagem",
@@ -210,6 +211,5 @@
       "hero": false,
       "social": true
     }
-  ],
-  "gerarVideo": false
+  ]
 }
