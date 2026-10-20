@@ -535,7 +535,22 @@ renderChips(); renderChipsOperacao(); renderBairros(); aplicarFiltros();
 // batendo exatamente com isso, senão o Google não tem o que ranquear pra essas buscas.
 function renderCidadeHub(cidadeNome, uf, bairrosDaCidade, imoveis, theme, hubUrl, config) {
   const nomeHub = config?.nomeHub || "Inteligência Imobiliária";
-  const tituloHub = `Casas e Imóveis à Venda em ${cidadeNome}, ${uf} — ${nomeHub}`;
+  // Title com contagem real por tipo (ex.: "6 Casas, 2 Apartamentos e 1 Terreno à Venda em
+  // Itu, SP") — mesmo padrão que portal grande usa (número no title ajuda clique), mas
+  // calculado do estoque de verdade a cada build, nunca escrito na mão. Maior tipo primeiro.
+  const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+  const porTipoCidade = new Map();
+  for (const im of imoveis) porTipoCidade.set(im.tipo, (porTipoCidade.get(im.tipo) || 0) + 1);
+  const partesContagem = [...porTipoCidade.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .map(([tipo, qtd]) => {
+      const [sing, plur] = TIPO_LABEL_HUB[tipo] || [tipo, `${tipo}s`];
+      return `${qtd} ${cap(qtd === 1 ? sing : plur)}`;
+    });
+  const contagemTitulo = partesContagem.length > 1
+    ? `${partesContagem.slice(0, -1).join(", ")} e ${partesContagem[partesContagem.length - 1]}`
+    : partesContagem[0] || "Imóveis";
+  const tituloHub = `${contagemTitulo} à Venda em ${cidadeNome}, ${uf} | ${nomeHub}`;
   const descricao = `Casas, apartamentos, terrenos e condomínios à venda em ${cidadeNome}, ${uf}. ${imoveis.length} ${imoveis.length === 1 ? "imóvel disponível" : "imóveis disponíveis"} atualizados direto com o corretor.`;
   return `<!DOCTYPE html>
 <html lang="pt-BR">
